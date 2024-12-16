@@ -1,5 +1,5 @@
 {
-	"package": "io.bluebeaker.examplemod.mixin",
+	"package": "io.bluebeaker.legacyponder.mixin",
 	"required": false,
 	"refmap": "${mixin_refmap}",
 	"target": "@env(DEFAULT)",

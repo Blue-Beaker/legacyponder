@@ -1,13 +1,13 @@
-package io.bluebeaker.examplemod;
+package io.bluebeaker.legacyponder;
 
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.Config.Comment;
 import net.minecraftforge.common.config.Config.LangKey;
 import net.minecraftforge.common.config.Config.Type;
 
-@Config(modid = ExampleMod.MODID,type = Type.INSTANCE,category = "general")
-public class ExampleModConfig {
+@Config(modid = LegacyPonder.MODID,type = Type.INSTANCE,category = "general")
+public class LegacyPonderConfig {
     @Comment("Example")
-    @LangKey("config.examplemod.example.name")
+    @LangKey("config.legacyponder.example.name")
     public static boolean example = true;
 }
