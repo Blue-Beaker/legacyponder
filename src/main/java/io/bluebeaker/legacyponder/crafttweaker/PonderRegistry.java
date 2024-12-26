@@ -22,6 +22,10 @@ public class PonderRegistry {
         CraftTweakerAPI.apply(new AddPonderAction(ponderEntry));
     }
 
+    public static Map<String,PonderEntry> getEntries(){
+        return PONDER_REGISTRY;
+    }
+
     @Reloadable
     public static class AddPonderAction implements IAction {
 
