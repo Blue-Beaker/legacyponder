@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.jeiplugin;
 
-import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
+import io.bluebeaker.legacyponder.ponder.gui.GuiScreenPonder;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawableStatic;
 import mezz.jei.api.ingredients.IIngredients;
@@ -68,7 +68,9 @@ public class PonderRecipeWrapper implements IRecipeWrapper {
     @Override
     public boolean handleClick(Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
         if(button.mousePressed(minecraft,mouseX,mouseY)){
-            Minecraft.getMinecraft().displayGuiScreen(new GuiScreenPonder());
+            GuiScreenPonder guiScreenPonder = new GuiScreenPonder();
+            guiScreenPonder.setPonderID(this.id);
+            Minecraft.getMinecraft().displayGuiScreen(guiScreenPonder);
             return true;
         }else{
             return false;
