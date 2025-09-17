@@ -19,20 +19,21 @@ public class TemplateLoader {
         templates.clear();
         File configDir = new File(Loader.instance().getConfigDir(),"legacyponder");
         configDir.mkdirs();
-        File[] files = configDir.listFiles();
+        File structureDir = new File(configDir,"structures");
+        structureDir.mkdirs();
+        File[] files = structureDir.listFiles();
         if(files==null) return;
         for (File file : files) {
             String name = file.getName();
             if(name.endsWith(".nbt")){
-                name=name.substring(0,name.length()-5);
+                name=name.substring(0,name.length()-4);
                 Template template = readTemplate(file);
                 if(template!=null){
                     templates.put(name,template);
                 }
             }
-
-
         }
+        LegacyPonder.getLogger().info("Loaded {} structures: {}",templates.size(),templates.keySet());
     }
     private static Template readTemplate(File file){
         InputStream inputstream = null;
