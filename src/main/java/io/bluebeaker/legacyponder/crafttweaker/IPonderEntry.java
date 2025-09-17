@@ -32,7 +32,7 @@ public class IPonderEntry {
     }
 
     @ZenMethod
-    public void addPage(IPonderPage page){
+    public void addPage(IPonderPage<?> page){
         this.internal.addPage(page.internal);
     }
 

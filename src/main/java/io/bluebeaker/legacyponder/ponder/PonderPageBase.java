@@ -10,4 +10,9 @@ public class PonderPageBase {
     protected PonderPageBase(){
         this(null);
     }
+
+    public void draw(int x, int y, int w, int h, float partialTicks){
+    }
+    public void click(int x, int y, int button){
+    }
 }

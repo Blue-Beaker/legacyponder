@@ -1,5 +1,7 @@
 package io.bluebeaker.legacyponder;
 
+import io.bluebeaker.legacyponder.utils.TemplateLoader;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import org.apache.logging.log4j.Logger;
 
 import io.bluebeaker.legacyponder.Tags;
@@ -13,6 +15,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import youyihj.zenutils.api.reload.ScriptReloadEvent;
 
 @Mod(modid = Tags.MOD_ID, name = Tags.MOD_NAME, version = Tags.VERSION)
 public class LegacyPonder
@@ -33,6 +36,17 @@ public class LegacyPonder
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
     }
+
+    @EventHandler
+    public void init(FMLInitializationEvent event) {
+        TemplateLoader.loadTemplates();
+    }
+    
+    @SubscribeEvent
+    public void init(ScriptReloadEvent event) {
+        TemplateLoader.loadTemplates();
+    }
+
     @EventHandler
     public void onServerStart(FMLServerStartingEvent event){
         this.server=event.getServer();

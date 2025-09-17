@@ -7,16 +7,10 @@ import net.minecraft.util.ResourceLocation;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-@ZenClass("mods.legacyponder.PonderPage")
+@ZenClass("mods.legacyponder.PonderPageStructure")
 @ZenRegister
-public class IPonderPage<T extends PonderPageBase> {
-    public final T internal;
-
-    public IPonderPage(T internal){
-        this.internal=internal;
-    }
-    @ZenMethod
-    public static IPonderPageStructure fromStructure(String id){
-        return new IPonderPageStructure(new PonderPageStructure(id));
+public class IPonderPageStructure extends IPonderPage<PonderPageStructure> {
+    public IPonderPageStructure(PonderPageStructure internal) {
+        super(internal);
     }
 }
