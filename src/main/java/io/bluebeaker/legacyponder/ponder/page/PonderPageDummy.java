@@ -1,6 +1,11 @@
 package io.bluebeaker.legacyponder.ponder.page;
 
 import io.bluebeaker.legacyponder.ponder.gui.GuiScreenPonder;
+import io.bluebeaker.legacyponder.utils.BoundingBox2D;
+import io.bluebeaker.legacyponder.utils.RenderUtils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 
 public class PonderPageDummy extends PonderPageBase {
     private String text = null;
@@ -12,6 +17,13 @@ public class PonderPageDummy extends PonderPageBase {
     }
     @Override
     public void draw(GuiScreenPonder screen, int mouseX, int mouseY, float partialTicks){
-        screen.drawString(screen.mc.fontRenderer,this.text==null?this.toString():this.text,mouseX,mouseY,0xFFFFFFFF);
+        BoundingBox2D pageBounds = screen.getPageBounds();
+
+        RenderUtils.setViewPort(pageBounds);
+
+        screen.drawString(screen.mc.fontRenderer,this.text==null?String.format("Debug Page: %s,%s",mouseX,mouseY):this.text,mouseX,mouseY,0xFFFFFFFF);
+
+        RenderUtils.endViewPort();
+
     }
 }

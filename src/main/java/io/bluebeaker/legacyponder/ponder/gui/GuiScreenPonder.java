@@ -15,6 +15,10 @@ public class GuiScreenPonder extends GuiScreen {
     protected int currentPage = 0;
     protected int pages = 0;
 
+    public BoundingBox2D getPageBounds() {
+        return pageBounds;
+    }
+
     protected BoundingBox2D pageBounds = BoundingBox2D.EMPTY;
 
     public GuiScreenPonder(){
