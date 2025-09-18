@@ -1,5 +1,6 @@
 package io.bluebeaker.legacyponder.ponder;
 
+import io.bluebeaker.legacyponder.ponder.page.PonderPageBase;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 

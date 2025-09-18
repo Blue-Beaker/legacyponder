@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import youyihj.zenutils.api.reload.ScriptReloadEvent;
 
-@Mod(modid = Tags.MOD_ID, name = Tags.MOD_NAME, version = Tags.VERSION)
+@Mod(modid = Tags.MOD_ID, name = Tags.MOD_NAME, version = Tags.VERSION,acceptableRemoteVersions = "*",clientSideOnly = true)
 public class LegacyPonder
 {
     public static final String MODID = Tags.MOD_ID;
@@ -41,7 +41,7 @@ public class LegacyPonder
     public void init(FMLInitializationEvent event) {
         TemplateLoader.loadTemplates();
     }
-    
+
     @SubscribeEvent
     public void init(ScriptReloadEvent event) {
         TemplateLoader.loadTemplates();

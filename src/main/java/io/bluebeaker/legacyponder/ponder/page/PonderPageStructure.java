@@ -1,4 +1,4 @@
-package io.bluebeaker.legacyponder.ponder;
+package io.bluebeaker.legacyponder.ponder.page;
 
 import io.bluebeaker.legacyponder.utils.TemplateLoader;
 import net.minecraft.world.gen.structure.template.Template;
