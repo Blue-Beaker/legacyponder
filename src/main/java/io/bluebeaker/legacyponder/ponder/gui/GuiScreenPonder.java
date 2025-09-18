@@ -55,7 +55,7 @@ public class GuiScreenPonder extends GuiScreen {
             this.drawCenteredString(this.fontRenderer,this.currentPonder.id,this.width/2,10,0xFFFFFFFF);
             // Draw current page
             if(this.pages>0){
-                this.currentPonder.getPages().get(this.currentPage).draw(this,mouseX,mouseY,partialTicks);
+                this.currentPonder.getPages().get(this.currentPage).draw(this,mouseX-this.pageBounds.x,mouseY-this.pageBounds.y,partialTicks);
             }
             // Draw page number
             this.drawString(this.fontRenderer,String.format("%s/%s",this.currentPage+1,this.pages),44,this.height-11,0xFFFFFFFF);

@@ -11,10 +11,11 @@ public class RenderUtils {
     }
     public static void setViewPort(int x, int y, int w, int h){
         GlStateManager.pushMatrix();
+        GlStateManager.translate(x,y,0);
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
         ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
         int factor = scaledResolution.getScaleFactor();
-        GL11.glScissor(x*factor, y*factor, w*factor, h*factor);
+        GL11.glScissor(x*factor, Minecraft.getMinecraft().displayHeight-y*factor-h*factor, w*factor, h*factor);
     }
     public static void endViewPort(){
         GL11.glDisable(GL11.GL_SCISSOR_TEST);

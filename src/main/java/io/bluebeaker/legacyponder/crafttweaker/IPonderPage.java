@@ -3,7 +3,9 @@ package io.bluebeaker.legacyponder.crafttweaker;
 import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.ponder.page.PonderPageBase;
 import io.bluebeaker.legacyponder.ponder.page.PonderPageDummy;
+import io.bluebeaker.legacyponder.ponder.page.PonderPageGui;
 import io.bluebeaker.legacyponder.ponder.page.PonderPageStructure;
+import net.minecraft.util.ResourceLocation;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -27,5 +29,9 @@ public class IPonderPage<T extends PonderPageBase> {
     @ZenMethod
     public static IPonderPageStructure fromStructure(String id){
         return new IPonderPageStructure(new PonderPageStructure(id));
+    }
+    @ZenMethod
+    public static IPonderPageGUI fromGUI(String texture,int x,int y,int w,int h){
+        return new IPonderPageGUI(new PonderPageGui(texture,x,y,w,h));
     }
 }
