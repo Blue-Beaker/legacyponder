@@ -15,13 +15,9 @@ public class RenderUtils {
         ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
         int factor = scaledResolution.getScaleFactor();
         GL11.glScissor(x*factor, y*factor, w*factor, h*factor);
-
-//        GlStateManager.scale(scaledResolution.getScaleFactor(), scaledResolution.getScaleFactor(), 1);
-//        GlStateManager.viewport(x*scaledResolution.getScaleFactor(),y*scaledResolution.getScaleFactor(),w*scaledResolution.getScaleFactor(),h*scaledResolution.getScaleFactor());
     }
     public static void endViewPort(){
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
         GlStateManager.popMatrix();
-//        GlStateManager.viewport(0, 0, Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
     }
 }

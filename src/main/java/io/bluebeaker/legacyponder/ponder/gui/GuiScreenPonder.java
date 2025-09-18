@@ -14,6 +14,7 @@ public class GuiScreenPonder extends GuiScreen {
     protected PonderEntry currentPonder = null;
     protected int currentPage = 0;
     protected int pages = 0;
+    protected GuiScreen lastScreen;
 
     public BoundingBox2D getPageBounds() {
         return pageBounds;
@@ -22,6 +23,7 @@ public class GuiScreenPonder extends GuiScreen {
     protected BoundingBox2D pageBounds = BoundingBox2D.EMPTY;
 
     public GuiScreenPonder(){
+        lastScreen=Minecraft.getMinecraft().currentScreen;
     }
 
     @Override
@@ -32,6 +34,10 @@ public class GuiScreenPonder extends GuiScreen {
         this.buttonList.add(new GuiButtonExt(2,23,this.height-22,20,20,">"));
         this.pageBounds=new BoundingBox2D(5,20,this.width-10,this.height-50);
         super.initGui();
+    }
+
+    public void close() {
+        Minecraft.getMinecraft().displayGuiScreen(this.lastScreen);
     }
 
     public void setPonderID(String id){
@@ -59,7 +65,10 @@ public class GuiScreenPonder extends GuiScreen {
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
-        super.keyTyped(typedChar, keyCode);
+        if (keyCode == 1)
+        {
+            close();
+        }
     }
 
     @Override
@@ -80,7 +89,7 @@ public class GuiScreenPonder extends GuiScreen {
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         if(button.id==0){
-            Minecraft.getMinecraft().displayGuiScreen(null);
+            close();
         } else if (button.id==1) {
             this.setCurrentPage(this.currentPage-1);
         } else if (button.id==2) {
