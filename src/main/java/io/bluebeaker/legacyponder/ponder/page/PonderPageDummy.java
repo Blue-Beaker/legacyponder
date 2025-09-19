@@ -3,9 +3,6 @@ package io.bluebeaker.legacyponder.ponder.page;
 import io.bluebeaker.legacyponder.ponder.gui.GuiScreenPonder;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
 
 public class PonderPageDummy extends PonderPageBase {
     private String text = null;

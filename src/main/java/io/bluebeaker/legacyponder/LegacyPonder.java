@@ -35,15 +35,15 @@ public class LegacyPonder
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
+        TemplateLoader.loadTemplates();
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        TemplateLoader.loadTemplates();
     }
 
     @SubscribeEvent
-    public void init(ScriptReloadEvent event) {
+    public void onReload(ScriptReloadEvent event) {
         TemplateLoader.loadTemplates();
     }
 
