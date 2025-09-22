@@ -2,21 +2,28 @@ package io.bluebeaker.legacyponder.structure;
 
 import ic2.core.block.TileEntityBlock;
 import io.bluebeaker.legacyponder.utils.Palette;
+import io.bluebeaker.legacyponder.utils.PosUtils;
 import io.bluebeaker.legacyponder.utils.WorkaroundBlockstateIC2;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagInt;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class PonderStructure {
     public final Palette<IBlockState> palette;
 
-    public final HashMap<BlockPos, NBTTagCompound> tileEntities;
+    public final HashMap<Long, NBTTagCompound> tileEntities;
     public int[][][] blocks;
     protected BlockPos size;
 
@@ -40,8 +47,20 @@ public class PonderStructure {
         }
         blocks[pos.getZ()][pos.getY()][pos.getX()]=palette.indexOf(state);
     }
+
     public void addTileEntity(BlockPos pos, TileEntity tileEntity){
-        this.tileEntities.put(pos,tileEntity.serializeNBT());
+        NBTTagCompound tileentityNBT = tileEntity.writeToNBT(new NBTTagCompound());
+        tileentityNBT.removeTag("x");
+        tileentityNBT.removeTag("y");
+        tileentityNBT.removeTag("z");
+        tileentityNBT.setString("id", TileEntity.getKey(tileEntity.getClass()).toString());
+        this.tileEntities.put(pos.toLong(), tileentityNBT);
+    }
+    public NBTTagCompound getTileEntity(int x, int y, int z) {
+        return getTileEntity(new BlockPos(x,y,z));
+    }
+    public NBTTagCompound getTileEntity(BlockPos pos) {
+        return tileEntities.get(pos.toLong());
     }
 
     public IBlockState getBlockAt(int x, int y, int z){
@@ -81,5 +100,60 @@ public class PonderStructure {
 
         }
         return structure;
+    }
+
+    public void putToWorld(World world, BlockPos pos){
+        for (int z = 0; z < this.size.getZ(); z++) {
+            for (int y = 0; y < this.size.getY(); y++) {
+                for (int x = 0; x < this.size.getX(); x++) {
+                    BlockPos absPos = pos.add(x, y, z);
+                    world.setBlockState(absPos, this.getBlockAt(x, y, z));
+                    NBTTagCompound tileEntity = this.getTileEntity(x, y, z);
+                    if(tileEntity!=null){
+                        world.setTileEntity(absPos, TileEntity.create(world, tileEntity));
+                    }
+                }
+            }
+        }
+    }
+
+    public NBTTagCompound saveToNBT(){
+        NBTTagCompound nbt = new NBTTagCompound();
+        NBTTagList blockList = new NBTTagList();
+        NBTTagCompound tileEntities = new NBTTagCompound();
+        NBTTagList palette = new NBTTagList();
+        // Write Palette
+        for (IBlockState entry:this.palette){
+            palette.appendTag(NBTUtil.writeBlockState(new NBTTagCompound(), entry));
+        }
+        // Write Tileentities
+        for (Map.Entry<Long, NBTTagCompound> entry : this.tileEntities.entrySet()) {
+            BlockPos pos = BlockPos.fromLong(entry.getKey());
+            tileEntities.setTag(PosUtils.blockPosToString(pos),entry.getValue());
+        }
+        // Write blocks
+        for (int z = 0; z < this.size.getZ(); z++) {
+            NBTTagList layer = new NBTTagList();
+            for (int y = 0; y < this.size.getY(); y++) {
+                NBTTagList row = new NBTTagList();
+                for (int x = 0; x < this.size.getX(); x++) {
+                    row.appendTag(new NBTTagInt(this.blocks[z][y][x]));
+                }
+                layer.appendTag(row);
+            }
+            blockList.appendTag(layer);
+        }
+
+        net.minecraftforge.fml.common.FMLCommonHandler.instance().getDataFixer().writeVersionData(nbt); //Moved up for MC updating reasons.
+        nbt.setTag("palette", palette);
+        nbt.setTag("blocks", blockList);
+        nbt.setTag("tileEntities", tileEntities);
+        NBTTagList listSize = new NBTTagList();
+        listSize.appendTag(new NBTTagInt(this.size.getX()));
+        listSize.appendTag(new NBTTagInt(this.size.getY()));
+        listSize.appendTag(new NBTTagInt(this.size.getZ()));
+        nbt.setTag("size", listSize);
+        nbt.setInteger("DataVersion", 1343);
+        return nbt;
     }
 }

@@ -45,14 +45,16 @@ public class CommandSaveStructure extends CommandBase {
 
         PonderStructure capture = PonderStructure.capture(sender.getEntityWorld(), pos1, pos2);
 
-        sender.sendMessage(new TextComponentString(String.format("%s,%s",capture.palette.toString(),Arrays.deepToString(capture.blocks))));
-
-        WorldServer worldserver = server.getWorld(sender.getEntityWorld().provider.getDimension());
-        TemplateManager templatemanager = worldserver.getStructureTemplateManager();
-
-        Template template1 = templatemanager.getTemplate(server, new ResourceLocation(structureName));
-        template1.read(StructureConversion.convertStructureToTemplateNBT(capture));
-        templatemanager.writeTemplate(server, new ResourceLocation(structureName));
+//        sender.sendMessage(new TextComponentString(String.format("%s,%s",capture.palette.toString(),Arrays.deepToString(capture.blocks))));
+//
+//        WorldServer worldserver = server.getWorld(sender.getEntityWorld().provider.getDimension());
+//        TemplateManager templatemanager = worldserver.getStructureTemplateManager();
+//
+//        Template template1 = templatemanager.getTemplate(server, new ResourceLocation(structureName));
+//        template1.read(StructureConversion.convertStructureToTemplateNBT(capture));
+//        templatemanager.writeTemplate(server, new ResourceLocation(structureName));
+//
+//        capture.putToWorld(sender.getEntityWorld(),pos2.add(0,10,0));
     }
 
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos)

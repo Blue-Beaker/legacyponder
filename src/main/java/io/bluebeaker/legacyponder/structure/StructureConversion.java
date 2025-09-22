@@ -9,6 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.gen.structure.template.Template;
 
 public class StructureConversion {
+
     public static NBTTagCompound convertStructureToTemplateNBT(PonderStructure structure){
         NBTTagCompound nbt = new NBTTagCompound();
         NBTTagList blockList = new NBTTagList();
@@ -28,7 +29,7 @@ public class StructureConversion {
                     nbtBlock.setTag("pos", posList);
                     nbtBlock.setInteger("state", structure.blocks[z][y][x]);
 
-                    NBTTagCompound tile = structure.tileEntities.get(new BlockPos(x, y, z));
+                    NBTTagCompound tile = structure.getTileEntity(x,y,z);
                     if(tile!=null){
                         nbtBlock.setTag("nbt", tile);
                     }
