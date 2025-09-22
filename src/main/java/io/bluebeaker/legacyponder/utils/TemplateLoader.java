@@ -79,6 +79,7 @@ public class TemplateLoader {
             stream=Files.newOutputStream(file.toPath());
             NBTTagCompound nbt = structure.saveToNBT();
             CompressedStreamTools.writeCompressed(nbt,stream);
+            structures.put(name,structure);
         } catch (IOException e) {
             LegacyPonder.getLogger().error("Failed to save structure:",e);
         }finally {
