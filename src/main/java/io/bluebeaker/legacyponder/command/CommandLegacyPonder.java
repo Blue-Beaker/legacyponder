@@ -6,6 +6,7 @@ import net.minecraftforge.server.command.CommandTreeBase;
 public class CommandLegacyPonder extends CommandTreeBase {
     public CommandLegacyPonder(){
         this.addSubcommand(new CommandSaveStructure());
+        this.addSubcommand(new CommandLoadStructure());
     }
     @Override
     public String getName() {

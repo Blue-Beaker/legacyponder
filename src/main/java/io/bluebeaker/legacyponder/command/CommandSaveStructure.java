@@ -3,6 +3,7 @@ package io.bluebeaker.legacyponder.command;
 import io.bluebeaker.legacyponder.structure.PonderStructure;
 import io.bluebeaker.legacyponder.structure.StructureConversion;
 import io.bluebeaker.legacyponder.utils.Palette;
+import io.bluebeaker.legacyponder.utils.TemplateLoader;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
@@ -13,6 +14,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
@@ -42,19 +44,14 @@ public class CommandSaveStructure extends CommandBase {
         BlockPos pos1 = parseBlockPos(sender, args, 0, false);
         BlockPos pos2 = parseBlockPos(sender, args, 3, false);
         String structureName = args[6];
+        boolean replaceExisting = args.length>=8 && parseBoolean(args[7]);
 
         PonderStructure capture = PonderStructure.capture(sender.getEntityWorld(), pos1, pos2);
-
-//        sender.sendMessage(new TextComponentString(String.format("%s,%s",capture.palette.toString(),Arrays.deepToString(capture.blocks))));
-//
-//        WorldServer worldserver = server.getWorld(sender.getEntityWorld().provider.getDimension());
-//        TemplateManager templatemanager = worldserver.getStructureTemplateManager();
-//
-//        Template template1 = templatemanager.getTemplate(server, new ResourceLocation(structureName));
-//        template1.read(StructureConversion.convertStructureToTemplateNBT(capture));
-//        templatemanager.writeTemplate(server, new ResourceLocation(structureName));
-//
-//        capture.putToWorld(sender.getEntityWorld(),pos2.add(0,10,0));
+        if(!replaceExisting && TemplateLoader.getStructure(structureName)!=null){
+            sender.sendMessage(new TextComponentTranslation("commands.legacyponder.save.fail_exist",structureName));
+            return;
+        }
+        TemplateLoader.writeStructure(structureName,capture);
     }
 
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos)

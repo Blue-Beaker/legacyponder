@@ -4,10 +4,7 @@ import io.bluebeaker.legacyponder.utils.Palette;
 import io.bluebeaker.legacyponder.utils.PosUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagInt;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTUtil;
+import net.minecraft.nbt.*;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -67,7 +64,14 @@ public class PonderStructure {
         return getBlockAt(pos.getZ(),pos.getY(),pos.getX());
     }
 
+    /** Capture blocks from a world to a structure
+     * @param world The world to capture block from
+     * @param pos1 One corner
+     * @param pos2 Another corner
+     * @return Captured structure
+     */
     public static PonderStructure capture(World world, BlockPos pos1, BlockPos pos2){
+        // Calculate 2 corner points
         BlockPos minPoint = new BlockPos(Math.min(pos2.getX(),pos1.getX()),
                 Math.min(pos2.getY(),pos1.getY()),
                 Math.min(pos2.getZ(),pos1.getZ()));
@@ -97,6 +101,10 @@ public class PonderStructure {
         for (int z = 0; z < this.size.getZ(); z++) {
             for (int y = 0; y < this.size.getY(); y++) {
                 for (int x = 0; x < this.size.getX(); x++) {
+                    // Skip structure void
+                    if(this.getBlockAt(x,y,z).getBlock()==Blocks.STRUCTURE_VOID){
+                        continue;
+                    }
                     BlockPos absPos = pos.add(x, y, z);
                     world.setBlockState(absPos, this.getBlockAt(x, y, z));
                     NBTTagCompound tileEntity = this.getTileEntity(x, y, z);
@@ -135,16 +143,51 @@ public class PonderStructure {
             blockList.appendTag(layer);
         }
 
-        net.minecraftforge.fml.common.FMLCommonHandler.instance().getDataFixer().writeVersionData(nbt); //Moved up for MC updating reasons.
-        nbt.setTag("palette", palette);
-        nbt.setTag("blocks", blockList);
-        nbt.setTag("tileEntities", tileEntities);
+        net.minecraftforge.fml.common.FMLCommonHandler.instance().getDataFixer().writeVersionData(nbt);
+
         NBTTagList listSize = new NBTTagList();
         listSize.appendTag(new NBTTagInt(this.size.getX()));
         listSize.appendTag(new NBTTagInt(this.size.getY()));
         listSize.appendTag(new NBTTagInt(this.size.getZ()));
+        nbt.setTag("palette", palette);
+        nbt.setTag("blocks", blockList);
+        nbt.setTag("tileEntities", tileEntities);
         nbt.setTag("size", listSize);
-        nbt.setInteger("DataVersion", 1343);
+        nbt.setInteger("LegacyPonder_StructureVersion", 1);
         return nbt;
+    }
+
+    public static PonderStructure loadFromNBT(NBTTagCompound nbt){
+        NBTTagList sizeList = nbt.getTagList("size", 3);
+        NBTTagList blocksList = nbt.getTagList("blocks", 9);
+        NBTTagList paletteList = nbt.getTagList("palette", 10);
+        NBTTagCompound tileEntitiesTag = nbt.getCompoundTag("tileEntities");
+
+        BlockPos size = new BlockPos(sizeList.getIntAt(0),sizeList.getIntAt(1),sizeList.getIntAt(2));
+        PonderStructure structure = new PonderStructure(size);
+
+        // Read blocks
+        for (int z = 0; z < size.getZ(); z++) {
+            NBTTagList layer = (NBTTagList) blocksList.get(z);
+            for (int y = 0; y < size.getY(); y++) {
+                NBTTagList row = (NBTTagList) layer.get(y);
+                for (int x = 0; x < size.getX(); x++) {
+                    structure.blocks[z][y][x]=row.getIntAt(x);
+                }
+            }
+        }
+        // Read Palette
+        for (NBTBase entry:paletteList){
+            structure.palette.add(NBTUtil.readBlockState((NBTTagCompound) entry));
+        }
+        // Read Tileentities
+        for (String posStr : tileEntitiesTag.getKeySet()) {
+            BlockPos pos = PosUtils.blockPosFromString(posStr);
+            if (pos != null) {
+                structure.tileEntities.put(pos.toLong(),tileEntitiesTag.getCompoundTag(posStr));
+            }
+        }
+
+        return structure;
     }
 }
