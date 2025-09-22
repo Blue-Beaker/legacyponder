@@ -1,29 +1,32 @@
 package io.bluebeaker.legacyponder.ponder.page;
 
 import io.bluebeaker.legacyponder.ponder.gui.GuiScreenPonder;
+import io.bluebeaker.legacyponder.structure.PonderStructure;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
 import io.bluebeaker.legacyponder.utils.TemplateLoader;
 import io.bluebeaker.legacyponder.utils.Vec2i;
-import io.bluebeaker.legacyponder.world.StructureBufferBuilder;
 import io.bluebeaker.legacyponder.world.StructureRenderManager;
 import net.minecraft.world.gen.structure.template.Template;
 
 public class PonderPageStructure extends PonderPageBase{
-    private Template template;
+    private final String structureID;
 
-    public PonderPageStructure(Template template){
-        this.template=template;
-    }
     public PonderPageStructure(String id){
-        this.template= TemplateLoader.getTemplate(id);
+        this.structureID = id;
     }
 
     @Override
     public void onSelected(){
         StructureRenderManager.getWorld().setWorldTime(0);
-        if(this.template!=null)
-            StructureRenderManager.getWorld().loadTemplate(this.template);
+        if(this.structureID !=null) {
+            PonderStructure structure = TemplateLoader.getStructure(structureID);
+            if(structure!=null){
+                StructureRenderManager.getWorld().loadStructure(structure);
+            }else {
+                StructureRenderManager.getWorld().loadTemplate(TemplateLoader.getTemplate(structureID));
+            }
+        }
         StructureRenderManager.getWorld().tick();
         StructureRenderManager.updateBuffer();
     }

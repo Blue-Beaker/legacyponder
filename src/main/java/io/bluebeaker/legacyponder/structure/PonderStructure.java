@@ -18,6 +18,11 @@ public class PonderStructure {
 
     public final HashMap<Long, NBTTagCompound> tileEntities;
     public int[][][] blocks;
+
+    public BlockPos getSize() {
+        return size;
+    }
+
     protected BlockPos size;
 
     public PonderStructure(int x, int y, int z){
@@ -58,6 +63,7 @@ public class PonderStructure {
 
     public IBlockState getBlockAt(int x, int y, int z){
         int i = blocks[z][y][x];
+        if(i>=palette.size()) return Blocks.STRUCTURE_VOID.getDefaultState();
         return palette.get(i);
     }
     public IBlockState getBlockAt(BlockPos pos){

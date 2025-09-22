@@ -6,6 +6,7 @@ import io.bluebeaker.legacyponder.utils.TemplateLoader;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import org.apache.logging.log4j.Logger;
 
@@ -40,11 +41,11 @@ public class LegacyPonder
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
-        TemplateLoader.loadTemplates();
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event) {
+    public void postInit(FMLPostInitializationEvent event) {
+        TemplateLoader.loadTemplates();
     }
 
     @SubscribeEvent

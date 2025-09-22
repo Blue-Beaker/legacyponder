@@ -1,5 +1,6 @@
 package io.bluebeaker.legacyponder.ponder.gui;
 
+import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
 import io.bluebeaker.legacyponder.ponder.PonderEntry;
 import io.bluebeaker.legacyponder.ponder.page.PonderPageBase;
@@ -66,19 +67,23 @@ public class GuiScreenPonder extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        Vec2i mousePos = new Vec2i(mouseX, mouseY);
-        mouseDelta= mousePos.sub(lastMousePos);
-        lastMousePos=mousePos;
-        this.drawDefaultBackground();
-        if(this.currentPonder !=null){
-            // Draw title
-            this.drawCenteredString(this.fontRenderer,this.currentPonder.id,this.width/2,10,0xFFFFFFFF);
-            // Draw current page
-            if(this.pages>0){
-                this.currentPonder.getPages().get(this.currentPageID).draw(this,mouseX-this.pageBounds.x,mouseY-this.pageBounds.y,partialTicks);
+        try {
+            Vec2i mousePos = new Vec2i(mouseX, mouseY);
+            mouseDelta= mousePos.sub(lastMousePos);
+            lastMousePos=mousePos;
+            this.drawDefaultBackground();
+            if(this.currentPonder !=null){
+                // Draw title
+                this.drawCenteredString(this.fontRenderer,this.currentPonder.id,this.width/2,10,0xFFFFFFFF);
+                // Draw current page
+                if(this.pages>0){
+                    this.currentPonder.getPages().get(this.currentPageID).draw(this,mouseX-this.pageBounds.x,mouseY-this.pageBounds.y,partialTicks);
+                }
+                // Draw page number
+                this.drawString(this.fontRenderer,String.format("%s/%s",this.currentPageID +1,this.pages),44,this.height-11,0xFFFFFFFF);
             }
-            // Draw page number
-            this.drawString(this.fontRenderer,String.format("%s/%s",this.currentPageID +1,this.pages),44,this.height-11,0xFFFFFFFF);
+        } catch (Exception e) {
+            LegacyPonder.getLogger().error("Error drawing ponder page {}: {}",this.currentPage,e);
         }
         super.drawScreen(mouseX, mouseY, partialTicks);
     }

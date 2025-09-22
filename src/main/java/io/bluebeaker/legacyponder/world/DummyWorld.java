@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.world;
 
-import net.minecraft.entity.Entity;
+import io.bluebeaker.legacyponder.structure.PonderStructure;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
@@ -58,10 +58,23 @@ public class DummyWorld extends World {
         loadTemplate(template, StructureRenderManager.STRUCTURE_OFFSET,new PlacementSettings());
     }
     public void loadTemplate(Template template, BlockPos pos, PlacementSettings settings){
+        clearWorld();
+        templateSize=template.getSize();
+        template.addBlocksToWorld(this,pos,settings);
+    }
+
+    private void clearWorld() {
         ((DummyChunkProvider)chunkProvider).clear();
         this.loadedEntityList.clear();
         this.unloadedEntityList.clear();
-        templateSize=template.getSize();
-        template.addBlocksToWorld(this,pos,settings);
+    }
+
+    public void loadStructure(PonderStructure structure){
+        loadStructure(structure, StructureRenderManager.STRUCTURE_OFFSET);
+    }
+    public void loadStructure(PonderStructure structure, BlockPos pos){
+        clearWorld();
+        templateSize=structure.getSize();
+        structure.putToWorld(this,pos);
     }
 }

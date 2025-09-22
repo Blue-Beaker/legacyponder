@@ -23,8 +23,12 @@ public class Palette<E> implements Iterable<E> {
         return indexOf(o);
     }
 
-    public int add(E e) {
-        if(contains(e)) return -1;
+    public int add(E e){
+        return add(e,false);
+    }
+
+    public int add(E e,boolean force) {
+        if(!force && contains(e)) return -1;
         palette.add(e);
         int i = palette.size() - 1;
         paletteMap.put(e, i);
@@ -39,6 +43,11 @@ public class Palette<E> implements Iterable<E> {
         palette.clear();
         paletteMap.clear();
     }
+
+    public int size(){
+        return palette.size();
+    }
+
     @Nonnull
     @Override
     public Iterator<E> iterator() {
