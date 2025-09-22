@@ -1,9 +1,7 @@
 package io.bluebeaker.legacyponder.structure;
 
-import ic2.core.block.TileEntityBlock;
 import io.bluebeaker.legacyponder.utils.Palette;
 import io.bluebeaker.legacyponder.utils.PosUtils;
-import io.bluebeaker.legacyponder.utils.WorkaroundBlockstateIC2;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,9 +11,7 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.common.util.BlockSnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -81,21 +77,16 @@ public class PonderStructure {
         BlockPos size = maxPoint.subtract(minPoint).add(1,1,1);
 
         PonderStructure structure = new PonderStructure(size);
-        for (BlockPos pos3:BlockPos.getAllInBox(pos1,pos2)){
+        for (BlockPos pos3:BlockPos.getAllInBox(minPoint,maxPoint)){
             BlockPos relative = pos3.subtract(minPoint);
 
             TileEntity tileEntity = world.getTileEntity(pos3);
             if(tileEntity!=null){
                 structure.addTileEntity(relative,tileEntity);
             }
+            BlockSnapshot blockSnapshot = BlockSnapshot.getBlockSnapshot(world, pos3);
+            IBlockState state = blockSnapshot.getCurrentBlock();
 
-            IBlockState state = null;
-            if(Loader.isModLoaded("ic2")){
-                state = WorkaroundBlockstateIC2.getStateFromIC2TileEntity(tileEntity);
-            }
-            if(state==null){
-                state=world.getBlockState(pos3);
-            }
             structure.addBlock(relative,state);
 
         }
