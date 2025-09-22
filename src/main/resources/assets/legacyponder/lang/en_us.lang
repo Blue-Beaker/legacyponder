@@ -1,1 +1,2 @@
 config.legacyponder.example.name=Example
+commands.legacyponder.save.usage=Usage: legacyponder save <x1> <y1> <z1> <x2> <y2> <z2> <name>

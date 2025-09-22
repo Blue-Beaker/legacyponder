@@ -1,7 +1,12 @@
 package io.bluebeaker.legacyponder;
 
+import io.bluebeaker.legacyponder.command.CommandLegacyPonder;
+import io.bluebeaker.legacyponder.command.CommandSaveStructure;
 import io.bluebeaker.legacyponder.utils.TemplateLoader;
+import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import org.apache.logging.log4j.Logger;
 
 import io.bluebeaker.legacyponder.Tags;
@@ -50,6 +55,7 @@ public class LegacyPonder
     @EventHandler
     public void onServerStart(FMLServerStartingEvent event){
         this.server=event.getServer();
+        event.registerServerCommand(new CommandLegacyPonder());
     }
 
     @SubscribeEvent
