@@ -4,13 +4,13 @@ import io.bluebeaker.legacyponder.LegacyPonder;
 import net.minecraft.util.math.Vec3d;
 
 public class StructureViewPos {
-    public float yaw = 25f;
+    public float yaw = 60f;
     public float pitch = 30f;
     public float scale = 1f;
     public Vec3d camera_center = new Vec3d(0,0,0);
 
     public void resetAngle() {
-        this.yaw=25f;
+        this.yaw=60f;
         this.pitch=30f;
     }
     public void resetScaling() {
@@ -18,6 +18,11 @@ public class StructureViewPos {
     }
     public void resetPos() {
         this.camera_center=new Vec3d(0,0,0);
+    }
+    public void resetAll() {
+        resetPos();
+        resetAngle();
+        resetScaling();
     }
 
 

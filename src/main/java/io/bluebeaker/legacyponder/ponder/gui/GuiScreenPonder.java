@@ -4,6 +4,7 @@ import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
 import io.bluebeaker.legacyponder.ponder.PonderEntry;
 import io.bluebeaker.legacyponder.ponder.page.PonderPageBase;
+import io.bluebeaker.legacyponder.render.StructureRenderManager;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import io.bluebeaker.legacyponder.utils.Vec2i;
 import net.minecraft.client.Minecraft;
@@ -51,6 +52,7 @@ public class GuiScreenPonder extends GuiScreen {
         this.buttonList.add(new GuiButtonExt(1,2,this.height-22,20,20,"<"));
         this.buttonList.add(new GuiButtonExt(2,23,this.height-22,20,20,">"));
         this.pageBounds=new BoundingBox2D(5,20,this.width-10,this.height-50);
+        StructureRenderManager.viewPos.resetAll();
         super.initGui();
     }
 

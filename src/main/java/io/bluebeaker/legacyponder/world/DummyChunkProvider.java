@@ -1,12 +1,14 @@
 package io.bluebeaker.legacyponder.world;
 
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DummyChunkProvider implements IChunkProvider {
@@ -36,6 +38,15 @@ public class DummyChunkProvider implements IChunkProvider {
     @Override
     public boolean tick() {
         return false;
+    }
+
+    public List<TileEntity> getTileEntities(){
+        List<TileEntity> tiles = new ArrayList<>();
+        for (Chunk chunk : chunks.values()) {
+            chunk.onTick(false);
+            tiles.addAll(chunk.getTileEntityMap().values());
+        }
+        return tiles;
     }
 
     @Override

@@ -29,7 +29,6 @@ public class PonderPageStructure extends PonderPageBase{
                 StructureRenderManager.getWorld().loadTemplate(TemplateLoader.getTemplate(structureID));
             }
         }
-        StructureRenderManager.getWorld().tick();
         StructureRenderManager.updateBuffer();
     }
     @Override
@@ -38,6 +37,8 @@ public class PonderPageStructure extends PonderPageBase{
 
         RenderUtils.setViewPort(pageBounds);
         StructureRenderManager.renderStructure(partialTicks, pageBounds.x, pageBounds.y, pageBounds.w,pageBounds.h);
+
+//        StructureRenderManager.getWorld().tick();
         RenderUtils.endViewPort();
     }
 

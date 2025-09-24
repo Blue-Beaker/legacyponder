@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
@@ -96,13 +97,16 @@ public class StructureRenderManager {
                     for (int x = 0; x < world.templateSize.getX(); x++) {
                         BlockPos pos = new BlockPos(x, y, z).add(STRUCTURE_OFFSET);
                         GlStateManager.pushAttrib();
-                        TileEntityRendererDispatcher.instance.render(
-                                world.getTileEntity(pos),
-                                pos.getX() - STRUCTURE_OFFSET.getX(),
-                                pos.getY() - STRUCTURE_OFFSET.getY(),
-                                pos.getZ() - STRUCTURE_OFFSET.getZ(),
-                                0
-                        );
+                        TileEntity tileEntity = world.getTileEntity(pos);
+                        if(tileEntity !=null){
+                            TileEntityRendererDispatcher.instance.render(
+                                    tileEntity,
+                                    pos.getX() - STRUCTURE_OFFSET.getX(),
+                                    pos.getY() - STRUCTURE_OFFSET.getY(),
+                                    pos.getZ() - STRUCTURE_OFFSET.getZ(),
+                                    partialTicks
+                            );
+                        }
                         GlStateManager.popAttrib();
                     }
                 }
@@ -117,8 +121,8 @@ public class StructureRenderManager {
                     pos.x - STRUCTURE_OFFSET.getX(),
                     pos.y - STRUCTURE_OFFSET.getY(),
                     pos.z - STRUCTURE_OFFSET.getZ(),
-                    0,
-                    0,
+                    entity.rotationYaw,
+                    partialTicks,
                     true
             );
             GlStateManager.popAttrib();

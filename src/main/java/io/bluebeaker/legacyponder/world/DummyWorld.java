@@ -3,6 +3,8 @@ package io.bluebeaker.legacyponder.world;
 import io.bluebeaker.legacyponder.render.StructureRenderManager;
 import io.bluebeaker.legacyponder.structure.PonderStructure;
 import net.minecraft.profiler.Profiler;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -13,7 +15,6 @@ import net.minecraft.world.storage.SaveHandlerMP;
 import net.minecraft.world.storage.WorldInfo;
 
 public class DummyWorld extends World {
-    public boolean isTickable = false;
     public BlockPos templateSize = new BlockPos(0,0,0);
     public DummyWorld(){
         this(
@@ -35,7 +36,7 @@ public class DummyWorld extends World {
                     }
                 },
                 new Profiler(),
-                true
+                false
         );
         chunkProvider = new DummyChunkProvider(this);
         this.provider.setWorld(this);
@@ -62,6 +63,14 @@ public class DummyWorld extends World {
         clearWorld();
         templateSize=template.getSize();
         template.addBlocksToWorld(this,pos,settings);
+        postLoad();
+    }
+
+    public void postLoad(){
+        for (TileEntity tile : ((DummyChunkProvider)chunkProvider).getTileEntities()) {
+            if(tile instanceof ITickable)
+                ((ITickable)tile).update();
+        }
     }
 
     private void clearWorld() {
@@ -73,9 +82,19 @@ public class DummyWorld extends World {
     public void loadStructure(PonderStructure structure){
         loadStructure(structure, StructureRenderManager.STRUCTURE_OFFSET);
     }
+
+    @Override
+    public void tick() {
+        for (TileEntity tile : ((DummyChunkProvider)chunkProvider).getTileEntities()) {
+            if(tile instanceof ITickable)
+                ((ITickable)tile).update();
+        }
+    }
+
     public void loadStructure(PonderStructure structure, BlockPos pos){
         clearWorld();
         templateSize=structure.getSize();
         structure.putToWorld(this,pos);
+        postLoad();
     }
 }
