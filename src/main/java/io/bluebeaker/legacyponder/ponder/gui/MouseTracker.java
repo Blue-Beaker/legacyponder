@@ -14,8 +14,8 @@ public class MouseTracker {
     public void tick(){
         lastX=x;
         lastY=y;
-        x=Mouse.getX();
-        y=Mouse.getY();
+        x=Mouse.getEventX();
+        y=Mouse.getEventY();
     }
     public Vec2i getMouseDelta(){
         return new Vec2i(x-lastX,y-lastY);

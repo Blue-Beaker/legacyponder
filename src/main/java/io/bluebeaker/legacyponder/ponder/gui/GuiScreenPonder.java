@@ -54,6 +54,12 @@ public class GuiScreenPonder extends GuiScreen {
         super.initGui();
     }
 
+    @Override
+    public void handleMouseInput() throws IOException {
+        super.handleMouseInput();
+        MouseTracker.INSTANCE.tick();
+    }
+
     public void close() {
         Minecraft.getMinecraft().displayGuiScreen(this.lastScreen);
     }

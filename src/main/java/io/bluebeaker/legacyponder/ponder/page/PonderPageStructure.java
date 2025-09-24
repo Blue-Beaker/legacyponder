@@ -34,7 +34,6 @@ public class PonderPageStructure extends PonderPageBase{
     }
     @Override
     public void draw(GuiScreenPonder screen, int mouseX, int mouseY, float partialTicks){
-        MouseTracker.INSTANCE.tick();
         BoundingBox2D pageBounds = screen.getPageBounds();
 
         RenderUtils.setViewPort(pageBounds);
