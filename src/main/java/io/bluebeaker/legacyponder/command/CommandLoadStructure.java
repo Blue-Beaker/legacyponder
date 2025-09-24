@@ -40,6 +40,12 @@ public class CommandLoadStructure extends CommandBase {
             return;
         }
         structure.putToWorld(sender.getEntityWorld(),pos);
+        sender.sendMessage(new TextComponentTranslation("commands.legacyponder.load.success",structureName));
+    }
+
+    @Override
+    public int getRequiredPermissionLevel() {
+        return 2;
     }
 
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos)

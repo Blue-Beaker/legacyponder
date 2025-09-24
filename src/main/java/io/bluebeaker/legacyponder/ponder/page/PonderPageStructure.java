@@ -1,13 +1,15 @@
 package io.bluebeaker.legacyponder.ponder.page;
 
 import io.bluebeaker.legacyponder.ponder.gui.GuiScreenPonder;
+import io.bluebeaker.legacyponder.ponder.gui.MouseTracker;
 import io.bluebeaker.legacyponder.structure.PonderStructure;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
 import io.bluebeaker.legacyponder.utils.TemplateLoader;
 import io.bluebeaker.legacyponder.utils.Vec2i;
-import io.bluebeaker.legacyponder.world.StructureRenderManager;
-import net.minecraft.world.gen.structure.template.Template;
+import io.bluebeaker.legacyponder.render.StructureRenderManager;
+
+import static io.bluebeaker.legacyponder.render.StructureRenderManager.viewPos;
 
 public class PonderPageStructure extends PonderPageBase{
     private final String structureID;
@@ -32,6 +34,7 @@ public class PonderPageStructure extends PonderPageBase{
     }
     @Override
     public void draw(GuiScreenPonder screen, int mouseX, int mouseY, float partialTicks){
+        MouseTracker.INSTANCE.tick();
         BoundingBox2D pageBounds = screen.getPageBounds();
 
         RenderUtils.setViewPort(pageBounds);
@@ -40,10 +43,24 @@ public class PonderPageStructure extends PonderPageBase{
     }
 
     @Override
+    public boolean click(GuiScreenPonder screen, int x, int y, int button) {
+        return super.click(screen, x, y, button);
+    }
+
+    @Override
+    public boolean mouseReleased(GuiScreenPonder screen, int mouseX, int mouseY, int state) {
+        return super.mouseReleased(screen, mouseX, mouseY, state);
+    }
+
+    @Override
     public boolean mouseDrag(GuiScreenPonder screen, int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
-        Vec2i mouseDelta = screen.getMouseDelta();
-        StructureRenderManager.rotationYaw+=mouseDelta.x;
-        StructureRenderManager.rotationPitch+=mouseDelta.y;
+        Vec2i mouseDelta = MouseTracker.INSTANCE.getMouseDelta();
+        if(clickedMouseButton==0){
+            viewPos.addYaw(mouseDelta.x);
+            viewPos.addPitch(-mouseDelta.y);
+        }else if (clickedMouseButton==1){
+            viewPos.translate(mouseDelta.x/100f,mouseDelta.y/100f,0);
+        }
         return true;
     }
 }

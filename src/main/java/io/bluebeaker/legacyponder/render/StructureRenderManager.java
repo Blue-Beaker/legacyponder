@@ -1,6 +1,8 @@
-package io.bluebeaker.legacyponder.world;
+package io.bluebeaker.legacyponder.render;
 
 import com.google.common.base.Predicates;
+import io.bluebeaker.legacyponder.LegacyPonder;
+import io.bluebeaker.legacyponder.world.DummyWorld;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.*;
@@ -22,10 +24,7 @@ public class StructureRenderManager {
     protected static DummyWorld world = new DummyWorld();
     private static final Map<String, BufferBuilder> buffers = new HashMap<>();
 
-    public static float rotationYaw = 25f;
-    public static float rotationPitch = 30f;
-    public static float scale = 1f;
-    public static Vec3d camera_center = new Vec3d(STRUCTURE_OFFSET);
+    public static StructureViewPos viewPos = new StructureViewPos();
 
     protected static BufferBuilder bufferBuilder = new BufferBuilder(1024) {
         @Override
@@ -72,16 +71,20 @@ public class StructureRenderManager {
                 viewportWidth,
                 viewportHeight
         );
-        GLU.gluPerspective(70.0F, (float) sizeX / sizeY, 0.1F, 1000.0F);
+        GLU.gluPerspective(70.0F, (float) sizeX / sizeY, 0.1F, 1000F);
         GlStateManager.matrixMode(GL11.GL_MODELVIEW);
         GlStateManager.loadIdentity();
         GlStateManager.enableRescaleNormal();
         GlStateManager.pushMatrix();
         int snapshotSize = Math.max(Math.max(world.templateSize.getX(), world.templateSize.getY()), world.templateSize.getY());
-        GlStateManager.translate(0, 0, -snapshotSize * 2F - 3);
-        GlStateManager.scale(scale,scale,scale);
-        GlStateManager.rotate(rotationPitch, 1, 0, 0);
-        GlStateManager.rotate(rotationYaw, 0, 1, 0);
+        GlStateManager.translate(0, 0, -snapshotSize * 0.5F - 3);
+
+        GlStateManager.scale(viewPos.scale,viewPos.scale,viewPos.scale);
+        GlStateManager.rotate(viewPos.pitch, 1, 0, 0);
+        GlStateManager.rotate(viewPos.yaw, 0, 1, 0);
+
+        GlStateManager.translate(viewPos.camera_center.x,viewPos.camera_center.y,viewPos.camera_center.z);
+
         GlStateManager.translate(-world.templateSize.getX() / 2F, -world.templateSize.getY() / 2F, -world.templateSize.getZ() / 2F);
         GlStateManager.translate(0, snapshotSize * 0.1F, 0);
         Minecraft.getMinecraft().getRenderManager().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
@@ -93,7 +96,6 @@ public class StructureRenderManager {
                     for (int x = 0; x < world.templateSize.getX(); x++) {
                         BlockPos pos = new BlockPos(x, y, z).add(STRUCTURE_OFFSET);
                         GlStateManager.pushAttrib();
-                        // noinspection ConstantConditions
                         TileEntityRendererDispatcher.instance.render(
                                 world.getTileEntity(pos),
                                 pos.getX() - STRUCTURE_OFFSET.getX(),
@@ -107,7 +109,6 @@ public class StructureRenderManager {
             }
             TileEntityRendererDispatcher.instance.drawBatch(1);
         }
-        // noinspection Guava
         for (Entity entity : world.getEntities(Entity.class, Predicates.alwaysTrue())) {
             Vec3d pos = entity.getPositionVector();
             GlStateManager.pushAttrib();

@@ -1,4 +1,4 @@
-package io.bluebeaker.legacyponder.world;
+package io.bluebeaker.legacyponder.render;
 
 import net.minecraft.client.renderer.BufferBuilder;
 

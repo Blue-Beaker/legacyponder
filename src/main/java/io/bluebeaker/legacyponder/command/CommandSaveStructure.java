@@ -52,6 +52,7 @@ public class CommandSaveStructure extends CommandBase {
             return;
         }
         TemplateLoader.writeStructure(structureName,capture);
+        sender.sendMessage(new TextComponentTranslation("commands.legacyponder.save.success",structureName));
     }
 
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos)
@@ -65,5 +66,10 @@ public class CommandSaveStructure extends CommandBase {
             return getTabCompletionCoordinate(args, 3, targetPos);
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public int getRequiredPermissionLevel() {
+        return 2;
     }
 }

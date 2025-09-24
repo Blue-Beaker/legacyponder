@@ -1,5 +1,6 @@
 package io.bluebeaker.legacyponder.world;
 
+import io.bluebeaker.legacyponder.render.StructureRenderManager;
 import io.bluebeaker.legacyponder.structure.PonderStructure;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.util.math.BlockPos;
