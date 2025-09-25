@@ -3,6 +3,7 @@ package io.bluebeaker.legacyponder.render;
 import com.google.common.base.Predicates;
 import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.world.DummyWorld;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.*;
@@ -152,8 +153,9 @@ public class StructureRenderManager {
                             -STRUCTURE_OFFSET.getY(),
                             -STRUCTURE_OFFSET.getZ()
                     );
+                    IBlockState blockState = world.getBlockState(pos).getActualState(world,pos);
                     Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(
-                            world.getBlockState(pos),
+                            blockState,
                             pos,
                             world,
                             localBuffer

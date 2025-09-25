@@ -9,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.BlockSnapshot;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,7 +68,14 @@ public class PonderStructure {
         return palette.get(i);
     }
     public IBlockState getBlockAt(BlockPos pos){
-        return getBlockAt(pos.getZ(),pos.getY(),pos.getX());
+        return getBlockAt(pos.getX(),pos.getY(),pos.getZ());
+    }
+
+    public boolean isInStructure(BlockPos pos){
+        return isInStructure(pos.getX(),pos.getY(),pos.getZ());
+    }
+    public boolean isInStructure(int x, int y, int z){
+        return x >= 0 && y >= 0 && z >= 0 && x < size.getX() && y < size.getY() && z < size.getZ();
     }
 
     /** Capture blocks from a world to a structure
@@ -93,10 +101,10 @@ public class PonderStructure {
             TileEntity tileEntity = world.getTileEntity(pos3);
             if(tileEntity!=null){
                 structure.addTileEntity(relative,tileEntity);
+
             }
             BlockSnapshot blockSnapshot = BlockSnapshot.getBlockSnapshot(world, pos3);
-            IBlockState state = blockSnapshot.getCurrentBlock();
-
+            IBlockState state = blockSnapshot.getCurrentBlock().getActualState(world,pos3);
             structure.addBlock(relative,state);
 
         }
@@ -149,7 +157,7 @@ public class PonderStructure {
             blockList.appendTag(layer);
         }
 
-        net.minecraftforge.fml.common.FMLCommonHandler.instance().getDataFixer().writeVersionData(nbt);
+        FMLCommonHandler.instance().getDataFixer().writeVersionData(nbt);
 
         NBTTagList listSize = new NBTTagList();
         listSize.appendTag(new NBTTagInt(this.size.getX()));

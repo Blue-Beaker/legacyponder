@@ -16,6 +16,10 @@ import net.minecraft.world.storage.WorldInfo;
 
 public class DummyWorld extends World {
     public BlockPos templateSize = new BlockPos(0,0,0);
+
+    protected PonderStructure currentStructure = null;
+    protected BlockPos structureOffset = new BlockPos(0,0,0);
+
     public DummyWorld(){
         this(
                 new SaveHandlerMP(),
@@ -36,7 +40,7 @@ public class DummyWorld extends World {
                     }
                 },
                 new Profiler(),
-                false
+                true
         );
         chunkProvider = new DummyChunkProvider(this);
         this.provider.setWorld(this);
@@ -67,14 +71,12 @@ public class DummyWorld extends World {
     }
 
     public void postLoad(){
-        for (TileEntity tile : ((DummyChunkProvider)chunkProvider).getTileEntities()) {
-            if(tile instanceof ITickable)
-                ((ITickable)tile).update();
-        }
+        tick();
     }
 
     private void clearWorld() {
         ((DummyChunkProvider)chunkProvider).clear();
+        currentStructure=null;
         this.loadedEntityList.clear();
         this.unloadedEntityList.clear();
     }
@@ -86,13 +88,16 @@ public class DummyWorld extends World {
     @Override
     public void tick() {
         for (TileEntity tile : ((DummyChunkProvider)chunkProvider).getTileEntities()) {
-            if(tile instanceof ITickable)
+            if(tile instanceof ITickable){
                 ((ITickable)tile).update();
+            }
         }
     }
 
     public void loadStructure(PonderStructure structure, BlockPos pos){
         clearWorld();
+        currentStructure=structure;
+        structureOffset=pos;
         templateSize=structure.getSize();
         structure.putToWorld(this,pos);
         postLoad();
