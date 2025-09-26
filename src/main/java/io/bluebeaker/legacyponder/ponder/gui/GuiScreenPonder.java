@@ -43,6 +43,7 @@ public class GuiScreenPonder extends GuiScreen {
 
     public GuiScreenPonder(){
         lastScreen=Minecraft.getMinecraft().currentScreen;
+        StructureRenderManager.viewPos.resetAll();
     }
 
     @Override
@@ -52,7 +53,6 @@ public class GuiScreenPonder extends GuiScreen {
         this.buttonList.add(new GuiButtonExt(1,2,this.height-22,20,20,"<"));
         this.buttonList.add(new GuiButtonExt(2,23,this.height-22,20,20,">"));
         this.pageBounds=new BoundingBox2D(5,20,this.width-10,this.height-50);
-        StructureRenderManager.viewPos.resetAll();
         super.initGui();
     }
 

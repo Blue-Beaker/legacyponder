@@ -123,7 +123,8 @@ public class PonderStructure {
                     world.setBlockState(absPos, this.getBlockAt(x, y, z));
                     NBTTagCompound tileEntity = this.getTileEntity(x, y, z);
                     if(tileEntity!=null){
-                        world.setTileEntity(absPos, TileEntity.create(world, tileEntity));
+                        TileEntity tileEntityIn = TileEntity.create(world, tileEntity);
+                        world.setTileEntity(absPos, tileEntityIn);
                     }
                 }
             }

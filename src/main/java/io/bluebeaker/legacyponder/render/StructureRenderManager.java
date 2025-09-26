@@ -12,8 +12,12 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.client.ForgeHooksClient;
+import net.minecraftforge.client.MinecraftForgeClient;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
@@ -142,29 +146,52 @@ public class StructureRenderManager {
     public static BufferBuilder updateBuffer(){
         localBuffer = new StructureBufferBuilder(1024);
         localBuffer.clear();
+
+        BlockRenderLayer lastRenderLayer = MinecraftForgeClient.getRenderLayer();
+        int lastRenderPass = MinecraftForgeClient.getRenderPass();
+
         localBuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
+
+        ForgeHooksClient.setRenderPass(1);
+
+        renderBuffer(localBuffer);
+
+
+        localBuffer.setTranslation(0,0,0);
+        localBuffer.finishDrawing();
+
+        ForgeHooksClient.setRenderLayer(lastRenderLayer);
+        ForgeHooksClient.setRenderPass(lastRenderPass);
+
+        return localBuffer;
+    }
+
+    private static void renderBuffer(BufferBuilder buffer) {
         for (int z = 0; z < world.templateSize.getZ(); z++) {
             for (int y = 0; y < world.templateSize.getY(); y++) {
                 for (int x = 0; x < world.templateSize.getX(); x++) {
                     BlockPos pos = new BlockPos(x, y, z).add(STRUCTURE_OFFSET);
-                    localBuffer.setTranslation(
+                    buffer.setTranslation(
                             -STRUCTURE_OFFSET.getX(),
                             -STRUCTURE_OFFSET.getY(),
                             -STRUCTURE_OFFSET.getZ()
                     );
                     IBlockState blockState = world.getBlockState(pos);
-                    Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(
-                            blockState,
-                            pos,
-                            world,
-                            localBuffer
-                    );
-//                        localBuffer.setTranslation(0, 0, 0);
+                    if(blockState.getRenderType()== EnumBlockRenderType.INVISIBLE) continue;
+
+                    for (BlockRenderLayer value : BlockRenderLayer.values()) {
+                        if(blockState.getBlock().canRenderInLayer(blockState,value)){
+                            ForgeHooksClient.setRenderLayer(value);
+                            Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(
+                                    blockState,
+                                    pos,
+                                    world,
+                                    buffer
+                            );
+                        }
+                    }
                 }
             }
         }
-        localBuffer.setTranslation(0,0,0);
-        localBuffer.finishDrawing();
-        return localBuffer;
     }
 }
