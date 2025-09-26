@@ -45,7 +45,6 @@ public class StructureRenderManager {
 
     public static void renderStructure(float partialTicks, int offsetX, int offsetY, int sizeX, int sizeY){
 
-        BufferBuilder bufferBuilder = localBuffer;
         GlStateManager.pushAttrib();
         GlStateManager.enableDepth();
         GlStateManager.enableBlend();
@@ -90,7 +89,7 @@ public class StructureRenderManager {
         GlStateManager.translate(-world.templateSize.getX() / 2F, -world.templateSize.getY() / 2F, -world.templateSize.getZ() / 2F);
         GlStateManager.translate(0, snapshotSize * 0.1F, 0);
         Minecraft.getMinecraft().getRenderManager().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-        new WorldVertexBufferUploader().draw(bufferBuilder);
+        new WorldVertexBufferUploader().draw(localBuffer);
         if (snapshotSize < 32) {
             TileEntityRendererDispatcher.instance.preDrawBatch();
             for (int z = 0; z < world.templateSize.getZ(); z++) {
@@ -153,7 +152,7 @@ public class StructureRenderManager {
                             -STRUCTURE_OFFSET.getY(),
                             -STRUCTURE_OFFSET.getZ()
                     );
-                    IBlockState blockState = world.getBlockState(pos).getActualState(world,pos);
+                    IBlockState blockState = world.getBlockState(pos);
                     Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(
                             blockState,
                             pos,

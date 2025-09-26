@@ -1,5 +1,8 @@
 package io.bluebeaker.legacyponder.world;
 
+import ic2.api.network.INetworkUpdateListener;
+import ic2.core.block.TileEntityBlock;
+import ic2.core.block.wiring.TileEntityCable;
 import io.bluebeaker.legacyponder.render.StructureRenderManager;
 import io.bluebeaker.legacyponder.structure.PonderStructure;
 import net.minecraft.profiler.Profiler;
@@ -13,6 +16,9 @@ import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.SaveHandlerMP;
 import net.minecraft.world.storage.WorldInfo;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.fml.common.eventhandler.EventBus;
 
 public class DummyWorld extends World {
     public BlockPos templateSize = new BlockPos(0,0,0);
@@ -72,6 +78,9 @@ public class DummyWorld extends World {
 
     public void postLoad(){
         tick();
+        for (TileEntity tile : ((DummyChunkProvider)chunkProvider).getTileEntities()) {
+            MinecraftForge.EVENT_BUS.post(new LoadTileEntityEvent(this,tile,tile.getPos()));
+        }
     }
 
     private void clearWorld() {
