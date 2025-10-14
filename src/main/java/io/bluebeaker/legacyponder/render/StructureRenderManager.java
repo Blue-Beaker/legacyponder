@@ -83,7 +83,8 @@ public class StructureRenderManager {
         GlStateManager.enableRescaleNormal();
         GlStateManager.pushMatrix();
 
-        GlStateManager.translate(viewPos.camera_offset.x,viewPos.camera_offset.y,viewPos.camera_offset.z);
+        Vec3d cameraOffset = viewPos.getZoomedOffset();
+        GlStateManager.translate(cameraOffset.x, cameraOffset.y, cameraOffset.z);
 
         GlStateManager.scale(viewPos.scale,viewPos.scale,viewPos.scale);
         GlStateManager.rotate(viewPos.pitch, 1, 0, 0);

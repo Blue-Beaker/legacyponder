@@ -47,7 +47,7 @@ public class PonderPageStructure extends PonderPageBase{
 
     @Override
     public boolean mouseScroll(GuiScreenPonder screen, int mouseX, int mouseY, int wheelDelta) {
-        viewPos.translateOffset(0,0,wheelDelta*0.01f);
+        viewPos.zoom(-wheelDelta*0.01);
         return true;
     }
 

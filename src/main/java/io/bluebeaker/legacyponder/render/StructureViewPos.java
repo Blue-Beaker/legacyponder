@@ -8,6 +8,7 @@ public class StructureViewPos {
     public float scale = 1f;
     public Vec3d camera_center = new Vec3d(0,0,0);
     public Vec3d camera_offset = new Vec3d(0,0,0);
+    public double zoom_power = 0;
 
     public void resetAngle() {
         this.yaw=60f;
@@ -23,6 +24,7 @@ public class StructureViewPos {
         resetPos();
         resetAngle();
         resetScaling();
+        zoom_power=0;
     }
 
 
@@ -37,11 +39,15 @@ public class StructureViewPos {
     public void translate(double x, double y, double z){
         Vec3d vecX = new Vec3d(x,y,z).rotatePitch(pitch*0.017453292F).rotateYaw(-yaw* 0.017453292F);
         camera_center=camera_center.add(vecX);
-
-//        LegacyPonder.getLogger().info("View:{},{},{},{},{}",camera_center.x,camera_center.y,camera_center.z,yaw,pitch);
     }
-    
+
+    public Vec3d getZoomedOffset(){
+        return camera_offset.scale(Math.pow(2,zoom_power));
+    }
     public void translateOffset(double x,double y,double z){
         camera_offset=camera_offset.add(x,y,z);
+    }
+    public void zoom (double zoom){
+        zoom_power+=zoom;
     }
 }
