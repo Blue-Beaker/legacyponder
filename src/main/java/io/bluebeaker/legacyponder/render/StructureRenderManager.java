@@ -1,12 +1,13 @@
 package io.bluebeaker.legacyponder.render;
 
 import com.google.common.base.Predicates;
-import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.world.DummyWorld;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -81,8 +82,8 @@ public class StructureRenderManager {
         GlStateManager.loadIdentity();
         GlStateManager.enableRescaleNormal();
         GlStateManager.pushMatrix();
-        int snapshotSize = Math.max(Math.max(world.templateSize.getX(), world.templateSize.getY()), world.templateSize.getY());
-        GlStateManager.translate(0, 0, -snapshotSize * 0.5F - 3);
+
+        GlStateManager.translate(viewPos.camera_offset.x,viewPos.camera_offset.y,viewPos.camera_offset.z);
 
         GlStateManager.scale(viewPos.scale,viewPos.scale,viewPos.scale);
         GlStateManager.rotate(viewPos.pitch, 1, 0, 0);
@@ -91,32 +92,30 @@ public class StructureRenderManager {
         GlStateManager.translate(viewPos.camera_center.x,viewPos.camera_center.y,viewPos.camera_center.z);
 
         GlStateManager.translate(-world.templateSize.getX() / 2F, -world.templateSize.getY() / 2F, -world.templateSize.getZ() / 2F);
-        GlStateManager.translate(0, snapshotSize * 0.1F, 0);
+//        GlStateManager.translate(0, 0, 0);
         Minecraft.getMinecraft().getRenderManager().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         new WorldVertexBufferUploader().draw(localBuffer);
-        if (snapshotSize < 32) {
-            TileEntityRendererDispatcher.instance.preDrawBatch();
-            for (int z = 0; z < world.templateSize.getZ(); z++) {
-                for (int y = 0; y < world.templateSize.getY(); y++) {
-                    for (int x = 0; x < world.templateSize.getX(); x++) {
-                        BlockPos pos = new BlockPos(x, y, z).add(STRUCTURE_OFFSET);
-                        GlStateManager.pushAttrib();
-                        TileEntity tileEntity = world.getTileEntity(pos);
-                        if(tileEntity !=null){
-                            TileEntityRendererDispatcher.instance.render(
-                                    tileEntity,
-                                    pos.getX() - STRUCTURE_OFFSET.getX(),
-                                    pos.getY() - STRUCTURE_OFFSET.getY(),
-                                    pos.getZ() - STRUCTURE_OFFSET.getZ(),
-                                    partialTicks
-                            );
-                        }
-                        GlStateManager.popAttrib();
+        TileEntityRendererDispatcher.instance.preDrawBatch();
+        for (int z = 0; z < world.templateSize.getZ(); z++) {
+            for (int y = 0; y < world.templateSize.getY(); y++) {
+                for (int x = 0; x < world.templateSize.getX(); x++) {
+                    BlockPos pos = new BlockPos(x, y, z).add(STRUCTURE_OFFSET);
+                    GlStateManager.pushAttrib();
+                    TileEntity tileEntity = world.getTileEntity(pos);
+                    if(tileEntity !=null){
+                        TileEntityRendererDispatcher.instance.render(
+                                tileEntity,
+                                pos.getX() - STRUCTURE_OFFSET.getX(),
+                                pos.getY() - STRUCTURE_OFFSET.getY(),
+                                pos.getZ() - STRUCTURE_OFFSET.getZ(),
+                                partialTicks
+                        );
                     }
+                    GlStateManager.popAttrib();
                 }
             }
-            TileEntityRendererDispatcher.instance.drawBatch(1);
         }
+        TileEntityRendererDispatcher.instance.drawBatch(1);
         for (Entity entity : world.getEntities(Entity.class, Predicates.alwaysTrue())) {
             Vec3d pos = entity.getPositionVector();
             GlStateManager.pushAttrib();
@@ -141,6 +140,11 @@ public class StructureRenderManager {
         GlStateManager.disableBlend();
         GlStateManager.disableDepth();
         GlStateManager.popAttrib();
+    }
+
+    public static void resetCameraOffset(){
+        int snapshotSize = Math.max(Math.max(world.templateSize.getX(), world.templateSize.getY()), world.templateSize.getY());
+        viewPos.camera_offset=new Vec3d(0,0,-snapshotSize * 0.5F - 3);
     }
 
     public static BufferBuilder updateBuffer(){

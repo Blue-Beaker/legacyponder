@@ -31,6 +31,10 @@ public class PonderPageBase {
     public void addTextAt(float x, float y, float z, String text){
     }
 
+    public boolean mouseScroll(GuiScreenPonder screen, int mouseX, int mouseY, int wheelDelta){
+        return false;
+    }
+
     public boolean mouseReleased(GuiScreenPonder screen, int mouseX, int mouseY, int state) {
         return false;
     }

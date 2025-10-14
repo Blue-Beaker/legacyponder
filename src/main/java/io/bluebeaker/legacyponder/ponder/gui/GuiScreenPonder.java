@@ -60,6 +60,18 @@ public class GuiScreenPonder extends GuiScreen {
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
         MouseTracker.INSTANCE.tick();
+        int wheel = MouseTracker.INSTANCE.getWheel();
+        if(wheel!=0){
+            handleWheel(wheel);
+        }
+    }
+    public void handleWheel(int wheelDelta){
+        int mouseX=lastMousePos.x;
+        int mouseY=lastMousePos.y;
+        mouseDownInPage = isMouseInPage(mouseX, mouseY);
+        if (currentPage != null && mouseDownInPage && currentPage.mouseScroll(this,mouseX-this.pageBounds.x, mouseY-this.pageBounds.y, wheelDelta)) {
+            return;
+        }
     }
 
     public void close() {

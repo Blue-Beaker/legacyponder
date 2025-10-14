@@ -8,6 +8,8 @@ import io.bluebeaker.legacyponder.utils.RenderUtils;
 import io.bluebeaker.legacyponder.utils.TemplateLoader;
 import io.bluebeaker.legacyponder.utils.Vec2i;
 import io.bluebeaker.legacyponder.render.StructureRenderManager;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 
 import static io.bluebeaker.legacyponder.render.StructureRenderManager.viewPos;
 
@@ -29,6 +31,7 @@ public class PonderPageStructure extends PonderPageBase{
                 StructureRenderManager.getWorld().loadTemplate(TemplateLoader.getTemplate(structureID));
             }
         }
+        StructureRenderManager.resetCameraOffset();
         StructureRenderManager.updateBuffer();
     }
     @Override
@@ -40,6 +43,12 @@ public class PonderPageStructure extends PonderPageBase{
 
 //        StructureRenderManager.getWorld().tick();
         RenderUtils.endViewPort();
+    }
+
+    @Override
+    public boolean mouseScroll(GuiScreenPonder screen, int mouseX, int mouseY, int wheelDelta) {
+        viewPos.translateOffset(0,0,wheelDelta*0.01f);
+        return true;
     }
 
     @Override
@@ -55,11 +64,15 @@ public class PonderPageStructure extends PonderPageBase{
     @Override
     public boolean mouseDrag(GuiScreenPonder screen, int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
         Vec2i mouseDelta = MouseTracker.INSTANCE.getMouseDelta();
+        ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
+        int factor = scaledResolution.getScaleFactor();
+        float deltaX = (float) mouseDelta.x /factor;
+        float deltaY = (float) mouseDelta.y /factor;
         if(clickedMouseButton==0){
-            viewPos.addYaw(mouseDelta.x);
-            viewPos.addPitch(-mouseDelta.y);
-        }else if (clickedMouseButton==1){
-            viewPos.translate(mouseDelta.x/100f,mouseDelta.y/100f,0);
+            viewPos.addYaw(deltaX);
+            viewPos.addPitch(-deltaY);
+        }else if (clickedMouseButton<=2){
+            viewPos.translate(deltaX/100f,deltaY/100f,0);
         }
         return true;
     }

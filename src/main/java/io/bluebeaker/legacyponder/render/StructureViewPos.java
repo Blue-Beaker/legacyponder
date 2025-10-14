@@ -1,6 +1,5 @@
 package io.bluebeaker.legacyponder.render;
 
-import io.bluebeaker.legacyponder.LegacyPonder;
 import net.minecraft.util.math.Vec3d;
 
 public class StructureViewPos {
@@ -8,6 +7,7 @@ public class StructureViewPos {
     public float pitch = 30f;
     public float scale = 1f;
     public Vec3d camera_center = new Vec3d(0,0,0);
+    public Vec3d camera_offset = new Vec3d(0,0,0);
 
     public void resetAngle() {
         this.yaw=60f;
@@ -35,9 +35,13 @@ public class StructureViewPos {
         pitch=Math.max(Math.min(pitch,90),-90);
     }
     public void translate(double x, double y, double z){
-        Vec3d vecX = new Vec3d(x,y,0).rotatePitch(pitch*0.017453292F).rotateYaw(-yaw* 0.017453292F);
+        Vec3d vecX = new Vec3d(x,y,z).rotatePitch(pitch*0.017453292F).rotateYaw(-yaw* 0.017453292F);
         camera_center=camera_center.add(vecX);
 
 //        LegacyPonder.getLogger().info("View:{},{},{},{},{}",camera_center.x,camera_center.y,camera_center.z,yaw,pitch);
+    }
+    
+    public void translateOffset(double x,double y,double z){
+        camera_offset=camera_offset.add(x,y,z);
     }
 }
