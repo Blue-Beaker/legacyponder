@@ -1,5 +1,6 @@
 package io.bluebeaker.legacyponder.ponder.page;
 
+import io.bluebeaker.legacyponder.ponder.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.ponder.gui.GuiScreenPonder;
 import io.bluebeaker.legacyponder.ponder.info.PonderInfo;
 
@@ -11,6 +12,13 @@ public class PonderPageBase {
     }
     protected PonderPageBase(){
         this(null);
+    }
+
+    public void addTextAt(float x, float y, float z, String text){
+    }
+
+    public GuiInfoPage<? extends PonderPageBase> getGuiPage(GuiScreenPonder parent){
+        return new GuiInfoPage<>(parent,this);
     }
 
     public void onSelected(){}
@@ -28,8 +36,6 @@ public class PonderPageBase {
         return false;
     }
 
-    public void addTextAt(float x, float y, float z, String text){
-    }
 
     public boolean mouseScroll(GuiScreenPonder screen, int mouseX, int mouseY, int wheelDelta){
         return false;
