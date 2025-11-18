@@ -18,8 +18,8 @@ public class PonderRegistry {
     private static final Map<String,PonderEntry> PONDER_REGISTRY = new HashMap<>();
 
     @ZenMethod
-    public static void add(IPonderEntry ponderEntry){
-        CraftTweakerAPI.apply(new AddPonderAction(ponderEntry));
+    public static void add(String id, IPonderEntry ponderEntry){
+        CraftTweakerAPI.apply(new AddPonderAction(id,ponderEntry));
     }
 
     public static Map<String,PonderEntry> getEntries(){
@@ -32,9 +32,9 @@ public class PonderRegistry {
         private final IPonderEntry ponderEntry;
         private final String id;
 
-        public AddPonderAction(IPonderEntry ponderEntry) {
+        public AddPonderAction(String id, IPonderEntry ponderEntry) {
             this.ponderEntry = ponderEntry;
-            this.id=ponderEntry.getID();
+            this.id=id;
         }
 
         @Override
@@ -48,7 +48,7 @@ public class PonderRegistry {
 
         @Override
         public String describe() {
-            return "Adding ponder entry "+ponderEntry.getID();
+            return "Adding ponder entry "+id;
         }
     }
 }

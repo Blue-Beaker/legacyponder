@@ -22,18 +22,13 @@ public class IPonderEntry {
     }
 
     @ZenMethod
-    public static IPonderEntry createPonderEntry(String id){
-        return createPonderEntry(id,"");
+    public static IPonderEntry createPonderEntry(String title){
+        return createPonderEntry(title,"");
     }
     @ZenMethod
-    public static IPonderEntry createPonderEntry(String id, String summary){
-        PonderEntry ponderEntry = new PonderEntry(id, summary);
+    public static IPonderEntry createPonderEntry(String title,String summary){
+        PonderEntry ponderEntry = new PonderEntry(title,summary);
         return new IPonderEntry(ponderEntry);
-    }
-
-    @ZenMethod
-    public String getID(){
-        return this.internal.id;
     }
 
     @ZenMethod

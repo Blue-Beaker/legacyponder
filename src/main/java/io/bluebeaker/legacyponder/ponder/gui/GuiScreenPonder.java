@@ -10,6 +10,7 @@ import io.bluebeaker.legacyponder.utils.Vec2i;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 
 import javax.annotation.Nullable;
@@ -96,7 +97,7 @@ public class GuiScreenPonder extends GuiScreen {
             this.drawDefaultBackground();
             if(this.currentPonder !=null){
                 // Draw title
-                this.drawCenteredString(this.fontRenderer,this.currentPonder.id,this.width/2,10,0xFFFFFFFF);
+                this.drawCenteredString(this.fontRenderer, I18n.format(this.currentPonder.title),this.width/2,10,0xFFFFFFFF);
                 // Draw current page
                 if(guiInfoPage!=null){
                     this.guiInfoPage.draw(mouseX-this.pageBounds.x,mouseY-this.pageBounds.y,partialTicks);

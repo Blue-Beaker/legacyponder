@@ -8,15 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PonderEntry {
-    public final String id;
+    public final String title;
     public final String summary;
     private final List<PonderPageBase> pages;
 
     private final List<ItemStack> items;
     private final List<FluidStack> fluids;
 
-    public PonderEntry(String id, String summary){
-        this.id=id;
+    public PonderEntry(String title, String summary){
+        this.title=title;
         this.summary = summary;
         this.pages=new ArrayList<>();
         this.items=new ArrayList<>();
