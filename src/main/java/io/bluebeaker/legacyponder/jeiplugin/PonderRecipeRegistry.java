@@ -3,6 +3,9 @@ package io.bluebeaker.legacyponder.jeiplugin;
 import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
 import io.bluebeaker.legacyponder.ponder.PonderEntry;
 import mezz.jei.api.IJeiHelpers;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.resources.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,16 +17,18 @@ public class PonderRecipeRegistry {
         List<PonderRecipeWrapper> recipes = new ArrayList<>();
         for(Map.Entry<String, PonderEntry> entry: PonderRegistry.getEntries().entrySet()){
             PonderEntry internal = entry.getValue();
-            recipes.add(new PonderRecipeWrapper(jeiHelpers.getGuiHelper(),entry.getKey(),internal.getItems(),internal.getFluids()));
+            String summary = I18n.format(internal.summary);
+
+            List<String> lines = Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(summary, 152);
+
+            int maxLines = 9;
+
+            for (int from = 0; from < lines.size(); from=from+maxLines) {
+                int to = Math.min(from + maxLines, lines.size());
+                recipes.add(new PonderRecipeWrapper(jeiHelpers.getGuiHelper(),entry.getKey(),internal.getItems(),internal.getFluids(),lines.subList(from, to)));
+            }
+
         }
-//        List<ItemStack> items = new ArrayList<>();
-//        items.add(new ItemStack(Items.DIAMOND));
-//        items.add(new ItemStack(Blocks.DIAMOND_BLOCK));
-//        recipes.add(PonderRecipeWrapper.createOnlyItems(jeiHelpers.getGuiHelper(), items));
-//
-//        List<FluidStack> fluids = new ArrayList<>();
-//        fluids.add(FluidRegistry.getFluidStack("water",1000));
-//        recipes.add(new PonderRecipeWrapper(jeiHelpers.getGuiHelper(), items, fluids));
         return recipes;
     }
 }

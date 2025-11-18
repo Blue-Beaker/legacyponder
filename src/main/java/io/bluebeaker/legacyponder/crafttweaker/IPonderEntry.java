@@ -22,7 +22,11 @@ public class IPonderEntry {
 
     @ZenMethod
     public static IPonderEntry createPonderEntry(String id){
-        PonderEntry ponderEntry = new PonderEntry(id);
+        return createPonderEntry(id,"");
+    }
+    @ZenMethod
+    public static IPonderEntry createPonderEntry(String id, String summary){
+        PonderEntry ponderEntry = new PonderEntry(id, summary);
         return new IPonderEntry(ponderEntry);
     }
 
