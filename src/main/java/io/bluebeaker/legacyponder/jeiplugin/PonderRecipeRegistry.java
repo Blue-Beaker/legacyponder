@@ -4,6 +4,7 @@ import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
 import io.bluebeaker.legacyponder.ponder.PonderEntry;
 import mezz.jei.api.IJeiHelpers;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 
@@ -19,9 +20,10 @@ public class PonderRecipeRegistry {
             PonderEntry internal = entry.getValue();
             String summary = I18n.format(internal.summary);
 
-            List<String> lines = Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(summary, 152);
+            FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
+            List<String> lines = fontRenderer.listFormattedStringToWidth(summary, PonderRecipeCategory.recipeWidth-8);
 
-            int maxLines = 9;
+            int maxLines = (PonderRecipeCategory.recipeHeight-24-18-((internal.getFluids().size()+internal.getItems().size()-1)/9*18))/ fontRenderer.FONT_HEIGHT;
 
             for (int from = 0; from < lines.size(); from=from+maxLines) {
                 int to = Math.min(from + maxLines, lines.size());

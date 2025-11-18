@@ -66,11 +66,11 @@ public class PonderRecipeWrapper implements IRecipeWrapper {
 
         button.displayString = I18n.format(BUTTON_TRANSLATION_KEY);
         button.x = (recipeWidth - button.width) / 2;
-        button.y = 18+2;
+        button.y = 18*getIngredientRows()+2;
         button.drawButton(minecraft, mouseX, mouseY, 1);
 
         int xPos = 4;
-        int yPos = 42;
+        int yPos = button.y+22;
 
         for (String line : lines) {
             minecraft.fontRenderer.drawString(line,xPos,yPos, Color.black.getRGB());
@@ -88,5 +88,8 @@ public class PonderRecipeWrapper implements IRecipeWrapper {
         }else{
             return false;
         }
+    }
+    public int getIngredientRows(){
+        return (items.size()+fluids.size()-1)/9+1;
     }
 }

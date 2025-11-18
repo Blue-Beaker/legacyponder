@@ -1,6 +1,7 @@
 package io.bluebeaker.legacyponder.crafttweaker;
 
 import crafttweaker.annotations.ZenRegister;
+import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
@@ -51,5 +52,15 @@ public class IPonderEntry {
         FluidStack stack1 = CraftTweakerMC.getLiquidStack(stack).copy();
         stack1.amount=1000;
         this.internal.addFluid(stack1);
+    }
+
+    @ZenMethod
+    public void addIngredient(IIngredient ingredient){
+        for (IItemStack item : ingredient.getItems()) {
+            addItem(item);
+        }
+        for (ILiquidStack fluid : ingredient.getLiquids()) {
+            addFluid(fluid);
+        }
     }
 }

@@ -55,19 +55,22 @@ public class PonderRecipeCategory implements IRecipeCategory<PonderRecipeWrapper
         int itemCount = ponderRecipeWrapper.getItems().size();
         int fluidCount = ponderRecipeWrapper.getFluids().size();
 
-        int xPos = (recipeWidth - (itemCount+fluidCount)*18) / 2;
+        int xPos = (recipeWidth - Math.min(9,itemCount+fluidCount)*18) / 2;
+        int ingredientIndex = 0;
 
         IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
         for (int i = 0; i < itemCount; i++) {
-            guiItemStacks.init(i, true, xPos+i*18, 0);
+            guiItemStacks.init(i, true, xPos+ingredientIndex%9*18, ingredientIndex/9*18);
             guiItemStacks.setBackground(i, slotBackground);
+            ingredientIndex++;
         }
         guiItemStacks.set(ingredients);
 
         IGuiFluidStackGroup guiFluidStackGroup = recipeLayout.getFluidStacks();
         for (int j = 0; j < fluidCount; j++) {
-            guiFluidStackGroup.init(j, true, fluidStackRenderer,xPos+(itemCount+j)*18, 0,18,18,1,1);
+            guiFluidStackGroup.init(j, true, fluidStackRenderer,xPos+ingredientIndex%9*18, ingredientIndex/9*18,18,18,1,1);
             guiFluidStackGroup.setBackground(j, slotBackground);
+            ingredientIndex++;
         }
         guiFluidStackGroup.set(ingredients);
     }
