@@ -9,9 +9,11 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.plugins.vanilla.ingredients.fluid.FluidStackRenderer;
-import mezz.jei.util.Translator;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+
+import javax.annotation.Nullable;
 
 public class PonderRecipeCategory implements IRecipeCategory<PonderRecipeWrapper> {
     public static final int recipeWidth = 160;
@@ -20,14 +22,12 @@ public class PonderRecipeCategory implements IRecipeCategory<PonderRecipeWrapper
     private final IDrawable background;
     private final IDrawable icon;
     private final IDrawable slotBackground;
-    private final String localizedName;
     private final FluidStackRenderer fluidStackRenderer = new FluidStackRenderer();
 
     public PonderRecipeCategory(IGuiHelper guiHelper) {
         this.background = guiHelper.createBlankDrawable(160, 125);
         this.icon = guiHelper.createDrawableIngredient(new ItemStack(Blocks.BOOKSHELF));
         this.slotBackground = guiHelper.getSlotDrawable();
-        this.localizedName = Translator.translateToLocal("gui.jei.category.legacyponder");
     }
 
     @Override
@@ -37,7 +37,7 @@ public class PonderRecipeCategory implements IRecipeCategory<PonderRecipeWrapper
 
     @Override
     public String getTitle() {
-        return this.localizedName;
+        return I18n.format("gui.category.legacyponder");
     }
 
     @Override
@@ -48,6 +48,12 @@ public class PonderRecipeCategory implements IRecipeCategory<PonderRecipeWrapper
     @Override
     public IDrawable getBackground() {
         return this.background;
+    }
+
+    @Nullable
+    @Override
+    public IDrawable getIcon() {
+        return icon;
     }
 
     @Override
