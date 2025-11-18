@@ -8,6 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.Loader;
 import org.apache.commons.io.IOUtils;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,16 +26,16 @@ public class TemplateLoader {
         structures.clear();
         configDir.mkdirs();
         structureDir.mkdirs();
-        File[] files = structureDir.listFiles();
-        if(files==null) return;
-        for (File file : files) {
-            String name = file.getName();
-            if(name.endsWith(".nbt")){
-                name=name.substring(0,name.length()-4);
-                readTemplateOrStructure(name,file);
-            }
-        }
-        LegacyPonder.getLogger().info("Loaded {} structures: {}",structures.size(),structures.keySet());
+//        File[] files = structureDir.listFiles();
+//        if(files==null) return;
+//        for (File file : files) {
+//            String name = file.getName();
+//            if(name.endsWith(".nbt")){
+//                name=name.substring(0,name.length()-4);
+//                readTemplateOrStructure(name,file);
+//            }
+//        }
+//        LegacyPonder.getLogger().info("Loaded {} structures: {}",structures.size(),structures.keySet());
     }
     private static void readTemplateOrStructure(String name, File file){
         InputStream inputstream = null;
@@ -85,7 +86,11 @@ public class TemplateLoader {
         }
     }
 
+    @Nullable
     public static PonderStructure getStructure(String id){
+        if(!structures.containsKey(id)){
+            readTemplateOrStructure(id,new File(structureDir,id+".nbt"));
+        }
         return structures.get(id);
     }
 }
