@@ -47,6 +47,12 @@ public class PonderStructure {
         blocks[pos.getZ()][pos.getY()][pos.getX()]=palette.indexOf(state);
     }
 
+    public void addTileEntity(BlockPos pos, NBTTagCompound tileentityNBT){
+        tileentityNBT.removeTag("x");
+        tileentityNBT.removeTag("y");
+        tileentityNBT.removeTag("z");
+        this.tileEntities.put(pos.toLong(), tileentityNBT);
+    }
     public void addTileEntity(BlockPos pos, TileEntity tileEntity){
         NBTTagCompound tileentityNBT = tileEntity.writeToNBT(new NBTTagCompound());
         tileentityNBT.removeTag("x");

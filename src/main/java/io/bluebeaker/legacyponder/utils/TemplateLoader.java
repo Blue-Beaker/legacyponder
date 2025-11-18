@@ -2,9 +2,9 @@ package io.bluebeaker.legacyponder.utils;
 
 import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.structure.PonderStructure;
+import io.bluebeaker.legacyponder.structure.StructureConversion;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.gen.structure.template.Template;
 import net.minecraftforge.fml.common.Loader;
 import org.apache.commons.io.IOUtils;
 
@@ -16,15 +16,12 @@ import java.nio.file.Files;
 import java.util.HashMap;
 
 public class TemplateLoader {
-
-    public static final HashMap<String, Template> templates = new HashMap<>();
     public static final HashMap<String, PonderStructure> structures = new HashMap<>();
 
     public static final File configDir = new File(Loader.instance().getConfigDir(),"legacyponder");
     public static final File structureDir = new File(configDir,"structures");
 
     public static void loadTemplates(){
-        templates.clear();
         structures.clear();
         configDir.mkdirs();
         structureDir.mkdirs();
@@ -37,7 +34,7 @@ public class TemplateLoader {
                 readTemplateOrStructure(name,file);
             }
         }
-        LegacyPonder.getLogger().info("Loaded {} structures: {}",templates.size(),templates.keySet());
+        LegacyPonder.getLogger().info("Loaded {} structures: {}",structures.size(),structures.keySet());
     }
     private static void readTemplateOrStructure(String name, File file){
         InputStream inputstream = null;
@@ -57,9 +54,10 @@ public class TemplateLoader {
                 structures.put(name,structure);
             }else {
                 // Vanilla structure
-                Template template = new Template();
-                template.read(nbttagcompound);
-                templates.put(name, template);
+//                Template template = new Template();
+//                template.read(nbttagcompound);
+//                templates.put(name, template);
+                structures.put(name, StructureConversion.convertTemplateNBTToStructure(nbttagcompound));
             }
         }
         catch (Throwable e)
@@ -87,9 +85,6 @@ public class TemplateLoader {
         }
     }
 
-    public static Template getTemplate(String id){
-        return templates.get(id);
-    }
     public static PonderStructure getStructure(String id){
         return structures.get(id);
     }

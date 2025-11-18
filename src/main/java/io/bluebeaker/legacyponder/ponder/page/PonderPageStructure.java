@@ -27,8 +27,6 @@ public class PonderPageStructure extends PonderPageBase{
             PonderStructure structure = TemplateLoader.getStructure(structureID);
             if(structure!=null){
                 StructureRenderManager.getWorld().loadStructure(structure);
-            }else {
-                StructureRenderManager.getWorld().loadTemplate(TemplateLoader.getTemplate(structureID));
             }
         }
         StructureRenderManager.resetCameraOffset();
