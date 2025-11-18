@@ -3,11 +3,8 @@ package io.bluebeaker.legacyponder.ponder.page;
 import io.bluebeaker.legacyponder.ponder.gui.GuiScreenPonder;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
-import io.bluebeaker.legacyponder.utils.TemplateLoader;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.gen.structure.template.Template;
 
 public class PonderPageGui extends PonderPageBase{
     protected ResourceLocation texture;

@@ -1,26 +1,16 @@
 package io.bluebeaker.legacyponder.command;
 
 import io.bluebeaker.legacyponder.structure.PonderStructure;
-import io.bluebeaker.legacyponder.structure.StructureConversion;
-import io.bluebeaker.legacyponder.utils.Palette;
-import io.bluebeaker.legacyponder.utils.TemplateLoader;
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
+import io.bluebeaker.legacyponder.structure.StructureLoader;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.world.WorldServer;
-import net.minecraft.world.gen.structure.template.Template;
-import net.minecraft.world.gen.structure.template.TemplateManager;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -47,11 +37,11 @@ public class CommandSaveStructure extends CommandBase {
         boolean replaceExisting = args.length>=8 && parseBoolean(args[7]);
 
         PonderStructure capture = PonderStructure.capture(sender.getEntityWorld(), pos1, pos2);
-        if(!replaceExisting && TemplateLoader.getStructure(structureName)!=null){
+        if(!replaceExisting && StructureLoader.getStructure(structureName)!=null){
             sender.sendMessage(new TextComponentTranslation("commands.legacyponder.save.fail_exist",structureName));
             return;
         }
-        TemplateLoader.writeStructure(structureName,capture);
+        StructureLoader.writeStructure(structureName,capture);
         sender.sendMessage(new TextComponentTranslation("commands.legacyponder.save.success",structureName));
     }
 

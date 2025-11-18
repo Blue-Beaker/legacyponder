@@ -1,8 +1,6 @@
-package io.bluebeaker.legacyponder.utils;
+package io.bluebeaker.legacyponder.structure;
 
 import io.bluebeaker.legacyponder.LegacyPonder;
-import io.bluebeaker.legacyponder.structure.PonderStructure;
-import io.bluebeaker.legacyponder.structure.StructureConversion;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.Loader;
@@ -16,7 +14,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.HashMap;
 
-public class TemplateLoader {
+public class StructureLoader {
     public static final HashMap<String, PonderStructure> structures = new HashMap<>();
 
     public static final File configDir = new File(Loader.instance().getConfigDir(),"legacyponder");

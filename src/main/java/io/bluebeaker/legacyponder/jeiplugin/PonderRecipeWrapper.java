@@ -38,11 +38,11 @@ public class PonderRecipeWrapper implements IRecipeWrapper {
         this.lines = lines;
     }
 
-    public static PonderRecipeWrapper createOnlyItems(IGuiHelper guiHelper,String id, List<ItemStack> items, List<String> lines) {
+    public static PonderRecipeWrapper createOnlyItems(IGuiHelper guiHelper, String id, List<ItemStack> items, List<String> lines) {
         return new PonderRecipeWrapper(guiHelper,id, items, Collections.emptyList(), lines);
     }
 
-    public static PonderRecipeWrapper createOnlyFluids(IGuiHelper guiHelper,String id, List<FluidStack> fluids, List<String> lines) {
+    public static PonderRecipeWrapper createOnlyFluids(IGuiHelper guiHelper, String id, List<FluidStack> fluids, List<String> lines) {
         return new PonderRecipeWrapper(guiHelper,id, Collections.emptyList(), fluids, lines);
     }
 

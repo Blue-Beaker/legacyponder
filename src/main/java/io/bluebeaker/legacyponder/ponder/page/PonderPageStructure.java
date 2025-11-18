@@ -5,7 +5,7 @@ import io.bluebeaker.legacyponder.ponder.gui.MouseTracker;
 import io.bluebeaker.legacyponder.structure.PonderStructure;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
-import io.bluebeaker.legacyponder.utils.TemplateLoader;
+import io.bluebeaker.legacyponder.structure.StructureLoader;
 import io.bluebeaker.legacyponder.utils.Vec2i;
 import io.bluebeaker.legacyponder.render.StructureRenderManager;
 import net.minecraft.client.Minecraft;
@@ -24,7 +24,7 @@ public class PonderPageStructure extends PonderPageBase{
     public void onSelected(){
         StructureRenderManager.getWorld().setWorldTime(0);
         if(this.structureID !=null) {
-            PonderStructure structure = TemplateLoader.getStructure(structureID);
+            PonderStructure structure = StructureLoader.getStructure(structureID);
             if(structure!=null){
                 StructureRenderManager.getWorld().loadStructure(structure);
             }

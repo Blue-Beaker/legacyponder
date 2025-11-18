@@ -1,7 +1,7 @@
 package io.bluebeaker.legacyponder.command;
 
 import io.bluebeaker.legacyponder.structure.PonderStructure;
-import io.bluebeaker.legacyponder.utils.TemplateLoader;
+import io.bluebeaker.legacyponder.structure.StructureLoader;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -34,7 +34,7 @@ public class CommandLoadStructure extends CommandBase {
         BlockPos pos = parseBlockPos(sender, args, 0, false);
         String structureName = args[3];
 
-        PonderStructure structure = TemplateLoader.getStructure(structureName);
+        PonderStructure structure = StructureLoader.getStructure(structureName);
         if(structure==null){
             sender.sendMessage(new TextComponentTranslation("commands.legacyponder.load.fail_unexist",structureName));
             return;

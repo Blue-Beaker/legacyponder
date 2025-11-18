@@ -1,7 +1,7 @@
 package io.bluebeaker.legacyponder;
 
 import io.bluebeaker.legacyponder.command.CommandLegacyPonder;
-import io.bluebeaker.legacyponder.utils.TemplateLoader;
+import io.bluebeaker.legacyponder.structure.StructureLoader;
 import io.bluebeaker.legacyponder.world.handler.EventHandlerIC2;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
@@ -40,7 +40,7 @@ public class LegacyPonder
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        TemplateLoader.loadTemplates();
+        StructureLoader.loadTemplates();
         if(Loader.isModLoaded("ic2")){
             MinecraftForge.EVENT_BUS.register(EventHandlerIC2.class);
         }
@@ -48,7 +48,7 @@ public class LegacyPonder
 
     @SubscribeEvent
     public void onReload(ScriptReloadEvent event) {
-        TemplateLoader.loadTemplates();
+        StructureLoader.loadTemplates();
     }
 
     @EventHandler
