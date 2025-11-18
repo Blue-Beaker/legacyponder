@@ -1,28 +1,20 @@
 package io.bluebeaker.legacyponder;
 
 import io.bluebeaker.legacyponder.command.CommandLegacyPonder;
-import io.bluebeaker.legacyponder.command.CommandSaveStructure;
-import io.bluebeaker.legacyponder.utils.TemplateLoader;
 import io.bluebeaker.legacyponder.world.handler.EventHandlerIC2;
-import net.minecraftforge.client.ClientCommandHandler;
-import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
-import org.apache.logging.log4j.Logger;
-
-import io.bluebeaker.legacyponder.Tags;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.common.config.Config.Type;
+import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.apache.logging.log4j.Logger;
 import youyihj.zenutils.api.reload.ScriptReloadEvent;
 
 @Mod(modid = Tags.MOD_ID, name = Tags.MOD_NAME, version = Tags.VERSION,acceptableRemoteVersions = "*",clientSideOnly = true)
@@ -47,7 +39,7 @@ public class LegacyPonder
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        TemplateLoader.loadTemplates();
+//        TemplateLoader.loadTemplates();
         if(Loader.isModLoaded("ic2")){
             MinecraftForge.EVENT_BUS.register(EventHandlerIC2.class);
         }
@@ -55,7 +47,7 @@ public class LegacyPonder
 
     @SubscribeEvent
     public void onReload(ScriptReloadEvent event) {
-        TemplateLoader.loadTemplates();
+//        TemplateLoader.loadTemplates();
     }
 
     @EventHandler
