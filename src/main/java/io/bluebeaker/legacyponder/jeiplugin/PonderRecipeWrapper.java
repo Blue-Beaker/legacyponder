@@ -1,7 +1,7 @@
 package io.bluebeaker.legacyponder.jeiplugin;
 
+import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
 import io.bluebeaker.legacyponder.ponder.gui.GuiScreenPonder;
-import io.bluebeaker.legacyponder.utils.RenderUtils;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawableStatic;
 import mezz.jei.api.ingredients.IIngredients;
@@ -25,7 +25,7 @@ public class PonderRecipeWrapper implements IRecipeWrapper {
     public static final String BUTTON_TRANSLATION_KEY = "button.legacyponder.open";
     private final List<String> lines;
 
-    private GuiButtonExt button = new GuiButtonExt(0, (160 - 100) / 2, 10, 100, 20, I18n.format(BUTTON_TRANSLATION_KEY));
+    private final GuiButtonExt button = new GuiButtonExt(0, (160 - 100) / 2, 10, 100, 20, I18n.format(BUTTON_TRANSLATION_KEY));
 
     public PonderRecipeWrapper(IGuiHelper guiHelper, String id , List<ItemStack> items, List<FluidStack> fluids) {
         this(guiHelper,id,items,fluids,Collections.emptyList());
@@ -63,19 +63,25 @@ public class PonderRecipeWrapper implements IRecipeWrapper {
 
     @Override
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-
-        button.displayString = I18n.format(BUTTON_TRANSLATION_KEY);
-        button.x = (recipeWidth - button.width) / 2;
-        button.y = 18*getIngredientRows()+2;
-        button.drawButton(minecraft, mouseX, mouseY, 1);
-
         int xPos = 4;
-        int yPos = button.y+22;
+        int yPos = 18*getIngredientRows()+2;
+
+        if(!hasNoPages()){
+            button.displayString = I18n.format(BUTTON_TRANSLATION_KEY);
+            button.x = (recipeWidth - button.width) / 2;
+            button.y = yPos;
+            button.drawButton(minecraft, mouseX, mouseY, 1);
+            yPos=yPos+22;
+        }
 
         for (String line : lines) {
             minecraft.fontRenderer.drawString(line,xPos,yPos, Color.black.getRGB());
             yPos=yPos+minecraft.fontRenderer.FONT_HEIGHT;
         }
+    }
+
+    public boolean hasNoPages() {
+        return PonderRegistry.getEntries().get(id).getPages().isEmpty();
     }
 
     @Override
