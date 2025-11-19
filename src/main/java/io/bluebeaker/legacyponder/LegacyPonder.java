@@ -42,8 +42,9 @@ public class LegacyPonder
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         StructureLoader.loadTemplates();
+//        MinecraftForge.EVENT_BUS.register(new EventHandlerBase());
         if(Loader.isModLoaded("ic2")){
-            MinecraftForge.EVENT_BUS.register(EventHandlerIC2.class);
+            MinecraftForge.EVENT_BUS.register(new EventHandlerIC2());
         }
         if(Loader.isModLoaded("thermaldynamics")){
             MinecraftForge.EVENT_BUS.register(new EventHandlerThermalDucts());

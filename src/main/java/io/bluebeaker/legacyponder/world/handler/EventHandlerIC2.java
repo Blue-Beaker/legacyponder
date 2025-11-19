@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EventHandlerIC2 {
     @SubscribeEvent
-    public static void onTileEntityLoad(StructureTileEvent.AfterLoad event){
+    public void onTileEntityLoad(StructureTileEvent.AfterLoad event){
         TileEntity tile = event.tileEntity;
         if(tile instanceof INetworkUpdateListener){
             ((INetworkUpdateListener) tile).onNetworkUpdate("");
