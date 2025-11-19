@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class StructureRenderManager {
 
-    public static final BlockPos STRUCTURE_OFFSET = new BlockPos(0,63,0);
+    public static BlockPos STRUCTURE_OFFSET = new BlockPos(0,63,0);
     protected static DummyWorld world = new DummyWorld();
     private static final Map<String, BufferBuilder> buffers = new HashMap<>();
 

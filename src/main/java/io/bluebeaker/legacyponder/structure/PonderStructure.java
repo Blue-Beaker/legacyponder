@@ -25,6 +25,8 @@ public class PonderStructure {
 
     public int[][][] blocks;
 
+    public BlockPos pos = new BlockPos(0,0,0);
+
     public BlockPos getSize() {
         return size;
     }
@@ -133,6 +135,8 @@ public class PonderStructure {
             structure.addBlock(relative,state);
 
         }
+        structure.pos=minPoint;
+
         return structure;
     }
 
@@ -207,6 +211,7 @@ public class PonderStructure {
             nbt.setTag("extraDatas", extraDatas);
         nbt.setTag("size", listSize);
         nbt.setInteger("LegacyPonder_StructureVersion", 1);
+        nbt.setString("pos",PosUtils.blockPosToString(this.pos));
         return nbt;
     }
 
@@ -238,6 +243,10 @@ public class PonderStructure {
         readPosNBT(tileEntitiesTag, structure.tileEntities);
         // Read ExtraData
         readPosNBT(extraDatasTag, structure.extraDatas);
+
+        if(nbt.hasKey("pos")){
+            structure.pos=PosUtils.blockPosFromString(nbt.getString("pos"));
+        }
 
         return structure;
     }

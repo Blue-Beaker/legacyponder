@@ -87,6 +87,7 @@ public class DummyWorld extends World {
     }
 
     public void loadStructure(PonderStructure structure){
+        StructureRenderManager.STRUCTURE_OFFSET=structure.pos;
         loadStructure(structure, StructureRenderManager.STRUCTURE_OFFSET);
     }
 
