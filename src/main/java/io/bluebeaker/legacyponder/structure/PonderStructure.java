@@ -1,13 +1,16 @@
 package io.bluebeaker.legacyponder.structure;
 
+import io.bluebeaker.legacyponder.structure.events.StructureTileEvent;
 import io.bluebeaker.legacyponder.utils.Palette;
 import io.bluebeaker.legacyponder.utils.PosUtils;
+import io.bluebeaker.legacyponder.world.DummyWorld;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.*;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
@@ -18,6 +21,8 @@ public class PonderStructure {
     public final Palette<IBlockState> palette;
 
     public final HashMap<Long, NBTTagCompound> tileEntities;
+    public final HashMap<Long, NBTTagCompound> extraDatas;
+
     public int[][][] blocks;
 
     public BlockPos getSize() {
@@ -38,6 +43,7 @@ public class PonderStructure {
         palette.add(Blocks.AIR.getDefaultState());
 
         tileEntities=new HashMap<>();
+        extraDatas =new HashMap<>();
     }
 
     public void addBlock(BlockPos pos, IBlockState state){
@@ -45,6 +51,16 @@ public class PonderStructure {
             palette.add(state);
         }
         blocks[pos.getZ()][pos.getY()][pos.getX()]=palette.indexOf(state);
+    }
+
+    public void addExtraData(BlockPos pos, NBTTagCompound data){
+        this.extraDatas.put(pos.toLong(),data);
+    }
+    public NBTTagCompound getExtraData(int x, int y, int z) {
+        return getExtraData(new BlockPos(x,y,z));
+    }
+    public NBTTagCompound getExtraData(BlockPos pos) {
+        return extraDatas.get(pos.toLong());
     }
 
     public void addTileEntity(BlockPos pos, NBTTagCompound tileentityNBT){
@@ -55,12 +71,10 @@ public class PonderStructure {
     }
     public void addTileEntity(BlockPos pos, TileEntity tileEntity){
         NBTTagCompound tileentityNBT = tileEntity.writeToNBT(new NBTTagCompound());
-        tileentityNBT.removeTag("x");
-        tileentityNBT.removeTag("y");
-        tileentityNBT.removeTag("z");
         tileentityNBT.setString("id", TileEntity.getKey(tileEntity.getClass()).toString());
-        this.tileEntities.put(pos.toLong(), tileentityNBT);
+        addTileEntity(pos,tileentityNBT);
     }
+
     public NBTTagCompound getTileEntity(int x, int y, int z) {
         return getTileEntity(new BlockPos(x,y,z));
     }
@@ -86,31 +100,36 @@ public class PonderStructure {
 
     /** Capture blocks from a world to a structure
      * @param world The world to capture block from
-     * @param pos1 One corner
-     * @param pos2 Another corner
+     * @param corner1 One corner
+     * @param corner2 Another corner
      * @return Captured structure
      */
-    public static PonderStructure capture(World world, BlockPos pos1, BlockPos pos2){
+    public static PonderStructure capture(World world, BlockPos corner1, BlockPos corner2){
         // Calculate 2 corner points
-        BlockPos minPoint = new BlockPos(Math.min(pos2.getX(),pos1.getX()),
-                Math.min(pos2.getY(),pos1.getY()),
-                Math.min(pos2.getZ(),pos1.getZ()));
-        BlockPos maxPoint = new BlockPos(Math.max(pos2.getX(),pos1.getX()),
-                Math.max(pos2.getY(),pos1.getY()),
-                Math.max(pos2.getZ(),pos1.getZ()));
+        BlockPos minPoint = new BlockPos(Math.min(corner2.getX(),corner1.getX()),
+                Math.min(corner2.getY(),corner1.getY()),
+                Math.min(corner2.getZ(),corner1.getZ()));
+        BlockPos maxPoint = new BlockPos(Math.max(corner2.getX(),corner1.getX()),
+                Math.max(corner2.getY(),corner1.getY()),
+                Math.max(corner2.getZ(),corner1.getZ()));
         BlockPos size = maxPoint.subtract(minPoint).add(1,1,1);
 
         PonderStructure structure = new PonderStructure(size);
-        for (BlockPos pos3:BlockPos.getAllInBox(minPoint,maxPoint)){
-            BlockPos relative = pos3.subtract(minPoint);
+        for (BlockPos pos:BlockPos.getAllInBox(minPoint,maxPoint)){
+            BlockPos relative = pos.subtract(minPoint);
 
-            TileEntity tileEntity = world.getTileEntity(pos3);
+            TileEntity tileEntity = world.getTileEntity(pos);
             if(tileEntity!=null){
                 structure.addTileEntity(relative,tileEntity);
-
+                // Attempt to save extra data from the tile
+                StructureTileEvent.Save event = new StructureTileEvent.Save(world, tileEntity, pos);
+                MinecraftForge.EVENT_BUS.post(event);
+                if(!event.extraData.isEmpty()){
+                    structure.addExtraData(pos,event.extraData);
+                }
             }
-            BlockSnapshot blockSnapshot = BlockSnapshot.getBlockSnapshot(world, pos3);
-            IBlockState state = blockSnapshot.getCurrentBlock().getActualState(world,pos3);
+            BlockSnapshot blockSnapshot = BlockSnapshot.getBlockSnapshot(world, pos);
+            IBlockState state = blockSnapshot.getCurrentBlock().getActualState(world,pos);
             structure.addBlock(relative,state);
 
         }
@@ -118,6 +137,7 @@ public class PonderStructure {
     }
 
     public void putToWorld(World world, BlockPos pos){
+        boolean loadExtraData = world instanceof DummyWorld;
         for (int z = 0; z < this.size.getZ(); z++) {
             for (int y = 0; y < this.size.getY(); y++) {
                 for (int x = 0; x < this.size.getX(); x++) {
@@ -131,6 +151,11 @@ public class PonderStructure {
                     if(tileEntity!=null){
                         TileEntity tileEntityIn = TileEntity.create(world, tileEntity);
                         world.setTileEntity(absPos, tileEntityIn);
+                        // Update Tile with stored extra data
+                        NBTTagCompound extraData = this.getExtraData(x, y, z);
+                        if(loadExtraData && extraData !=null){
+                            MinecraftForge.EVENT_BUS.post(new StructureTileEvent.Load(world,tileEntityIn,absPos,extraData));
+                        }
                     }
                 }
             }
@@ -141,16 +166,20 @@ public class PonderStructure {
         NBTTagCompound nbt = new NBTTagCompound();
         NBTTagList blockList = new NBTTagList();
         NBTTagCompound tileEntities = new NBTTagCompound();
+        NBTTagCompound extraDatas = new NBTTagCompound();
+
         NBTTagList palette = new NBTTagList();
         // Write Palette
         for (IBlockState entry:this.palette){
             palette.appendTag(NBTUtil.writeBlockState(new NBTTagCompound(), entry));
         }
+
         // Write Tileentities
-        for (Map.Entry<Long, NBTTagCompound> entry : this.tileEntities.entrySet()) {
-            BlockPos pos = BlockPos.fromLong(entry.getKey());
-            tileEntities.setTag(PosUtils.blockPosToString(pos),entry.getValue());
-        }
+        writePosNBT(this.tileEntities, tileEntities);
+
+        // Write Extra Data
+        writePosNBT(this.extraDatas, extraDatas);
+
         // Write blocks
         for (int z = 0; z < this.size.getZ(); z++) {
             NBTTagList layer = new NBTTagList();
@@ -172,7 +201,10 @@ public class PonderStructure {
         listSize.appendTag(new NBTTagInt(this.size.getZ()));
         nbt.setTag("palette", palette);
         nbt.setTag("blocks", blockList);
-        nbt.setTag("tileEntities", tileEntities);
+        if(!tileEntities.isEmpty())
+            nbt.setTag("tileEntities", tileEntities);
+        if(!extraDatas.isEmpty())
+            nbt.setTag("extraDatas", extraDatas);
         nbt.setTag("size", listSize);
         nbt.setInteger("LegacyPonder_StructureVersion", 1);
         return nbt;
@@ -183,6 +215,7 @@ public class PonderStructure {
         NBTTagList blocksList = nbt.getTagList("blocks", 9);
         NBTTagList paletteList = nbt.getTagList("palette", 10);
         NBTTagCompound tileEntitiesTag = nbt.getCompoundTag("tileEntities");
+        NBTTagCompound extraDatasTag = nbt.getCompoundTag("extraDatas");
 
         BlockPos size = new BlockPos(sizeList.getIntAt(0),sizeList.getIntAt(1),sizeList.getIntAt(2));
         PonderStructure structure = new PonderStructure(size);
@@ -202,13 +235,27 @@ public class PonderStructure {
             structure.palette.add(NBTUtil.readBlockState((NBTTagCompound) entry));
         }
         // Read Tileentities
-        for (String posStr : tileEntitiesTag.getKeySet()) {
-            BlockPos pos = PosUtils.blockPosFromString(posStr);
-            if (pos != null) {
-                structure.tileEntities.put(pos.toLong(),tileEntitiesTag.getCompoundTag(posStr));
-            }
-        }
+        readPosNBT(tileEntitiesTag, structure.tileEntities);
+        // Read ExtraData
+        readPosNBT(extraDatasTag, structure.extraDatas);
 
         return structure;
+    }
+
+
+    private void writePosNBT(HashMap<Long, NBTTagCompound> posToNBT, NBTTagCompound nbt) {
+        for (Map.Entry<Long, NBTTagCompound> entry : posToNBT.entrySet()) {
+            BlockPos pos = BlockPos.fromLong(entry.getKey());
+            nbt.setTag(PosUtils.blockPosToString(pos), entry.getValue());
+        }
+    }
+
+    private static void readPosNBT(NBTTagCompound nbt, HashMap<Long, NBTTagCompound> posToNBT) {
+        for (String posStr : nbt.getKeySet()) {
+            BlockPos pos = PosUtils.blockPosFromString(posStr);
+            if (pos != null) {
+                posToNBT.put(pos.toLong(), nbt.getCompoundTag(posStr));
+            }
+        }
     }
 }

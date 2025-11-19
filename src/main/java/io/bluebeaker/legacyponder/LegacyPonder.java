@@ -3,6 +3,7 @@ package io.bluebeaker.legacyponder;
 import io.bluebeaker.legacyponder.command.CommandLegacyPonder;
 import io.bluebeaker.legacyponder.structure.StructureLoader;
 import io.bluebeaker.legacyponder.world.handler.EventHandlerIC2;
+import io.bluebeaker.legacyponder.world.handler.EventHandlerThermalDucts;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Config.Type;
@@ -43,6 +44,9 @@ public class LegacyPonder
         StructureLoader.loadTemplates();
         if(Loader.isModLoaded("ic2")){
             MinecraftForge.EVENT_BUS.register(EventHandlerIC2.class);
+        }
+        if(Loader.isModLoaded("thermaldynamics")){
+            MinecraftForge.EVENT_BUS.register(new EventHandlerThermalDucts());
         }
     }
 
