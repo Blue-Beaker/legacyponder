@@ -13,9 +13,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.HashMap;
+import java.util.Map;
 
 public class StructureLoader {
-    public static final HashMap<String, PonderStructure> structures = new HashMap<>();
+    public static final Map<String, PonderStructure> structures = new HashMap<>();
 
     public static final File configDir = new File(Loader.instance().getConfigDir(),"legacyponder");
     public static final File structureDir = new File(configDir,"structures");
@@ -24,16 +25,6 @@ public class StructureLoader {
         structures.clear();
         configDir.mkdirs();
         structureDir.mkdirs();
-//        File[] files = structureDir.listFiles();
-//        if(files==null) return;
-//        for (File file : files) {
-//            String name = file.getName();
-//            if(name.endsWith(".nbt")){
-//                name=name.substring(0,name.length()-4);
-//                readTemplateOrStructure(name,file);
-//            }
-//        }
-//        LegacyPonder.getLogger().info("Loaded {} structures: {}",structures.size(),structures.keySet());
     }
     private static void readTemplateOrStructure(String name, File file){
         InputStream inputstream = null;
@@ -52,10 +43,6 @@ public class StructureLoader {
                 PonderStructure structure = PonderStructure.loadFromNBT(nbttagcompound);
                 structures.put(name,structure);
             }else {
-                // Vanilla structure
-//                Template template = new Template();
-//                template.read(nbttagcompound);
-//                templates.put(name, template);
                 structures.put(name, StructureConversion.convertTemplateNBTToStructure(nbttagcompound));
             }
         }
@@ -88,6 +75,7 @@ public class StructureLoader {
     public static PonderStructure getStructure(String id){
         if(!structures.containsKey(id)){
             readTemplateOrStructure(id,new File(structureDir,id+".nbt"));
+            LegacyPonder.getLogger().info("Loaded structure {}",id);
         }
         return structures.get(id);
     }
