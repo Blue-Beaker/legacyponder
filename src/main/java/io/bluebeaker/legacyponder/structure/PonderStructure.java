@@ -125,7 +125,7 @@ public class PonderStructure {
                 StructureTileEvent.Save event = new StructureTileEvent.Save(world, tileEntity, pos);
                 MinecraftForge.EVENT_BUS.post(event);
                 if(!event.extraData.isEmpty()){
-                    structure.addExtraData(pos,event.extraData);
+                    structure.addExtraData(relative,event.extraData);
                 }
             }
             BlockSnapshot blockSnapshot = BlockSnapshot.getBlockSnapshot(world, pos);
