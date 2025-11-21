@@ -3,6 +3,7 @@ package io.bluebeaker.legacyponder.ponder.gui;
 import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
 import io.bluebeaker.legacyponder.ponder.PonderEntry;
+import io.bluebeaker.legacyponder.ponder.page.EmptyPonder;
 import io.bluebeaker.legacyponder.ponder.page.PonderPageBase;
 import io.bluebeaker.legacyponder.render.StructureRenderManager;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
@@ -13,11 +14,13 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
 
 public class GuiScreenPonder extends GuiScreen {
-    protected PonderEntry currentPonder = null;
+    @Nonnull
+    protected PonderEntry currentPonder = EmptyPonder.INSTANCE;
     protected int currentPageID = 0;
     @Nullable
     protected PonderPageBase currentPage = null;
@@ -57,6 +60,10 @@ public class GuiScreenPonder extends GuiScreen {
         this.buttonList.add(new GuiButtonExt(2,23,this.height-22,20,20,">"));
         this.pageBounds=new BoundingBox2D(5,20,this.width-10,this.height-50);
         super.initGui();
+
+        if(guiInfoPage!=null){
+            guiInfoPage.onResize();
+        }
     }
 
     @Override
@@ -82,8 +89,7 @@ public class GuiScreenPonder extends GuiScreen {
     }
 
     public void setPonderID(String id){
-        PonderEntry ponderEntry = PonderRegistry.getEntries().get(id);
-        this.currentPonder =ponderEntry;
+        this.currentPonder = PonderRegistry.getEntries().getOrDefault(id,EmptyPonder.INSTANCE);
         this.pages=this.currentPonder.getPages().size();
         this.setCurrentPageID(0);
     }
@@ -95,16 +101,14 @@ public class GuiScreenPonder extends GuiScreen {
             mouseDelta= mousePos.sub(lastMousePos);
             lastMousePos=mousePos;
             this.drawDefaultBackground();
-            if(this.currentPonder !=null){
-                // Draw title
-                this.drawCenteredString(this.fontRenderer, I18n.format(this.currentPonder.title),this.width/2,10,0xFFFFFFFF);
-                // Draw current page
-                if(guiInfoPage!=null){
-                    this.guiInfoPage.draw(mouseX-this.pageBounds.x,mouseY-this.pageBounds.y,partialTicks);
-                }
-                // Draw page number
-                this.drawString(this.fontRenderer,String.format("%s/%s",this.currentPageID +1,this.pages),44,this.height-11,0xFFFFFFFF);
+            // Draw title
+            this.drawCenteredString(this.fontRenderer, I18n.format(this.currentPonder.title),this.width/2,10,0xFFFFFFFF);
+            // Draw current page
+            if(guiInfoPage!=null){
+                this.guiInfoPage.draw(mouseX-this.pageBounds.x,mouseY-this.pageBounds.y,partialTicks);
             }
+            // Draw page number
+            this.drawString(this.fontRenderer,String.format("%s/%s",this.currentPageID +1,this.pages),44,this.height-11,0xFFFFFFFF);
         } catch (Exception e) {
             LegacyPonder.getLogger().error("Error drawing ponder page {}: {}",this.currentPage,e);
         }
@@ -180,7 +184,7 @@ public class GuiScreenPonder extends GuiScreen {
 
     @Nullable
     public PonderPageBase getPage(int pageID){
-        if(this.currentPonder==null || this.pages==0 || pageID>=this.pages) return null;
+        if(this.pages == 0 || pageID >= this.pages) return null;
         return this.currentPonder.getPages().get(pageID);
     }
 

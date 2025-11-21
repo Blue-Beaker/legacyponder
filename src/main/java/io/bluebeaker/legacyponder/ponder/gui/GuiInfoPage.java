@@ -1,6 +1,7 @@
 package io.bluebeaker.legacyponder.ponder.gui;
 
 import io.bluebeaker.legacyponder.ponder.page.PonderPageBase;
+import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
@@ -8,13 +9,17 @@ import java.io.IOException;
 public class GuiInfoPage<T extends PonderPageBase> extends GuiScreen {
     final GuiScreenPonder parent;
     final T page;
+    protected BoundingBox2D pageBounds = new BoundingBox2D(0,0,0,0);
     public GuiInfoPage(GuiScreenPonder parent, T page) {
         this.parent = parent;
         this.page = page;
+        onResize();
     }
 
+    public void onResize(){
+        this.pageBounds=parent.getPageBounds();
+    }
     public void onPageRefresh(){
-        this.page.onSelected();
     }
 
     /** Draws page
@@ -24,7 +29,6 @@ public class GuiInfoPage<T extends PonderPageBase> extends GuiScreen {
      */
     public void draw(int mouseX, int mouseY, float partialTicks){
         super.drawScreen(mouseX,mouseY,partialTicks);
-        page.draw(parent,mouseX,mouseY,partialTicks);
     }
 
     /** Processes scroll event
@@ -34,7 +38,7 @@ public class GuiInfoPage<T extends PonderPageBase> extends GuiScreen {
      * @return Whether the event was processed
      */
     public boolean mouseScroll(int mouseX, int mouseY, int wheelDelta){
-        return page.mouseScroll(parent,mouseX,mouseY,wheelDelta);
+        return false;
     }
 
     /** Processes mouse click
@@ -45,7 +49,7 @@ public class GuiInfoPage<T extends PonderPageBase> extends GuiScreen {
      */
     public boolean onMouseClick(int x, int y, int button) throws IOException {
         super.mouseClicked(x,y,button);
-        return page.click(parent,x,y,button);
+        return false;
     }
 
     /** Processes mouse click
@@ -56,7 +60,7 @@ public class GuiInfoPage<T extends PonderPageBase> extends GuiScreen {
      */
     public boolean onMouseRelease(int x, int y, int state) {
         super.mouseReleased(x,y,state);
-        return page.mouseReleased(parent,x,y,state);
+        return false;
     }
 
     /** Processes mouse click
@@ -67,6 +71,6 @@ public class GuiInfoPage<T extends PonderPageBase> extends GuiScreen {
      * @return Whether the event was processed
      */
     public boolean onMouseDrag(int x, int y, int clickedMouseButton, long timeSinceLastClick) {
-        return page.mouseDrag(parent,x,y,clickedMouseButton,timeSinceLastClick);
+        return false;
     }
 }

@@ -1,6 +1,7 @@
 package io.bluebeaker.legacyponder.ponder.page;
 
 import io.bluebeaker.legacyponder.ponder.gui.GuiInfoPage;
+import io.bluebeaker.legacyponder.ponder.gui.GuiPageDefault;
 import io.bluebeaker.legacyponder.ponder.gui.GuiScreenPonder;
 import io.bluebeaker.legacyponder.ponder.info.PonderInfo;
 
@@ -18,10 +19,8 @@ public class PonderPageBase {
     }
 
     public GuiInfoPage<? extends PonderPageBase> getGuiPage(GuiScreenPonder parent){
-        return new GuiInfoPage<>(parent,this);
+        return new GuiPageDefault<>(parent,this);
     }
-
-    public void onSelected(){}
 
     /** Draws page
      * @param screen The ponder screen
@@ -30,22 +29,5 @@ public class PonderPageBase {
      * @param partialTicks Parent partialTicks
      */
     public void draw(GuiScreenPonder screen, int mouseX, int mouseY, float partialTicks){
-    }
-
-    public boolean click(GuiScreenPonder screen, int x, int y, int button){
-        return false;
-    }
-
-
-    public boolean mouseScroll(GuiScreenPonder screen, int mouseX, int mouseY, int wheelDelta){
-        return false;
-    }
-
-    public boolean mouseReleased(GuiScreenPonder screen, int mouseX, int mouseY, int state) {
-        return false;
-    }
-
-    public boolean mouseDrag(GuiScreenPonder screen, int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
-        return false;
     }
 }
