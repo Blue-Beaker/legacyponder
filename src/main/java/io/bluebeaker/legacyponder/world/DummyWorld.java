@@ -22,7 +22,7 @@ public class DummyWorld extends World {
     protected PonderStructure currentStructure = null;
     protected BlockPos structureOffset = new BlockPos(0,0,0);
 
-    public DummyWorld(){
+    public DummyWorld(boolean isClient){
         this(
                 new SaveHandlerMP(),
                 new WorldInfo(
@@ -42,7 +42,7 @@ public class DummyWorld extends World {
                     }
                 },
                 new Profiler(),
-                true
+                isClient
         );
         chunkProvider = new DummyChunkProvider(this);
         this.provider.setWorld(this);

@@ -28,7 +28,7 @@ import java.util.Map;
 public class StructureRenderManager {
 
     public static BlockPos STRUCTURE_OFFSET = new BlockPos(0,63,0);
-    protected static DummyWorld world = new DummyWorld();
+    protected static DummyWorld world = new DummyWorld(false);
     private static final Map<String, BufferBuilder> buffers = new HashMap<>();
 
     public static StructureViewPos viewPos = new StructureViewPos();
@@ -43,7 +43,7 @@ public class StructureRenderManager {
 
     public static DummyWorld getWorld(){
         if(world==null){
-            world=new DummyWorld();
+            world=new DummyWorld(false);
         }
         return world;
     }
