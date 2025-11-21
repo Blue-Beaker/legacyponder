@@ -38,7 +38,6 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         RenderUtils.setViewPort(pageBounds);
         StructureRenderManager.renderStructure(partialTicks, pageBounds.x, pageBounds.y, pageBounds.w,pageBounds.h);
 
-//        StructureRenderManager.getWorld().tick();
         RenderUtils.endViewPort();
     }
 

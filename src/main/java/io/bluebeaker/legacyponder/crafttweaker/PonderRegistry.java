@@ -3,7 +3,7 @@ package io.bluebeaker.legacyponder.crafttweaker;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
 import crafttweaker.annotations.ZenRegister;
-import io.bluebeaker.legacyponder.ponder.PonderEntry;
+import io.bluebeaker.legacyponder.ponder.Entry;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 import youyihj.zenutils.api.reload.Reloadable;
@@ -15,14 +15,14 @@ import java.util.Map;
 @ZenRegister
 public class PonderRegistry {
 
-    private static final Map<String,PonderEntry> PONDER_REGISTRY = new HashMap<>();
+    private static final Map<String, Entry> PONDER_REGISTRY = new HashMap<>();
 
     @ZenMethod
     public static void add(String id, IPonderEntry ponderEntry){
         CraftTweakerAPI.apply(new AddPonderAction(id,ponderEntry));
     }
 
-    public static Map<String,PonderEntry> getEntries(){
+    public static Map<String, Entry> getEntries(){
         return PONDER_REGISTRY;
     }
 

@@ -7,7 +7,7 @@ import net.minecraftforge.fluids.FluidStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PonderEntry {
+public class Entry {
     public final String title;
     public final String summary;
     private final List<PonderPageBase> pages;
@@ -15,7 +15,7 @@ public class PonderEntry {
     private final List<ItemStack> items;
     private final List<FluidStack> fluids;
 
-    public PonderEntry(String title, String summary){
+    public Entry(String title, String summary){
         this.title=title;
         this.summary = summary;
         this.pages=new ArrayList<>();

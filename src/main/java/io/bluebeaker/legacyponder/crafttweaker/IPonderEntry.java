@@ -5,7 +5,7 @@ import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
-import io.bluebeaker.legacyponder.ponder.PonderEntry;
+import io.bluebeaker.legacyponder.ponder.Entry;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -15,9 +15,9 @@ import stanhebben.zenscript.annotations.ZenMethod;
 @ZenClass("mods.legacyponder.IPonderEntry")
 @ZenRegister
 public class IPonderEntry {
-    public final PonderEntry internal;
+    public final Entry internal;
 
-    public IPonderEntry(PonderEntry internal){
+    public IPonderEntry(Entry internal){
         this.internal=internal;
     }
 
@@ -27,7 +27,7 @@ public class IPonderEntry {
     }
     @ZenMethod
     public static IPonderEntry createPonderEntry(String title,String summary){
-        PonderEntry ponderEntry = new PonderEntry(title,summary);
+        Entry ponderEntry = new Entry(title,summary);
         return new IPonderEntry(ponderEntry);
     }
 
