@@ -12,16 +12,18 @@ public abstract class DrawableBase {
     public DrawableBase(){
     }
 
-    public void setPosition(int x, int y){
+    public DrawableBase setPosition(int x, int y){
         this.x=x;
         this.y=y;
+        return this;
     }
-    public void setSize(int w, int h){
+    public DrawableBase setSize(int w, int h){
         this.w=w;
         this.h=h;
+        return this;
     }
 
-    abstract void draw(GuiScreen screen, int mouseX, int mouseY);
+    public abstract void draw(GuiScreen screen, int mouseX, int mouseY);
 
     public int getX() {return x;}
     public int getY() {return y;}
