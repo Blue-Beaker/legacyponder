@@ -1,10 +1,13 @@
 package io.bluebeaker.legacyponder.ponder.page;
 
 import io.bluebeaker.legacyponder.ponder.drawable.DrawableGroup;
+import io.bluebeaker.legacyponder.ponder.drawable.DrawableItem;
 import io.bluebeaker.legacyponder.ponder.drawable.DrawableTexture;
 import io.bluebeaker.legacyponder.ponder.gui.GuiScreenPonder;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class PonderPageGui extends PonderPageBase{
@@ -14,8 +17,8 @@ public class PonderPageGui extends PonderPageBase{
         DrawableTexture drawableTexture = new DrawableTexture(texture, textureUV);
         drawable = new DrawableGroup();
         drawable.addChild(drawableTexture);
-//        drawable.addChild(new DrawableItem(new ItemStack(Items.DIAMOND_PICKAXE,1,10)).setPosition(30,17));
-//        drawable.addChild(new DrawableItem(new ItemStack(Items.DIAMOND_PICKAXE,1,500)).setPosition(48,17));
+        drawable.addChild(new DrawableItem(new ItemStack(Items.DIAMOND_PICKAXE,1,10)).setPosition(30,17));
+        drawable.addChild(new DrawableItem(new ItemStack(Items.DIAMOND_PICKAXE,1,500)).setPosition(48,17));
     }
     public PonderPageGui(String id, int x, int y, int w, int h){
         this(new ResourceLocation(id),new BoundingBox2D(x,y,w,h));
@@ -25,8 +28,8 @@ public class PonderPageGui extends PonderPageBase{
         BoundingBox2D pageBounds = screen.getPageBounds();
 
         RenderUtils.setViewPort(pageBounds);
-
         drawable.draw(screen,mouseX,mouseY);
+        drawable.onMouseHover(screen,mouseX,mouseY);
 
         RenderUtils.endViewPort();
 

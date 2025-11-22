@@ -33,4 +33,6 @@ public abstract class DrawableBase {
     public BoundingBox2D getBoundingBox(){
         return new BoundingBox2D(getX(),getY(),getWidth(),getHeight());
     }
+
+    public boolean onMouseHover(GuiScreen screen, int mouseX, int mouseY){return false;}
 }

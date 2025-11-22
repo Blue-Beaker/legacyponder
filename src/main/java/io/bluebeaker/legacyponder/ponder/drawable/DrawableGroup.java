@@ -3,11 +3,11 @@ package io.bluebeaker.legacyponder.ponder.drawable;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DrawableGroup extends DrawableBase {
-    final Set<DrawableBase> children = new HashSet<>();
+    final List<DrawableBase> children = new ArrayList<>();
     public DrawableGroup(){
 
     }
@@ -24,11 +24,21 @@ public class DrawableGroup extends DrawableBase {
     }
 
     @Override
+    public boolean onMouseHover(GuiScreen screen, int mouseX, int mouseY) {
+        for (int i=this.children.size()-1;i>=0;i--) {
+            DrawableBase child = this.children.get(i);
+            boolean b = child.onMouseHover(screen, mouseX - this.x, mouseY - this.y);
+            if(b){return true;}
+        }
+        return false;
+    }
+
+    @Override
     public void draw(GuiScreen screen, int mouseX, int mouseY) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x,y,0);
         for (DrawableBase child : children) {
-            child.draw(screen,mouseX,mouseY);
+            child.draw(screen,mouseX-this.x,mouseY-this.y);
         }
         GlStateManager.popMatrix();
     }

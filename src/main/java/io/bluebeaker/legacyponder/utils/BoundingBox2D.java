@@ -14,4 +14,8 @@ public class BoundingBox2D {
         this.w=w;
         this.h=h;
     }
+
+    public boolean contains(int x1, int y1){
+        return x1>=x && x1<x+w && y1>=y && y1<y+h;
+    }
 }
