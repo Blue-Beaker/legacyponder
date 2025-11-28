@@ -1,9 +1,14 @@
 package io.bluebeaker.legacyponder.ponder.drawable;
 
+import crafttweaker.annotations.ZenRegister;
 import net.minecraft.client.gui.GuiScreen;
+import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenMethod;
 
 import java.awt.*;
 
+@ZenClass("mods.legacyponder.DrawableText")
+@ZenRegister
 public class DrawableText extends DrawableBase {
     private final String text;
     private final int color;
@@ -14,6 +19,11 @@ public class DrawableText extends DrawableBase {
     }
     public DrawableText(String text, Color color){
         this(text,color.getRGB());
+    }
+
+    @ZenMethod
+    public static DrawableText build(String text, int color) {
+        return new DrawableText(text,color);
     }
 
     @Override

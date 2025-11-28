@@ -1,10 +1,15 @@
 package io.bluebeaker.legacyponder.ponder.drawable;
 
+import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenMethod;
 
+@ZenClass("mods.legacyponder.DrawableTexture")
+@ZenRegister
 public class DrawableTexture extends DrawableBase {
     private final ResourceLocation texture;
     private final BoundingBox2D textureUV;
@@ -13,6 +18,12 @@ public class DrawableTexture extends DrawableBase {
         this.texture = texture;
         this.textureUV = textureUV;
     }
+
+    @ZenMethod
+    public static DrawableTexture build(String texture, int x, int y, int w, int h) {
+        return new DrawableTexture(new ResourceLocation(texture), new BoundingBox2D(x,y,w,h));
+    }
+
     @Override
     public void draw(GuiScreen screen, int mouseX, int mouseY) {
         screen.mc.getTextureManager().bindTexture(texture);

@@ -1,24 +1,37 @@
 package io.bluebeaker.legacyponder.ponder.drawable;
 
+import crafttweaker.annotations.ZenRegister;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenMethod;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@ZenClass("mods.legacyponder.DrawableGroup")
+@ZenRegister
 public class DrawableGroup extends DrawableBase {
     final List<DrawableBase> children = new ArrayList<>();
     public DrawableGroup(){
 
     }
 
+    @ZenMethod
     public void addChild(DrawableBase child){
         if(child!=this)
             children.add(child);
     }
+    @ZenMethod
+    public void addChild(DrawableBase child, int x, int y){
+        addChild(child);
+        child.setPosition(x,y);
+    }
+    @ZenMethod
     public void removeChild(DrawableBase child){
         children.remove(child);
     }
+    @ZenMethod
     public void clear(){
         this.children.clear();
     }

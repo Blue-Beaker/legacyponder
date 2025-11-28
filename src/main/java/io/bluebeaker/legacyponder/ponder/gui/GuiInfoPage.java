@@ -9,7 +9,7 @@ import java.io.IOException;
 public class GuiInfoPage<T extends PonderPageBase> extends GuiScreen {
     final GuiScreenPonder parent;
     final T page;
-    protected BoundingBox2D pageBounds = new BoundingBox2D(0,0,0,0);
+    protected BoundingBox2D pageBounds = BoundingBox2D.EMPTY;
     public GuiInfoPage(GuiScreenPonder parent, T page) {
         this.parent = parent;
         this.page = page;

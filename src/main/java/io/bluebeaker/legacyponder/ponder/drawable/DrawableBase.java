@@ -1,8 +1,13 @@
 package io.bluebeaker.legacyponder.ponder.drawable;
 
+import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import net.minecraft.client.gui.GuiScreen;
+import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenMethod;
 
+@ZenClass("mods.legacyponder.DrawableBase")
+@ZenRegister
 public abstract class DrawableBase {
     public int x;
     public int y;
@@ -11,12 +16,13 @@ public abstract class DrawableBase {
 
     public DrawableBase(){
     }
-
+    @ZenMethod
     public DrawableBase setPosition(int x, int y){
         this.x=x;
         this.y=y;
         return this;
     }
+    @ZenMethod
     public DrawableBase setSize(int w, int h){
         this.w=w;
         this.h=h;
@@ -25,9 +31,13 @@ public abstract class DrawableBase {
 
     public abstract void draw(GuiScreen screen, int mouseX, int mouseY);
 
+    @ZenMethod
     public int getX() {return x;}
+    @ZenMethod
     public int getY() {return y;}
+    @ZenMethod
     public int getWidth(){return w;}
+    @ZenMethod
     public int getHeight(){return h;}
 
     public BoundingBox2D getBoundingBox(){
