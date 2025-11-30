@@ -2,9 +2,10 @@ package io.bluebeaker.legacyponder.ponder.gui;
 
 import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
-import io.bluebeaker.legacyponder.ponder.Entry;
 import io.bluebeaker.legacyponder.ponder.EmptyEntry;
+import io.bluebeaker.legacyponder.ponder.Entry;
 import io.bluebeaker.legacyponder.ponder.page.PonderPageBase;
+import io.bluebeaker.legacyponder.ponder.page.PonderPageBlank;
 import io.bluebeaker.legacyponder.render.StructureRenderManager;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import io.bluebeaker.legacyponder.utils.Vec2i;
@@ -15,18 +16,17 @@ import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.IOException;
 
 public class GuiScreenPonder extends GuiScreen {
     @Nonnull
     protected Entry currentEntry = EmptyEntry.INSTANCE;
     protected int currentPageID = 0;
-    @Nullable
-    protected PonderPageBase currentPage = null;
+    @Nonnull
+    protected PonderPageBase currentPage = PonderPageBlank.INSTANCE;
     protected int pages = 0;
-    @Nullable
-    protected GuiInfoPage<?> guiInfoPage = null;
+    @Nonnull
+    protected GuiInfoPage<?> guiInfoPage = PonderPageBlank.INSTANCE.getGuiPage(this);
     protected GuiScreen lastScreen;
     protected boolean mouseDownInPage = false;
 
@@ -61,9 +61,7 @@ public class GuiScreenPonder extends GuiScreen {
         this.pageBounds=new BoundingBox2D(5,20,this.width-10,this.height-50);
         super.initGui();
 
-        if(guiInfoPage!=null){
-            guiInfoPage.onResize();
-        }
+        guiInfoPage.onResize();
     }
 
     @Override
@@ -79,16 +77,14 @@ public class GuiScreenPonder extends GuiScreen {
     @Override
     public void updateScreen() {
         super.updateScreen();
-        if(guiInfoPage!=null){
-            guiInfoPage.updateScreen();
-        }
+        guiInfoPage.updateScreen();
     }
 
     public void handleWheel(int wheelDelta){
         int mouseX=lastMousePos.x;
         int mouseY=lastMousePos.y;
         mouseDownInPage = isMouseInPage(mouseX, mouseY);
-        if (guiInfoPage != null && mouseDownInPage){
+        if (mouseDownInPage){
             guiInfoPage.mouseScroll(mouseX-this.pageBounds.x, mouseY-this.pageBounds.y, wheelDelta);
         }
     }
@@ -113,9 +109,7 @@ public class GuiScreenPonder extends GuiScreen {
             // Draw title
             this.drawCenteredString(this.fontRenderer, I18n.format(this.currentEntry.title),this.width/2,10,0xFFFFFFFF);
             // Draw current page
-            if(guiInfoPage!=null){
-                this.guiInfoPage.draw(mouseX-this.pageBounds.x,mouseY-this.pageBounds.y,partialTicks);
-            }
+            this.guiInfoPage.draw(mouseX - this.pageBounds.x, mouseY - this.pageBounds.y, partialTicks);
             // Draw page number
             this.drawString(this.fontRenderer,String.format("%s/%s",this.currentPageID +1,this.pages),44,this.height-11,0xFFFFFFFF);
         } catch (Exception e) {
@@ -135,7 +129,7 @@ public class GuiScreenPonder extends GuiScreen {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         mouseDownInPage = isMouseInPage(mouseX, mouseY);
-        if (guiInfoPage != null && mouseDownInPage && guiInfoPage.onMouseClick(mouseX-this.pageBounds.x, mouseY-this.pageBounds.y, mouseButton)) {
+        if (mouseDownInPage && guiInfoPage.onMouseClick(mouseX - this.pageBounds.x, mouseY - this.pageBounds.y, mouseButton)) {
             return;
         }
         super.mouseClicked(mouseX, mouseY, mouseButton);
@@ -143,7 +137,7 @@ public class GuiScreenPonder extends GuiScreen {
 
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int state) {
-        if(guiInfoPage!=null && mouseDownInPage && guiInfoPage.onMouseRelease(mouseX-this.pageBounds.x,mouseY-this.pageBounds.y,state)){
+        if(mouseDownInPage && guiInfoPage.onMouseRelease(mouseX - this.pageBounds.x, mouseY - this.pageBounds.y, state)){
             mouseDownInPage=false;
             return;
         }
@@ -153,7 +147,7 @@ public class GuiScreenPonder extends GuiScreen {
 
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
-        if(guiInfoPage!=null && mouseDownInPage && guiInfoPage.onMouseDrag(mouseX-this.pageBounds.x,mouseY-this.pageBounds.y,clickedMouseButton,timeSinceLastClick)){
+        if(mouseDownInPage && guiInfoPage.onMouseDrag(mouseX - this.pageBounds.x, mouseY - this.pageBounds.y, clickedMouseButton, timeSinceLastClick)){
             return;
         }
         super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
@@ -185,15 +179,12 @@ public class GuiScreenPonder extends GuiScreen {
     public void updateCurrentPage(){
         PonderPageBase page = getPage(this.currentPageID);
         this.currentPage=page;
-        if (page != null) {
-            this.guiInfoPage=page.getGuiPage(this);
-            guiInfoPage.onPageRefresh();
-        }
+        this.guiInfoPage = page.getGuiPage(this);
+        guiInfoPage.onPageRefresh();
     }
 
-    @Nullable
     public PonderPageBase getPage(int pageID){
-        if(this.pages == 0 || pageID >= this.pages) return null;
+        if(this.pages == 0 || pageID >= this.pages) return PonderPageBlank.INSTANCE;
         return this.currentEntry.getPages().get(pageID);
     }
 

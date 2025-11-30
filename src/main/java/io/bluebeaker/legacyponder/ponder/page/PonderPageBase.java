@@ -4,9 +4,9 @@ import io.bluebeaker.legacyponder.ponder.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.ponder.gui.GuiPageDefault;
 import io.bluebeaker.legacyponder.ponder.gui.GuiScreenPonder;
 
-public class PonderPageBase {
+public abstract class PonderPageBase {
 
-    protected PonderPageBase() {
+    public PonderPageBase() {
     }
 
     public void addTextAt(float x, float y, float z, String text){

@@ -1,0 +1,7 @@
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
+package io.bluebeaker.legacyponder.ponder.drawable;
+
+import mcp.MethodsReturnNonnullByDefault;
+
+import javax.annotation.ParametersAreNonnullByDefault;

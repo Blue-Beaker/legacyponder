@@ -12,8 +12,8 @@ public class PonderPageStructure extends PonderPageBase{
     }
 
     @Override
-    public GuiInfoPage<? extends PonderPageBase> getGuiPage(GuiScreenPonder parent) {
+    public GuiInfoPage<PonderPageStructure> getGuiPage(GuiScreenPonder parent) {
         return new GuiPageStructure(parent,this);
     }
-    
+
 }
