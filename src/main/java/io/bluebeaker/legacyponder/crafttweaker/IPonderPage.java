@@ -1,7 +1,11 @@
 package io.bluebeaker.legacyponder.crafttweaker;
 
 import crafttweaker.annotations.ZenRegister;
-import io.bluebeaker.legacyponder.ponder.page.*;
+import io.bluebeaker.legacyponder.ponder.drawable.DrawableTexture;
+import io.bluebeaker.legacyponder.ponder.page.PonderPageBase;
+import io.bluebeaker.legacyponder.ponder.page.PonderPageDrawable;
+import io.bluebeaker.legacyponder.ponder.page.PonderPageDummy;
+import io.bluebeaker.legacyponder.ponder.page.PonderPageStructure;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -26,10 +30,12 @@ public class IPonderPage<T extends PonderPageBase> {
     public static IPonderPageStructure fromStructure(String id){
         return new IPonderPageStructure(new PonderPageStructure(id));
     }
+
     @ZenMethod
-    public static IPonderPageGUI fromGUI(String texture,int x,int y,int w,int h){
-        return new IPonderPageGUI(new PonderPageGui(texture,x,y,w,h));
+    public static IPonderPageDrawable fromTexture(String texture,int x,int y,int w,int h){
+        return new IPonderPageDrawable(new PonderPageDrawable((width, height) -> DrawableTexture.build(texture, x, y, w, h)));
     }
+
     @ZenMethod
     public static IPonderPageDrawable fromDrawable(IDrawableSupplier drawableSupplier){
         return new IPonderPageDrawable(new PonderPageDrawable(drawableSupplier));

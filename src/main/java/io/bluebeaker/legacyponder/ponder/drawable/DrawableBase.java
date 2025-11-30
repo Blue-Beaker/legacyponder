@@ -14,6 +14,9 @@ public abstract class DrawableBase {
     public int w;
     public int h;
 
+    public int parentX = 0;
+    public int parentY = 0;
+
     public DrawableBase(){
     }
     @ZenMethod
@@ -45,4 +48,9 @@ public abstract class DrawableBase {
     }
 
     public boolean onMouseHover(GuiScreen screen, int mouseX, int mouseY){return false;}
+
+    @ZenMethod
+    public int getAbsX() {return x+parentX;}
+    @ZenMethod
+    public int getAbsY() {return y+parentY;}
 }

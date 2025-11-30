@@ -42,7 +42,7 @@ public class DrawableItem extends DrawableBase {
     public boolean onMouseHover(GuiScreen screen, int mouseX, int mouseY) {
         if(this.getBoundingBox().contains(mouseX,mouseY)){
             GlStateManager.translate(0,0,100);
-            screen.drawHoveringText(screen.getItemToolTip(itemStack),mouseX,mouseY);
+            screen.drawHoveringText(screen.getItemToolTip(itemStack),mouseX+parentX,mouseY+parentY);
             RenderHelper.disableStandardItemLighting();
             GlStateManager.translate(0,0,-100);
             return true;

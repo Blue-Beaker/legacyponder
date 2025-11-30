@@ -18,10 +18,23 @@ public class DrawableGroup extends DrawableBase {
     }
 
     @ZenMethod
-    public void addChild(DrawableBase child){
-        if(child!=this)
-            children.add(child);
+    @Override
+    public DrawableBase setPosition(int x, int y) {
+        super.setPosition(x, y);
+        for (DrawableBase child : children) {
+            setChildParentPos(child);
+        }
+        return this;
     }
+
+    @ZenMethod
+    public void addChild(DrawableBase child){
+        if(child!=this){
+            setChildParentPos(child);
+            children.add(child);
+        }
+    }
+
     @ZenMethod
     public void addChild(DrawableBase child, int x, int y){
         addChild(child);
@@ -54,5 +67,10 @@ public class DrawableGroup extends DrawableBase {
             child.draw(screen,mouseX-this.x,mouseY-this.y);
         }
         GlStateManager.popMatrix();
+    }
+
+    private void setChildParentPos(DrawableBase child) {
+        child.parentX=this.x+this.parentX;
+        child.parentY=this.y+this.parentY;
     }
 }
