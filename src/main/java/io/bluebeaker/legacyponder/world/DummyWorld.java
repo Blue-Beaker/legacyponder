@@ -95,7 +95,11 @@ public class DummyWorld extends World {
     public void tick() {
         for (TileEntity tile : ((DummyChunkProvider)chunkProvider).getTileEntities()) {
             if(tile instanceof ITickable){
-                ((ITickable)tile).update();
+                try {
+                    ((ITickable)tile).update();
+                } catch (Throwable ignored) {
+
+                }
             }
         }
     }

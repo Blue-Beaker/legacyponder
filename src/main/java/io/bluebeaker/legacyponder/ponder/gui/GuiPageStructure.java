@@ -37,7 +37,6 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
 
         RenderUtils.setViewPort(pageBounds);
         StructureRenderManager.renderStructure(partialTicks, pageBounds.x, pageBounds.y, pageBounds.w,pageBounds.h);
-
         RenderUtils.endViewPort();
     }
 
@@ -73,5 +72,11 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
             viewPos.translate(deltaX/100f,deltaY/100f,0);
         }
         return true;
+    }
+
+    @Override
+    public void updateScreen() {
+        super.updateScreen();
+//        StructureRenderManager.getWorld().tick();
     }
 }

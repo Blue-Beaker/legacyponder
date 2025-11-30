@@ -75,6 +75,15 @@ public class GuiScreenPonder extends GuiScreen {
             handleWheel(wheel);
         }
     }
+
+    @Override
+    public void updateScreen() {
+        super.updateScreen();
+        if(guiInfoPage!=null){
+            guiInfoPage.updateScreen();
+        }
+    }
+
     public void handleWheel(int wheelDelta){
         int mouseX=lastMousePos.x;
         int mouseY=lastMousePos.y;
