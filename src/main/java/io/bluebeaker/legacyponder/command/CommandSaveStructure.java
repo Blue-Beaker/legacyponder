@@ -11,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 
 import javax.annotation.Nullable;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,7 +42,12 @@ public class CommandSaveStructure extends CommandBase {
             sender.sendMessage(new TextComponentTranslation("commands.legacyponder.save.fail_exist",structureName));
             return;
         }
-        StructureLoader.writeStructure(structureName,capture);
+        try {
+            StructureLoader.writeStructure(structureName,capture);
+        } catch (IOException e) {
+            sender.sendMessage(new TextComponentTranslation("commands.legacyponder.save.failure",structureName,e));
+            return;
+        }
         sender.sendMessage(new TextComponentTranslation("commands.legacyponder.save.success",structureName));
     }
 

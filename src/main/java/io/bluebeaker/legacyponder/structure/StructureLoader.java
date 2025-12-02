@@ -56,16 +56,20 @@ public class StructureLoader {
         }
     }
 
-    public static void writeStructure(String name, PonderStructure structure){
+    public static void writeStructure(String name, PonderStructure structure) throws IOException {
         File file = new File(structureDir, name + ".nbt");
         OutputStream stream = null;
         try {
+            if(!file.getParentFile().exists()){
+                file.getParentFile().mkdirs();
+            }
             stream=Files.newOutputStream(file.toPath());
             NBTTagCompound nbt = structure.saveToNBT();
             CompressedStreamTools.writeCompressed(nbt,stream);
             structures.put(name,structure);
         } catch (IOException e) {
             LegacyPonder.getLogger().error("Failed to save structure:",e);
+            throw e;
         }finally {
             IOUtils.closeQuietly(stream);
         }
