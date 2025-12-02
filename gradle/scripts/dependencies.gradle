@@ -47,8 +47,8 @@ dependencies {
     
     implementation rfg.deobf('curse.maven:had-enough-items-557549:4543375')
     // Crafttweaker
-    implementation rfg.deobf("curse.maven:mtlib-253211:3308160")
-    implementation rfg.deobf("CraftTweaker2:CraftTweaker2-MC1120-Main:${project.version_crafttweaker}")
+    implementation rfg.deobf("libs:MTLib-3.0.7")
+    implementation rfg.deobf("CraftTweaker2:CraftTweaker2-1.12-4.1.20.699")
     // ZenUtils
     implementation rfg.deobf("com.cleanroommc:configanytime:3.0")
     implementation rfg.deobf("libs:zenutils-1.21.4")
