@@ -1,6 +1,7 @@
 package io.bluebeaker.legacyponder.structure;
 
 import io.bluebeaker.legacyponder.structure.events.StructureTileEvent;
+import io.bluebeaker.legacyponder.utils.NBTUtils;
 import io.bluebeaker.legacyponder.utils.Palette;
 import io.bluebeaker.legacyponder.utils.PosUtils;
 import io.bluebeaker.legacyponder.world.DummyWorld;
@@ -71,11 +72,6 @@ public class PonderStructure {
         tileentityNBT.removeTag("z");
         this.tileEntities.put(pos.toLong(), tileentityNBT);
     }
-    public void addTileEntity(BlockPos pos, TileEntity tileEntity){
-        NBTTagCompound tileentityNBT = tileEntity.writeToNBT(new NBTTagCompound());
-        tileentityNBT.setString("id", TileEntity.getKey(tileEntity.getClass()).toString());
-        addTileEntity(pos,tileentityNBT);
-    }
 
     public NBTTagCompound getTileEntity(int x, int y, int z) {
         return getTileEntity(new BlockPos(x,y,z));
@@ -122,10 +118,11 @@ public class PonderStructure {
 
             TileEntity tileEntity = world.getTileEntity(pos);
             if(tileEntity!=null){
-                structure.addTileEntity(relative,tileEntity);
                 // Attempt to save extra data from the tile
-                StructureTileEvent.Save event = new StructureTileEvent.Save(world, tileEntity, pos);
+                StructureTileEvent.Save event = new StructureTileEvent.Save(world, tileEntity, pos, NBTUtils.getTileEntityNBT(tileEntity));
                 MinecraftForge.EVENT_BUS.post(event);
+
+                structure.addTileEntity(relative,event.tileData);
                 if(!event.extraData.isEmpty()){
                     structure.addExtraData(relative,event.extraData);
                 }

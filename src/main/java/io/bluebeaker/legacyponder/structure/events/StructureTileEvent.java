@@ -18,10 +18,15 @@ public class StructureTileEvent extends Event {
         this.pos = pos;
     }
 
+    /** Fired when capturing tiles to the structure. */
     public static class Save extends StructureTileEvent{
+        /** Tile data to be saved to the structure. Can be modified. */
+        public final NBTTagCompound tileData;
+        /** Extra data to be saved if not empty. */
         public final NBTTagCompound extraData = new NBTTagCompound();
-        public Save(World world, TileEntity tileEntity, BlockPos pos) {
+        public Save(World world, TileEntity tileEntity, BlockPos pos, NBTTagCompound tileData) {
             super(world, tileEntity, pos);
+            this.tileData=tileData;
         }
     }
 
