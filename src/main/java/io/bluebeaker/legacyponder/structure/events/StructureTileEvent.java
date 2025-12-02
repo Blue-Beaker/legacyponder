@@ -43,4 +43,14 @@ public class StructureTileEvent extends Event {
             super(world, tileEntity, pos);
         }
     }
+
+    public static class Render extends StructureTileEvent{
+        @Override
+        public boolean isCancelable() {
+            return true;
+        }
+        public Render(World world, TileEntity tileEntity, BlockPos pos, BlockPos structureOffset) {
+            super(world, tileEntity, pos);
+        }
+    }
 }

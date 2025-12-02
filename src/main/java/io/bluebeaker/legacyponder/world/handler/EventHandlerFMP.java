@@ -10,8 +10,13 @@ public class EventHandlerFMP {
     public void onTileEntityLoad(StructureTileEvent.AfterLoad event){
         TileEntity tile = event.tileEntity;
         if(tile instanceof TileMultipart){
-
-//            ((TileMultipart)tile).loadTo(((TileMultipart)tile));
+        }
+    }
+    @SubscribeEvent
+    public void onTileEntityRender(StructureTileEvent.Render event){
+        TileEntity tile = event.tileEntity;
+        if(tile instanceof TileMultipart){
+//            LegacyPonder.getLogger().info("tile:{}",tile);
         }
     }
 }

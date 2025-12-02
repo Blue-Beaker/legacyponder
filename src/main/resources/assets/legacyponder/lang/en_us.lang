@@ -1,3 +1,5 @@
 button.legacyponder.open=Show Details
 gui.category.legacyponder=Contemplate
 commands.legacyponder.save.usage=Usage: legacyponder save <x1> <y1> <z1> <x2> <y2> <z2> <name>
+commands.legacyponder.save.failure=Failed to save structure '%s': %s
+commands.legacyponder.save.success=Saved structure '%s'

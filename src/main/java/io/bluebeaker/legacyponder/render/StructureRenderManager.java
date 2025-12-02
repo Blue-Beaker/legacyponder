@@ -1,6 +1,7 @@
 package io.bluebeaker.legacyponder.render;
 
 import com.google.common.base.Predicates;
+import io.bluebeaker.legacyponder.structure.events.StructureTileEvent;
 import io.bluebeaker.legacyponder.world.DummyWorld;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -25,6 +26,8 @@ import org.lwjgl.util.glu.GLU;
 import java.util.HashMap;
 import java.util.Map;
 
+import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
+
 public class StructureRenderManager {
 
     public static BlockPos STRUCTURE_OFFSET = new BlockPos(0,63,0);
@@ -43,7 +46,7 @@ public class StructureRenderManager {
 
     public static DummyWorld getWorld(){
         if(world==null){
-            world=new DummyWorld(false);
+            world=new DummyWorld(true);
         }
         return world;
     }
@@ -104,13 +107,17 @@ public class StructureRenderManager {
                     GlStateManager.pushAttrib();
                     TileEntity tileEntity = world.getTileEntity(pos);
                     if(tileEntity !=null){
-                        TileEntityRendererDispatcher.instance.render(
-                                tileEntity,
-                                pos.getX() - STRUCTURE_OFFSET.getX(),
-                                pos.getY() - STRUCTURE_OFFSET.getY(),
-                                pos.getZ() - STRUCTURE_OFFSET.getZ(),
-                                partialTicks
-                        );
+                        StructureTileEvent.Render renderEvent = new StructureTileEvent.Render(world, tileEntity, pos, STRUCTURE_OFFSET);
+                        EVENT_BUS.post(renderEvent);
+                        if(!renderEvent.isCanceled()){
+                            TileEntityRendererDispatcher.instance.render(
+                                    tileEntity,
+                                    pos.getX() - STRUCTURE_OFFSET.getX(),
+                                    pos.getY() - STRUCTURE_OFFSET.getY(),
+                                    pos.getZ() - STRUCTURE_OFFSET.getZ(),
+                                    partialTicks
+                            );
+                        }
                     }
                     GlStateManager.popAttrib();
                 }
