@@ -7,6 +7,7 @@ import io.bluebeaker.legacyponder.ponder.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.ponder.gui.GuiPageDrawable;
 import io.bluebeaker.legacyponder.ponder.gui.GuiScreenPonder;
 import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenMethod;
 
 @ZenClass("mods.legacyponder.PonderPageDrawable")
 @ZenRegister
@@ -15,6 +16,13 @@ public class PonderPageDrawable extends PonderPageBase{
     public PonderPageDrawable(IDrawableSupplier drawableSupplier){
         this.drawableSupplier = drawableSupplier;
     }
+
+    /** Build a drawable from this page.
+     * @param width width
+     * @param height height
+     * @return The drawable built for the specified page size
+     */
+    @ZenMethod
     public DrawableBase getDrawable(int width, int height){
         return drawableSupplier.process(width, height);
     }
