@@ -5,7 +5,7 @@ import io.bluebeaker.legacyponder.crafttweaker.IDrawableSupplier;
 import io.bluebeaker.legacyponder.ponder.drawable.DrawableBase;
 import io.bluebeaker.legacyponder.ponder.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.ponder.gui.GuiPageDrawable;
-import io.bluebeaker.legacyponder.ponder.gui.GuiScreenPonder;
+import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 

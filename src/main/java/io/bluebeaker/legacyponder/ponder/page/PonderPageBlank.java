@@ -1,7 +1,7 @@
 package io.bluebeaker.legacyponder.ponder.page;
 
 import io.bluebeaker.legacyponder.ponder.gui.GuiInfoPage;
-import io.bluebeaker.legacyponder.ponder.gui.GuiScreenPonder;
+import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
 
 public class PonderPageBlank extends PonderPageBase{
     public static final PonderPageBlank INSTANCE = new PonderPageBlank();

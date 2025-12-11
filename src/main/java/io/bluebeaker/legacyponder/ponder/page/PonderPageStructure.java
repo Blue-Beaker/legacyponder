@@ -3,7 +3,7 @@ package io.bluebeaker.legacyponder.ponder.page;
 import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.ponder.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.ponder.gui.GuiPageStructure;
-import io.bluebeaker.legacyponder.ponder.gui.GuiScreenPonder;
+import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;

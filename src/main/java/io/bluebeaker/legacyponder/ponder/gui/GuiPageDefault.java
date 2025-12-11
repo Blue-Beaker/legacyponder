@@ -1,5 +1,6 @@
 package io.bluebeaker.legacyponder.ponder.gui;
 
+import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
 import io.bluebeaker.legacyponder.ponder.page.PonderPageBase;
 
 public class GuiPageDefault<T extends PonderPageBase> extends GuiInfoPage<T> {

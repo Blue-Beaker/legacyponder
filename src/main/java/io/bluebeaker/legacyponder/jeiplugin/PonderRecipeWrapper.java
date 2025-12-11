@@ -1,7 +1,7 @@
 package io.bluebeaker.legacyponder.jeiplugin;
 
 import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
-import io.bluebeaker.legacyponder.ponder.gui.GuiScreenPonder;
+import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawableStatic;
 import mezz.jei.api.ingredients.IIngredients;

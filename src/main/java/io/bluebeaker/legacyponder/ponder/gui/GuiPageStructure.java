@@ -1,5 +1,6 @@
 package io.bluebeaker.legacyponder.ponder.gui;
 
+import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
 import io.bluebeaker.legacyponder.ponder.page.PonderPageStructure;
 import io.bluebeaker.legacyponder.render.StructureRenderManager;
 import io.bluebeaker.legacyponder.structure.PonderStructure;

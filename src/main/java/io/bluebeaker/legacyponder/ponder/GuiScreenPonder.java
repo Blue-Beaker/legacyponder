@@ -1,9 +1,9 @@
-package io.bluebeaker.legacyponder.ponder.gui;
+package io.bluebeaker.legacyponder.ponder;
 
 import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
-import io.bluebeaker.legacyponder.ponder.EmptyEntry;
-import io.bluebeaker.legacyponder.ponder.Entry;
+import io.bluebeaker.legacyponder.ponder.gui.GuiInfoPage;
+import io.bluebeaker.legacyponder.ponder.gui.MouseTracker;
 import io.bluebeaker.legacyponder.ponder.page.PonderPageBase;
 import io.bluebeaker.legacyponder.ponder.page.PonderPageBlank;
 import io.bluebeaker.legacyponder.render.StructureRenderManager;
