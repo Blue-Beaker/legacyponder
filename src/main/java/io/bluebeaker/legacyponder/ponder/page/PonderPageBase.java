@@ -77,10 +77,14 @@ public abstract class PonderPageBase {
     /** @param langKey Localization key for the description, or the description itself.
      * @return The page itself, for chaining */
     @ZenMethod
-    @ZenSetter("description")
     public PonderPageBase setDescription(String langKey){
         this.description=langKey;
         return this;
+    }
+
+    @ZenSetter("description")
+    public void setDescriptionAlt(String langKey){
+        setDescription(langKey);
     }
 
     /** Get the defined description of this page.
