@@ -3,7 +3,6 @@ package io.bluebeaker.legacyponder.jeiplugin;
 import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
 import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
 import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.IDrawableStatic;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
@@ -20,7 +19,6 @@ import java.util.List;
 public class PonderRecipeWrapper implements IRecipeWrapper {
     private final List<List<ItemStack>> items;
     private final List<FluidStack> fluids;
-    private final IDrawableStatic slotDrawable;
     public final String id;
     public static final String BUTTON_TRANSLATION_KEY = "button.legacyponder.open";
     private final List<String> lines;
@@ -34,7 +32,6 @@ public class PonderRecipeWrapper implements IRecipeWrapper {
         this.id=id;
         this.items=items;
         this.fluids=fluids;
-        this.slotDrawable = guiHelper.getSlotDrawable();
         this.lines = lines;
     }
 

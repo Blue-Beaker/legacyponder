@@ -65,11 +65,13 @@ public class IPonderEntry {
 
     @ZenMethod
     public void addIngredient(IIngredient ingredient){
-
         addItems(ingredient.getItems());
+    }
 
-        for (ILiquidStack fluid : ingredient.getLiquids()) {
-            addFluid(fluid);
+    @ZenMethod
+    public void addIngredientFlat(IIngredient ingredient){
+        for (IItemStack item : ingredient.getItems()) {
+            addItem(item);
         }
     }
 }
