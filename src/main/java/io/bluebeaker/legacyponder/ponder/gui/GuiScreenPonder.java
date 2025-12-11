@@ -8,6 +8,7 @@ import io.bluebeaker.legacyponder.ponder.page.PonderPageBase;
 import io.bluebeaker.legacyponder.ponder.page.PonderPageBlank;
 import io.bluebeaker.legacyponder.render.StructureRenderManager;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
+import io.bluebeaker.legacyponder.utils.RenderUtils;
 import io.bluebeaker.legacyponder.utils.Vec2i;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -112,6 +113,8 @@ public class GuiScreenPonder extends GuiScreen {
             this.guiInfoPage.draw(mouseX - this.pageBounds.x, mouseY - this.pageBounds.y, partialTicks);
             // Draw page number
             this.drawString(this.fontRenderer,String.format("%s/%s",this.currentPageID +1,this.pages),44,this.height-11,0xFFFFFFFF);
+
+            RenderUtils.drawSplitString(this.fontRenderer,this.guiInfoPage.getFormattedDescription(),100,this.height-20, this.width-100,0xFFFFFFFF,true);
         } catch (Exception e) {
             LegacyPonder.getLogger().error("Error drawing ponder page {}: {}",this.currentPage,e);
         }
