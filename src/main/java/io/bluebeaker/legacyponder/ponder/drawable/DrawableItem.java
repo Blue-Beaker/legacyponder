@@ -55,7 +55,6 @@ public class DrawableItem extends DrawableBase {
     public int getWidth() {
         return 16;
     }
-
     @ZenMethod
     @Override
     public int getHeight() {

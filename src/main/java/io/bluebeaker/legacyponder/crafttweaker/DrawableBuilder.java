@@ -17,6 +17,10 @@ public class DrawableBuilder {
         return DrawableItem.build(item);
     }
     @ZenMethod
+    public static DrawableText formattedText(String text, int color){
+        return DrawableText.buildFormatted(text, color);
+    }
+    @ZenMethod
     public static DrawableText buildText(String text, int color){
         return DrawableText.build(text, color);
     }

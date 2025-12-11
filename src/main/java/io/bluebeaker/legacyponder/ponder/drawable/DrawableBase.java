@@ -9,10 +9,10 @@ import stanhebben.zenscript.annotations.ZenMethod;
 @ZenClass("mods.legacyponder.DrawableBase")
 @ZenRegister
 public abstract class DrawableBase {
-    public int x;
-    public int y;
-    public int w;
-    public int h;
+    protected int x;
+    protected int y;
+    protected int w;
+    protected int h;
 
     public int parentX = 0;
     public int parentY = 0;

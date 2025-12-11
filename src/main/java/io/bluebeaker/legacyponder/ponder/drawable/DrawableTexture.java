@@ -30,4 +30,9 @@ public class DrawableTexture extends DrawableBase {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         screen.drawTexturedModalRect(x, y, textureUV.x, textureUV.y, textureUV.w, textureUV.h);
     }
+
+    @ZenMethod
+    public int getWidth(){return textureUV.w;}
+    @ZenMethod
+    public int getHeight(){return textureUV.h;}
 }
