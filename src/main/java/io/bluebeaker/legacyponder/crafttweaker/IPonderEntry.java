@@ -6,6 +6,7 @@ import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import io.bluebeaker.legacyponder.ponder.Entry;
+import io.bluebeaker.legacyponder.ponder.page.PonderPageBase;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -32,8 +33,8 @@ public class IPonderEntry {
     }
 
     @ZenMethod
-    public void addPage(IPonderPage<?> page){
-        this.internal.addPage(page.internal);
+    public void addPage(PonderPageBase page){
+        this.internal.addPage(page);
     }
 
     @ZenMethod

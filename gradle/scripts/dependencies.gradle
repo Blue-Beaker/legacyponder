@@ -45,7 +45,7 @@ dependencies {
     runtimeOnly rfg.deobf('curse.maven:ftb-library-legacy-forge-237167:2985811')
     runtimeOnly rfg.deobf('curse.maven:ftb-utilities-forge-237102:3157548')
     
-    implementation rfg.deobf('curse.maven:had-enough-items-557549:4543375')
+    implementation rfg.deobf('libs:HadEnoughItems_1.12.2-4.25.5')
     // Crafttweaker
     implementation rfg.deobf("libs:MTLib-3.0.7")
     implementation rfg.deobf("CraftTweaker2:CraftTweaker2-1.12-4.1.20.699")
