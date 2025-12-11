@@ -12,6 +12,10 @@ import net.minecraftforge.fluids.FluidStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @ZenClass("mods.legacyponder.IPonderEntry")
 @ZenRegister
@@ -38,6 +42,15 @@ public class IPonderEntry {
     }
 
     @ZenMethod
+    public void addItems(List<IItemStack> stacks){
+        this.internal.addItems(stacks.stream().map(CraftTweakerMC::getItemStack).collect(Collectors.toList()));
+    }
+    @ZenMethod
+    public void addItems(IItemStack[] stacks){
+        this.internal.addItems(Arrays.stream(stacks).map(CraftTweakerMC::getItemStack).collect(Collectors.toList()));
+    }
+
+    @ZenMethod
     public void addItem(IItemStack stack){
         ItemStack itemStack = CraftTweakerMC.getItemStack(stack);
         this.internal.addItem(itemStack);
@@ -52,9 +65,9 @@ public class IPonderEntry {
 
     @ZenMethod
     public void addIngredient(IIngredient ingredient){
-        for (IItemStack item : ingredient.getItems()) {
-            addItem(item);
-        }
+
+        addItems(ingredient.getItems());
+
         for (ILiquidStack fluid : ingredient.getLiquids()) {
             addFluid(fluid);
         }

@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Entry {
@@ -12,7 +13,7 @@ public class Entry {
     public final String summary;
     private final List<PonderPageBase> pages;
 
-    private final List<ItemStack> items;
+    private final List<List<ItemStack>> items;
     private final List<FluidStack> fluids;
 
     public Entry(String title, String summary){
@@ -30,10 +31,13 @@ public class Entry {
         return pages;
     }
 
-    public void addItem(ItemStack item){
-        this.items.add(item);
+    public void addItems(List<ItemStack> items1){
+        this.items.add(items1);
     }
-    public List<ItemStack> getItems(){
+    public void addItem(ItemStack item){
+        this.items.add(Collections.singletonList(item));
+    }
+    public List<List<ItemStack>> getItems(){
         return this.items;
     }
 

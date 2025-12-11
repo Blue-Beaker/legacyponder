@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class PonderRecipeWrapper implements IRecipeWrapper {
-    private final List<ItemStack> items;
+    private final List<List<ItemStack>> items;
     private final List<FluidStack> fluids;
     private final IDrawableStatic slotDrawable;
     public final String id;
@@ -27,10 +27,10 @@ public class PonderRecipeWrapper implements IRecipeWrapper {
 
     private final GuiButtonExt button = new GuiButtonExt(0, (160 - 100) / 2, 10, 100, 20, I18n.format(BUTTON_TRANSLATION_KEY));
 
-    public PonderRecipeWrapper(IGuiHelper guiHelper, String id , List<ItemStack> items, List<FluidStack> fluids) {
+    public PonderRecipeWrapper(IGuiHelper guiHelper, String id , List<List<ItemStack>> items, List<FluidStack> fluids) {
         this(guiHelper,id,items,fluids,Collections.emptyList());
     }
-    public PonderRecipeWrapper(IGuiHelper guiHelper, String id , List<ItemStack> items, List<FluidStack> fluids, List<String> lines) {
+    public PonderRecipeWrapper(IGuiHelper guiHelper, String id , List<List<ItemStack>> items, List<FluidStack> fluids, List<String> lines) {
         this.id=id;
         this.items=items;
         this.fluids=fluids;
@@ -38,7 +38,7 @@ public class PonderRecipeWrapper implements IRecipeWrapper {
         this.lines = lines;
     }
 
-    public static PonderRecipeWrapper createOnlyItems(IGuiHelper guiHelper, String id, List<ItemStack> items, List<String> lines) {
+    public static PonderRecipeWrapper createOnlyItems(IGuiHelper guiHelper, String id, List<List<ItemStack>> items, List<String> lines) {
         return new PonderRecipeWrapper(guiHelper,id, items, Collections.emptyList(), lines);
     }
 
@@ -46,7 +46,7 @@ public class PonderRecipeWrapper implements IRecipeWrapper {
         return new PonderRecipeWrapper(guiHelper,id, Collections.emptyList(), fluids, lines);
     }
 
-    public List<ItemStack> getItems(){
+    public List<List<ItemStack>> getItems(){
         return this.items;
     }
     public List<FluidStack> getFluids(){
@@ -55,8 +55,8 @@ public class PonderRecipeWrapper implements IRecipeWrapper {
 
     @Override
     public void getIngredients(IIngredients ingredients) {
-        ingredients.setInputs(VanillaTypes.ITEM, items);
-        ingredients.setOutputs(VanillaTypes.ITEM, items);
+        ingredients.setInputLists(VanillaTypes.ITEM, items);
+        ingredients.setOutputLists(VanillaTypes.ITEM, items);
         ingredients.setInputs(VanillaTypes.FLUID, fluids);
         ingredients.setOutputs(VanillaTypes.FLUID, fluids);
     }
