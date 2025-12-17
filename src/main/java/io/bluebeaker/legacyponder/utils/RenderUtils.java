@@ -28,7 +28,7 @@ public class RenderUtils {
     public static void drawSplitString(FontRenderer fontRenderer, String text, int x, int y, int wrapWidth, int color){
         drawSplitString(fontRenderer,text,x,y,wrapWidth,color,true);
     }
-    
+
     public static void drawSplitString(FontRenderer fontRenderer, String text, int x, int y, int wrapWidth, int color, boolean dropShadow){
         List<String> strings = fontRenderer.listFormattedStringToWidth(text, wrapWidth);
         for (int i = 0; i < strings.size(); i++) {

@@ -52,7 +52,64 @@ public class StructureRenderManager {
     }
 
     public static void renderStructure(float partialTicks, int offsetX, int offsetY, int sizeX, int sizeY){
+//        GlStateManager.translate(0, 0, 0);
+        Minecraft.getMinecraft().getRenderManager().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+        new WorldVertexBufferUploader().draw(localBuffer);
+        TileEntityRendererDispatcher.instance.preDrawBatch();
+        for (int z = 0; z < world.templateSize.getZ(); z++) {
+            for (int y = 0; y < world.templateSize.getY(); y++) {
+                for (int x = 0; x < world.templateSize.getX(); x++) {
+                    BlockPos pos = new BlockPos(x, y, z).add(STRUCTURE_OFFSET);
+                    GlStateManager.pushAttrib();
+                    TileEntity tileEntity = world.getTileEntity(pos);
+                    if(tileEntity !=null){
+                        StructureTileEvent.Render renderEvent = new StructureTileEvent.Render(world, tileEntity, pos, STRUCTURE_OFFSET);
+                        EVENT_BUS.post(renderEvent);
+                        if(!renderEvent.isCanceled()){
+                            TileEntityRendererDispatcher.instance.render(
+                                    tileEntity,
+                                    pos.getX() - STRUCTURE_OFFSET.getX(),
+                                    pos.getY() - STRUCTURE_OFFSET.getY(),
+                                    pos.getZ() - STRUCTURE_OFFSET.getZ(),
+                                    partialTicks
+                            );
+                        }
+                    }
+                    GlStateManager.popAttrib();
+                }
+            }
+        }
+        TileEntityRendererDispatcher.instance.drawBatch(1);
+        for (Entity entity : world.getEntities(Entity.class, Predicates.alwaysTrue())) {
+            Vec3d pos = entity.getPositionVector();
+            GlStateManager.pushAttrib();
+            Minecraft.getMinecraft().getRenderManager().renderEntity(
+                    entity,
+                    pos.x - STRUCTURE_OFFSET.getX(),
+                    pos.y - STRUCTURE_OFFSET.getY(),
+                    pos.z - STRUCTURE_OFFSET.getZ(),
+                    entity.rotationYaw,
+                    partialTicks,
+                    true
+            );
+            GlStateManager.popAttrib();
+        }
+    }
 
+    public static void cleanTransformations() {
+        GlStateManager.popMatrix();
+        GlStateManager.disableRescaleNormal();
+        GlStateManager.matrixMode(GL11.GL_PROJECTION);
+        GlStateManager.viewport(0, 0, Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
+        GlStateManager.popMatrix();
+        GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+        GlStateManager.popMatrix();
+        GlStateManager.disableBlend();
+        GlStateManager.disableDepth();
+        GlStateManager.popAttrib();
+    }
+
+    public static void prepareTransformations(int offsetX, int offsetY, int sizeX, int sizeY) {
         GlStateManager.pushAttrib();
         GlStateManager.enableDepth();
         GlStateManager.enableBlend();
@@ -96,58 +153,6 @@ public class StructureRenderManager {
         GlStateManager.translate(viewPos.camera_center.x,viewPos.camera_center.y,viewPos.camera_center.z);
 
         GlStateManager.translate(-world.templateSize.getX() / 2F, -world.templateSize.getY() / 2F, -world.templateSize.getZ() / 2F);
-//        GlStateManager.translate(0, 0, 0);
-        Minecraft.getMinecraft().getRenderManager().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-        new WorldVertexBufferUploader().draw(localBuffer);
-        TileEntityRendererDispatcher.instance.preDrawBatch();
-        for (int z = 0; z < world.templateSize.getZ(); z++) {
-            for (int y = 0; y < world.templateSize.getY(); y++) {
-                for (int x = 0; x < world.templateSize.getX(); x++) {
-                    BlockPos pos = new BlockPos(x, y, z).add(STRUCTURE_OFFSET);
-                    GlStateManager.pushAttrib();
-                    TileEntity tileEntity = world.getTileEntity(pos);
-                    if(tileEntity !=null){
-                        StructureTileEvent.Render renderEvent = new StructureTileEvent.Render(world, tileEntity, pos, STRUCTURE_OFFSET);
-                        EVENT_BUS.post(renderEvent);
-                        if(!renderEvent.isCanceled()){
-                            TileEntityRendererDispatcher.instance.render(
-                                    tileEntity,
-                                    pos.getX() - STRUCTURE_OFFSET.getX(),
-                                    pos.getY() - STRUCTURE_OFFSET.getY(),
-                                    pos.getZ() - STRUCTURE_OFFSET.getZ(),
-                                    partialTicks
-                            );
-                        }
-                    }
-                    GlStateManager.popAttrib();
-                }
-            }
-        }
-        TileEntityRendererDispatcher.instance.drawBatch(1);
-        for (Entity entity : world.getEntities(Entity.class, Predicates.alwaysTrue())) {
-            Vec3d pos = entity.getPositionVector();
-            GlStateManager.pushAttrib();
-            Minecraft.getMinecraft().getRenderManager().renderEntity(
-                    entity,
-                    pos.x - STRUCTURE_OFFSET.getX(),
-                    pos.y - STRUCTURE_OFFSET.getY(),
-                    pos.z - STRUCTURE_OFFSET.getZ(),
-                    entity.rotationYaw,
-                    partialTicks,
-                    true
-            );
-            GlStateManager.popAttrib();
-        }
-        GlStateManager.popMatrix();
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.matrixMode(GL11.GL_PROJECTION);
-        GlStateManager.viewport(0, 0, Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
-        GlStateManager.popMatrix();
-        GlStateManager.matrixMode(GL11.GL_MODELVIEW);
-        GlStateManager.popMatrix();
-        GlStateManager.disableBlend();
-        GlStateManager.disableDepth();
-        GlStateManager.popAttrib();
     }
 
     public static void resetCameraOffset(){

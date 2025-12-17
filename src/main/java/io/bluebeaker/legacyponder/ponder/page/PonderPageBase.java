@@ -6,14 +6,20 @@ import io.bluebeaker.legacyponder.ponder.drawable.DrawableTexture;
 import io.bluebeaker.legacyponder.ponder.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.ponder.gui.GuiPageDefault;
 import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
+import io.bluebeaker.legacyponder.ponder.hover.HoverComponent;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
 import stanhebben.zenscript.annotations.ZenSetter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @ZenClass("mods.legacyponder.PonderPage")
 @ZenRegister
 public abstract class PonderPageBase {
+
+    protected final List<HoverComponent> hoverComponents = new ArrayList<>();
 
     /** Build a new dummy page for testing.
      * @return The new dummy page */
@@ -93,5 +99,15 @@ public abstract class PonderPageBase {
     @ZenGetter("description")
     public String getDescription() {
         return description;
+    }
+
+    @ZenMethod
+    public PonderPageBase addHoverComponent(HoverComponent component) {
+        this.hoverComponents.add(component);
+        return this;
+    }
+
+    public List<HoverComponent> getHoverComponents() {
+        return hoverComponents;
     }
 }

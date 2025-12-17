@@ -31,5 +31,5 @@ public class PonderPageStructure extends PonderPageBase{
     public GuiInfoPage<PonderPageStructure> getGuiPage(GuiScreenPonder parent) {
         return new GuiPageStructure(parent,this);
     }
-
+    
 }
