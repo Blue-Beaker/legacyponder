@@ -122,15 +122,15 @@ public class StructureRenderManager {
         int viewportY = Minecraft.getMinecraft().displayHeight - (sizeY + offsetY) * scaledResolution.getScaleFactor();
         int viewportWidth = sizeX * scaledResolution.getScaleFactor();
         int viewportHeight = sizeY * scaledResolution.getScaleFactor();
-        GL11.glEnable(GL11.GL_SCISSOR_TEST);
-        GL11.glScissor(
-                viewportX,
-                viewportY,
-                viewportWidth,
-                viewportHeight
-        );
+//        GL11.glEnable(GL11.GL_SCISSOR_TEST);
+//        GL11.glScissor(
+//                viewportX,
+//                viewportY,
+//                viewportWidth,
+//                viewportHeight
+//        );
         GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT);
-        GL11.glDisable(GL11.GL_SCISSOR_TEST);
+//        GL11.glDisable(GL11.GL_SCISSOR_TEST);
         GlStateManager.viewport(
                 viewportX,
                 viewportY,

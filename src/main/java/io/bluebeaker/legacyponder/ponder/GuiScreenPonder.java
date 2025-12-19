@@ -184,6 +184,7 @@ public class GuiScreenPonder extends GuiScreen {
         PonderPageBase page = getPage(this.currentPageID);
         this.currentPage=page;
         this.guiInfoPage = page.getGuiPage(this);
+        guiInfoPage.onResize();
         guiInfoPage.onPageRefresh();
     }
 

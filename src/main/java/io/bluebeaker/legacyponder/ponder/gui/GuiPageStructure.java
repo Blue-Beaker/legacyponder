@@ -13,6 +13,10 @@ import io.bluebeaker.legacyponder.utils.RenderUtils;
 import io.bluebeaker.legacyponder.utils.Vec2i;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
@@ -20,7 +24,6 @@ import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static io.bluebeaker.legacyponder.render.StructureRenderManager.viewPos;
@@ -74,20 +77,34 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
 
         StructureRenderManager.cleanTransformations();
 
+        ScaledResolution scaled = new ScaledResolution(Minecraft.getMinecraft());
+
         for (GuiHoverComponent hoverComponent : this.hoverComponents) {
             HoverComponent comp = hoverComponent.internal;
             float[] floats = RenderPosUtils.projectToScreen(comp.x, comp.y, comp.z, modelView, projection, viewport);
 
-            ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
-            int factor = scaledResolution.getScaleFactor();
+            int factor = scaled.getScaleFactor();
             try {
-                int x = (int) floats[0] / factor - pageBounds.x;
-                int y = pageBounds.h - (int) floats[1] / factor + pageBounds.y;
+                int x = Math.round(floats[0] / factor) - pageBounds.x;
+                int y = parent.height - Math.round(floats[1] / factor) - pageBounds.y;
 
-                hoverComponent.draw(this.parent, x, y);
+                int hoverX = x+30;
+                int hoverY = y-30;
+//
+                GlStateManager.glLineWidth(2.0F);
+
+                Tessellator tessellator = Tessellator.getInstance();
+                BufferBuilder bufferbuilder = tessellator.getBuffer();
+                bufferbuilder.begin(3, DefaultVertexFormats.POSITION_COLOR);
+                bufferbuilder.pos(x,y,0).color(1.0F,1.0F,1.0F, 1.0F).endVertex();
+                bufferbuilder.pos(hoverX,hoverY,0).color(1.0F,1.0F,1.0F, 1.0F).endVertex();
+                tessellator.draw();
+                GlStateManager.glLineWidth(1.0F);
+
+                hoverComponent.draw(this.parent, hoverX, hoverY);
                 // Debug
-                parent.drawString(parent.mc.fontRenderer,"+",x,y,16777215);
-                parent.drawHoveringText(Arrays.toString(floats),10,10);
+//                parent.drawString(parent.mc.fontRenderer,"+",x,y,16777215);
+//                parent.drawHoveringText(Arrays.toString(floats),10,10);
             } catch (Exception e) {
                 LegacyPonder.getLogger().warn("Error drawing hoverComponent {}:",hoverComponent,e);
             }
