@@ -115,24 +115,27 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
                 bufferbuilder.pos(x,y,0).color(r, g, b,255).endVertex();
                 bufferbuilder.pos(hoverX,lineEndY,0).color(r, g, b,255).endVertex();
 
-                // Box
-                bufferbuilder.pos(hoverX,hoverY,0).color(r, g, b,255).endVertex();
-                bufferbuilder.pos(hoverX+w+4,hoverY,0).color(r, g, b,255).endVertex();
-                bufferbuilder.pos(hoverX+w+4,hoverY+h+4,0).color(r, g, b,255).endVertex();
-                bufferbuilder.pos(hoverX,hoverY+h+4,0).color(r, g, b,255).endVertex();
-                bufferbuilder.pos(hoverX,lineEndY,0).color(r, g, b,255).endVertex();
-
                 tessellator.draw();
 
                 GlStateManager.glLineWidth(1.0F);
+
+                // Box
+                GuiUtils.drawGradientRect(0,hoverX+1,hoverY,hoverX+w+3,hoverY+1, color|0xFF000000,color|0xFF000000);
+                GuiUtils.drawGradientRect(0,hoverX+1,hoverY+h+3,hoverX+w+3,hoverY+h+4, color|0xFF000000,color|0xFF000000);
+
+                GuiUtils.drawGradientRect(0,hoverX,hoverY+1,hoverX+1,hoverY+h+3, color|0xFF000000,color|0xFF000000);
+                GuiUtils.drawGradientRect(0,hoverX+w+3,hoverY+1,hoverX+w+4,hoverY+h+3, color|0xFF000000,color|0xFF000000);
+
                 GlStateManager.enableAlpha();
-                GuiUtils.drawGradientRect(0,hoverX,hoverY,hoverX+w+4,hoverY+h+4,color|0x80000000,color|0x80000000);
+                int col2 = (int)(r*0.7F)<<16 | (int)(g*0.7F)<<8 | (int)(b*0.7F) | 0xFF000000;
+                GuiUtils.drawGradientRect(0,hoverX+1,hoverY+1,hoverX+w+3,hoverY+h+3, col2,col2);
                 GlStateManager.disableAlpha();
 
                 GlStateManager.enableTexture2D();
 
 
-                hoverComponent.draw(this.parent, hoverX+2, hoverY+2);
+                hoverComponent.draw(this.parent, hoverX+2, hoverY+2, mouseX, mouseY);
+                hoverComponent.getDrawable().onMouseHover(this.parent,mouseX,mouseY);
                 // Debug
 //                parent.drawString(parent.mc.fontRenderer,"+",x,y,16777215);
 //                parent.drawHoveringText(Arrays.toString(floats),10,10);
