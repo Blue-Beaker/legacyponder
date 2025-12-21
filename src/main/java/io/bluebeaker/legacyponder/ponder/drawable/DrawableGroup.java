@@ -32,6 +32,7 @@ public class DrawableGroup extends DrawableBase {
         if(child!=this){
             setChildParentPos(child);
             children.add(child);
+            updateSizes();
         }
     }
 
@@ -43,10 +44,12 @@ public class DrawableGroup extends DrawableBase {
     @ZenMethod
     public void removeChild(DrawableBase child){
         children.remove(child);
+        updateSizes();
     }
     @ZenMethod
     public void clear(){
         this.children.clear();
+        updateSizes();
     }
 
     @Override
@@ -72,5 +75,14 @@ public class DrawableGroup extends DrawableBase {
     private void setChildParentPos(DrawableBase child) {
         child.parentX=this.x+this.parentX;
         child.parentY=this.y+this.parentY;
+    }
+
+    private void updateSizes(){
+        w=0;
+        h=0;
+        for (DrawableBase child : children) {
+            w=Math.max(w,child.getX()+child.getWidth());
+            h=Math.max(h,child.getY()+child.getHeight());
+        }
     }
 }
