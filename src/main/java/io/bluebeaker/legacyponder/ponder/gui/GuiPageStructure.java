@@ -17,8 +17,10 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraftforge.fml.client.config.GuiUtils;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Vector3f;
 
 import java.io.IOException;
 import java.nio.FloatBuffer;
@@ -78,30 +80,59 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         StructureRenderManager.cleanTransformations();
 
         ScaledResolution scaled = new ScaledResolution(Minecraft.getMinecraft());
+        int scale = scaled.getScaleFactor();
 
         for (GuiHoverComponent hoverComponent : this.hoverComponents) {
-            HoverComponent comp = hoverComponent.internal;
-            float[] floats = RenderPosUtils.projectToScreen(comp.x, comp.y, comp.z, modelView, projection, viewport);
+            Vector3f pos = hoverComponent.internal.pos;
+            hoverComponent.internal.setColor(32,255,100);
+            int color = hoverComponent.internal.color;
 
-            int factor = scaled.getScaleFactor();
+            float[] floats = RenderPosUtils.projectToScreen(pos.x, pos.y, pos.z, modelView, projection, viewport);
+            // Try to draw the component
             try {
-                int x = Math.round(floats[0] / factor) - pageBounds.x;
-                int y = parent.height - Math.round(floats[1] / factor) - pageBounds.y;
+                float x = floats[0] / scale - pageBounds.x;
+                float y = parent.height - floats[1] / scale - pageBounds.y;
 
-                int hoverX = x+30;
-                int hoverY = y-30;
+                int w = hoverComponent.getDrawable().getWidth();
+                int h = hoverComponent.getDrawable().getHeight();
+
+                int hoverX = Math.round(x+60);
+                int lineEndY = Math.round(y-30);
+                int hoverY = lineEndY-(h/2);
 //
-                GlStateManager.glLineWidth(2.0F);
+                GlStateManager.glLineWidth(scale);
+
+                GlStateManager.disableTexture2D();
 
                 Tessellator tessellator = Tessellator.getInstance();
                 BufferBuilder bufferbuilder = tessellator.getBuffer();
                 bufferbuilder.begin(3, DefaultVertexFormats.POSITION_COLOR);
-                bufferbuilder.pos(x,y,0).color(1.0F,1.0F,1.0F, 1.0F).endVertex();
-                bufferbuilder.pos(hoverX,hoverY,0).color(1.0F,1.0F,1.0F, 1.0F).endVertex();
-                tessellator.draw();
-                GlStateManager.glLineWidth(1.0F);
+                int r = (color >> 16) & 0xFF;
+                int g = (color >> 8) & 0xFF;
+                int b = color & 0xFF;
 
-                hoverComponent.draw(this.parent, hoverX, hoverY);
+                // Line
+                bufferbuilder.pos(x,y,0).color(r, g, b,255).endVertex();
+                bufferbuilder.pos(hoverX,lineEndY,0).color(r, g, b,255).endVertex();
+
+                // Box
+                bufferbuilder.pos(hoverX,hoverY,0).color(r, g, b,255).endVertex();
+                bufferbuilder.pos(hoverX+w+4,hoverY,0).color(r, g, b,255).endVertex();
+                bufferbuilder.pos(hoverX+w+4,hoverY+h+4,0).color(r, g, b,255).endVertex();
+                bufferbuilder.pos(hoverX,hoverY+h+4,0).color(r, g, b,255).endVertex();
+                bufferbuilder.pos(hoverX,lineEndY,0).color(r, g, b,255).endVertex();
+
+                tessellator.draw();
+
+                GlStateManager.glLineWidth(1.0F);
+                GlStateManager.enableAlpha();
+                GuiUtils.drawGradientRect(0,hoverX,hoverY,hoverX+w+4,hoverY+h+4,color|0x80000000,color|0x80000000);
+                GlStateManager.disableAlpha();
+
+                GlStateManager.enableTexture2D();
+
+
+                hoverComponent.draw(this.parent, hoverX+2, hoverY+2);
                 // Debug
 //                parent.drawString(parent.mc.fontRenderer,"+",x,y,16777215);
 //                parent.drawHoveringText(Arrays.toString(floats),10,10);
