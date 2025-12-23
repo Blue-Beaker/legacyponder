@@ -194,7 +194,7 @@ public class GuiScreenPonder extends GuiScreen {
     }
 
     public boolean isMouseInPage(int x, int y){
-        return x>=this.pageBounds.x && x<=this.pageBounds.x+this.pageBounds.w
-                && y>=this.pageBounds.y && y<=this.pageBounds.y+this.pageBounds.h;
+        return x>=this.pageBounds.x && x<=this.pageBounds.getX2()
+                && y>=this.pageBounds.y && y<=this.pageBounds.getY2();
     }
 }

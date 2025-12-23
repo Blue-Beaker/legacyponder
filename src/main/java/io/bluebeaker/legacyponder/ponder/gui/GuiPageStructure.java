@@ -9,6 +9,7 @@ import io.bluebeaker.legacyponder.render.RenderPosUtils;
 import io.bluebeaker.legacyponder.render.StructureRenderManager;
 import io.bluebeaker.legacyponder.structure.PonderStructure;
 import io.bluebeaker.legacyponder.structure.StructureLoader;
+import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
 import io.bluebeaker.legacyponder.utils.Vec2i;
 import net.minecraft.client.Minecraft;
@@ -82,9 +83,10 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         ScaledResolution scaled = new ScaledResolution(Minecraft.getMinecraft());
         int scale = scaled.getScaleFactor();
 
+        List<BoundingBox2D> boxes = new ArrayList<>();
+
         for (GuiHoverComponent hoverComponent : this.hoverComponents) {
             Vector3f pos = hoverComponent.internal.pos;
-            hoverComponent.internal.setColor(32,255,100);
             int color = hoverComponent.internal.color;
 
             float[] floats = RenderPosUtils.projectToScreen(pos.x, pos.y, pos.z, modelView, projection, viewport);
@@ -135,13 +137,16 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
 
 
                 hoverComponent.draw(this.parent, hoverX+2, hoverY+2, mouseX, mouseY);
-                hoverComponent.getDrawable().onMouseHover(this.parent,mouseX,mouseY);
                 // Debug
 //                parent.drawString(parent.mc.fontRenderer,"+",x,y,16777215);
 //                parent.drawHoveringText(Arrays.toString(floats),10,10);
             } catch (Exception e) {
                 LegacyPonder.getLogger().warn("Error drawing hoverComponent {}:",hoverComponent,e);
             }
+        }
+        for (int i = hoverComponents.size()-1; i >=0; i--) {
+            boolean b = hoverComponents.get(i).getDrawable().onMouseHover(this.parent, mouseX, mouseY);
+            if(b) break;
         }
 
         RenderUtils.endViewPort();
