@@ -6,11 +6,14 @@ import org.lwjgl.util.vector.Vector3f;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
+import java.awt.*;
+
 @ZenClass("mods.legacyponder.HoverComponent")
 @ZenRegister
 public class HoverComponent {
     public final Vector3f pos;
-    public int color = 0xFFFFFF;
+    protected Color color = new Color(80,0,255);
+
     public final IDrawableSupplier drawableSupplier;
 
     public HoverComponent(float x, float y, float z, IDrawableSupplier drawableSupplier){
@@ -24,11 +27,16 @@ public class HoverComponent {
     }
     @ZenMethod
     public HoverComponent setColor(int r, int g, int b){
-        color = ((r & 0XFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
+        this.color = new Color(r,g,b);
         return this;
     }
 
     public GuiHoverComponent getGui(){
         return new GuiHoverComponent(this);
+    }
+
+    @ZenMethod
+    public Color getColor() {
+        return color;
     }
 }

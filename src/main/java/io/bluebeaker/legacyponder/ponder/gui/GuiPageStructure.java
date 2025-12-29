@@ -9,7 +9,6 @@ import io.bluebeaker.legacyponder.render.RenderPosUtils;
 import io.bluebeaker.legacyponder.render.StructureRenderManager;
 import io.bluebeaker.legacyponder.structure.PonderStructure;
 import io.bluebeaker.legacyponder.structure.StructureLoader;
-import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
 import io.bluebeaker.legacyponder.utils.Vec2i;
 import net.minecraft.client.Minecraft;
@@ -23,6 +22,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
 
+import java.awt.*;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -77,17 +77,59 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, projection);
         GL11.glGetInteger(GL11.GL_VIEWPORT, viewport);
 
-
-        StructureRenderManager.cleanTransformations();
-
         ScaledResolution scaled = new ScaledResolution(Minecraft.getMinecraft());
         int scale = scaled.getScaleFactor();
 
-        List<BoundingBox2D> boxes = new ArrayList<>();
+        drawHoverLines(scale, modelView, projection, viewport);
 
+        StructureRenderManager.cleanTransformations();
+
+        drawHoverComponents(mouseX, mouseY, modelView, projection, viewport, scale);
+
+        RenderUtils.endViewPort();
+    }
+
+    private void drawHoverLines(int scale, FloatBuffer modelView, FloatBuffer projection, IntBuffer viewport) {
+        GlStateManager.glLineWidth(scale);
+        GlStateManager.disableTexture2D();
+        GlStateManager.disableLighting();
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferbuilder = tessellator.getBuffer();
         for (GuiHoverComponent hoverComponent : this.hoverComponents) {
             Vector3f pos = hoverComponent.internal.pos;
-            int color = hoverComponent.internal.color;
+            Color color = hoverComponent.internal.getColor();
+            float[] floats = RenderPosUtils.projectToScreen(pos.x, pos.y, pos.z, modelView, projection, viewport);
+
+            float x = floats[0] / scale;
+            float y = floats[1] / scale;
+
+            int hoverX = Math.round(x+60);
+            int lineEndY = Math.round(y+30);
+
+            float[] pos1 = RenderPosUtils.unprojectFromScreen(hoverX* scale, lineEndY* scale, floats[2], modelView, projection, viewport);
+
+
+            bufferbuilder.begin(3, DefaultVertexFormats.POSITION_COLOR);
+            int r = color.getRed();
+            int g = color.getGreen();
+            int b = color.getBlue();
+
+            // Line
+            bufferbuilder.pos(pos.x,pos.y,pos.z).color(r, g, b,255).endVertex();
+            bufferbuilder.pos(pos1[0],pos1[1],pos1[2]).color(r, g, b,255).endVertex();
+
+            tessellator.draw();
+
+
+
+        }
+        GlStateManager.glLineWidth(1.0F);
+    }
+
+    private void drawHoverComponents(int mouseX, int mouseY, FloatBuffer modelView, FloatBuffer projection, IntBuffer viewport, int scale) {
+        for (GuiHoverComponent hoverComponent : this.hoverComponents) {
+            Vector3f pos = hoverComponent.internal.pos;
+            Color color = hoverComponent.internal.getColor();
 
             float[] floats = RenderPosUtils.projectToScreen(pos.x, pos.y, pos.z, modelView, projection, viewport);
             // Try to draw the component
@@ -102,54 +144,56 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
                 int lineEndY = Math.round(y-30);
                 int hoverY = lineEndY-(h/2);
 //
-                GlStateManager.glLineWidth(scale);
-
-                GlStateManager.disableTexture2D();
-
-                Tessellator tessellator = Tessellator.getInstance();
-                BufferBuilder bufferbuilder = tessellator.getBuffer();
-                bufferbuilder.begin(3, DefaultVertexFormats.POSITION_COLOR);
-                int r = (color >> 16) & 0xFF;
-                int g = (color >> 8) & 0xFF;
-                int b = color & 0xFF;
-
-                // Line
-                bufferbuilder.pos(x,y,0).color(r, g, b,255).endVertex();
-                bufferbuilder.pos(hoverX,lineEndY,0).color(r, g, b,255).endVertex();
-
-                tessellator.draw();
-
-                GlStateManager.glLineWidth(1.0F);
-
-                // Box
-                GuiUtils.drawGradientRect(0,hoverX+1,hoverY,hoverX+w+3,hoverY+1, color|0xFF000000,color|0xFF000000);
-                GuiUtils.drawGradientRect(0,hoverX+1,hoverY+h+3,hoverX+w+3,hoverY+h+4, color|0xFF000000,color|0xFF000000);
-
-                GuiUtils.drawGradientRect(0,hoverX,hoverY+1,hoverX+1,hoverY+h+3, color|0xFF000000,color|0xFF000000);
-                GuiUtils.drawGradientRect(0,hoverX+w+3,hoverY+1,hoverX+w+4,hoverY+h+3, color|0xFF000000,color|0xFF000000);
-
-                GlStateManager.enableAlpha();
-                int col2 = (int)(r*0.7F)<<16 | (int)(g*0.7F)<<8 | (int)(b*0.7F) | 0xFF000000;
-                GuiUtils.drawGradientRect(0,hoverX+1,hoverY+1,hoverX+w+3,hoverY+h+3, col2,col2);
-                GlStateManager.disableAlpha();
-
-                GlStateManager.enableTexture2D();
-
+                drawHoverBackground(scale, color, x, y, hoverX, lineEndY, hoverY, w, h);
 
                 hoverComponent.draw(this.parent, hoverX+2, hoverY+2, mouseX, mouseY);
-                // Debug
-//                parent.drawString(parent.mc.fontRenderer,"+",x,y,16777215);
-//                parent.drawHoveringText(Arrays.toString(floats),10,10);
+
             } catch (Exception e) {
                 LegacyPonder.getLogger().warn("Error drawing hoverComponent {}:",hoverComponent,e);
             }
         }
+        // Do hover action on hoverComponents
         for (int i = hoverComponents.size()-1; i >=0; i--) {
             boolean b = hoverComponents.get(i).getDrawable().onMouseHover(this.parent, mouseX, mouseY);
             if(b) break;
         }
+    }
 
-        RenderUtils.endViewPort();
+    private static void drawHoverBackground(int scale, Color color, float x, float y, int hoverX, int lineEndY, int hoverY, int w, int h) {
+//        GlStateManager.glLineWidth(scale);
+//
+//        GlStateManager.disableTexture2D();
+
+//        Tessellator tessellator = Tessellator.getInstance();
+//        BufferBuilder bufferbuilder = tessellator.getBuffer();
+//        bufferbuilder.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        int r = color.getRed();
+        int g = color.getGreen();
+        int b = color.getBlue();
+        int rgb = color.getRGB();
+//
+//        // Line
+//        bufferbuilder.pos(x, y,0).color(r, g, b,255).endVertex();
+//        bufferbuilder.pos(hoverX, lineEndY,0).color(r, g, b,255).endVertex();
+//
+//        tessellator.draw();
+//
+//        GlStateManager.glLineWidth(1.0F);
+
+        // Box
+        GuiUtils.drawGradientRect(0, hoverX +1, hoverY, hoverX + w +3, hoverY +1, rgb, rgb);
+        GuiUtils.drawGradientRect(0, hoverX +1, hoverY + h +3, hoverX + w +3, hoverY + h +4, rgb, rgb);
+
+        GuiUtils.drawGradientRect(0, hoverX, hoverY +1, hoverX +1, hoverY + h +3, rgb, rgb);
+        GuiUtils.drawGradientRect(0, hoverX + w +3, hoverY +1, hoverX + w +4, hoverY + h +3, rgb, rgb);
+
+        GlStateManager.enableAlpha();
+
+        int col2 = (int)(r*0.2F)<<16 | (int)(g*0.2F)<<8 | (int)(b*0.2F) | 0xFF000000;
+        GuiUtils.drawGradientRect(0, hoverX +1, hoverY +1, hoverX + w +3, hoverY + h +3, col2,col2);
+        GlStateManager.disableAlpha();
+
+        GlStateManager.enableTexture2D();
     }
 
     @Override
