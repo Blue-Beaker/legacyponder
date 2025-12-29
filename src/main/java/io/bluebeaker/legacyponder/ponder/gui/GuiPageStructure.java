@@ -84,6 +84,8 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
 
         StructureRenderManager.cleanTransformations();
 
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableTexture2D();
         drawHoverComponents(mouseX, mouseY, modelView, projection, viewport, scale);
 
         RenderUtils.endViewPort();
@@ -93,6 +95,7 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         GlStateManager.glLineWidth(scale);
         GlStateManager.disableTexture2D();
         GlStateManager.disableLighting();
+        GlStateManager.enableBlend();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
         for (GuiHoverComponent hoverComponent : this.hoverComponents) {
@@ -121,16 +124,16 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
             tessellator.draw();
 
 
-
         }
         GlStateManager.glLineWidth(1.0F);
     }
 
     private void drawHoverComponents(int mouseX, int mouseY, FloatBuffer modelView, FloatBuffer projection, IntBuffer viewport, int scale) {
+        GlStateManager.disableTexture2D();
+        GlStateManager.disableLighting();
         for (GuiHoverComponent hoverComponent : this.hoverComponents) {
             Vector3f pos = hoverComponent.internal.pos;
             Color color = hoverComponent.internal.getColor();
-
             float[] floats = RenderPosUtils.projectToScreen(pos.x, pos.y, pos.z, modelView, projection, viewport);
             // Try to draw the component
             try {
@@ -160,26 +163,10 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
     }
 
     private static void drawHoverBackground(int scale, Color color, float x, float y, int hoverX, int lineEndY, int hoverY, int w, int h) {
-//        GlStateManager.glLineWidth(scale);
-//
-//        GlStateManager.disableTexture2D();
-
-//        Tessellator tessellator = Tessellator.getInstance();
-//        BufferBuilder bufferbuilder = tessellator.getBuffer();
-//        bufferbuilder.begin(3, DefaultVertexFormats.POSITION_COLOR);
         int r = color.getRed();
         int g = color.getGreen();
         int b = color.getBlue();
         int rgb = color.getRGB();
-//
-//        // Line
-//        bufferbuilder.pos(x, y,0).color(r, g, b,255).endVertex();
-//        bufferbuilder.pos(hoverX, lineEndY,0).color(r, g, b,255).endVertex();
-//
-//        tessellator.draw();
-//
-//        GlStateManager.glLineWidth(1.0F);
-
         // Box
         GuiUtils.drawGradientRect(0, hoverX +1, hoverY, hoverX + w +3, hoverY +1, rgb, rgb);
         GuiUtils.drawGradientRect(0, hoverX +1, hoverY + h +3, hoverX + w +3, hoverY + h +4, rgb, rgb);
@@ -187,13 +174,8 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         GuiUtils.drawGradientRect(0, hoverX, hoverY +1, hoverX +1, hoverY + h +3, rgb, rgb);
         GuiUtils.drawGradientRect(0, hoverX + w +3, hoverY +1, hoverX + w +4, hoverY + h +3, rgb, rgb);
 
-        GlStateManager.enableAlpha();
-
         int col2 = (int)(r*0.2F)<<16 | (int)(g*0.2F)<<8 | (int)(b*0.2F) | 0xFF000000;
         GuiUtils.drawGradientRect(0, hoverX +1, hoverY +1, hoverX + w +3, hoverY + h +3, col2,col2);
-        GlStateManager.disableAlpha();
-
-        GlStateManager.enableTexture2D();
     }
 
     @Override

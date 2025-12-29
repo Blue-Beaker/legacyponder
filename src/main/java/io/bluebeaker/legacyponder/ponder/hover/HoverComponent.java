@@ -35,7 +35,6 @@ public class HoverComponent {
         return new GuiHoverComponent(this);
     }
 
-    @ZenMethod
     public Color getColor() {
         return color;
     }
