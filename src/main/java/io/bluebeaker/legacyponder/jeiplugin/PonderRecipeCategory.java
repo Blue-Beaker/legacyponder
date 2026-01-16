@@ -10,8 +10,7 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.plugins.vanilla.ingredients.fluid.FluidStackRenderer;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nullable;
 
@@ -26,7 +25,8 @@ public class PonderRecipeCategory implements IRecipeCategory<PonderRecipeWrapper
 
     public PonderRecipeCategory(IGuiHelper guiHelper) {
         this.background = guiHelper.createBlankDrawable(160, 125);
-        this.icon = guiHelper.createDrawableIngredient(new ItemStack(Blocks.BOOKSHELF));
+//        this.icon = guiHelper.createDrawableIngredient(new ItemStack(Blocks.BOOKSHELF));
+        this.icon=guiHelper.drawableBuilder(new ResourceLocation(LegacyPonder.MODID,"textures/gui/icon/icon.png"),0,0,16,16).setTextureSize(16,16).build();
         this.slotBackground = guiHelper.getSlotDrawable();
     }
 
