@@ -3,6 +3,7 @@ package io.bluebeaker.legacyponder.ponder.gui;
 import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
 import io.bluebeaker.legacyponder.ponder.hover.GuiHoverComponent;
+import io.bluebeaker.legacyponder.ponder.hover.HighlightArea;
 import io.bluebeaker.legacyponder.ponder.hover.HoverComponent;
 import io.bluebeaker.legacyponder.ponder.page.PonderPageStructure;
 import io.bluebeaker.legacyponder.render.RenderPosUtils;
@@ -17,6 +18,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.client.config.GuiUtils;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -67,6 +69,55 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
 
         StructureRenderManager.renderStructure(partialTicks, pageBounds.x, pageBounds.y, pageBounds.w,pageBounds.h);
 
+        ScaledResolution scaled = new ScaledResolution(Minecraft.getMinecraft());
+        int scale = scaled.getScaleFactor();
+
+        GlStateManager.glLineWidth(scale);
+        GlStateManager.disableTexture2D();
+        GlStateManager.disableLighting();
+        GlStateManager.enableBlend();
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferbuilder = tessellator.getBuffer();
+        for (HighlightArea highlightArea : page.getHighlightAreas()) {
+            BlockPos pos1 = highlightArea.getPos1();
+            BlockPos pos2 = highlightArea.getPos2();
+            Color color = highlightArea.getColor();
+            float fighting_fix = 0.01f;
+            float x1= pos1.getX()-fighting_fix;
+            float y1= pos1.getY()-fighting_fix;
+            float z1= pos1.getZ()-fighting_fix;
+            float x2= pos2.getX()+1+fighting_fix;
+            float y2= pos2.getY()+1+fighting_fix;
+            float z2= pos2.getZ()+1+fighting_fix;
+
+            bufferbuilder.begin(3, DefaultVertexFormats.POSITION_COLOR);
+            int r = color.getRed();
+            int g = color.getGreen();
+            int b = color.getBlue();
+
+            // Line
+            bufferbuilder.pos(x1,y1,z1).color(r, g, b,255).endVertex();
+            bufferbuilder.pos(x2,y1,z1).color(r, g, b,255).endVertex();
+            bufferbuilder.pos(x2,y2,z1).color(r, g, b,255).endVertex();
+            bufferbuilder.pos(x1,y2,z1).color(r, g, b,255).endVertex();
+            bufferbuilder.pos(x1,y1,z1).color(r, g, b,255).endVertex();
+
+            bufferbuilder.pos(x1,y1,z2).color(r, g, b,255).endVertex();
+            bufferbuilder.pos(x2,y1,z2).color(r, g, b,255).endVertex();
+            bufferbuilder.pos(x2,y1,z1).color(r, g, b,255).endVertex();
+            bufferbuilder.pos(x2,y1,z2).color(r, g, b,255).endVertex();
+            bufferbuilder.pos(x2,y2,z2).color(r, g, b,255).endVertex();
+            bufferbuilder.pos(x2,y2,z1).color(r, g, b,255).endVertex();
+            bufferbuilder.pos(x2,y2,z2).color(r, g, b,255).endVertex();
+            bufferbuilder.pos(x1,y2,z2).color(r, g, b,255).endVertex();
+            bufferbuilder.pos(x1,y2,z1).color(r, g, b,255).endVertex();
+            bufferbuilder.pos(x1,y2,z2).color(r, g, b,255).endVertex();
+            bufferbuilder.pos(x1,y1,z2).color(r, g, b,255).endVertex();
+
+            tessellator.draw();
+        }
+
+
         // 准备缓冲区
         FloatBuffer modelView = BufferUtils.createFloatBuffer(16);
         FloatBuffer projection = BufferUtils.createFloatBuffer(16);
@@ -76,9 +127,6 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, modelView);
         GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, projection);
         GL11.glGetInteger(GL11.GL_VIEWPORT, viewport);
-
-        ScaledResolution scaled = new ScaledResolution(Minecraft.getMinecraft());
-        int scale = scaled.getScaleFactor();
 
         drawHoverLines(scale, modelView, projection, viewport);
 

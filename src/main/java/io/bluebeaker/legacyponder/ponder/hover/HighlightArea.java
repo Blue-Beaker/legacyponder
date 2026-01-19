@@ -12,6 +12,7 @@ import java.awt.*;
 @ZenClass("mods.legacyponder.HighlightArea")
 @ZenRegister
 public class HighlightArea {
+
     protected BlockPos pos1;
     protected BlockPos pos2;
     protected Color color = new Color(80,128,255);
@@ -37,5 +38,12 @@ public class HighlightArea {
     }
     public Color getColor() {
         return color;
+    }
+    public BlockPos getPos1() {
+        return pos1;
+    }
+
+    public BlockPos getPos2() {
+        return pos2;
     }
 }
