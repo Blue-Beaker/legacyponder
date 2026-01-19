@@ -109,13 +109,14 @@ public class GuiScreenPonder extends GuiScreen {
             this.drawDefaultBackground();
             // Draw title
             this.drawCenteredString(this.fontRenderer, I18n.format(this.currentEntry.title),this.width/2,10,0xFFFFFFFF);
-            // Draw current page
-            this.guiInfoPage.draw(mouseX - this.pageBounds.x, mouseY - this.pageBounds.y, partialTicks);
             // Draw page number
             this.drawString(this.fontRenderer,String.format("%s/%s",this.currentPageID +1,this.pages),44,this.height-20,0xFFFFFFFF);
 
             // Draw page description
             RenderUtils.drawSplitString(this.fontRenderer,this.guiInfoPage.getFormattedDescription(),100,this.height-28, this.width-100,0xFFFFFFFF,true);
+
+            // Draw current page
+            this.guiInfoPage.draw(mouseX - this.pageBounds.x, mouseY - this.pageBounds.y, partialTicks);
         } catch (Exception e) {
             LegacyPonder.getLogger().error("Error drawing ponder page {}: {}",this.currentPage,e);
         }

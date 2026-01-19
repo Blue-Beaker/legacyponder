@@ -72,6 +72,38 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         ScaledResolution scaled = new ScaledResolution(Minecraft.getMinecraft());
         int scale = scaled.getScaleFactor();
 
+        if(!this.page.getHighlightAreas().isEmpty()){
+            drawHighlightBoxes(scale);
+        }
+
+        if(!this.hoverComponents.isEmpty()){
+
+            // 准备缓冲区
+            FloatBuffer modelView = BufferUtils.createFloatBuffer(16);
+            FloatBuffer projection = BufferUtils.createFloatBuffer(16);
+            IntBuffer viewport = BufferUtils.createIntBuffer(16);
+
+            // 获取当前矩阵和视口
+            GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, modelView);
+            GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, projection);
+            GL11.glGetInteger(GL11.GL_VIEWPORT, viewport);
+
+            drawHoverLines(scale, modelView, projection, viewport);
+
+            StructureRenderManager.cleanTransformations();
+
+            GlStateManager.enableTexture2D();
+            GlStateManager.disableTexture2D();
+            drawHoverComponents(mouseX, mouseY, modelView, projection, viewport, scale);
+
+        }else {
+            StructureRenderManager.cleanTransformations();
+        }
+
+        RenderUtils.endViewPort();
+    }
+
+    private void drawHighlightBoxes(int scale) {
         GlStateManager.glLineWidth(scale);
         GlStateManager.disableTexture2D();
         GlStateManager.disableLighting();
@@ -116,27 +148,7 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
 
             tessellator.draw();
         }
-
-
-        // 准备缓冲区
-        FloatBuffer modelView = BufferUtils.createFloatBuffer(16);
-        FloatBuffer projection = BufferUtils.createFloatBuffer(16);
-        IntBuffer viewport = BufferUtils.createIntBuffer(16);
-
-        // 获取当前矩阵和视口
-        GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, modelView);
-        GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, projection);
-        GL11.glGetInteger(GL11.GL_VIEWPORT, viewport);
-
-        drawHoverLines(scale, modelView, projection, viewport);
-
-        StructureRenderManager.cleanTransformations();
-
         GlStateManager.enableTexture2D();
-        GlStateManager.disableTexture2D();
-        drawHoverComponents(mouseX, mouseY, modelView, projection, viewport, scale);
-
-        RenderUtils.endViewPort();
     }
 
     private void drawHoverLines(int scale, FloatBuffer modelView, FloatBuffer projection, IntBuffer viewport) {
