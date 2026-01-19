@@ -2,16 +2,26 @@ package io.bluebeaker.legacyponder.crafttweaker;
 
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IItemStack;
-import io.bluebeaker.legacyponder.ponder.drawable.DrawableGroup;
-import io.bluebeaker.legacyponder.ponder.drawable.DrawableItem;
-import io.bluebeaker.legacyponder.ponder.drawable.DrawableText;
-import io.bluebeaker.legacyponder.ponder.drawable.DrawableTexture;
+import io.bluebeaker.legacyponder.ponder.drawable.*;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
+/**
+ * Conventional builder class for creating drawable elements
+ */
 @ZenClass("mods.legacyponder.DrawableBuilder")
 @ZenRegister
 public class DrawableBuilder {
+
+    @ZenMethod
+    public static DrawableBox buildBox(int x1, int y1, int x2, int y2, int color){
+        return DrawableBox.build(x1, y1, x2, y2, color);
+    }
+    @ZenMethod
+    public static DrawableLine buildLine(int x1, int y1, int x2, int y2, int color){
+        return DrawableLine.build(x1, y1, x2, y2, color);
+    }
+
     @ZenMethod
     public static DrawableItem buildItem(IItemStack item){
         return DrawableItem.build(item);

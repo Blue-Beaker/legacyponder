@@ -1,10 +1,12 @@
 package io.bluebeaker.legacyponder.ponder.page;
 
 import crafttweaker.annotations.ZenRegister;
+import io.bluebeaker.legacyponder.crafttweaker.IDrawableSupplier;
 import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
 import io.bluebeaker.legacyponder.ponder.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.ponder.gui.GuiPageStructure;
 import io.bluebeaker.legacyponder.ponder.hover.HighlightArea;
+import io.bluebeaker.legacyponder.ponder.hover.HoverComponent;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -45,5 +47,41 @@ public class PonderPageStructure extends PonderPageBase{
     }
     public List<HighlightArea> getHighlightAreas() {
         return highlightAreas;
+    }
+
+    /**
+     * Conventional method for adding a highlight area to this structure page
+     * @param x1 x1
+     * @param y1 y1
+     * @param z1 z1
+     * @param x2 x2
+     * @param y2 y2
+     * @param z2 z2
+     * @param r red
+     * @param g green
+     * @param b blue
+     * @return this
+     */
+    @ZenMethod
+    public PonderPageStructure addHighlightArea(int x1, int y1, int z1, int x2, int y2, int z2, int r, int g, int b){
+        this.highlightAreas.add(HighlightArea.build(x1,y1,z1,x2,y2,z2).setColor(r,g,b));
+        return this;
+    }
+
+    /**
+     * Conventional method for adding a hover component to this structure page
+     * @param x x
+     * @param y y
+     * @param z z
+     * @param drawableSupplier the method supplying the drawable for this hover component
+     * @param r red
+     * @param g green
+     * @param b blue
+     * @return this
+     */
+    @ZenMethod
+    public PonderPageStructure addHoverComponent(float x, float y, float z, IDrawableSupplier drawableSupplier, int r, int g, int b){
+        this.hoverComponents.add(HoverComponent.build(x,y,z,drawableSupplier).setColor(r,g,b));
+        return this;
     }
 }
