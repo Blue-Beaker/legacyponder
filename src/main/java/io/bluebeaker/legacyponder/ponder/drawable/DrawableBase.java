@@ -1,6 +1,7 @@
 package io.bluebeaker.legacyponder.ponder.drawable;
 
 import crafttweaker.annotations.ZenRegister;
+import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import net.minecraft.client.gui.GuiScreen;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -47,10 +48,31 @@ public abstract class DrawableBase {
         return new BoundingBox2D(getX(),getY(),getWidth(),getHeight());
     }
 
+    public boolean isFocused(GuiScreen screen, int mouseX, int mouseY){
+        return this.isInteractable() && this.getBoundingBox().contains(mouseX,mouseY);
+    }
+
     public boolean onMouseHover(GuiScreen screen, int mouseX, int mouseY){return false;}
 
     @ZenMethod
     public int getAbsX() {return x+parentX;}
     @ZenMethod
     public int getAbsY() {return y+parentY;}
+
+    public void onKeyTyped(GuiScreenPonder parent, char typedChar, int keyCode) {
+
+    }
+
+    @ZenMethod
+    public boolean isInteractable() {
+        return false;
+    }
+
+    public boolean onMouseClick(GuiScreenPonder parent, int x, int y, int button) {
+        return false;
+    }
+
+    public boolean onMouseRelease(GuiScreenPonder parent, int x, int y, int state) {
+        return false;
+    }
 }

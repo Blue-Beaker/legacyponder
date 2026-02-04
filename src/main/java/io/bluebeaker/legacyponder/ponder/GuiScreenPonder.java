@@ -128,6 +128,8 @@ public class GuiScreenPonder extends GuiScreen {
         if (keyCode == 1)
         {
             close();
+        }else {
+            guiInfoPage.onKeyTyped(typedChar, keyCode);
         }
     }
 

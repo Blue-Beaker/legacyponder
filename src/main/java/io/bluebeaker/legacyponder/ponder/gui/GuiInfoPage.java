@@ -89,4 +89,7 @@ public class GuiInfoPage<T extends PonderPageBase> extends GuiScreen {
     public String getFormattedDescription() {
         return formattedDescription;
     }
+
+    public void onKeyTyped(char typedChar, int keyCode) {
+    }
 }

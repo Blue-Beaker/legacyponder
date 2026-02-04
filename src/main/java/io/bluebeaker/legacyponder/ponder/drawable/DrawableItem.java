@@ -3,6 +3,8 @@ package io.bluebeaker.legacyponder.ponder.drawable;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
+import io.bluebeaker.legacyponder.jeiplugin.JEIUtils;
+import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -14,7 +16,7 @@ import stanhebben.zenscript.annotations.ZenMethod;
 
 @ZenClass("mods.legacyponder.DrawableItem")
 @ZenRegister
-public class DrawableItem extends DrawableBase {
+public class DrawableItem extends DrawableInteractive {
 
     private final ItemStack itemStack;
 
@@ -39,16 +41,33 @@ public class DrawableItem extends DrawableBase {
     }
 
     @Override
-    public boolean onMouseHover(GuiScreen screen, int mouseX, int mouseY) {
-        if(this.getBoundingBox().contains(mouseX,mouseY)){
-            GlStateManager.translate(0,0,100);
-            screen.drawHoveringText(screen.getItemToolTip(itemStack),mouseX+parentX,mouseY+parentY);
-            RenderHelper.disableStandardItemLighting();
-            GlStateManager.translate(0,0,-100);
+    public boolean onMouseClick(GuiScreenPonder parent, int x, int y, int button) {
+        if(button==0 || button==1){
+            JEIUtils.JEIAction action = button==0 ? JEIUtils.JEIAction.RECIPE : JEIUtils.JEIAction.USAGE;
+            JEIUtils.handleJEIAction(itemStack, action);
             return true;
-        };
-        return super.onMouseHover(screen, mouseX, mouseY);
+        }
+        return super.onMouseClick(parent, x, y, button);
     }
+
+    @Override
+    public void onKeyTyped(GuiScreenPonder parent, char typedChar, int keyCode) {
+        JEIUtils.JEIAction action = JEIUtils.getJEIAction(keyCode);
+        if(action!= JEIUtils.JEIAction.NONE){
+            JEIUtils.handleJEIAction(itemStack, action);
+        }
+    }
+
+    @Override
+    public boolean onMouseHover(GuiScreen screen, int mouseX, int mouseY) {
+        GlStateManager.translate(0,0,100);
+        screen.drawHoveringText(screen.getItemToolTip(itemStack),mouseX+parentX,mouseY+parentY);
+        RenderHelper.disableStandardItemLighting();
+        GlStateManager.translate(0,0,-100);
+        return true;
+    }
+
+
 
     @ZenMethod
     @Override
