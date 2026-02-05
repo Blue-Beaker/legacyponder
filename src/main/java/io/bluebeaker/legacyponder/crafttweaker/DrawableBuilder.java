@@ -1,6 +1,7 @@
 package io.bluebeaker.legacyponder.crafttweaker;
 
 import crafttweaker.annotations.ZenRegister;
+import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
 import io.bluebeaker.legacyponder.ponder.drawable.*;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -26,6 +27,15 @@ public class DrawableBuilder {
     public static DrawableItem buildItem(IItemStack item){
         return DrawableItem.build(item);
     }
+    @ZenMethod
+    public static DrawableItem buildItem(IIngredient item){
+        return DrawableItem.build(item);
+    }
+    @ZenMethod
+    public static DrawableItem buildItem(IItemStack[] item){
+        return DrawableItem.build(item);
+    }
+
     @ZenMethod
     public static DrawableText formattedText(String text, int color){
         return DrawableText.buildFormatted(text, color);
