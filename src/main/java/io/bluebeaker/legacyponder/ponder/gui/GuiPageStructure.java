@@ -36,6 +36,7 @@ import static io.bluebeaker.legacyponder.render.StructureRenderManager.viewPos;
 public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
 
     protected final List<GuiHoverComponent> hoverComponents = new ArrayList<>();
+    protected GuiHoverComponent hoveredComponent = null;
 
     public GuiPageStructure(GuiScreenPonder parent, PonderPageStructure page) {
         super(parent, page);
@@ -215,10 +216,19 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
                 LegacyPonder.getLogger().warn("Error drawing hoverComponent {}:",hoverComponent,e);
             }
         }
-        // Do hover action on hoverComponents
+        // Check if hovering any component, start from the last one to ensure hovering the topmost one
+        this.hoveredComponent=null;
         for (int i = hoverComponents.size()-1; i >=0; i--) {
-            boolean b = hoverComponents.get(i).getDrawable().onMouseHover(this.parent, mouseX, mouseY);
-            if(b) break;
+            GuiHoverComponent hoveredComponent1 = hoverComponents.get(i);
+
+            if(hoveredComponent1.getDrawable().getBoundingBox().contains(mouseX,mouseY)){
+                this.hoveredComponent = hoveredComponent1;
+                break;
+            }
+        }
+        // If hovering a component, call its hover action
+        if(this.hoveredComponent!=null){
+            this.hoveredComponent.getDrawable().onMouseHover(this.parent, mouseX, mouseY);
         }
     }
 
@@ -253,6 +263,15 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
     @Override
     public boolean onMouseRelease(int x, int y, int state) {
         return super.onMouseRelease(x, y, state);
+    }
+
+    @Override
+    public void onKeyTyped(char typedChar, int keyCode) {
+        if(hoveredComponent!=null){
+            hoveredComponent.getDrawable().onKeyTyped(this.parent,typedChar,keyCode);
+            return;
+        }
+        super.onKeyTyped(typedChar, keyCode);
     }
 
     @Override
