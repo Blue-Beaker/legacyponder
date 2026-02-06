@@ -1,0 +1,47 @@
+#reloadable
+#sideonly client
+
+import mods.legacyponder.IPonderEntry;
+import mods.legacyponder.PonderRegistry;
+import mods.legacyponder.PonderPage;
+import mods.legacyponder.DrawableBuilder;
+import mods.legacyponder.HoverComponent;
+import mods.legacyponder.HighlightArea;
+import mods.legacyponder.DrawableBox;
+import mods.legacyponder.DrawableLine;
+
+val entry = IPonderEntry.createPonderEntry("Entry 3","Example entry 3 with custom GUI");
+
+entry.addIngredient(<ore:plankWood>);
+entry.addIngredient(<minecraft:wool:0>);
+entry.addIngredient(<liquid:lava>);
+
+entry.addPage(PonderPage.fromDrawable(function(w,h){
+    val group = DrawableBuilder.buildGroup();
+    group.addChild(DrawableBuilder.buildText("Test",0xFFFFFFFF),w/2,0);
+    group.addChild(DrawableBuilder.buildTexture("textures/gui/container/crafting_table.png",0,0,176,166),0,20);
+    group.addChild(DrawableBuilder.buildItem(<minecraft:gold_ingot>*10),30,37);
+    group.addChild(DrawableBuilder.buildItem(<minecraft:beacon>),48,37);
+    group.addChild(DrawableBuilder.buildItem(<ore:plankWood>),66,37);
+    return group;
+}));
+entry.addPage(PonderPage.fromStructure("test1/stru1")
+    .addHighlightArea(HighlightArea.build(0,0,0,2,1,2).setColor(80,127,127))
+    .addHoverComponent(
+        HoverComponent.build(1.5,1,1.5,function(w,h){
+            val group = DrawableBuilder.buildGroup();
+            group.addChild(DrawableBuilder.buildItem(<minecraft:gold_ingot>*10));
+            group.addChild(DrawableBuilder.buildText("Test",0xFFFFFFFF),0,16);
+            group.addChild(DrawableBox.build(0,0,30,30,0xFFFF8080));
+            group.addChild(DrawableLine.build(20,50,50,30,0xFFFF8080));
+            return group;
+            }
+        ).setColor(80,127,127))
+    .addHoverComponent(
+         HoverComponent.build(2.5,1,1.5,function(w,h){
+             return DrawableBuilder.buildItem(<minecraft:diamond>*2);
+             }
+         ).setColor(255,180,180))
+    );
+
+PonderRegistry.add("test_entry3",entry);
