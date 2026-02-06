@@ -1,6 +1,7 @@
 package io.bluebeaker.legacyponder.ponder.gui;
 
 import io.bluebeaker.legacyponder.LegacyPonder;
+import io.bluebeaker.legacyponder.jeiplugin.JEIUtils;
 import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
 import io.bluebeaker.legacyponder.ponder.hover.GuiHoverComponent;
 import io.bluebeaker.legacyponder.ponder.hover.HighlightArea;
@@ -18,12 +19,16 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.client.config.GuiUtils;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.io.IOException;
 import java.nio.FloatBuffer;
@@ -31,6 +36,7 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.bluebeaker.legacyponder.render.StructureRenderManager.getWorld;
 import static io.bluebeaker.legacyponder.render.StructureRenderManager.viewPos;
 
 public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
@@ -44,6 +50,10 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
     /** Used when dragging a component */
     protected int dragX = 0;
     protected int dragY = 0;
+
+    private FloatBuffer modelView = BufferUtils.createFloatBuffer(16);
+    private FloatBuffer projection = BufferUtils.createFloatBuffer(16);
+    private IntBuffer viewport = BufferUtils.createIntBuffer(16);
 
     public GuiPageStructure(GuiScreenPonder parent, PonderPageStructure page) {
         super(parent, page);
@@ -84,22 +94,14 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
             drawHighlightBoxes(scale);
         }
 
+        // Get Matrix for hover component rendering and raycasting
+        GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, modelView);
+        GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, projection);
+        GL11.glGetInteger(GL11.GL_VIEWPORT, viewport);
+
         if(!this.components.isEmpty()){
 
-            // 准备缓冲区
-            FloatBuffer modelView = BufferUtils.createFloatBuffer(16);
-            FloatBuffer projection = BufferUtils.createFloatBuffer(16);
-            IntBuffer viewport = BufferUtils.createIntBuffer(16);
-
-            // 获取当前矩阵和视口
-            GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, modelView);
-            GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, projection);
-            GL11.glGetInteger(GL11.GL_VIEWPORT, viewport);
-
-//            drawHoverLines(scale, modelView, projection, viewport);
-
             StructureRenderManager.cleanTransformations();
-
 
             GlStateManager.enableTexture2D();
             GlStateManager.disableTexture2D();
@@ -160,6 +162,16 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
             tessellator.draw();
         }
         GlStateManager.enableTexture2D();
+    }
+
+    @Nullable
+    private RayTraceResult raycastFromCursor(int x, int y, FloatBuffer modelView, FloatBuffer projection, IntBuffer viewport){
+        float[] pos0 = RenderPosUtils.unprojectFromScreen(x, y, 0.0F, modelView, projection, viewport);
+        float[] pos1 = RenderPosUtils.unprojectFromScreen(x, y, 1.0F, modelView, projection, viewport);
+        Vec3d from = new Vec3d(pos0[0], pos0[1], pos0[2]).add(new Vec3d(StructureRenderManager.STRUCTURE_OFFSET));
+        Vec3d to = new Vec3d(pos1[0], pos1[1], pos1[2]).add(new Vec3d(StructureRenderManager.STRUCTURE_OFFSET));
+
+        return getWorld().rayTraceBlocks(from, to);
     }
 
     private void drawHoverLines(int scale, FloatBuffer modelView, FloatBuffer projection, IntBuffer viewport) {
@@ -333,6 +345,23 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         if(hoverComp !=null){
             hoverComp.getDrawable().onKeyTyped(this.parent,typedChar,keyCode);
             return;
+        }
+        try {
+            JEIUtils.JEIAction action = JEIUtils.getJEIAction(keyCode);
+            if(action!= JEIUtils.JEIAction.NONE){
+
+                RayTraceResult rayTraceResult = raycastFromCursor(MouseTracker.INSTANCE.x, MouseTracker.INSTANCE.y, modelView, projection, viewport);
+
+                if(rayTraceResult!=null){
+                    BlockPos pos = rayTraceResult.getBlockPos();
+                    ItemStack pickBlock = getWorld().getBlockState(pos).getBlock().getPickBlock(getWorld().getBlockState(pos), rayTraceResult, Minecraft.getMinecraft().world, pos, StructureRenderManager.getPlayer());
+
+                    JEIUtils.handleJEIAction(pickBlock, action);
+                }
+                return;
+            }
+        }catch (Throwable e){
+            LegacyPonder.getLogger().warn("Error handling key input {}:",keyCode,e);
         }
         super.onKeyTyped(typedChar, keyCode);
     }

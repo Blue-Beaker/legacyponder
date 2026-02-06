@@ -1,7 +1,9 @@
 package io.bluebeaker.legacyponder.render;
 
 import com.google.common.base.Predicates;
+import com.mojang.authlib.GameProfile;
 import io.bluebeaker.legacyponder.structure.events.StructureTileEvent;
+import io.bluebeaker.legacyponder.utils.DummyPlayer;
 import io.bluebeaker.legacyponder.world.DummyWorld;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -25,6 +27,7 @@ import org.lwjgl.util.glu.GLU;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
@@ -32,6 +35,9 @@ public class StructureRenderManager {
 
     public static BlockPos STRUCTURE_OFFSET = new BlockPos(0,63,0);
     protected static DummyWorld world = new DummyWorld(false);
+
+    protected static DummyPlayer player = new DummyPlayer(world,new GameProfile(UUID.randomUUID(),"LegacyPonderRenderPlayer"));
+
     private static final Map<String, BufferBuilder> buffers = new HashMap<>();
 
     public static StructureViewPos viewPos = new StructureViewPos();
@@ -49,6 +55,10 @@ public class StructureRenderManager {
             world=new DummyWorld(true);
         }
         return world;
+    }
+
+    public static DummyPlayer getPlayer() {
+        return player;
     }
 
     public static void renderStructure(float partialTicks, int offsetX, int offsetY, int sizeX, int sizeY){
