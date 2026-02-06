@@ -15,6 +15,8 @@ public class HoverComponent {
     protected Color color = new Color(80,0,255);
 
     public final IDrawableSupplier drawableSupplier;
+    public int offsetX=60;
+    public int offsetY=-30;
 
     public HoverComponent(float x, float y, float z, IDrawableSupplier drawableSupplier){
         this.pos=new Vector3f(x, y, z);
