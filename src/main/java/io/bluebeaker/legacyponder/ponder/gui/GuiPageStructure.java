@@ -225,13 +225,15 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
             float x = floats[0] / scale - pageBounds.x;
             float y = parent.height - floats[1] / scale - pageBounds.y;
 
+            int hoverX = Math.round(x+ hoverComponent.offX);
+            int hoverY = Math.round(y+ hoverComponent.offY);
+
+            hoverComponent.updatePosition(hoverX,hoverY);
+
             int x1 = hoverComponent.getDrawable().getXMin();
             int y1 = hoverComponent.getDrawable().getYMin();
             int x2 = hoverComponent.getDrawable().getXMax();
             int y2 = hoverComponent.getDrawable().getYMax();
-
-            int hoverX = Math.round(x+ hoverComponent.offX);
-            int hoverY = Math.round(y+ hoverComponent.offY);
 
             int lineEndX = (x1+x2)/2;
             int lineEndY = (y1+y2)/2;
@@ -265,13 +267,13 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
                 float x = floats[0] / scale - pageBounds.x;
                 float y = parent.height - floats[1] / scale - pageBounds.y;
 
+                int hoverX = Math.round(x+ hoverComponent.offX);
+                int hoverY = Math.round(y+ hoverComponent.offY);
+
                 int x1 = hoverComponent.getDrawable().getXMin();
                 int y1 = hoverComponent.getDrawable().getYMin();
                 int x2 = hoverComponent.getDrawable().getXMax();
                 int y2 = hoverComponent.getDrawable().getYMax();
-
-                int hoverX = Math.round(x+ hoverComponent.offX);
-                int hoverY = Math.round(y+ hoverComponent.offY);
 
                 drawHoverBackground(color, x1-2, y1-2, x2+2, y2+2);
 
@@ -288,7 +290,7 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         for (int i = components.size()-1; i >=0; i--) {
             GuiHoverComponent hoveredComponent1 = components.get(i);
 
-            if(hoveredComponent1.getDrawable().getBoundingBox().expand(2).contains(mouseX,mouseY)){
+            if(hoveredComponent1.getDrawable().getBoundingBox().expand(3).contains(mouseX,mouseY)){
                 this.hoverComp = hoveredComponent1;
                 break;
             }
@@ -304,15 +306,16 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         int g = color.getGreen();
         int b = color.getBlue();
         int rgb = color.getRGB();
-        // Box
-        GuiUtils.drawGradientRect(0, x1 +1, y1, x2, y1 +1, rgb, rgb);
-        GuiUtils.drawGradientRect(0, x1 +1, y2, x2, y2 + 1, rgb, rgb);
 
-        GuiUtils.drawGradientRect(0, x1, y1 +1, x1 +1, y2, rgb, rgb);
-        GuiUtils.drawGradientRect(0, x2, y1 +1, x2 + 1, y2, rgb, rgb);
+        // Box
+        GuiUtils.drawGradientRect(0, x1 +1, y1, x2-1, y1 +1, rgb, rgb);
+        GuiUtils.drawGradientRect(0, x1 +1, y2-1, x2-1, y2, rgb, rgb);
+
+        GuiUtils.drawGradientRect(0, x1, y1 +1, x1 +1, y2-1, rgb, rgb);
+        GuiUtils.drawGradientRect(0, x2-1, y1 +1, x2, y2-1, rgb, rgb);
 
         int col2 = (int)(r*0.2F)<<16 | (int)(g*0.2F)<<8 | (int)(b*0.2F) | 0xFF000000;
-        GuiUtils.drawGradientRect(0, x1 +1, y1 +1, x2, y2, col2,col2);
+        GuiUtils.drawGradientRect(0, x1 +1, y1 +1, x2-1, y2-1, col2,col2);
     }
 
     @Override
