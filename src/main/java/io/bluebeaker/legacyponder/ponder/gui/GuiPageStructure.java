@@ -225,14 +225,16 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
             float x = floats[0] / scale - pageBounds.x;
             float y = parent.height - floats[1] / scale - pageBounds.y;
 
-            int w = hoverComponent.getDrawable().getWidth();
-            int h = hoverComponent.getDrawable().getHeight();
+            int x1 = hoverComponent.getDrawable().getXMin();
+            int y1 = hoverComponent.getDrawable().getYMin();
+            int x2 = hoverComponent.getDrawable().getXMax();
+            int y2 = hoverComponent.getDrawable().getYMax();
 
             int hoverX = Math.round(x+ hoverComponent.offX);
             int hoverY = Math.round(y+ hoverComponent.offY);
 
-            int lineEndX = hoverX+w/2;
-            int lineEndY = hoverY+h/2;
+            int lineEndX = (x1+x2)/2;
+            int lineEndY = (y1+y2)/2;
 
             bufferbuilder.begin(3, DefaultVertexFormats.POSITION_COLOR);
             int r = color.getRed();
@@ -263,15 +265,17 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
                 float x = floats[0] / scale - pageBounds.x;
                 float y = parent.height - floats[1] / scale - pageBounds.y;
 
-                int w = hoverComponent.getDrawable().getWidth();
-                int h = hoverComponent.getDrawable().getHeight();
+                int x1 = hoverComponent.getDrawable().getXMin();
+                int y1 = hoverComponent.getDrawable().getYMin();
+                int x2 = hoverComponent.getDrawable().getXMax();
+                int y2 = hoverComponent.getDrawable().getYMax();
 
                 int hoverX = Math.round(x+ hoverComponent.offX);
                 int hoverY = Math.round(y+ hoverComponent.offY);
 
-                drawHoverBackground(color, hoverX, hoverY, w, h);
+                drawHoverBackground(color, x1-2, y1-2, x2+2, y2+2);
 
-                hoverComponent.draw(this.parent, hoverX+2, hoverY+2, mouseX, mouseY);
+                hoverComponent.draw(this.parent, hoverX, hoverY, mouseX, mouseY);
 
             } catch (Exception e) {
                 LegacyPonder.getLogger().warn("Error drawing hoverComponent {}:",hoverComponent,e);
@@ -284,7 +288,7 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         for (int i = components.size()-1; i >=0; i--) {
             GuiHoverComponent hoveredComponent1 = components.get(i);
 
-            if(hoveredComponent1.getDrawable().getBoundingBox().contains(mouseX,mouseY)){
+            if(hoveredComponent1.getDrawable().getBoundingBox().expand(2).contains(mouseX,mouseY)){
                 this.hoverComp = hoveredComponent1;
                 break;
             }
@@ -295,20 +299,20 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         }
     }
 
-    private static void drawHoverBackground(Color color, int hoverX, int hoverY, int w, int h) {
+    private static void drawHoverBackground(Color color, int x1, int y1, int x2, int y2) {
         int r = color.getRed();
         int g = color.getGreen();
         int b = color.getBlue();
         int rgb = color.getRGB();
         // Box
-        GuiUtils.drawGradientRect(0, hoverX +1, hoverY, hoverX + w +3, hoverY +1, rgb, rgb);
-        GuiUtils.drawGradientRect(0, hoverX +1, hoverY + h +3, hoverX + w +3, hoverY + h +4, rgb, rgb);
+        GuiUtils.drawGradientRect(0, x1 +1, y1, x2, y1 +1, rgb, rgb);
+        GuiUtils.drawGradientRect(0, x1 +1, y2, x2, y2 + 1, rgb, rgb);
 
-        GuiUtils.drawGradientRect(0, hoverX, hoverY +1, hoverX +1, hoverY + h +3, rgb, rgb);
-        GuiUtils.drawGradientRect(0, hoverX + w +3, hoverY +1, hoverX + w +4, hoverY + h +3, rgb, rgb);
+        GuiUtils.drawGradientRect(0, x1, y1 +1, x1 +1, y2, rgb, rgb);
+        GuiUtils.drawGradientRect(0, x2, y1 +1, x2 + 1, y2, rgb, rgb);
 
         int col2 = (int)(r*0.2F)<<16 | (int)(g*0.2F)<<8 | (int)(b*0.2F) | 0xFF000000;
-        GuiUtils.drawGradientRect(0, hoverX +1, hoverY +1, hoverX + w +3, hoverY + h +3, col2,col2);
+        GuiUtils.drawGradientRect(0, x1 +1, y1 +1, x2, y2, col2,col2);
     }
 
     @Override

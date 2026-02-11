@@ -39,13 +39,23 @@ public abstract class DrawableBase {
     public int getX() {return x;}
     @ZenMethod
     public int getY() {return y;}
+
+    @ZenMethod
+    public int getXMin() {return x;}
+    @ZenMethod
+    public int getYMin() {return y;}
+    @ZenMethod
+    public int getXMax(){return x+getWidth();}
+    @ZenMethod
+    public int getYMax(){return y+getHeight();}
+
     @ZenMethod
     public int getWidth(){return w;}
     @ZenMethod
     public int getHeight(){return h;}
 
     public BoundingBox2D getBoundingBox(){
-        return new BoundingBox2D(getX(),getY(),getWidth(),getHeight());
+        return BoundingBox2D.fromMinMax(getXMin(), getYMin(),getXMax(),getYMax());
     }
 
     public boolean isFocused(GuiScreen screen, int mouseX, int mouseY){

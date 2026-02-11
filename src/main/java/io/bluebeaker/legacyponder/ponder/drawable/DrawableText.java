@@ -21,6 +21,8 @@ public class DrawableText extends DrawableBase {
     public DrawableText(String text, int color){
         this.text = text;
         this.color = color;
+
+        updateSizes();
     }
     public DrawableText(String text, Color color){
         this(text,color.getRGB());
@@ -50,6 +52,13 @@ public class DrawableText extends DrawableBase {
         }
     }
 
+    @ZenMethod
+    @Override
+    public DrawableBase setSize(int w, int h) {
+        setMaxWidth(w);
+        return this;
+    }
+
     /** Set the max width of the text. A maxWidth <= 0 is considered no limit, and maxWidth < 10 is ignored to prevent errors
      * @param w Max width of the text.
      * @return This
@@ -58,18 +67,13 @@ public class DrawableText extends DrawableBase {
     public DrawableText setMaxWidth(int w){
         maxWidth=w;
         if(maxWidth>0 && maxWidth<10) maxWidth=0;
+        updateSizes();
         return this;
     }
-    @ZenMethod
-    @Override
-    public int getWidth() {
-        if(maxWidth<=0) return Minecraft.getMinecraft().fontRenderer.getStringWidth(this.text);
-        return maxWidth;
-    }
-    @ZenMethod
-    @Override
-    public int getHeight() {
-        if(maxWidth<=0) return Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT;
-        return Minecraft.getMinecraft().fontRenderer.getWordWrappedHeight(this.text,maxWidth);
+
+
+    private void updateSizes(){
+        this.w = maxWidth<=0 ? Minecraft.getMinecraft().fontRenderer.getStringWidth(this.text) : maxWidth;
+        this.h = maxWidth<=0 ? Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT : Minecraft.getMinecraft().fontRenderer.getWordWrappedHeight(this.text,maxWidth);
     }
 }

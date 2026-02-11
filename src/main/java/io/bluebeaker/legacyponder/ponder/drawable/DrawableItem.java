@@ -93,7 +93,11 @@ public class DrawableItem extends DrawableInteractive {
         }
     }
 
-
+    @ZenMethod
+    @Override
+    public DrawableBase setSize(int w, int h) {
+        return this;
+    }
 
     @ZenMethod
     @Override

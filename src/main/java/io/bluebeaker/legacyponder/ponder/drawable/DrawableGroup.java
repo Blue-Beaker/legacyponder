@@ -18,6 +18,10 @@ public class DrawableGroup extends DrawableInteractive {
 
     @Nullable
     private DrawableBase focusedChild = null;
+    protected int x1;
+    protected int y1;
+    protected int x2;
+    protected int y2;
 
     public DrawableGroup(){
 
@@ -73,12 +77,18 @@ public class DrawableGroup extends DrawableInteractive {
     }
 
     private void updateSizes(){
-        w=0;
-        h=0;
+        x1=0;
+        y1=0;
+        x2=0;
+        y2=0;
         for (DrawableBase child : children) {
-            w=Math.max(w,child.getX()+child.getWidth());
-            h=Math.max(h,child.getY()+child.getHeight());
+            x1 =Math.min(x1,child.getXMin());
+            y1 =Math.min(y1,child.getYMin());
+            x2 =Math.max(x2,child.getXMax());
+            y2 =Math.max(y2,child.getYMax());
         }
+        w=x2-x1;
+        h=y2-y1;
     }
 
     @Override
@@ -115,4 +125,19 @@ public class DrawableGroup extends DrawableInteractive {
         return false;
     }
 
+    @ZenMethod
+    public int getXMin() {return x+x1;}
+    @ZenMethod
+    public int getYMin() {return y+y1;}
+    @ZenMethod
+    public int getXMax(){return x+x2;}
+
+    @ZenMethod
+    @Override
+    public DrawableBase setSize(int w, int h) {
+        return this;
+    }
+
+    @ZenMethod
+    public int getYMax(){return y+y2;}
 }

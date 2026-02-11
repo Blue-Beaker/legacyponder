@@ -17,6 +17,15 @@ public class DrawableTexture extends DrawableBase {
     public DrawableTexture(ResourceLocation texture, BoundingBox2D textureUV){
         this.texture = texture;
         this.textureUV = textureUV;
+
+        this.w=textureUV.w;
+        this.h=textureUV.h;
+    }
+
+    @ZenMethod
+    @Override
+    public DrawableBase setSize(int w, int h) {
+        return this;
     }
 
     @ZenMethod
@@ -30,9 +39,4 @@ public class DrawableTexture extends DrawableBase {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         screen.drawTexturedModalRect(x, y, textureUV.x, textureUV.y, textureUV.w, textureUV.h);
     }
-
-    @ZenMethod
-    public int getWidth(){return textureUV.w;}
-    @ZenMethod
-    public int getHeight(){return textureUV.h;}
 }

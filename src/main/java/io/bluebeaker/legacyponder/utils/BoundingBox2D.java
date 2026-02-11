@@ -15,6 +15,14 @@ public class BoundingBox2D {
         this.h=h;
     }
 
+    public static BoundingBox2D fromMinMax(int x1, int y1, int x2, int y2){
+        return new BoundingBox2D(x1,y1,x2-x1,y2-y1);
+    }
+
+    public BoundingBox2D expand(int amount){
+        return BoundingBox2D.fromMinMax(x-amount,y-amount,x+w+amount,y+h+amount);
+    }
+
     public boolean contains(int x1, int y1){
         return x1>=x && x1<x+w && y1>=y && y1<y+h;
     }
