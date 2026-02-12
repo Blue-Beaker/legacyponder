@@ -115,7 +115,7 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
 
         }
 
-        if(hoverComp == null){
+        if(hoverComp == null && !parent.isMouseDownInPage()){
             RayTraceResult rayTraceResult = raycastFromCursor(MouseTracker.INSTANCE.x, MouseTracker.INSTANCE.y, modelView, projection, viewport);
 
             if(rayTraceResult!=null && rayTraceResult.typeOfHit== RayTraceResult.Type.BLOCK){
@@ -377,6 +377,8 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
 
     @Override
     public void onKeyTyped(char typedChar, int keyCode) {
+        if(parent.isMouseDownInPage()) return;
+
         if(hoverComp !=null){
             hoverComp.getDrawable().onKeyTyped(this.parent,typedChar,keyCode);
             return;

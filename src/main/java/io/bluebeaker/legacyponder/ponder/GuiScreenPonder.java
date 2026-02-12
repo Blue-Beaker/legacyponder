@@ -29,6 +29,11 @@ public class GuiScreenPonder extends GuiScreen {
     @Nonnull
     protected GuiInfoPage<?> guiInfoPage = PonderPageBlank.INSTANCE.getGuiPage(this);
     protected GuiScreen lastScreen;
+
+    public boolean isMouseDownInPage() {
+        return mouseDownInPage;
+    }
+
     protected boolean mouseDownInPage = false;
 
     public Vec2i getLastMousePos() {
@@ -144,11 +149,11 @@ public class GuiScreenPonder extends GuiScreen {
 
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int state) {
-        if(mouseDownInPage && guiInfoPage.onMouseRelease(mouseX - this.pageBounds.x, mouseY - this.pageBounds.y, state)){
+        if(mouseDownInPage){
+            guiInfoPage.onMouseRelease(mouseX - this.pageBounds.x, mouseY - this.pageBounds.y, state);
             mouseDownInPage=false;
             return;
         }
-        mouseDownInPage=false;
         super.mouseReleased(mouseX, mouseY, state);
     }
 
