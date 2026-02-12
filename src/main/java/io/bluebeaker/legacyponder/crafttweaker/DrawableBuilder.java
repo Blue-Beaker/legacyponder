@@ -18,6 +18,11 @@ public class DrawableBuilder {
     public static DrawableBox buildBox(int x1, int y1, int x2, int y2, int color){
         return DrawableBox.build(x1, y1, x2, y2, color);
     }
+
+    @ZenMethod
+    public static DrawableLine buildLine(int color){
+        return DrawableLine.build(color);
+    }
     @ZenMethod
     public static DrawableLine buildLine(int x1, int y1, int x2, int y2, int color){
         return DrawableLine.build(x1, y1, x2, y2, color);

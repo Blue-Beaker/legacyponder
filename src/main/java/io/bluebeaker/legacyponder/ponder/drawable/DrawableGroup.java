@@ -131,6 +131,8 @@ public class DrawableGroup extends DrawableInteractive {
     public int getYMin() {return y+y1;}
     @ZenMethod
     public int getXMax(){return x+x2;}
+    @ZenMethod
+    public int getYMax(){return y+y2;}
 
     @ZenMethod
     @Override
@@ -138,6 +140,4 @@ public class DrawableGroup extends DrawableInteractive {
         return this;
     }
 
-    @ZenMethod
-    public int getYMax(){return y+y2;}
 }
