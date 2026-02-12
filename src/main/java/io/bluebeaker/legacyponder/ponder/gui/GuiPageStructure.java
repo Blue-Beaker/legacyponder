@@ -54,6 +54,7 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
     private FloatBuffer modelView = BufferUtils.createFloatBuffer(16);
     private FloatBuffer projection = BufferUtils.createFloatBuffer(16);
     private IntBuffer viewport = BufferUtils.createIntBuffer(16);
+    private ItemStack hoverItem = ItemStack.EMPTY;
 
     public GuiPageStructure(GuiScreenPonder parent, PonderPageStructure page) {
         super(parent, page);
@@ -99,18 +100,45 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, projection);
         GL11.glGetInteger(GL11.GL_VIEWPORT, viewport);
 
+        StructureRenderManager.cleanTransformations();
+
+
         if(!this.components.isEmpty()){
 
-            StructureRenderManager.cleanTransformations();
 
             GlStateManager.enableTexture2D();
             GlStateManager.disableTexture2D();
 
             drawHoverLines2(scale, modelView, projection, viewport);
+
             drawHoverComponents(mouseX, mouseY, modelView, projection, viewport, scale);
 
+        }
+
+        if(hoverComp == null){
+            RayTraceResult rayTraceResult = raycastFromCursor(MouseTracker.INSTANCE.x, MouseTracker.INSTANCE.y, modelView, projection, viewport);
+
+            if(rayTraceResult!=null && rayTraceResult.typeOfHit== RayTraceResult.Type.BLOCK){
+                BlockPos pos = rayTraceResult.getBlockPos();
+                try {
+                    this.hoverItem = getWorld().getBlockState(pos).getBlock().getPickBlock(getWorld().getBlockState(pos), rayTraceResult, mc.world, pos, StructureRenderManager.getPlayer());
+                }catch (Exception e){
+                    LegacyPonder.getLogger().warn("Error getting pick block for pos {}:",pos,e);
+                    this.hoverItem = ItemStack.EMPTY;
+                }
+
+                if(!hoverItem.isEmpty()){
+                    String text = hoverItem.getDisplayName();
+                    int textX = mouseX + 5;
+                    int textY = mouseY - 15;
+
+                    drawHoverBackground(new Color(0x5028007f), textX-4, textY-4, textX+mc.fontRenderer.getStringWidth(text)+4, textY+mc.fontRenderer.FONT_HEIGHT+4);
+
+                    mc.fontRenderer.drawStringWithShadow(text, textX, textY, Color.white.getRGB());
+                }
+            }
         }else {
-            StructureRenderManager.cleanTransformations();
+            this.hoverItem=ItemStack.EMPTY;
         }
 
         RenderUtils.endViewPort();
@@ -355,16 +383,8 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         }
         try {
             JEIUtils.JEIAction action = JEIUtils.getJEIAction(keyCode);
-            if(action!= JEIUtils.JEIAction.NONE){
-
-                RayTraceResult rayTraceResult = raycastFromCursor(MouseTracker.INSTANCE.x, MouseTracker.INSTANCE.y, modelView, projection, viewport);
-
-                if(rayTraceResult!=null){
-                    BlockPos pos = rayTraceResult.getBlockPos();
-                    ItemStack pickBlock = getWorld().getBlockState(pos).getBlock().getPickBlock(getWorld().getBlockState(pos), rayTraceResult, Minecraft.getMinecraft().world, pos, StructureRenderManager.getPlayer());
-
-                    JEIUtils.handleJEIAction(pickBlock, action);
-                }
+            if(action!= JEIUtils.JEIAction.NONE && !this.hoverItem.isEmpty()){
+                JEIUtils.handleJEIAction(hoverItem, action);
                 return;
             }
         }catch (Throwable e){
