@@ -110,7 +110,7 @@ public class DrawableGroup extends DrawableInteractive {
     }
 
     @Override
-    public boolean onMouseHover(GuiScreen screen, int mouseX, int mouseY) {
+    public boolean onMouseHover(GuiScreenPonder screen, int mouseX, int mouseY) {
         if(!this.isInteractable()){
             return false;
         }

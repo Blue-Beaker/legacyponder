@@ -58,11 +58,11 @@ public abstract class DrawableBase {
         return BoundingBox2D.fromMinMax(getXMin(), getYMin(),getXMax(),getYMax());
     }
 
-    public boolean isFocused(GuiScreen screen, int mouseX, int mouseY){
+    public boolean isFocused(GuiScreenPonder screen, int mouseX, int mouseY){
         return this.isInteractable() && this.getBoundingBox().contains(mouseX,mouseY);
     }
 
-    public boolean onMouseHover(GuiScreen screen, int mouseX, int mouseY){return false;}
+    public boolean onMouseHover(GuiScreenPonder screen, int mouseX, int mouseY){return false;}
 
     @ZenMethod
     public int getAbsX() {return x+parentX;}

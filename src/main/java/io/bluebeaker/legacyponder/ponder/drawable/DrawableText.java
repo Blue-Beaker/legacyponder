@@ -1,6 +1,7 @@
 package io.bluebeaker.legacyponder.ponder.drawable;
 
 import crafttweaker.annotations.ZenRegister;
+import crafttweaker.api.text.ITextComponent;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
 import io.bluebeaker.legacyponder.utils.TextUtils;
 import net.minecraft.client.Minecraft;
@@ -13,6 +14,7 @@ import java.awt.*;
 @ZenClass("mods.legacyponder.DrawableText")
 @ZenRegister
 public class DrawableText extends DrawableBase {
+
     private final String text;
     private final int color;
     private boolean dropShadow = true;
@@ -37,18 +39,27 @@ public class DrawableText extends DrawableBase {
         return new DrawableText(text,color);
     }
 
+    public static DrawableText build(ITextComponent text, int color) {
+        return new DrawableText(text.getFormattedText(),color);
+    }
+
     @ZenMethod
     public DrawableText withShadow(boolean dropShadow){
         this.dropShadow=dropShadow;
         return this;
     }
 
+    public String getText() {
+        return text;
+    }
+
     @Override
     public void draw(GuiScreen screen, int mouseX, int mouseY) {
+        String text1 = getText();
         if(maxWidth<=0){
-            screen.mc.fontRenderer.drawString(text,x,y,color,dropShadow);
+            screen.mc.fontRenderer.drawString(text1,x,y,color,dropShadow);
         }else {
-            RenderUtils.drawSplitString(screen.mc.fontRenderer,text,x,y,maxWidth,color,dropShadow);
+            RenderUtils.drawSplitString(screen.mc.fontRenderer, text1,x,y,maxWidth,color,dropShadow);
         }
     }
 
@@ -73,7 +84,8 @@ public class DrawableText extends DrawableBase {
 
 
     private void updateSizes(){
-        this.w = maxWidth<=0 ? Minecraft.getMinecraft().fontRenderer.getStringWidth(this.text) : maxWidth;
-        this.h = maxWidth<=0 ? Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT : Minecraft.getMinecraft().fontRenderer.getWordWrappedHeight(this.text,maxWidth);
+        String text1 = getText();
+        this.w = maxWidth<=0 ? Minecraft.getMinecraft().fontRenderer.getStringWidth(text1) : maxWidth;
+        this.h = maxWidth<=0 ? Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT : Minecraft.getMinecraft().fontRenderer.getWordWrappedHeight(text1,maxWidth);
     }
 }

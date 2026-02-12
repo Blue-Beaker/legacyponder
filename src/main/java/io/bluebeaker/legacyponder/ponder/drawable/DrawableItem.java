@@ -75,7 +75,7 @@ public class DrawableItem extends DrawableInteractive {
     }
 
     @Override
-    public boolean onMouseHover(GuiScreen screen, int mouseX, int mouseY) {
+    public boolean onMouseHover(GuiScreenPonder screen, int mouseX, int mouseY) {
         GlStateManager.translate(0,0,100);
         screen.drawHoveringText(screen.getItemToolTip(getActiveStack()),mouseX+parentX,mouseY+parentY);
         RenderHelper.disableStandardItemLighting();
