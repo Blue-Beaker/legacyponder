@@ -9,8 +9,6 @@ import net.minecraft.client.gui.GuiScreen;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-import java.awt.*;
-
 @ZenClass("mods.legacyponder.DrawableText")
 @ZenRegister
 public class DrawableText extends DrawableBase {
@@ -19,15 +17,14 @@ public class DrawableText extends DrawableBase {
     private final int color;
     private boolean dropShadow = true;
     private int maxWidth = 0;
+    private float alignFactor = 0F;
+    private int xOffset = 0;
 
     public DrawableText(String text, int color){
         this.text = text;
         this.color = color;
 
         updateSizes();
-    }
-    public DrawableText(String text, Color color){
-        this(text,color.getRGB());
     }
 
     @ZenMethod
@@ -49,6 +46,17 @@ public class DrawableText extends DrawableBase {
         return this;
     }
 
+    /** Set the horizontal alignment of the text.
+     * @param alignFactor Horizontal alignment factor. 0 is left aligned, 0.5 is centered, and 1 is right aligned. Values outside of this range are allowed for more extreme alignments.
+     * @return This
+     */
+    @ZenMethod
+    public DrawableText setAlign(float alignFactor){
+        this.alignFactor=alignFactor;
+        updateSizes();
+        return this;
+    }
+
     public String getText() {
         return text;
     }
@@ -57,9 +65,9 @@ public class DrawableText extends DrawableBase {
     public void draw(GuiScreen screen, int mouseX, int mouseY) {
         String text1 = getText();
         if(maxWidth<=0){
-            screen.mc.fontRenderer.drawString(text1,x,y,color,dropShadow);
+            screen.mc.fontRenderer.drawString(text1, x-xOffset,y,color,dropShadow);
         }else {
-            RenderUtils.drawSplitString(screen.mc.fontRenderer, text1,x,y,maxWidth,color,dropShadow);
+            RenderUtils.drawSplitString(screen.mc.fontRenderer, text1, x-xOffset,y,maxWidth,color,dropShadow);
         }
     }
 
@@ -82,10 +90,16 @@ public class DrawableText extends DrawableBase {
         return this;
     }
 
+    @ZenMethod
+    public int getXMin() {return x-xOffset;}
+    @ZenMethod
+    public int getXMax(){return x-xOffset +w;}
 
     private void updateSizes(){
         String text1 = getText();
-        this.w = maxWidth<=0 ? Minecraft.getMinecraft().fontRenderer.getStringWidth(text1) : maxWidth;
+        int stringWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(text1);
+        this.w = maxWidth<=0 ? stringWidth : maxWidth;
         this.h = maxWidth<=0 ? Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT : Minecraft.getMinecraft().fontRenderer.getWordWrappedHeight(text1,maxWidth);
+        this.xOffset = Math.round(stringWidth*alignFactor);
     }
 }

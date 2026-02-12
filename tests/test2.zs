@@ -22,7 +22,7 @@ entry.addIngredient(<liquid:lava>);
 
 entry.addPage(PonderPage.fromDrawable(function(w,h){
     val group = DrawableBuilder.buildGroup();
-    group.addChild(DrawableBuilder.buildText("Test",0xFFFFFFFF),w/2,0);
+    group.addChild(DrawableBuilder.buildText("Test",0xFFFFFFFF).setAlign(0.5),w/2,0);
     group.addChild(DrawableBuilder.buildTexture("textures/gui/container/crafting_table.png",0,0,176,166),0,20);
     group.addChild(DrawableBuilder.buildItem(<minecraft:gold_ingot>*10),30,37);
     group.addChild(DrawableBuilder.buildItem(<minecraft:beacon>),48,37);
