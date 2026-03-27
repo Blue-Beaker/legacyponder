@@ -36,8 +36,9 @@ public class CommandSaveStructure extends CommandBase {
         BlockPos pos2 = parseBlockPos(sender, args, 3, false);
         String structureName = args[6];
         boolean replaceExisting = args.length>=8 && parseBoolean(args[7]);
+        boolean withEntities = args.length>=9 && parseBoolean(args[8]);
 
-        PonderStructure capture = PonderStructure.capture(sender.getEntityWorld(), pos1, pos2);
+        PonderStructure capture = PonderStructure.capture(sender.getEntityWorld(), pos1, pos2, withEntities);
         if(!replaceExisting && StructureLoader.getStructure(structureName)!=null){
             sender.sendMessage(new TextComponentTranslation("commands.legacyponder.save.fail_exist",structureName));
             return;

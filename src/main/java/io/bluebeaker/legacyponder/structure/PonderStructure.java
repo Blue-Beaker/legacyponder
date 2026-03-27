@@ -1,28 +1,35 @@
 package io.bluebeaker.legacyponder.structure;
 
 import io.bluebeaker.legacyponder.structure.events.StructureTileEvent;
+import io.bluebeaker.legacyponder.utils.NBTTypes;
 import io.bluebeaker.legacyponder.utils.NBTUtils;
 import io.bluebeaker.legacyponder.utils.Palette;
 import io.bluebeaker.legacyponder.utils.PosUtils;
 import io.bluebeaker.legacyponder.world.DummyWorld;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.*;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class PonderStructure {
     public final Palette<IBlockState> palette;
 
-    public final HashMap<Long, NBTTagCompound> tileEntities;
-    public final HashMap<Long, NBTTagCompound> extraDatas;
+    public final Map<Long, NBTTagCompound> tileEntities;
+    public final Map<Long, NBTTagCompound> extraDatas;
+
+    public final List<StructureEntity> entities;
 
     public int[][][] blocks;
 
@@ -47,6 +54,8 @@ public class PonderStructure {
 
         tileEntities=new HashMap<>();
         extraDatas =new HashMap<>();
+
+        entities = new ArrayList<>();
     }
 
     public void addBlock(BlockPos pos, IBlockState state){
@@ -96,6 +105,53 @@ public class PonderStructure {
         return x >= 0 && y >= 0 && z >= 0 && x < size.getX() && y < size.getY() && z < size.getZ();
     }
 
+    public List<StructureEntity> getEntities(){
+        return new ArrayList<>(this.entities);
+    }
+
+    public void addEntity(NBTTagCompound entityNBT, Vec3d pos){
+        this.entities.add(new StructureEntity(entityNBT,pos));
+    }
+
+    /** Capture entities from a world to a structure
+     * @param world The world to capture block from
+     * @param minPos Corner 1
+     * @param maxPos Corner 2
+     */
+    public void captureEntities(World world, BlockPos minPos, BlockPos maxPos){
+        List<Entity> list = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(minPos,maxPos), e -> !(e instanceof EntityPlayer));
+        this.entities.clear();
+        for (Entity entity : list) {
+            addEntityFromWorld(minPos, entity);
+        }
+    }
+
+    /** Capture blocks from a world to a structure
+     * @param world The world to capture block from
+     * @param minPoint Corner with min x, y, z
+     * @param maxPoint Corner with max x, y, z
+     */
+    public void captureBlocks(World world, BlockPos minPoint, BlockPos maxPoint){
+        for (BlockPos pos:BlockPos.getAllInBox(minPoint,maxPoint)){
+            BlockPos relative = pos.subtract(minPoint);
+
+            TileEntity tileEntity = world.getTileEntity(pos);
+            if(tileEntity!=null){
+                // Attempt to save extra data from the tile
+                StructureTileEvent.Save event = new StructureTileEvent.Save(world, tileEntity, pos, NBTUtils.getTileEntityNBT(tileEntity));
+                MinecraftForge.EVENT_BUS.post(event);
+
+                this.addTileEntity(relative,event.tileData);
+                if(!event.extraData.isEmpty()){
+                    this.addExtraData(relative,event.extraData);
+                }
+            }
+            BlockSnapshot blockSnapshot = BlockSnapshot.getBlockSnapshot(world, pos);
+            IBlockState state = blockSnapshot.getCurrentBlock().getActualState(world,pos);
+            this.addBlock(relative,state);
+        }
+    }
+
     /** Capture blocks from a world to a structure
      * @param world The world to capture block from
      * @param corner1 One corner
@@ -103,6 +159,17 @@ public class PonderStructure {
      * @return Captured structure
      */
     public static PonderStructure capture(World world, BlockPos corner1, BlockPos corner2){
+        return capture(world, corner1, corner2,false);
+    }
+
+    /** Capture blocks from a world to a structure
+     * @param world The world to capture block from
+     * @param corner1 One corner
+     * @param corner2 Another corner
+     * @param withEntities Whether to include entities
+     * @return Captured structure
+     */
+    public static PonderStructure capture(World world, BlockPos corner1, BlockPos corner2, boolean withEntities){
         // Calculate 2 corner points
         BlockPos minPoint = new BlockPos(Math.min(corner2.getX(),corner1.getX()),
                 Math.min(corner2.getY(),corner1.getY()),
@@ -113,26 +180,13 @@ public class PonderStructure {
         BlockPos size = maxPoint.subtract(minPoint).add(1,1,1);
 
         PonderStructure structure = new PonderStructure(size);
-        for (BlockPos pos:BlockPos.getAllInBox(minPoint,maxPoint)){
-            BlockPos relative = pos.subtract(minPoint);
-
-            TileEntity tileEntity = world.getTileEntity(pos);
-            if(tileEntity!=null){
-                // Attempt to save extra data from the tile
-                StructureTileEvent.Save event = new StructureTileEvent.Save(world, tileEntity, pos, NBTUtils.getTileEntityNBT(tileEntity));
-                MinecraftForge.EVENT_BUS.post(event);
-
-                structure.addTileEntity(relative,event.tileData);
-                if(!event.extraData.isEmpty()){
-                    structure.addExtraData(relative,event.extraData);
-                }
-            }
-            BlockSnapshot blockSnapshot = BlockSnapshot.getBlockSnapshot(world, pos);
-            IBlockState state = blockSnapshot.getCurrentBlock().getActualState(world,pos);
-            structure.addBlock(relative,state);
-
-        }
         structure.pos=minPoint;
+
+        structure.captureBlocks(world,minPoint,maxPoint);
+
+        if(withEntities){
+            structure.captureEntities(world,minPoint,maxPoint);
+        }
 
         return structure;
     }
@@ -160,6 +214,43 @@ public class PonderStructure {
                     }
                 }
             }
+        }
+
+        for (StructureEntity structureEntity : entities) {
+            putEntityToWorld(world, pos, structureEntity);
+        }
+    }
+
+    private void addEntityFromWorld(BlockPos basePos, Entity entity){
+        Vec3d relPos = entity.getPositionVector().subtract(new Vec3d(basePos));
+        NBTTagCompound nbttagcompound = new NBTTagCompound();
+        entity.writeToNBTOptional(nbttagcompound);
+        addEntity(nbttagcompound, relPos);
+    }
+    private void putEntityToWorld(World world, BlockPos basePos, StructureEntity structureEntity) {
+        NBTTagCompound entityNBT = structureEntity.entityNBT.copy();
+        Vec3d absPos = new Vec3d(basePos).add(structureEntity.relPos);
+        NBTTagList nbttaglist = new NBTTagList();
+        nbttaglist.appendTag(new NBTTagDouble(absPos.x));
+        nbttaglist.appendTag(new NBTTagDouble(absPos.y));
+        nbttaglist.appendTag(new NBTTagDouble(absPos.z));
+        entityNBT.setTag("Pos", nbttaglist);
+        entityNBT.setUniqueId("UUID", UUID.randomUUID());
+
+        Entity entity;
+        try
+        {
+            entity = EntityList.createEntityFromNBT(entityNBT, world);
+        }
+        catch (Exception var15)
+        {
+            entity = null;
+        }
+
+        if (entity != null)
+        {
+            entity.setLocationAndAngles(absPos.x, absPos.y, absPos.z, entity.rotationYaw, entity.rotationPitch);
+            world.spawnEntity(entity);
         }
     }
 
@@ -194,6 +285,12 @@ public class PonderStructure {
             blockList.appendTag(layer);
         }
 
+        // Write entities
+        NBTTagList entities = new NBTTagList();
+        for (StructureEntity entity : this.entities) {
+            entities.appendTag(entity.writeToNBT(new NBTTagCompound()));
+        }
+
         FMLCommonHandler.instance().getDataFixer().writeVersionData(nbt);
 
         NBTTagList listSize = new NBTTagList();
@@ -206,6 +303,8 @@ public class PonderStructure {
             nbt.setTag("tileEntities", tileEntities);
         if(!extraDatas.isEmpty())
             nbt.setTag("extraDatas", extraDatas);
+        if(!entities.isEmpty())
+            nbt.setTag("entities", entities);
         nbt.setTag("size", listSize);
         nbt.setInteger("LegacyPonder_StructureVersion", 1);
         nbt.setString("pos",PosUtils.blockPosToString(this.pos));
@@ -218,6 +317,8 @@ public class PonderStructure {
         NBTTagList paletteList = nbt.getTagList("palette", 10);
         NBTTagCompound tileEntitiesTag = nbt.getCompoundTag("tileEntities");
         NBTTagCompound extraDatasTag = nbt.getCompoundTag("extraDatas");
+
+        NBTTagList entitiesList = nbt.getTagList("entities", NBTTypes.Compound);
 
         BlockPos size = new BlockPos(sizeList.getIntAt(0),sizeList.getIntAt(1),sizeList.getIntAt(2));
         PonderStructure structure = new PonderStructure(size);
@@ -241,6 +342,12 @@ public class PonderStructure {
         // Read ExtraData
         readPosNBT(extraDatasTag, structure.extraDatas);
 
+        // Read Entities
+        for (NBTBase nbtBase : entitiesList) {
+            if (!(nbtBase instanceof NBTTagCompound)){continue;}
+            structure.entities.add(StructureEntity.readFromNBT((NBTTagCompound) nbtBase));
+        }
+
         if(nbt.hasKey("pos")){
             structure.pos=PosUtils.blockPosFromString(nbt.getString("pos"));
         }
@@ -249,14 +356,14 @@ public class PonderStructure {
     }
 
 
-    private void writePosNBT(HashMap<Long, NBTTagCompound> posToNBT, NBTTagCompound nbt) {
+    private void writePosNBT(Map<Long, NBTTagCompound> posToNBT, NBTTagCompound nbt) {
         for (Map.Entry<Long, NBTTagCompound> entry : posToNBT.entrySet()) {
             BlockPos pos = BlockPos.fromLong(entry.getKey());
             nbt.setTag(PosUtils.blockPosToString(pos), entry.getValue());
         }
     }
 
-    private static void readPosNBT(NBTTagCompound nbt, HashMap<Long, NBTTagCompound> posToNBT) {
+    private static void readPosNBT(NBTTagCompound nbt, Map<Long, NBTTagCompound> posToNBT) {
         for (String posStr : nbt.getKeySet()) {
             BlockPos pos = PosUtils.blockPosFromString(posStr);
             if (pos != null) {
