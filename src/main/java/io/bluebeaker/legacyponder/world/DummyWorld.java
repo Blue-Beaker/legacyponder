@@ -3,6 +3,7 @@ package io.bluebeaker.legacyponder.world;
 import io.bluebeaker.legacyponder.render.StructureRenderManager;
 import io.bluebeaker.legacyponder.structure.PonderStructure;
 import io.bluebeaker.legacyponder.structure.events.StructureTileEvent;
+import net.minecraft.entity.Entity;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
@@ -100,6 +101,14 @@ public class DummyWorld extends World {
                 } catch (Throwable ignored) {
 
                 }
+            }
+        }
+
+        for (Entity entity : getEntities(Entity.class, entity -> true)) {
+            try {
+                entity.onUpdate();
+            } catch (Throwable ignored) {
+
             }
         }
     }
