@@ -27,15 +27,26 @@ public class DrawableText extends DrawableBase {
         updateSizes();
     }
 
+    /** Build a DrawableText with the specified text and color. The text will be formatted as a translation key, so it can be used for localization. If the text is not a valid translation key, it will be displayed as is.
+     * @param text Translation key of the text to be displayed. If the text is not a valid translation key, it will be displayed as is.
+     * @param color Color of the text, in ARGB format (e.g. 0xFFFF0000 for red)
+     * @return The new DrawableText instance
+     */
     @ZenMethod
     public static DrawableText buildFormatted(String text, int color) {
         return new DrawableText(TextUtils.formatKey(text),color);
     }
+
+    /** Build a DrawableText with the specified text/ITextComponent.
+     * @param text Text to be displayed.
+     * @param color Color of the text, in ARGB format (e.g. 0xFFFF0000 for red)
+     * @return The new DrawableText instance
+     */
     @ZenMethod
     public static DrawableText build(String text, int color) {
         return new DrawableText(text,color);
     }
-
+    @ZenMethod
     public static DrawableText build(ITextComponent text, int color) {
         return new DrawableText(text.getFormattedText(),color);
     }

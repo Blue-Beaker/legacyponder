@@ -46,7 +46,10 @@ public abstract class PonderPageBase {
     }
 
     /** Build a new page to display the defined texture.
-     * x,y,w,h is the section in the texture to be displayed
+     * @param x section left X
+     * @param y section top Y
+     * @param w section width
+     * @param h section height
      * @param texture ResourceLocation for the texture.
      * @return The new page with texture */
     @ZenMethod

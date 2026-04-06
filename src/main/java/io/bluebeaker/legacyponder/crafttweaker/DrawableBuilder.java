@@ -15,20 +15,45 @@ import stanhebben.zenscript.annotations.ZenMethod;
 @ZenRegister
 public class DrawableBuilder {
 
+    /** Builds a box drawable with the specified coordinates and color.
+     * @param x1 left X coordinate
+     * @param y1 top Y coordinate
+     * @param x2 right X coordinate
+     * @param y2 bottom Y coordinate
+     * @param color color of the box in ARGB format (e.g. 0xFFFF0000 for opaque red)
+     * @return The new DrawableBox instance
+     */
     @ZenMethod
     public static DrawableBox buildBox(int x1, int y1, int x2, int y2, int color){
         return DrawableBox.build(x1, y1, x2, y2, color);
     }
 
+    /** Create a line without any point included initially.
+     * @param color Color of the line, in ARGB format (e.g. 0xFFFF0000 for red)
+     * @return The created DrawableLine instance.
+     */
     @ZenMethod
     public static DrawableLine buildLine(int color){
         return DrawableLine.build(color);
     }
+
+    /** Create a line with two points included initially.
+     * @param x1 X coordinate of the first point
+     * @param y1 Y coordinate of the first point
+     * @param x2 X coordinate of the second point
+     * @param y2 Y coordinate of the second point
+     * @param color Color of the line, in ARGB format (e.g. 0xFFFF0000 for red)
+     * @return The created DrawableLine instance.
+     */
     @ZenMethod
     public static DrawableLine buildLine(int x1, int y1, int x2, int y2, int color){
         return DrawableLine.build(x1, y1, x2, y2, color);
     }
 
+    /** Builds a drawable item from the given IItemStack, array of IItemStack, or IIngredient. If the item parameter contains multiple items, all of them will be included in the drawable and displayed in a cycle.
+     * @param item the IItemStack, array of IItemStack or IIngredient to be displayed as a drawable item
+     * @return A DrawableItem instance representing the given item(s)
+     */
     @ZenMethod
     public static DrawableItem buildItem(IItemStack item){
         return DrawableItem.build(item);
@@ -42,10 +67,20 @@ public class DrawableBuilder {
         return DrawableItem.build(item);
     }
 
+    /** Build a DrawableText with the specified text and color. The text will be formatted as a translation key, so it can be used for localization. If the text is not a valid translation key, it will be displayed as is.
+     * @param text Translation key of the text to be displayed. If the text is not a valid translation key, it will be displayed as is.
+     * @param color Color of the text, in ARGB format (e.g. 0xFFFF0000 for red)
+     * @return The new DrawableText instance
+     */
     @ZenMethod
     public static DrawableText formattedText(String text, int color){
         return DrawableText.buildFormatted(text, color);
     }
+    /** Build a DrawableText with the specified text/ITextComponent.
+     * @param text Text to be displayed.
+     * @param color Color of the text, in ARGB format (e.g. 0xFFFF0000 for red)
+     * @return The new DrawableText instance
+     */
     @ZenMethod
     public static DrawableText buildText(String text, int color){
         return DrawableText.build(text, color);
@@ -55,10 +90,22 @@ public class DrawableBuilder {
         return DrawableText.build(text, color);
     }
 
+    /** Build a DrawableTexture with the specified texture and UV coordinates. The texture will be drawn at the specified coordinates, and the UV coordinates will determine which part of the texture is drawn. The size of the drawable will be determined by the width and height of the UV coordinates, and cannot be changed.
+     * @param texture ResourceLocation for the texture.
+     * @param x section left X
+     * @param y section top Y
+     * @param w section width
+     * @param h section height
+     * @return The new DrawableTexture instance
+     */
     @ZenMethod
     public static DrawableTexture buildTexture(String texture, int x, int y, int w, int h){
         return DrawableTexture.build(texture,x,y,w,h);
     }
+
+    /** Build an empty DrawableGroup, which can be used to group multiple drawables together. The drawables in the group will be drawn in the order they were added.
+     * @return The new DrawableGroup instance
+     */
     @ZenMethod
     public static DrawableGroup buildGroup(){
         return new DrawableGroup();

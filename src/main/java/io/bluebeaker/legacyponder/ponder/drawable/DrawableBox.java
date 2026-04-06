@@ -23,6 +23,14 @@ public class DrawableBox extends DrawableBase {
         this(x1,y1,x2,y2,color.getRGB());
     }
 
+    /** Builds a box drawable with the specified coordinates and color.
+     * @param x1 left X coordinate
+     * @param y1 top Y coordinate
+     * @param x2 right X coordinate
+     * @param y2 bottom Y coordinate
+     * @param color color of the box in ARGB format (e.g. 0xFFFF0000 for opaque red)
+     * @return The new DrawableBox instance
+     */
     @ZenMethod
     public static DrawableBox build(int x1, int y1, int x2, int y2, int color) {
         return new DrawableBox(x1,y1,x2,y2,color);

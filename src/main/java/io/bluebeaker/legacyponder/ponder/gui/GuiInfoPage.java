@@ -58,6 +58,7 @@ public class GuiInfoPage<T extends PonderPageBase> extends GuiScreen {
      * @param y Mouse Y relative to page area
      * @param button Clicked button
      * @return Whether the event was processed
+     * @throws IOException If an I/O error occurs
      */
     public boolean onMouseClick(int x, int y, int button) throws IOException {
         super.mouseClicked(x,y,button);

@@ -17,6 +17,10 @@ public class PonderRegistry {
 
     private static final Map<String, Entry> PONDER_REGISTRY = new HashMap<>();
 
+    /** Adds a ponder entry to the registry.
+     * @param id ID of the ponder entry
+     * @param ponderEntry The ponder entry to be added
+     */
     @ZenMethod
     public static void add(String id, IPonderEntry ponderEntry){
         CraftTweakerAPI.apply(new AddPonderAction(id,ponderEntry));

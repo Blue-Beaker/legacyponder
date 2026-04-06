@@ -28,6 +28,14 @@ public class DrawableTexture extends DrawableBase {
         return this;
     }
 
+    /** Build a DrawableTexture with the specified texture and UV coordinates. The texture will be drawn at the specified coordinates, and the UV coordinates will determine which part of the texture is drawn. The size of the drawable will be determined by the width and height of the UV coordinates, and cannot be changed.
+     * @param texture ResourceLocation for the texture.
+     * @param x section left X
+     * @param y section top Y
+     * @param w section width
+     * @param h section height
+     * @return The new DrawableTexture instance
+     */
     @ZenMethod
     public static DrawableTexture build(String texture, int x, int y, int w, int h) {
         return new DrawableTexture(new ResourceLocation(texture), new BoundingBox2D(x,y,w,h));
