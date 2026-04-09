@@ -12,6 +12,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.client.config.GuiUtils;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -61,6 +62,10 @@ public class DrawableItem extends DrawableInteractive {
         renderItem.renderItemAndEffectIntoGUI(activeStack,x,y);
         renderItem.renderItemOverlayIntoGUI(screen.mc.fontRenderer, activeStack,x,y,null);
         RenderHelper.disableStandardItemLighting();
+
+        if(isInteractable() && isFocused(screen, mouseX, mouseY)){
+            GuiUtils.drawGradientRect(300, x, y, x + 16, y + 16, 0x80ffffff, 0x80ffffff);
+        }
 
     }
 

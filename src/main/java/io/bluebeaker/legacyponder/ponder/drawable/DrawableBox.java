@@ -38,9 +38,17 @@ public class DrawableBox extends DrawableBase {
 
     @Override
     public void draw(GuiScreen screen, int mouseX, int mouseY) {
-        GuiUtils.drawGradientRect(0, x, y, x + w, 1, color,color);
-        GuiUtils.drawGradientRect(0, x, y, 1, y + h, color,color);
-        GuiUtils.drawGradientRect(0, x+w-1, y, x + w, y + h, color,color);
-        GuiUtils.drawGradientRect(0, x, y+h-1, x + w, y + h, color,color);
+        int color1 = color;
+        if(isInteractable() && isFocused(screen, mouseX, mouseY)){
+            Color color2 = new Color(color1);
+            float[] hsb = Color.RGBtoHSB(color2.getRed(), color2.getGreen(), color2.getBlue(), null);
+            hsb[1] = Math.min(1, hsb[1]-0.2f);
+            hsb[2] = Math.min(1, hsb[2]+0.2f);
+            color1 = Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
+        }
+        GuiUtils.drawGradientRect(0, x, y, x + w, 1, color1, color1);
+        GuiUtils.drawGradientRect(0, x, y, 1, y + h, color1, color1);
+        GuiUtils.drawGradientRect(0, x+w-1, y, x + w, y + h, color1, color1);
+        GuiUtils.drawGradientRect(0, x, y+h-1, x + w, y + h, color1, color1);
     }
 }

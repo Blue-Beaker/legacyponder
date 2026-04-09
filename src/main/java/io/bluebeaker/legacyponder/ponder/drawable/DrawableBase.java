@@ -71,7 +71,7 @@ public abstract class DrawableBase {
         return BoundingBox2D.fromMinMax(getXMin(), getYMin(),getXMax(),getYMax());
     }
 
-    public boolean isFocused(GuiScreenPonder screen, int mouseX, int mouseY){
+    public boolean isFocused(GuiScreen screen, int mouseX, int mouseY){
         return this.getBoundingBox().contains(mouseX,mouseY);
     }
 

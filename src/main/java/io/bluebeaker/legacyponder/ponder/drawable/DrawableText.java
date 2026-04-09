@@ -9,10 +9,13 @@ import net.minecraft.client.gui.GuiScreen;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
+import java.util.regex.Pattern;
+
 @ZenClass("mods.legacyponder.DrawableText")
 @ZenRegister
 public class DrawableText extends DrawableBase {
 
+    public static final Pattern PATTERN = Pattern.compile("(§[0-9a-fr])");
     private final String text;
     private final int color;
     private boolean dropShadow = true;
@@ -75,6 +78,10 @@ public class DrawableText extends DrawableBase {
     @Override
     public void draw(GuiScreen screen, int mouseX, int mouseY) {
         String text1 = getText();
+        if(isInteractable() && isFocused(screen, mouseX, mouseY)){
+            // Add underline formatting when hovered and interactable to indicate that the text can be interacted with
+            text1="§n"+ PATTERN.matcher(text1).replaceAll("$1§n");
+        }
         if(maxWidth<=0){
             screen.mc.fontRenderer.drawString(text1, x-xOffset,y,color,dropShadow);
         }else {

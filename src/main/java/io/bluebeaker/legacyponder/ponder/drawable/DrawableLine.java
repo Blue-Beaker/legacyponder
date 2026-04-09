@@ -71,6 +71,11 @@ public class DrawableLine extends DrawableBase {
 
     }
 
+    @Override
+    public boolean isFocused(GuiScreen screen, int mouseX, int mouseY) {
+        return false;
+    }
+
 
     private void updateSizes(){
         x1=0;
