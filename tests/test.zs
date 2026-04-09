@@ -16,7 +16,8 @@ entry.addPage(PonderPage.fromStructure("5").setDescription("§1test1 §2test2 §
 entry.addPage(PonderPage.fromStructure("structure1").setDescription("§bStructure1"));
 entry.addPage(PonderPage.fromDrawable(function(w,h){
     val group = DrawableBuilder.buildGroup();
-    group.addChild(DrawableBuilder.buildText("Test",0xFFFFFFFF).setMaxWidth(0),176/2,0);
+    group.addChild(DrawableBuilder.buildText("Test",0xFFFFFFFF).setMaxWidth(0).setLinkPonder("test_entry3"),176/2,0);
+    group.addChild(DrawableBuilder.buildText("Click to show recipe of diamond",0xFFFFFFFF).setMaxWidth(0).setLinkItem(<minecraft:diamond>),176/2,20);
     group.addChild(DrawableBuilder.buildTexture("textures/gui/container/crafting_table.png",0,0,176,166),0,20);
     group.addChild(DrawableBuilder.buildItem(<minecraft:diamond_pickaxe:800>),30,37);
     group.addChild(DrawableBuilder.buildItem(<minecraft:diamond_pickaxe:200>),48,37);

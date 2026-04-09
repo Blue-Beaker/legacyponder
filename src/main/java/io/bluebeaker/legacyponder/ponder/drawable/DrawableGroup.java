@@ -94,13 +94,13 @@ public class DrawableGroup extends DrawableInteractive {
     @Override
     public boolean onMouseClick(GuiScreenPonder parent, int x, int y, int button) {
         if(this.focusedChild==null) return false;
-        return this.focusedChild.onMouseClick(parent,x,y,button);
+        return this.focusedChild.onMouseClick(parent,x-this.x,y-this.y,button);
     }
 
     @Override
     public boolean onMouseRelease(GuiScreenPonder parent, int x, int y, int state) {
         if(this.focusedChild==null) return false;
-        return this.focusedChild.onMouseClick(parent,x,y,state);
+        return this.focusedChild.onMouseClick(parent,x-this.x,y-this.y,state);
     }
 
     @Override
