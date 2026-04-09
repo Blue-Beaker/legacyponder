@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 @ZenClass("mods.legacyponder.DrawableBase")
@@ -27,9 +28,10 @@ public abstract class DrawableBase {
     public int parentX = 0;
     public int parentY = 0;
 
-    private LinkBase link = null;
+    protected LinkBase link = null;
 
     public DrawableBase(){
+        resetLink();
     }
     @ZenMethod
     public DrawableBase setPosition(int x, int y){
@@ -92,6 +94,10 @@ public abstract class DrawableBase {
     @ZenMethod
     public int getAbsY() {return y+parentY;}
 
+    @Nullable
+    public LinkBase getDefaultLink(){
+        return null;
+    }
 
     @ZenMethod
     public DrawableBase setLinkPonder(String id){
@@ -101,6 +107,11 @@ public abstract class DrawableBase {
     @ZenMethod
     public DrawableBase setLinkItem(IItemStack item){
         this.link=new LinkItem(CraftTweakerMC.getItemStack(item));
+        return this;
+    }
+    @ZenMethod
+    public DrawableBase resetLink(){
+        this.link=getDefaultLink();
         return this;
     }
 

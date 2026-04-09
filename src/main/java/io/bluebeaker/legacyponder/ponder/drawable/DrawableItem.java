@@ -4,19 +4,22 @@ import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
-import io.bluebeaker.legacyponder.jeiplugin.JEIUtils;
-import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
+import io.bluebeaker.legacyponder.ponder.link.LinkBase;
+import io.bluebeaker.legacyponder.ponder.link.LinkItemBase;
 import io.bluebeaker.legacyponder.utils.ItemUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-import java.util.*;
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @ZenClass("mods.legacyponder.DrawableItem")
 @ZenRegister
@@ -25,7 +28,7 @@ public class DrawableItem extends DrawableInteractive {
     private final List<ItemStack> itemStacks;
 
     public DrawableItem(ItemStack itemStack){
-        this.itemStacks = ItemUtils.expandWildcard(Collections.singletonList(itemStack));
+        this(Collections.singletonList(itemStack));
     }
     public DrawableItem(Collection<ItemStack> stacks){
         this.itemStacks = ItemUtils.expandWildcard(stacks);
@@ -61,35 +64,14 @@ public class DrawableItem extends DrawableInteractive {
 
     }
 
+    @Nullable
     @Override
-    public boolean onMouseClick(GuiScreenPonder parent, int x, int y, int button) {
-        if(button==0 || button==1){
-            JEIUtils.JEIAction action = button==0 ? JEIUtils.JEIAction.RECIPE : JEIUtils.JEIAction.USAGE;
-            JEIUtils.handleJEIAction(getActiveStack(), action);
-            return true;
-        }
-        return super.onMouseClick(parent, x, y, button);
-    }
-
-    @Override
-    public void onKeyTyped(GuiScreenPonder parent, char typedChar, int keyCode) {
-        JEIUtils.JEIAction action = JEIUtils.getJEIAction(keyCode);
-        if(action!= JEIUtils.JEIAction.NONE){
-            JEIUtils.handleJEIAction(getActiveStack(), action);
-        }
-    }
-
-    @Override
-    public boolean onMouseHover(GuiScreenPonder screen, int mouseX, int mouseY) {
-        GlStateManager.translate(0,0,100);
-        screen.drawHoveringText(screen.getItemToolTip(getActiveStack()),mouseX+parentX,mouseY+parentY);
-        RenderHelper.disableStandardItemLighting();
-        GlStateManager.translate(0,0,-100);
-        return true;
+    public LinkBase getDefaultLink() {
+        return new LinkItems(this);
     }
 
     protected ItemStack getActiveStack(){
-        if(itemStacks.isEmpty()) {
+        if(itemStacks==null || itemStacks.isEmpty()) {
             return ItemStack.EMPTY;
         } else if (itemStacks.size()==1) {
             return itemStacks.get(0);
@@ -113,5 +95,16 @@ public class DrawableItem extends DrawableInteractive {
     @Override
     public int getHeight() {
         return 16;
+    }
+
+    public static class LinkItems implements LinkItemBase {
+        public final DrawableItem parent;
+        public LinkItems(DrawableItem parent) {
+            this.parent = parent;
+        }
+        @Override
+        public ItemStack getItem() {
+            return parent.getActiveStack();
+        }
     }
 }
