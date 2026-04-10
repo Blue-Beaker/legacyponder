@@ -13,8 +13,13 @@ import java.util.List;
 
 @ZenClass("mods.legacyponder.DrawableGroup")
 @ZenRegister
-public class DrawableGroup extends DrawableInteractive {
+public class DrawableGroup extends DrawableBase {
     final List<DrawableBase> children = new ArrayList<>();
+
+    @Nullable
+    public DrawableBase getFocusedChild() {
+        return focusedChild;
+    }
 
     @Nullable
     private DrawableBase focusedChild = null;

@@ -7,6 +7,7 @@ import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
 import io.bluebeaker.legacyponder.ponder.link.LinkBase;
 import io.bluebeaker.legacyponder.ponder.link.LinkItem;
 import io.bluebeaker.legacyponder.ponder.link.LinkPonder;
+import io.bluebeaker.legacyponder.ponder.link.LinkUrl;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -29,6 +30,8 @@ public abstract class DrawableBase {
     public int parentY = 0;
 
     protected LinkBase link = null;
+    private boolean interactable = true;
+    protected boolean isHovered = false;
 
     public DrawableBase(){
         resetLink();
@@ -76,8 +79,8 @@ public abstract class DrawableBase {
     }
 
     public boolean onMouseHover(GuiScreenPonder screen, int mouseX, int mouseY){
+        this.isHovered=true;
         if (this.link!=null && this.isFocused(screen,x,y)){
-
             List<String> tooltip = link.getTooltip(screen);
             if (tooltip==null || tooltip.isEmpty()) return false;
 
@@ -88,6 +91,12 @@ public abstract class DrawableBase {
             return true;
         }
         return false;}
+
+    public boolean isLastHovered() {
+        boolean lastHovered = this.isHovered;
+        this.isHovered=false;
+        return lastHovered;
+    }
 
     @ZenMethod
     public int getAbsX() {return x+parentX;}
@@ -102,6 +111,11 @@ public abstract class DrawableBase {
     @ZenMethod
     public DrawableBase setLinkPonder(String id){
         this.link=new LinkPonder(id);
+        return this;
+    }
+    @ZenMethod
+    public DrawableBase setLinkUrl(String id, String name){
+        this.link=new LinkUrl(id,name);
         return this;
     }
     @ZenMethod
@@ -127,8 +141,18 @@ public abstract class DrawableBase {
     }
 
     @ZenMethod
+    public void setInteractable(boolean interactable) {
+        this.interactable = interactable;
+    }
+
+    @ZenMethod
     public boolean isInteractable() {
-        return this.hasLink();
+        return interactable || this.hasLink();
+    }
+
+    @ZenMethod
+    public boolean isClickable() {
+        return this.hasLink() && this.link.isClickable();
     }
 
     public boolean onMouseClick(GuiScreenPonder parent, int x, int y, int button) {

@@ -78,7 +78,7 @@ public class DrawableText extends DrawableBase {
     @Override
     public void draw(GuiScreen screen, int mouseX, int mouseY) {
         String text1 = getText();
-        if(isInteractable() && isFocused(screen, mouseX, mouseY)){
+        if(isClickable() && isLastHovered()){
             // Add underline formatting when hovered and interactable to indicate that the text can be interacted with
             text1="§n"+ PATTERN.matcher(text1).replaceAll("$1§n");
         }

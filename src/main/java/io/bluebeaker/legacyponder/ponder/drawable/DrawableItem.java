@@ -24,7 +24,7 @@ import java.util.List;
 
 @ZenClass("mods.legacyponder.DrawableItem")
 @ZenRegister
-public class DrawableItem extends DrawableInteractive {
+public class DrawableItem extends DrawableBase {
 
     private final List<ItemStack> itemStacks;
 
@@ -63,7 +63,7 @@ public class DrawableItem extends DrawableInteractive {
         renderItem.renderItemOverlayIntoGUI(screen.mc.fontRenderer, activeStack,x,y,null);
         RenderHelper.disableStandardItemLighting();
 
-        if(isInteractable() && isFocused(screen, mouseX, mouseY)){
+        if(isClickable() && isLastHovered()){
             GuiUtils.drawGradientRect(300, x, y, x + 16, y + 16, 0x80ffffff, 0x80ffffff);
         }
 

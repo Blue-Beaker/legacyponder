@@ -10,6 +10,12 @@ public interface LinkBase {
      */
     void onClick(GuiScreenPonder screen, int button);
 
+
+    /**
+     * @return Whether the link is clickable. If false, the link will not respond to clicks or key presses, but will still show a tooltip when hovered.
+     */
+    default boolean isClickable(){return true;}
+
     /** Called when a key is pressed while the link is hovered. Should return true if the key press was handled, false otherwise.
      * @param keyCode The key code of the key that was pressed
      */
