@@ -1,8 +1,12 @@
 package io.bluebeaker.legacyponder.ponder.link;
 
+import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
+import io.bluebeaker.legacyponder.ponder.Entry;
 import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,6 +29,13 @@ public class LinkPonder implements LinkBase{
 
     @Override
     public List<String> getTooltip(GuiScreenPonder screen) {
-        return Collections.singletonList(id);
+        Entry entry = PonderRegistry.getEntries().get(id);
+        if(entry==null) return Collections.singletonList("Unknown ponder entry: "+id);
+        List<String> tooltip = new ArrayList<>();
+        tooltip.add(I18n.format(entry.title));
+        if(entry.summary.isEmpty()) return tooltip;
+        tooltip.add("");
+        Collections.addAll(tooltip, I18n.format(entry.summary).split("\n"));
+        return tooltip;
     }
 }
