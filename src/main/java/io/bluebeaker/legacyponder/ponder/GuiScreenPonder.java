@@ -29,6 +29,7 @@ public class GuiScreenPonder extends GuiScreen {
     @Nonnull
     protected GuiInfoPage<?> guiInfoPage = PonderPageBlank.INSTANCE.getGuiPage(this);
     protected GuiScreen lastScreen;
+    protected String lastEntryTitle = "";
 
     public boolean isMouseDownInPage() {
         return mouseDownInPage;
@@ -64,6 +65,12 @@ public class GuiScreenPonder extends GuiScreen {
         this.buttonList.add(new GuiButtonExt(0,this.width-20,0,20,20,"x"));
         this.buttonList.add(new GuiButtonExt(1,2,this.height-22,20,20,"<"));
         this.buttonList.add(new GuiButtonExt(2,23,this.height-22,20,20,">"));
+
+        if(this.lastScreen instanceof GuiScreenPonder){
+            this.buttonList.add(new GuiButtonExt(0,2,2,20,20,"<"));
+            this.lastEntryTitle=I18n.format(((GuiScreenPonder) this.lastScreen).currentEntry.title);
+        }
+
         this.pageBounds=new BoundingBox2D(5,20,this.width-10,this.height-50);
         super.initGui();
 
@@ -113,9 +120,15 @@ public class GuiScreenPonder extends GuiScreen {
             lastMousePos=mousePos;
             this.drawDefaultBackground();
             // Draw title
-            this.drawCenteredString(this.fontRenderer, I18n.format(this.currentEntry.title),this.width/2,10,0xFFFFFFFF);
+            this.drawCenteredString(this.fontRenderer, I18n.format(this.currentEntry.title),this.width/2,5,0xFFFFFFFF);
+
+            // Draw back button if there is a parent screen
+            if(this.lastScreen instanceof GuiScreenPonder) {
+                this.drawString(this.fontRenderer,lastEntryTitle,24,9,0xFFFFFFFF);
+            }
+
             // Draw page number
-            this.drawString(this.fontRenderer,String.format("%s/%s",this.currentPageID +1,this.pages),44,this.height-20,0xFFFFFFFF);
+            this.drawString(this.fontRenderer,String.format("%s/%s",this.currentPageID +1,this.pages),44,this.height-15,0xFFFFFFFF);
 
             // Draw page description
             RenderUtils.drawSplitString(this.fontRenderer,this.guiInfoPage.getFormattedDescription(),100,this.height-28, this.width-100,0xFFFFFFFF,true);
