@@ -1,4 +1,4 @@
-## Contemplation
+## Unconfusion
 A mod to make intuitive in-game tutorials for modpacks and mod players.  
 
 Features:
