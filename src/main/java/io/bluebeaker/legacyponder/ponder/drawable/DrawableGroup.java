@@ -109,7 +109,7 @@ public class DrawableGroup extends DrawableBase {
     @Override
     public boolean onMouseRelease(GuiScreenPonder parent, int x, int y, int state) {
         if(this.focusedChild==null) return false;
-        return this.focusedChild.onMouseClick(parent,x-this.x,y-this.y,state);
+        return this.focusedChild.onMouseRelease(parent,x-this.x,y-this.y,state);
     }
 
     @Override

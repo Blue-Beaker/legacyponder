@@ -4,7 +4,6 @@ import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
 import io.bluebeaker.legacyponder.ponder.Entry;
 import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
 import io.bluebeaker.legacyponder.utils.TextUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 
 import java.util.ArrayList;
@@ -27,11 +26,12 @@ public class LinkPonder implements LinkBase{
     @Override
     public void onClick(GuiScreenPonder screen, int button) {
         if(button==0){
-            GuiScreenPonder guiScreenIn = new GuiScreenPonder();
-            guiScreenIn.setPonderID(this.id.isEmpty() ? screen.getPonderID() : this.id);
-            if (this.page>=1) guiScreenIn.setCurrentPageID(this.page-1);
-
-            Minecraft.getMinecraft().displayGuiScreen(guiScreenIn);
+//            GuiScreenPonder guiScreenIn = new GuiScreenPonder();
+            screen.jumpTo(this.id, this.page);
+//            guiScreenIn.setPonderID(this.id.isEmpty() ? screen.getPonderID() : this.id);
+//            if (this.page>=1) guiScreenIn.setCurrentPageID(this.page-1);
+//
+//            Minecraft.getMinecraft().displayGuiScreen(guiScreenIn);
         }
     }
 

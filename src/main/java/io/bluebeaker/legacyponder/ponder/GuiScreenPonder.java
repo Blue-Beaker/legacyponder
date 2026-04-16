@@ -18,7 +18,10 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuiScreenPonder extends GuiScreen {
     @Nonnull
@@ -32,6 +35,8 @@ public class GuiScreenPonder extends GuiScreen {
     protected GuiScreen lastScreen;
     protected String lastEntryTitle = "";
     protected String ponderID = "";
+
+    protected final List<HistoryEntry> history = new ArrayList<>();
 
     protected boolean isLinkActive = false;
 
@@ -70,9 +75,10 @@ public class GuiScreenPonder extends GuiScreen {
         this.buttonList.add(new GuiButtonExt(1,2,this.height-22,20,20,"<"));
         this.buttonList.add(new GuiButtonExt(2,23,this.height-22,20,20,">"));
 
-        if(this.lastScreen instanceof GuiScreenPonder){
-            this.buttonList.add(new GuiButtonExt(0,2,2,20,20,"<"));
-            this.lastEntryTitle=I18n.format(((GuiScreenPonder) this.lastScreen).currentEntry.title);
+        if(!this.history.isEmpty()){
+            this.buttonList.add(new GuiButtonExt(3,2,2,20,20,"<"));
+            HistoryEntry lastHistory = getLastHistory();
+            this.lastEntryTitle=(PonderRegistry.getEntries().get(lastHistory.id).title+" : "+(lastHistory.page+1));
         }
 
         this.pageBounds=new BoundingBox2D(5,20,this.width-10,this.height-50);
@@ -120,6 +126,40 @@ public class GuiScreenPonder extends GuiScreen {
         return this.ponderID;
     }
 
+
+    /** Jump to specified ponder entry and record a history.
+     * @param id ponder id, leave empty for not change.
+     * @param page Page to jump to. value <= 0 for default.
+     */
+    public void jumpTo(String id, int page){
+        this.pushHistory();
+        if(!id.isEmpty())
+            this.setPonderID(id);
+        if(page>0)
+            this.setCurrentPageID(page-1);
+        this.initGui();
+    }
+
+    public void pushHistory() {
+        this.history.add(new HistoryEntry(this.ponderID,this.currentPageID));
+    }
+
+    protected void popHistory(){
+        int size = this.history.size();
+        if(size==0) return;
+        HistoryEntry historyEntry = this.history.get(size-1);
+        this.setPonderID(historyEntry.id);
+        this.setCurrentPageID(historyEntry.page);
+        this.history.remove(size-1);
+        this.initGui();
+    }
+
+    protected @Nullable HistoryEntry getLastHistory(){
+        int size = this.history.size();
+        if(size==0) return null;
+        return this.history.get(size-1);
+    }
+
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         try {
@@ -130,8 +170,8 @@ public class GuiScreenPonder extends GuiScreen {
             // Draw title
             this.drawCenteredString(this.fontRenderer, I18n.format(this.currentEntry.title),this.width/2,5,0xFFFFFFFF);
 
-            // Draw back button if there is a parent screen
-            if(this.lastScreen instanceof GuiScreenPonder) {
+            // Draw back button if there is history
+            if(!this.history.isEmpty()) {
                 this.drawString(this.fontRenderer,lastEntryTitle,24,9,0xFFFFFFFF);
             }
 
@@ -153,6 +193,10 @@ public class GuiScreenPonder extends GuiScreen {
     protected void keyTyped(char typedChar, int keyCode) {
         if (keyCode == 1)
         {
+            if(!this.history.isEmpty()){
+                popHistory();
+                return;
+            }
             close();
         }else {
             guiInfoPage.onKeyTyped(typedChar, keyCode);
@@ -194,6 +238,8 @@ public class GuiScreenPonder extends GuiScreen {
             this.setCurrentPageID(this.currentPageID -1);
         } else if (button.id==2) {
             this.setCurrentPageID(this.currentPageID +1);
+        } else if (button.id==3) {
+            this.popHistory();
         } else if (button.id==31102009){
             this.isLinkActive=false;
         }
@@ -238,5 +284,14 @@ public class GuiScreenPonder extends GuiScreen {
 
     public boolean isLinkActive() {
         return isLinkActive;
+    }
+
+    public static class HistoryEntry{
+        final String id;
+        final int page;
+        public HistoryEntry(String id, int page) {
+            this.id = id;
+            this.page = page;
+        }
     }
 }
