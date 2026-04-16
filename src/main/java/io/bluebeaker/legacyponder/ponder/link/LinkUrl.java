@@ -2,8 +2,6 @@ package io.bluebeaker.legacyponder.ponder.link;
 
 import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
 import io.bluebeaker.legacyponder.utils.TextUtils;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.text.TextComponentString;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -23,9 +21,7 @@ public class LinkUrl implements LinkBase{
     @Override
     public void onClick(GuiScreenPonder screen, int button) {
         if(button==0){
-            TextComponentString component = new TextComponentString("");
-            component.getStyle().setClickEvent(new net.minecraft.util.text.event.ClickEvent(net.minecraft.util.text.event.ClickEvent.Action.OPEN_URL, url));
-            screen.handleComponentClick(component);
+            screen.openUrl(url);
         }
     }
 

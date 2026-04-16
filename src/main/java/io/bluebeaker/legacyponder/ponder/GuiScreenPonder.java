@@ -14,6 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 
 import javax.annotation.Nonnull;
@@ -31,6 +32,8 @@ public class GuiScreenPonder extends GuiScreen {
     protected GuiScreen lastScreen;
     protected String lastEntryTitle = "";
     protected String ponderID = "";
+
+    protected boolean isLinkActive = false;
 
     public boolean isMouseDownInPage() {
         return mouseDownInPage;
@@ -191,6 +194,8 @@ public class GuiScreenPonder extends GuiScreen {
             this.setCurrentPageID(this.currentPageID -1);
         } else if (button.id==2) {
             this.setCurrentPageID(this.currentPageID +1);
+        } else if (button.id==31102009){
+            this.isLinkActive=false;
         }
         super.actionPerformed(button);
     }
@@ -222,5 +227,16 @@ public class GuiScreenPonder extends GuiScreen {
     public boolean isMouseInPage(int x, int y){
         return x>=this.pageBounds.x && x<=this.pageBounds.getX2()
                 && y>=this.pageBounds.y && y<=this.pageBounds.getY2();
+    }
+
+    public void openUrl(String url){
+        isLinkActive=true;
+        TextComponentString component = new TextComponentString("");
+        component.getStyle().setClickEvent(new net.minecraft.util.text.event.ClickEvent(net.minecraft.util.text.event.ClickEvent.Action.OPEN_URL, url));
+        this.handleComponentClick(component);
+    }
+
+    public boolean isLinkActive() {
+        return isLinkActive;
     }
 }
