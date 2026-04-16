@@ -1,20 +1,23 @@
 package io.bluebeaker.legacyponder.ponder.link;
 
 import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
+import io.bluebeaker.legacyponder.utils.TextUtils;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextComponentString;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class LinkUrl implements LinkBase{
     @Nullable
-    public final String name;
+    public final String tooltip;
     public final String url;
 
-    public LinkUrl(String url,@Nullable String name) {
+    public LinkUrl(String url,@Nullable String tooltip) {
         this.url = url;
-        this.name = name;
+        this.tooltip = tooltip;
     }
 
     @Override
@@ -28,6 +31,10 @@ public class LinkUrl implements LinkBase{
 
     @Override
     public List<String> getTooltip(GuiScreenPonder screen) {
-        return Collections.singletonList(name==null?url:name);
+        if(tooltip==null){
+            return Collections.singletonList(url);
+        }else {
+            return Arrays.asList(TextUtils.formatLines(tooltip));
+        }
     }
 }

@@ -4,9 +4,9 @@ import net.minecraft.client.resources.I18n;
 
 public class TextUtils {
     public static String formatKey(String key){
-        return formatText(I18n.format(key));
+        return I18n.format(key);
     }
-    public static String formatText(String text){
-        return text;
+    public static String[] formatLines(String text){
+        return I18n.format(text).split("\n");
     }
 }

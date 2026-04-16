@@ -3,6 +3,7 @@ package io.bluebeaker.legacyponder.ponder.link;
 import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
 import io.bluebeaker.legacyponder.ponder.Entry;
 import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
+import io.bluebeaker.legacyponder.utils.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 
@@ -13,29 +14,44 @@ import java.util.List;
 public class LinkPonder implements LinkBase{
 
     public final String id;
+    public final int page;
 
-    public LinkPonder(String id) {
+    public LinkPonder(String id){
+        this(id,0);
+    }
+    public LinkPonder(String id, int page) {
         this.id = id;
+        this.page = page;
     }
 
     @Override
     public void onClick(GuiScreenPonder screen, int button) {
         if(button==0){
             GuiScreenPonder guiScreenIn = new GuiScreenPonder();
-            guiScreenIn.setPonderID(this.id);
+            guiScreenIn.setPonderID(this.id.isEmpty() ? screen.getPonderID() : this.id);
+            if (this.page>=1) guiScreenIn.setCurrentPageID(this.page-1);
+
             Minecraft.getMinecraft().displayGuiScreen(guiScreenIn);
         }
     }
 
     @Override
     public List<String> getTooltip(GuiScreenPonder screen) {
+        if(id.isEmpty()){
+            // If id unspecified, show only page
+            return Collections.singletonList("-> "+I18n.format("link.legacyponder.page",this.page));
+        }
+
         Entry entry = PonderRegistry.getEntries().get(id);
         if(entry==null) return Collections.singletonList("Unknown ponder entry: "+id);
         List<String> tooltip = new ArrayList<>();
-        tooltip.add(I18n.format(entry.title));
+
+        String title = I18n.format(entry.title);
+        tooltip.add(this.page<=1?title:title+" -> "+I18n.format("link.legacyponder.page",this.page));
+
         if(entry.summary.isEmpty()) return tooltip;
         tooltip.add("");
-        Collections.addAll(tooltip, I18n.format(entry.summary).split("\n"));
+        Collections.addAll(tooltip, TextUtils.formatLines(entry.summary));
         return tooltip;
     }
 }

@@ -1,4 +1,5 @@
 button.legacyponder.open=Show Details
+link.legacyponder.page=Page %s
 gui.category.legacyponder=Unconfuse
 commands.legacyponder.save.usage=Usage: legacyponder save <x1> <y1> <z1> <x2> <y2> <z2> <name> [ReplaceExisting] [WithEntities]
 commands.legacyponder.save.failure=Failed to save structure '%s': %s

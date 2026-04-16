@@ -30,6 +30,7 @@ public class GuiScreenPonder extends GuiScreen {
     protected GuiInfoPage<?> guiInfoPage = PonderPageBlank.INSTANCE.getGuiPage(this);
     protected GuiScreen lastScreen;
     protected String lastEntryTitle = "";
+    protected String ponderID = "";
 
     public boolean isMouseDownInPage() {
         return mouseDownInPage;
@@ -108,8 +109,12 @@ public class GuiScreenPonder extends GuiScreen {
 
     public void setPonderID(String id){
         this.currentEntry = PonderRegistry.getEntries().getOrDefault(id, EmptyEntry.INSTANCE);
+        this.ponderID = id;
         this.pages=this.currentEntry.getPages().size();
         this.setCurrentPageID(0);
+    }
+    public String getPonderID(){
+        return this.ponderID;
     }
 
     @Override
@@ -190,7 +195,7 @@ public class GuiScreenPonder extends GuiScreen {
         super.actionPerformed(button);
     }
 
-    protected void setCurrentPageID(int page){
+    public void setCurrentPageID(int page){
         if(this.pages==0) return;
         this.currentPageID =page;
         while (this.currentPageID <0){

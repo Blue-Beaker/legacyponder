@@ -4,10 +4,7 @@ import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
-import io.bluebeaker.legacyponder.ponder.link.LinkBase;
-import io.bluebeaker.legacyponder.ponder.link.LinkItem;
-import io.bluebeaker.legacyponder.ponder.link.LinkPonder;
-import io.bluebeaker.legacyponder.ponder.link.LinkUrl;
+import io.bluebeaker.legacyponder.ponder.link.*;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -109,13 +106,24 @@ public abstract class DrawableBase {
     }
 
     @ZenMethod
+    public DrawableBase setLinkHover(String tooltip){
+        this.link=new LinkHover(tooltip);
+        return this;
+    }
+    
+    @ZenMethod
+    public DrawableBase setLinkPonder(String id, int page){
+        this.link=new LinkPonder(id, page);
+        return this;
+    }
+    @ZenMethod
     public DrawableBase setLinkPonder(String id){
         this.link=new LinkPonder(id);
         return this;
     }
     @ZenMethod
-    public DrawableBase setLinkUrl(String id, String name){
-        this.link=new LinkUrl(id,name);
+    public DrawableBase setLinkUrl(String url, String tooltip){
+        this.link=new LinkUrl(url,tooltip);
         return this;
     }
     @ZenMethod
