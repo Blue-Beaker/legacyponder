@@ -5,3 +5,4 @@ commands.legacyponder.save.usage=用法: legacyponder save <x1> <y1> <z1> <x2> <
 commands.legacyponder.save.failure=结构'%s'保存失败: %s
 commands.legacyponder.save.success=已保存结构 '%s'
 commands.legacyponder.load.usage=用法: legacyponder load <x> <y> <z> <名称>
+config.legacyponder.compat.name=兼容

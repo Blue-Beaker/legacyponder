@@ -1,10 +1,10 @@
 package io.bluebeaker.legacyponder;
 
 import io.bluebeaker.legacyponder.command.CommandLegacyPonder;
+import io.bluebeaker.legacyponder.compat.EventHandlerBC;
+import io.bluebeaker.legacyponder.compat.EventHandlerFMP;
+import io.bluebeaker.legacyponder.compat.EventHandlerIC2;
 import io.bluebeaker.legacyponder.structure.StructureLoader;
-import io.bluebeaker.legacyponder.world.handler.EventHandlerBC;
-import io.bluebeaker.legacyponder.world.handler.EventHandlerFMP;
-import io.bluebeaker.legacyponder.world.handler.EventHandlerIC2;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Config.Type;
@@ -43,11 +43,10 @@ public class LegacyPonder
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         StructureLoader.loadTemplates();
-//        MinecraftForge.EVENT_BUS.register(new EventHandlerBase());
-        if(Loader.isModLoaded("buildcraftcore")){
+        if(LegacyPonderConfig.compat.buildcraft && Loader.isModLoaded("buildcraftcore")){
             MinecraftForge.EVENT_BUS.register(new EventHandlerBC());
         }
-        if(Loader.isModLoaded("ic2")){
+        if(LegacyPonderConfig.compat.ic2 && Loader.isModLoaded("ic2")){
             MinecraftForge.EVENT_BUS.register(new EventHandlerIC2());
         }
         if(Loader.isModLoaded("forgemultipartcbe")){

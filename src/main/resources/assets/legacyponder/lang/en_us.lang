@@ -5,3 +5,4 @@ commands.legacyponder.save.usage=Usage: legacyponder save <x1> <y1> <z1> <x2> <y
 commands.legacyponder.save.failure=Failed to save structure '%s': %s
 commands.legacyponder.save.success=Saved structure '%s'
 commands.legacyponder.load.usage=Usage: legacyponder load <x> <y> <z> <name>
+config.legacyponder.compat.name=Compat

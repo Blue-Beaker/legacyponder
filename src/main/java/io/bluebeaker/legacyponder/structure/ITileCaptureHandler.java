@@ -1,4 +1,4 @@
-package io.bluebeaker.legacyponder.structure.handlers;
+package io.bluebeaker.legacyponder.structure;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;

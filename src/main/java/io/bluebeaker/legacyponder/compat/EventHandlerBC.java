@@ -1,4 +1,4 @@
-package io.bluebeaker.legacyponder.world.handler;
+package io.bluebeaker.legacyponder.compat;
 
 import buildcraft.lib.tile.TileBC_Neptune;
 import io.bluebeaker.legacyponder.structure.events.StructureTileEvent;
@@ -8,6 +8,7 @@ public class EventHandlerBC {
     @SubscribeEvent
     public void onSaveBCTile(StructureTileEvent.Save event){
         if(event.tileEntity instanceof TileBC_Neptune){
+            // Crop tag
             event.tileData.getCompoundTag("owner").removeTag("Properties");
         }
     }

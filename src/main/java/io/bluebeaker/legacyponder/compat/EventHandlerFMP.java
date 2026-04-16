@@ -1,4 +1,4 @@
-package io.bluebeaker.legacyponder.world.handler;
+package io.bluebeaker.legacyponder.compat;
 
 public class EventHandlerFMP {
 //    @SubscribeEvent

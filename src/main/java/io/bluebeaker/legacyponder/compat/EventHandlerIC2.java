@@ -1,4 +1,4 @@
-package io.bluebeaker.legacyponder.world.handler;
+package io.bluebeaker.legacyponder.compat;
 
 import ic2.api.network.INetworkDataProvider;
 import ic2.api.network.INetworkUpdateListener;
