@@ -29,6 +29,7 @@ public abstract class DrawableBase {
     protected LinkBase link = null;
     private boolean interactable = true;
     protected boolean isHovered = false;
+    protected DrawableBase parent = null;
 
     public DrawableBase(){
         resetLink();
@@ -76,8 +77,8 @@ public abstract class DrawableBase {
     }
 
     public boolean onMouseHover(GuiScreenPonder screen, int mouseX, int mouseY){
-        this.isHovered=true;
-        if (this.link!=null && this.isFocused(screen,x,y)){
+        if (this.link!=null){
+            this.isHovered=true;
             List<String> tooltip = link.getTooltip(screen);
             if (tooltip==null || tooltip.isEmpty()) return false;
 
@@ -95,6 +96,20 @@ public abstract class DrawableBase {
         return lastHovered;
     }
 
+    public void setParent(DrawableBase newParent){
+        if(this==newParent) return;
+        this.parent=newParent;
+    }
+    public void updateParentPos(){
+        if(parent==null){
+            parentX=0;
+            parentY=0;
+            return;
+        }
+        this.parentX=parent.x+parent.parentX;
+        this.parentY=parent.y+parent.parentY;
+    }
+
     @ZenMethod
     public int getAbsX() {return x+parentX;}
     @ZenMethod
@@ -110,7 +125,7 @@ public abstract class DrawableBase {
         this.link=new LinkHover(tooltip);
         return this;
     }
-    
+
     @ZenMethod
     public DrawableBase setLinkPonder(String id, int page){
         this.link=new LinkPonder(id, page);

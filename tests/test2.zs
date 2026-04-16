@@ -35,9 +35,15 @@ entry.addPage(PonderPage.fromStructure("test1/stru1")
         HoverComponent.build(1.5,1,1.5,function(w,h){
             val group = DrawableBuilder.buildGroup();
             group.addChild(DrawableBox.build(0,0,30,30,0xFFFF8080).setLinkItem(<minecraft:iron_ingot>));
-            group.addChild(DrawableBuilder.buildItem(<minecraft:gold_ingot>*10));
+            group.addChild(DrawableBuilder.buildItem(<minecraft:gold_ingot>*10),2,2);
             group.addChild(DrawableBuilder.buildText(ITextComponent.fromString("Test"),0xFFFFFFFF),0,64);
             group.addChild(DrawableLine.build(20,50,50,30,0xFFFF8080).point(50,50).setLinkItem(<minecraft:iron_ingot>));
+
+            val group2 = DrawableBuilder.buildGroup();
+            group2.addChild(DrawableBox.build(0,0,30,30,0xFFFF8080).setLinkItem(<minecraft:iron_ingot>));
+            group2.addChild(DrawableBuilder.buildItem(<minecraft:gold_ingot>*10),2,2);
+            group.addChild(group2,100,100);
+
             return group;
             }
         ).setColor(80,127,127))

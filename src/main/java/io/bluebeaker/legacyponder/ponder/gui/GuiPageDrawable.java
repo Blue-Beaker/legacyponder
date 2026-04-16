@@ -30,7 +30,8 @@ public class GuiPageDrawable extends GuiInfoPage<PonderPageDrawable> {
         super.draw(mouseX, mouseY, partialTicks);
         RenderUtils.setViewPort(pageBounds);
         drawableBase.draw(parent,mouseX,mouseY);
-        drawableBase.onMouseHover(parent,mouseX,mouseY);
+        if(drawableBase.isFocused(parent,mouseX,mouseY))
+            drawableBase.onMouseHover(parent,mouseX,mouseY);
         RenderUtils.endViewPort();
     }
 

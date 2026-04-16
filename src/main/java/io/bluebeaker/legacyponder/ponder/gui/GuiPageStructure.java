@@ -47,6 +47,8 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
     protected GuiHoverComponent hoverComp = null;
     /** Is dragging a component? */
     protected boolean dragComp = false;
+    /** Is dragging the camera? */
+    protected boolean dragCam = false;
     /** Used when dragging a component */
     protected int dragX = 0;
     protected int dragY = 0;
@@ -303,7 +305,7 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
                 int x2 = hoverComponent.getDrawable().getXMax();
                 int y2 = hoverComponent.getDrawable().getYMax();
 
-                drawHoverBackground(color, x1-2, y1-2, x2+2, y2+2);
+                drawHoverBackground(color, x1-3, y1-3, x2+3, y2+3);
 
                 hoverComponent.draw(this.parent, hoverX, hoverY, mouseX, mouseY);
 
@@ -318,13 +320,13 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         for (int i = components.size()-1; i >=0; i--) {
             GuiHoverComponent hoveredComponent1 = components.get(i);
 
-            if(hoveredComponent1.getDrawable().getBoundingBox().expand(3).contains(mouseX,mouseY)){
+            if(hoveredComponent1.getDrawable().getBoundingBox().expand(5).contains(mouseX,mouseY)){
                 this.hoverComp = hoveredComponent1;
                 break;
             }
         }
         // If hovering a component, call its hover action
-        if(this.hoverComp !=null){
+        if(this.hoverComp !=null && this.hoverComp.getDrawable().isFocused(parent,mouseX,mouseY)){
             this.hoverComp.getDrawable().onMouseHover(this.parent, mouseX, mouseY);
         }
     }
@@ -356,10 +358,14 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
     @Override
     public boolean onMouseClick(int x, int y, int button) throws IOException {
         if(hoverComp !=null){
+            boolean clicked = hoverComp.getDrawable().onMouseClick(this.parent,x,y,button);
+            if(clicked) return true;
             dragComp =true;
             dragX =x- hoverComp.offX;
             dragY =y- hoverComp.offY;
             return true;
+        }else {
+            dragCam = true;
         }
         return super.onMouseClick(x, y, button);
     }
@@ -372,6 +378,7 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
             dragY =0;
             return true;
         }
+        dragCam = false;
         return super.onMouseRelease(x, y, state);
     }
 
@@ -403,6 +410,7 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
             hoverComp.offY =y-dragY;
             return true;
         }
+        if(!dragCam) return false;
 
         super.onMouseDrag(x, y, clickedMouseButton, timeSinceLastClick);
 
