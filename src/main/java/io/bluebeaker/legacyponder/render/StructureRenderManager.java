@@ -63,31 +63,29 @@ public class StructureRenderManager {
 
     public static void renderStructure(float partialTicks, int offsetX, int offsetY, int sizeX, int sizeY){
 //        GlStateManager.translate(0, 0, 0);
+
         Minecraft.getMinecraft().getRenderManager().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         new WorldVertexBufferUploader().draw(localBuffer);
+
         TileEntityRendererDispatcher.instance.preDrawBatch();
-        for (int z = 0; z < world.templateSize.getZ(); z++) {
-            for (int y = 0; y < world.templateSize.getY(); y++) {
-                for (int x = 0; x < world.templateSize.getX(); x++) {
-                    BlockPos pos = new BlockPos(x, y, z).add(STRUCTURE_OFFSET);
-                    GlStateManager.pushAttrib();
-                    TileEntity tileEntity = world.getTileEntity(pos);
-                    if(tileEntity !=null){
-                        StructureTileEvent.Render renderEvent = new StructureTileEvent.Render(world, tileEntity, pos, STRUCTURE_OFFSET);
-                        EVENT_BUS.post(renderEvent);
-                        if(!renderEvent.isCanceled()){
-                            TileEntityRendererDispatcher.instance.render(
-                                    tileEntity,
-                                    pos.getX() - STRUCTURE_OFFSET.getX(),
-                                    pos.getY() - STRUCTURE_OFFSET.getY(),
-                                    pos.getZ() - STRUCTURE_OFFSET.getZ(),
-                                    partialTicks
-                            );
-                        }
-                    }
-                    GlStateManager.popAttrib();
+
+        for (BlockPos.MutableBlockPos pos : BlockPos.getAllInBoxMutable(STRUCTURE_OFFSET, STRUCTURE_OFFSET.add(world.templateSize))){
+            GlStateManager.pushAttrib();
+            TileEntity tileEntity = world.getTileEntity(pos);
+            if(tileEntity !=null){
+                StructureTileEvent.Render renderEvent = new StructureTileEvent.Render(world, tileEntity, pos, STRUCTURE_OFFSET);
+                EVENT_BUS.post(renderEvent);
+                if(!renderEvent.isCanceled()){
+                    TileEntityRendererDispatcher.instance.render(
+                            tileEntity,
+                            pos.getX() - STRUCTURE_OFFSET.getX(),
+                            pos.getY() - STRUCTURE_OFFSET.getY(),
+                            pos.getZ() - STRUCTURE_OFFSET.getZ(),
+                            partialTicks
+                    );
                 }
             }
+            GlStateManager.popAttrib();
         }
         TileEntityRendererDispatcher.instance.drawBatch(1);
         for (Entity entity : world.getEntities(Entity.class, Predicates.alwaysTrue())) {
@@ -194,29 +192,25 @@ public class StructureRenderManager {
     }
 
     private static void renderBuffer(BufferBuilder buffer) {
-        for (int z = 0; z < world.templateSize.getZ(); z++) {
-            for (int y = 0; y < world.templateSize.getY(); y++) {
-                for (int x = 0; x < world.templateSize.getX(); x++) {
-                    BlockPos pos = new BlockPos(x, y, z).add(STRUCTURE_OFFSET);
-                    buffer.setTranslation(
-                            -STRUCTURE_OFFSET.getX(),
-                            -STRUCTURE_OFFSET.getY(),
-                            -STRUCTURE_OFFSET.getZ()
-                    );
-                    IBlockState blockState = world.getBlockState(pos);
-                    if(blockState.getRenderType()== EnumBlockRenderType.INVISIBLE) continue;
 
-                    for (BlockRenderLayer value : BlockRenderLayer.values()) {
-                        if(blockState.getBlock().canRenderInLayer(blockState,value)){
-                            ForgeHooksClient.setRenderLayer(value);
-                            Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(
-                                    blockState,
-                                    pos,
-                                    world,
-                                    buffer
-                            );
-                        }
-                    }
+        for (BlockPos.MutableBlockPos pos : BlockPos.getAllInBoxMutable(STRUCTURE_OFFSET, STRUCTURE_OFFSET.add(world.templateSize))){
+            buffer.setTranslation(
+                    -STRUCTURE_OFFSET.getX(),
+                    -STRUCTURE_OFFSET.getY(),
+                    -STRUCTURE_OFFSET.getZ()
+            );
+            IBlockState blockState = world.getBlockState(pos);
+            if(blockState.getRenderType()== EnumBlockRenderType.INVISIBLE) continue;
+
+            for (BlockRenderLayer value : BlockRenderLayer.values()) {
+                if(blockState.getBlock().canRenderInLayer(blockState,value)){
+                    ForgeHooksClient.setRenderLayer(value);
+                    Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(
+                            blockState,
+                            pos,
+                            world,
+                            buffer
+                    );
                 }
             }
         }
