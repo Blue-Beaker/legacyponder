@@ -43,6 +43,9 @@ public class GuiScreenPonder extends GuiScreen {
     public boolean isMouseDownInPage() {
         return mouseDownInPage;
     }
+    public void releaseMouse(){
+        mouseDownInPage=false;
+    }
 
     protected boolean mouseDownInPage = false;
 
@@ -106,8 +109,7 @@ public class GuiScreenPonder extends GuiScreen {
     public void handleWheel(int wheelDelta){
         int mouseX=lastMousePos.x;
         int mouseY=lastMousePos.y;
-        mouseDownInPage = isMouseInPage(mouseX, mouseY);
-        if (mouseDownInPage){
+        if (isMouseInPage(mouseX, mouseY)){
             guiInfoPage.mouseScroll(mouseX-this.pageBounds.x, mouseY-this.pageBounds.y, wheelDelta);
         }
     }

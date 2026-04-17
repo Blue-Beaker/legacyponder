@@ -12,6 +12,7 @@ public interface LinkItemBase extends LinkBase {
         if(button==0 || button==1){
             JEIUtils.JEIAction action = button==0 ? JEIUtils.JEIAction.RECIPE : JEIUtils.JEIAction.USAGE;
             JEIUtils.handleJEIAction(getItem(), action);
+            screen.releaseMouse();
         }
     }
 

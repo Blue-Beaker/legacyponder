@@ -42,7 +42,7 @@ entry.addPage(PonderPage.fromStructure("test1/stru1")
             val group2 = DrawableBuilder.buildGroup();
             group2.addChild(DrawableBox.build(0,0,30,30,0xFFFF8080).setLinkItem(<minecraft:iron_ingot>));
             group2.addChild(DrawableBuilder.buildItem(<minecraft:gold_ingot>*10),2,2);
-            group.addChild(group2,100,100);
+            group.addChild(group2,50,0);
 
             return group;
             }

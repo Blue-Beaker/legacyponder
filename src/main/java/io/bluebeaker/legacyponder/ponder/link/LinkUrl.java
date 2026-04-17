@@ -22,6 +22,7 @@ public class LinkUrl implements LinkBase{
     public void onClick(GuiScreenPonder screen, int button) {
         if(button==0){
             screen.openUrl(url);
+            screen.releaseMouse();
         }
     }
 
