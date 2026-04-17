@@ -217,7 +217,6 @@ public class StructureRenderManager {
                         world,
                         buffer
                     );
-                    break;
                 }
             }
         }

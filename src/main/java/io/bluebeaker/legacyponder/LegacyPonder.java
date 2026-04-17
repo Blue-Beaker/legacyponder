@@ -2,6 +2,7 @@ package io.bluebeaker.legacyponder;
 
 import io.bluebeaker.legacyponder.command.CommandLegacyPonder;
 import io.bluebeaker.legacyponder.compat.EventHandlerBC;
+import io.bluebeaker.legacyponder.compat.EventHandlerEIOConduits;
 import io.bluebeaker.legacyponder.compat.EventHandlerFMP;
 import io.bluebeaker.legacyponder.compat.EventHandlerIC2;
 import io.bluebeaker.legacyponder.structure.StructureLoader;
@@ -51,6 +52,9 @@ public class LegacyPonder
         }
         if(LegacyPonderConfig.compat.forgemultipart && Loader.isModLoaded("forgemultipartcbe")){
             MinecraftForge.EVENT_BUS.register(new EventHandlerFMP());
+        }
+        if(LegacyPonderConfig.compat.enderio && Loader.isModLoaded("enderioconduits")){
+            MinecraftForge.EVENT_BUS.register(new EventHandlerEIOConduits());
         }
     }
 

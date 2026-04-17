@@ -19,5 +19,7 @@ public class LegacyPonderConfig {
         public boolean ic2 = true;
         @RequiresMcRestart
         public boolean forgemultipart = true;
+        @RequiresMcRestart
+        public boolean enderio = true;
     }
 }
