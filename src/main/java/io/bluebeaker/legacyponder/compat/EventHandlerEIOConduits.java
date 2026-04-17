@@ -9,11 +9,13 @@ import io.bluebeaker.legacyponder.world.DummyWorld;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class EventHandlerEIOConduits {
+    @Nullable
     private Field clientConduits = null;
     public EventHandlerEIOConduits(){
         // Setup accessor

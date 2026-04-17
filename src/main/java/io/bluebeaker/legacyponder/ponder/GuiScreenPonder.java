@@ -79,7 +79,7 @@ public class GuiScreenPonder extends GuiScreen {
         this.buttonList.add(new GuiButtonExt(2,23,this.height-22,20,20,">"));
 
         if(!this.history.isEmpty()){
-            this.buttonList.add(new GuiButtonExt(3,2,2,20,20,"<"));
+            this.buttonList.add(new GuiButtonExt(3,0,0,20,20,"<"));
             HistoryEntry lastHistory = getLastHistory();
             this.lastEntryTitle=(PonderRegistry.getEntries().get(lastHistory.id).title+" : "+(lastHistory.page+1));
         }
@@ -134,6 +134,11 @@ public class GuiScreenPonder extends GuiScreen {
      * @param page Page to jump to. value <= 0 for default.
      */
     public void jumpTo(String id, int page){
+        if((id.isEmpty() || id.equals(this.ponderID))
+                && (page<=0 || page==this.currentPageID+1)){
+            // No jump
+            return;
+        }
         this.pushHistory();
         if(!id.isEmpty())
             this.setPonderID(id);
@@ -174,7 +179,7 @@ public class GuiScreenPonder extends GuiScreen {
 
             // Draw back button if there is history
             if(!this.history.isEmpty()) {
-                this.drawString(this.fontRenderer,lastEntryTitle,24,9,0xFFFFFFFF);
+                this.drawString(this.fontRenderer,lastEntryTitle,24,5,0xFFFFFFFF);
             }
 
             // Draw page number

@@ -110,4 +110,12 @@ public class DrawableBuilder {
     public static DrawableGroup buildGroup(){
         return new DrawableGroup();
     }
+
+    /** Build an empty DrawableGrid, which is similar to DrawableGroup, but with its children arranged automatically.
+     * @return The new DrawableGrid instance
+     */
+    @ZenMethod
+    public static DrawableGrid buildGrid(int columns, int colWidth, int lineHeight){
+        return new DrawableGrid(columns, colWidth, lineHeight);
+    }
 }

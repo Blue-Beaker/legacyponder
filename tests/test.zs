@@ -11,6 +11,7 @@ entry.addItem(<minecraft:diamond>);
 entry.addFluid(<liquid:water>);
 entry.addIngredient(<ore:plankWood>);
 entry.addIngredient(<minecraft:wool:0>|<minecraft:wool:1>|<minecraft:wool:2>|<minecraft:wool:3>|<minecraft:wool:4>|<minecraft:wool:5>|<minecraft:wool:6>|<minecraft:wool:7>|<minecraft:wool:8>|<minecraft:wool:9>|<minecraft:wool:10>);
+entry.addPage(PonderPage.catalogPage());
 entry.addPage(PonderPage.dummyPage().setDescription("§bDummy page§r for the entry!"));
 entry.addPage(PonderPage.fromStructure("5").setDescription("§1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5"));
 entry.addPage(PonderPage.fromStructure("structure1").setDescription("§bStructure1"));

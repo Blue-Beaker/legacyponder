@@ -85,7 +85,7 @@ public class DrawableGroup extends DrawableBase {
         GlStateManager.popMatrix();
     }
 
-    private void updateSizes(){
+    protected void updateSizes(){
         x1=0;
         y1=0;
         x2=0;
@@ -131,6 +131,14 @@ public class DrawableGroup extends DrawableBase {
             }
         }
         focusedChild=null;
+        return false;
+    }
+
+    @Override
+    public boolean isFocused(GuiScreen screen, int mouseX, int mouseY) {
+        for (DrawableBase child : children) {
+            if(child.isFocused(screen, mouseX - this.x, mouseY - this.y)) return true;
+        }
         return false;
     }
 

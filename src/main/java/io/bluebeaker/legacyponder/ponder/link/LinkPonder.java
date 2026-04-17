@@ -26,12 +26,7 @@ public class LinkPonder implements LinkBase{
     @Override
     public void onClick(GuiScreenPonder screen, int button) {
         if(button==0){
-//            GuiScreenPonder guiScreenIn = new GuiScreenPonder();
             screen.jumpTo(this.id, this.page);
-//            guiScreenIn.setPonderID(this.id.isEmpty() ? screen.getPonderID() : this.id);
-//            if (this.page>=1) guiScreenIn.setCurrentPageID(this.page-1);
-//
-//            Minecraft.getMinecraft().displayGuiScreen(guiScreenIn);
         }
     }
 

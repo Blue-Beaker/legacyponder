@@ -35,6 +35,13 @@ public abstract class PonderPageBase {
         return new PonderPageDummy(text);
     }
 
+    /** Build a new page, showing all registered entries as links
+     * @return The new catalog page */
+    @ZenMethod
+    public static PonderPageCatalog catalogPage(){
+        return new PonderPageCatalog();
+    }
+
     /** Build a new page to display the structure from the specified path.
      * The structure should be in .minecraft/config/legacyponder/structures, subdirectories are allowed.
      * Use '/legacyponder' command to capture a structure into the specified path. Vanilla structure block format is also supported.
