@@ -21,6 +21,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class PonderStructure {
@@ -68,10 +69,10 @@ public class PonderStructure {
     public void addExtraData(BlockPos pos, NBTTagCompound data){
         this.extraDatas.put(pos.toLong(),data);
     }
-    public NBTTagCompound getExtraData(int x, int y, int z) {
+    public @Nullable NBTTagCompound getExtraData(int x, int y, int z) {
         return getExtraData(new BlockPos(x,y,z));
     }
-    public NBTTagCompound getExtraData(BlockPos pos) {
+    public @Nullable NBTTagCompound getExtraData(BlockPos pos) {
         return extraDatas.get(pos.toLong());
     }
 
@@ -205,12 +206,15 @@ public class PonderStructure {
                     NBTTagCompound tileEntity = this.getTileEntity(x, y, z);
                     if(tileEntity!=null){
                         TileEntity tileEntityIn = TileEntity.create(world, tileEntity);
-                        world.setTileEntity(absPos, tileEntityIn);
-                        // Update Tile with stored extra data
+
+                        // Update Tile with stored extra data, or replace the tile in an event subscriber
                         NBTTagCompound extraData = this.getExtraData(x, y, z);
-                        if(loadExtraData && extraData !=null){
-                            MinecraftForge.EVENT_BUS.post(new StructureTileEvent.Load(world,tileEntityIn,absPos,extraData));
+                        StructureTileEvent.Load event = new StructureTileEvent.Load(world, tileEntityIn, absPos, tileEntity, loadExtraData ? extraData : null);
+                        MinecraftForge.EVENT_BUS.post(event);
+                        if(event.newTile!=null){
+                            tileEntityIn=event.newTile;
                         }
+                        world.setTileEntity(absPos, tileEntityIn);
                     }
                 }
             }

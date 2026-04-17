@@ -121,4 +121,31 @@ public class DummyWorld extends World {
         structure.putToWorld(this,pos);
         postLoad();
     }
+
+    protected ClientWorld clientWorld = null;
+    public ClientWorld getClientWorld(){
+        if(clientWorld==null){
+            clientWorld=new ClientWorld(this);
+        }
+        return clientWorld;
+    }
+
+    public static class ClientWorld extends World{
+        public final DummyWorld parent;
+        protected ClientWorld(DummyWorld parent) {
+            super(parent.saveHandler,parent.worldInfo,parent.provider,parent.profiler, true);
+            this.parent=parent;
+            this.chunkProvider=parent.chunkProvider;
+        }
+
+        @Override
+        protected IChunkProvider createChunkProvider() {
+            return parent.chunkProvider;
+        }
+
+        @Override
+        protected boolean isChunkLoaded(int x, int z, boolean allowEmpty) {
+            return parent.isChunkLoaded(x, z, allowEmpty);
+        }
+    }
 }

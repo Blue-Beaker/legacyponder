@@ -31,9 +31,13 @@ public class StructureTileEvent extends Event {
     }
 
     public static class Load extends StructureTileEvent {
+        public final NBTTagCompound data;
         public final @Nullable NBTTagCompound extraData;
-        public Load(World world, TileEntity tileEntity, BlockPos pos, @Nullable NBTTagCompound extraData){
+        /** If set to not null, the loaded tile is replaced with this */
+        public @Nullable TileEntity newTile = null;
+        public Load(World world, TileEntity tileEntity, BlockPos pos, NBTTagCompound data, @Nullable NBTTagCompound extraData){
             super(world, tileEntity, pos);
+            this.data=data;
             this.extraData =extraData;
         }
     }
