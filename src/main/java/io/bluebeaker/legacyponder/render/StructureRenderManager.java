@@ -62,12 +62,14 @@ public class StructureRenderManager {
     }
 
     public static void renderStructure(float partialTicks, int offsetX, int offsetY, int sizeX, int sizeY){
-//        GlStateManager.translate(0, 0, 0);
 
         Minecraft.getMinecraft().getRenderManager().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         new WorldVertexBufferUploader().draw(localBuffer);
 
         TileEntityRendererDispatcher.instance.preDrawBatch();
+
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(- STRUCTURE_OFFSET.getX(), - STRUCTURE_OFFSET.getY(), - STRUCTURE_OFFSET.getZ());
 
         for (BlockPos.MutableBlockPos pos : BlockPos.getAllInBoxMutable(STRUCTURE_OFFSET, STRUCTURE_OFFSET.add(world.templateSize))){
             GlStateManager.pushAttrib();
@@ -78,9 +80,9 @@ public class StructureRenderManager {
                 if(!renderEvent.isCanceled()){
                     TileEntityRendererDispatcher.instance.render(
                             tileEntity,
-                            pos.getX() - STRUCTURE_OFFSET.getX(),
-                            pos.getY() - STRUCTURE_OFFSET.getY(),
-                            pos.getZ() - STRUCTURE_OFFSET.getZ(),
+                            pos.getX(),
+                            pos.getY(),
+                            pos.getZ(),
                             partialTicks
                     );
                 }
@@ -93,15 +95,16 @@ public class StructureRenderManager {
             GlStateManager.pushAttrib();
             Minecraft.getMinecraft().getRenderManager().renderEntity(
                     entity,
-                    pos.x - STRUCTURE_OFFSET.getX(),
-                    pos.y - STRUCTURE_OFFSET.getY(),
-                    pos.z - STRUCTURE_OFFSET.getZ(),
+                    pos.x,
+                    pos.y,
+                    pos.z,
                     entity.rotationYaw,
                     partialTicks,
                     true
             );
             GlStateManager.popAttrib();
         }
+        GlStateManager.popMatrix();
     }
 
     public static void cleanTransformations() {
