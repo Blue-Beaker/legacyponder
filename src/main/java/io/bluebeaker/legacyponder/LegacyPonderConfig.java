@@ -17,5 +17,7 @@ public class LegacyPonderConfig {
         public boolean buildcraft = true;
         @RequiresMcRestart
         public boolean ic2 = true;
+        @RequiresMcRestart
+        public boolean forgemultipart = true;
     }
 }

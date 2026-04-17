@@ -49,7 +49,7 @@ public class LegacyPonder
         if(LegacyPonderConfig.compat.ic2 && Loader.isModLoaded("ic2")){
             MinecraftForge.EVENT_BUS.register(new EventHandlerIC2());
         }
-        if(Loader.isModLoaded("forgemultipartcbe")){
+        if(LegacyPonderConfig.compat.forgemultipart && Loader.isModLoaded("forgemultipartcbe")){
             MinecraftForge.EVENT_BUS.register(new EventHandlerFMP());
         }
     }

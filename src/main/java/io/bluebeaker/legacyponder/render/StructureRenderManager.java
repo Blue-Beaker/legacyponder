@@ -206,10 +206,10 @@ public class StructureRenderManager {
                 if(blockState.getBlock().canRenderInLayer(blockState,value)){
                     ForgeHooksClient.setRenderLayer(value);
                     Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(
-                            blockState,
-                            pos,
-                            world,
-                            buffer
+                        blockState,
+                        pos,
+                        world,
+                        buffer
                     );
                 }
             }
