@@ -2,7 +2,7 @@ package io.bluebeaker.legacyponder.render;
 
 import com.google.common.base.Predicates;
 import com.mojang.authlib.GameProfile;
-import io.bluebeaker.legacyponder.structure.events.StructureTileEvent;
+import io.bluebeaker.legacyponder.structure.events.StructureRenderEvent;
 import io.bluebeaker.legacyponder.utils.DummyPlayer;
 import io.bluebeaker.legacyponder.world.DummyWorld;
 import net.minecraft.block.state.IBlockState;
@@ -75,7 +75,7 @@ public class StructureRenderManager {
             GlStateManager.pushAttrib();
             TileEntity tileEntity = world.getTileEntity(pos);
             if(tileEntity !=null){
-                StructureTileEvent.Render renderEvent = new StructureTileEvent.Render(world, tileEntity, pos, STRUCTURE_OFFSET);
+                StructureRenderEvent.RenderTile renderEvent = new StructureRenderEvent.RenderTile(world, tileEntity, pos);
                 EVENT_BUS.post(renderEvent);
                 if(!renderEvent.isCanceled()){
                     TileEntityRendererDispatcher.instance.render(
@@ -205,6 +205,9 @@ public class StructureRenderManager {
             IBlockState blockState = world.getBlockState(pos);
             if(blockState.getRenderType()== EnumBlockRenderType.INVISIBLE) continue;
 
+            StructureRenderEvent.RenderBuffer event = new StructureRenderEvent.RenderBuffer(world, blockState, pos, buffer);
+            EVENT_BUS.post(event);
+            if(event.isCanceled()) continue;
             for (BlockRenderLayer value : BlockRenderLayer.values()) {
                 if(blockState.getBlock().canRenderInLayer(blockState,value)){
                     ForgeHooksClient.setRenderLayer(value);
@@ -214,6 +217,7 @@ public class StructureRenderManager {
                         world,
                         buffer
                     );
+                    break;
                 }
             }
         }

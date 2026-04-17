@@ -12,7 +12,7 @@ public class StructureTileEvent extends Event {
     public final World world;
     public final TileEntity tileEntity;
     public final BlockPos pos;
-    public StructureTileEvent(World world, TileEntity tileEntity, BlockPos pos){
+    private StructureTileEvent(World world, TileEntity tileEntity, BlockPos pos){
         this.world = world;
         this.tileEntity = tileEntity;
         this.pos = pos;
@@ -44,16 +44,6 @@ public class StructureTileEvent extends Event {
 
     public static class AfterLoad extends StructureTileEvent {
         public AfterLoad(World world, TileEntity tileEntity, BlockPos pos){
-            super(world, tileEntity, pos);
-        }
-    }
-
-    public static class Render extends StructureTileEvent{
-        @Override
-        public boolean isCancelable() {
-            return true;
-        }
-        public Render(World world, TileEntity tileEntity, BlockPos pos, BlockPos structureOffset) {
             super(world, tileEntity, pos);
         }
     }

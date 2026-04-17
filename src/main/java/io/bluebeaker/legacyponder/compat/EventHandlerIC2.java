@@ -10,10 +10,9 @@ public class EventHandlerIC2 {
     @SubscribeEvent
     public void onTileEntityLoad(StructureTileEvent.AfterLoad event){
         TileEntity tile = event.tileEntity;
-        if(tile instanceof INetworkUpdateListener && tile instanceof INetworkDataProvider){
-            for (String networkedField : ((INetworkDataProvider) tile).getNetworkedFields()) {
-                ((INetworkUpdateListener) tile).onNetworkUpdate(networkedField);
-            }
+        if (!(tile instanceof INetworkUpdateListener) || !(tile instanceof INetworkDataProvider)) return;
+        for (String networkedField : ((INetworkDataProvider) tile).getNetworkedFields()) {
+            ((INetworkUpdateListener) tile).onNetworkUpdate(networkedField);
         }
     }
 }

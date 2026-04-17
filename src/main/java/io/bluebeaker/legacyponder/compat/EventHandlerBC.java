@@ -7,9 +7,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class EventHandlerBC {
     @SubscribeEvent
     public void onSaveBCTile(StructureTileEvent.Save event){
-        if(event.tileEntity instanceof TileBC_Neptune){
-            // Crop tag
-            event.tileData.getCompoundTag("owner").removeTag("Properties");
-        }
+        if (!(event.tileEntity instanceof TileBC_Neptune)) return;
+        // Crop tag
+        event.tileData.getCompoundTag("owner").removeTag("Properties");
     }
 }
