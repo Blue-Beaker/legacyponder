@@ -47,7 +47,7 @@ public class CommandShowEntry extends CommandBase {
         if (args.length>=2){
             screen.setCurrentPageID(parseInt(args[1]));
         }
-
+        // Delay before showing screen, to make sure it opens
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {

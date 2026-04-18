@@ -1,10 +1,11 @@
 button.legacyponder.open=Show Details
 link.legacyponder.page=Page %s
 gui.category.legacyponder=Unconfuse
-commands.legacyponder.save.usage=Usage: legacyponder save <x1> <y1> <z1> <x2> <y2> <z2> <name> [ReplaceExisting] [WithEntities]
+commands.legacyponder.usage=legacyponder <%s> ...
+commands.legacyponder.save.usage=legacyponder save <x1> <y1> <z1> <x2> <y2> <z2> <name> [ReplaceExisting] [WithEntities]
 commands.legacyponder.save.failure=Failed to save structure '%s': %s
 commands.legacyponder.save.success=Saved structure '%s'
-commands.legacyponder.load.usage=Usage: legacyponder load <x> <y> <z> <name>
-commands.legacyponder.show.usage=Usage: lpshow <id> [page]
+commands.legacyponder.load.usage=legacyponder load <x> <y> <z> <name>
+commands.legacyponder.show.usage=lpshow <id> [page]
 commands.legacyponder.show.entrynotfound=Can't find entry with id '%s'
 config.legacyponder.compat.name=Compat

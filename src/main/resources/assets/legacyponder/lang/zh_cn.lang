@@ -1,10 +1,11 @@
 button.legacyponder.open=详细信息
 link.legacyponder.page=第 %s 页
 gui.category.legacyponder=解惑
-commands.legacyponder.save.usage=用法: legacyponder save <x1> <y1> <z1> <x2> <y2> <z2> <名称> [覆盖已有文件] [捕获实体]
+commands.legacyponder.usage=legacyponder <%s> ...
+commands.legacyponder.save.usage=legacyponder save <x1> <y1> <z1> <x2> <y2> <z2> <名称> [覆盖已有文件] [捕获实体]
 commands.legacyponder.save.failure=结构'%s'保存失败: %s
 commands.legacyponder.save.success=已保存结构 '%s'
-commands.legacyponder.load.usage=用法: legacyponder load <x> <y> <z> <名称>
-commands.legacyponder.show.usage=用法: lpshow <id> [页面]
+commands.legacyponder.load.usage=legacyponder load <x> <y> <z> <名称>
+commands.legacyponder.show.usage=lpshow <id> [页面]
 commands.legacyponder.show.entrynotfound=找不到id为 '%s' 的条目
 config.legacyponder.compat.name=兼容
