@@ -32,6 +32,11 @@ public class GuiScreenPonder extends GuiScreen {
     protected int pages = 0;
     @Nonnull
     protected GuiInfoPage<?> guiInfoPage = PonderPageBlank.INSTANCE.getGuiPage(this);
+
+    public void setLastScreen(GuiScreen lastScreen) {
+        this.lastScreen = lastScreen;
+    }
+
     protected GuiScreen lastScreen;
     protected String lastEntryTitle = "";
     protected String ponderID = "";
@@ -67,7 +72,6 @@ public class GuiScreenPonder extends GuiScreen {
     protected BoundingBox2D pageBounds = BoundingBox2D.EMPTY;
 
     public GuiScreenPonder(){
-        lastScreen=Minecraft.getMinecraft().currentScreen;
         StructureRenderManager.viewPos.resetAll();
     }
 

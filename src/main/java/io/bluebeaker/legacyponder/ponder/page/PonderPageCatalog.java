@@ -8,8 +8,9 @@ import io.bluebeaker.legacyponder.ponder.drawable.DrawableBase;
 import io.bluebeaker.legacyponder.ponder.drawable.DrawableGrid;
 import net.minecraft.client.resources.I18n;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class PonderPageCatalog extends PonderPageDrawable{
     public PonderPageCatalog() {
@@ -20,7 +21,9 @@ public class PonderPageCatalog extends PonderPageDrawable{
         public DrawableBase process(int width, int height) {
             DrawableGrid drawable = new DrawableGrid(1,width,10);
             Map<String, Entry> entries = PonderRegistry.getEntries();
-            for (String key : entries.keySet().stream().sorted().collect(Collectors.toList())) {
+            ArrayList<String> ids = new ArrayList<>(entries.keySet());
+            Collections.sort(ids);
+            for (String key : ids) {
                 drawable.addChild(DrawableBuilder.buildText(I18n.format(entries.get(key).title),0xFFFFFFFF).setLinkPonder(key));
             }
             return drawable;

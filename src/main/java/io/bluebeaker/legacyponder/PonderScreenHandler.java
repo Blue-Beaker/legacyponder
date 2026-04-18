@@ -17,6 +17,7 @@ public class PonderScreenHandler {
         GuiScreen gui = event.getGui();
         if(gui instanceof GuiScreenPonder){
             lastPonderScreen = (GuiScreenPonder) gui;
+            lastPonderScreen.setLastScreen(lastScreen);
         }
         if (lastScreen instanceof GuiYesNo && lastPonderScreen.isLinkActive()) {
             event.setGui(lastPonderScreen);

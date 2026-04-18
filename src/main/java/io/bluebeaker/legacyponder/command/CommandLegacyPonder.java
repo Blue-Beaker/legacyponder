@@ -3,6 +3,9 @@ package io.bluebeaker.legacyponder.command;
 import net.minecraft.command.ICommandSender;
 import net.minecraftforge.server.command.CommandTreeBase;
 
+import java.util.Collections;
+import java.util.List;
+
 public class CommandLegacyPonder extends CommandTreeBase {
     public CommandLegacyPonder(){
         this.addSubcommand(new CommandSaveStructure());
@@ -16,5 +19,10 @@ public class CommandLegacyPonder extends CommandTreeBase {
     @Override
     public String getUsage(ICommandSender sender) {
         return "";
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return Collections.singletonList("unconfusion");
     }
 }
