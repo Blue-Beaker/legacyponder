@@ -6,6 +6,7 @@ import io.bluebeaker.legacyponder.compat.EventHandlerBC;
 import io.bluebeaker.legacyponder.compat.EventHandlerEIOConduits;
 import io.bluebeaker.legacyponder.compat.EventHandlerFMP;
 import io.bluebeaker.legacyponder.compat.EventHandlerIC2;
+import io.bluebeaker.legacyponder.demo.DemoEntries;
 import io.bluebeaker.legacyponder.structure.StructureLoader;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -58,11 +59,13 @@ public class LegacyPonder
         if(LegacyPonderConfig.compat.enderio && Loader.isModLoaded("enderioconduits")){
             MinecraftForge.EVENT_BUS.register(new EventHandlerEIOConduits());
         }
+        DemoEntries.addDemoIfNeeded();
     }
 
     @SubscribeEvent
     public void onReload(ScriptReloadEvent event) {
         StructureLoader.loadTemplates();
+        DemoEntries.addDemoIfNeeded();
     }
 
     @EventHandler
@@ -76,6 +79,7 @@ public class LegacyPonder
     public void onConfigChangedEvent(OnConfigChangedEvent event) {
         if (event.getModID().equals(MODID)) {
             ConfigManager.sync(MODID, Type.INSTANCE);
+            DemoEntries.addDemoIfNeeded();
         }
     }
 

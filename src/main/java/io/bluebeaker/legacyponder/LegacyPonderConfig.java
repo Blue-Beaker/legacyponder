@@ -22,4 +22,8 @@ public class LegacyPonderConfig {
         @RequiresMcRestart
         public boolean enderio = true;
     }
+
+    @Comment("Enable demo entries. Demo entries explain what can be made with this mod.")
+    @LangKey("config.legacyponder.demo.name")
+    public static boolean demo = true;
 }

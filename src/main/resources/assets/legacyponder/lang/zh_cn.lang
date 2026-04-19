@@ -9,3 +9,6 @@ commands.legacyponder.load.usage=legacyponder load <x> <y> <z> <名称>
 commands.legacyponder.show.usage=lpshow <id> [页面]
 commands.legacyponder.show.entrynotfound=找不到id为 '%s' 的条目
 config.legacyponder.compat.name=兼容
+config.legacyponder.demo.name=启用演示示例
+ponderentry.demo_1.title=欢迎使用 解惑!
+ponderentry.demo_1.desc=通过示例了解本模组的功能!

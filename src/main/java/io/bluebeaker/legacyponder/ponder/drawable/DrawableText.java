@@ -82,11 +82,11 @@ public class DrawableText extends DrawableBase {
             // Add underline formatting when hovered and interactable to indicate that the text can be interacted with
             text1="§n"+ PATTERN.matcher(text1).replaceAll("$1§n");
         }
-        if(maxWidth<=0){
-            screen.mc.fontRenderer.drawString(text1, x-xOffset,y,color,dropShadow);
-        }else {
+//        if(maxWidth<=0){
+//            screen.mc.fontRenderer.drawString(text1, x-xOffset,y,color,dropShadow);
+//        }else {
             RenderUtils.drawSplitString(screen.mc.fontRenderer, text1, x-xOffset,y,maxWidth,color,dropShadow);
-        }
+//        }
     }
 
     @ZenMethod

@@ -6,6 +6,8 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RenderUtils {
@@ -30,7 +32,15 @@ public class RenderUtils {
     }
 
     public static void drawSplitString(FontRenderer fontRenderer, String text, int x, int y, int wrapWidth, int color, boolean dropShadow){
-        List<String> strings = fontRenderer.listFormattedStringToWidth(text, wrapWidth);
+        String[] split = text.split("\\\\n");
+        List<String> strings = new ArrayList<>();
+        if(wrapWidth==0){
+            Collections.addAll(strings, split);
+        }else {
+            for (String s : split) {
+                strings.addAll(fontRenderer.listFormattedStringToWidth(s, wrapWidth));
+            }
+        }
         for (int i = 0; i < strings.size(); i++) {
             fontRenderer.drawString(strings.get(i),x,y+i*fontRenderer.FONT_HEIGHT,color,dropShadow);
         }

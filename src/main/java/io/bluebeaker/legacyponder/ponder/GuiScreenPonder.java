@@ -85,7 +85,7 @@ public class GuiScreenPonder extends GuiScreen {
         if(!this.history.isEmpty()){
             this.buttonList.add(new GuiButtonExt(3,0,0,20,20,"<"));
             HistoryEntry lastHistory = getLastHistory();
-            this.lastEntryTitle=(PonderRegistry.getEntries().get(lastHistory.id).title+" : "+(lastHistory.page+1));
+            this.lastEntryTitle=(I18n.format(PonderRegistry.getEntries().get(lastHistory.id).title)+" : "+(lastHistory.page+1));
         }
 
         this.pageBounds=new BoundingBox2D(5,20,this.width-10,this.height-50);
