@@ -83,12 +83,12 @@ public class GuiScreenPonder extends GuiScreen {
         this.buttonList.add(new GuiButtonExt(2,23,this.height-22,20,20,">"));
 
         if(!this.history.isEmpty()){
-            this.buttonList.add(new GuiButtonExt(3,0,0,20,20,"<"));
             HistoryEntry lastHistory = getLastHistory();
             this.lastEntryTitle=(I18n.format(PonderRegistry.getEntries().get(lastHistory.id).title)+" : "+(lastHistory.page+1));
+            this.buttonList.add(new GuiButtonExt(3,2,2,Math.min(100,20+fontRenderer.getStringWidth(lastEntryTitle)),16,"< "+lastEntryTitle));
         }
 
-        this.pageBounds=new BoundingBox2D(5,20,this.width-10,this.height-50);
+        this.pageBounds=new BoundingBox2D(2,24,this.width-4,this.height-48);
         super.initGui();
 
         guiInfoPage.onResize();
@@ -182,15 +182,15 @@ public class GuiScreenPonder extends GuiScreen {
             this.drawCenteredString(this.fontRenderer, I18n.format(this.currentEntry.title),this.width/2,5,0xFFFFFFFF);
 
             // Draw back button if there is history
-            if(!this.history.isEmpty()) {
-                this.drawString(this.fontRenderer,lastEntryTitle,24,5,0xFFFFFFFF);
-            }
+//            if(!this.history.isEmpty()) {
+//                this.drawString(this.fontRenderer,lastEntryTitle,24,5,0xFFFFFFFF);
+//            }
 
             // Draw page number
             this.drawString(this.fontRenderer,String.format("%s/%s",this.currentPageID +1,this.pages),44,this.height-15,0xFFFFFFFF);
 
             // Draw page description
-            RenderUtils.drawSplitString(this.fontRenderer,this.guiInfoPage.getFormattedDescription(),100,this.height-28, this.width-100,0xFFFFFFFF,true);
+            RenderUtils.drawSplitString(this.fontRenderer,this.guiInfoPage.getFormattedDescription(),100,this.pageBounds.y+this.pageBounds.h+2, this.width-100,0xFFFFFFFF,true);
 
             // Draw current page
             this.guiInfoPage.draw(mouseX - this.pageBounds.x, mouseY - this.pageBounds.y, partialTicks);
