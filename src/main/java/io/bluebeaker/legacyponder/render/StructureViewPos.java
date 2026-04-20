@@ -42,7 +42,7 @@ public class StructureViewPos {
     }
 
     public Vec3d getZoomedOffset(){
-        return camera_offset.scale(Math.pow(2,zoom_power));
+        return camera_offset.scale(Math.pow(2,-zoom_power));
     }
     public void translateOffset(double x,double y,double z){
         camera_offset=camera_offset.add(x,y,z);

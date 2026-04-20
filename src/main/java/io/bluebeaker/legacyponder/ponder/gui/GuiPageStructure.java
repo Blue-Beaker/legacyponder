@@ -14,6 +14,7 @@ import io.bluebeaker.legacyponder.structure.StructureLoader;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
 import io.bluebeaker.legacyponder.utils.Vec2i;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -23,6 +24,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.fml.client.config.GuiButtonExt;
+import net.minecraftforge.fml.client.config.GuiSlider;
 import net.minecraftforge.fml.client.config.GuiUtils;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -57,6 +60,7 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
     private FloatBuffer projection = BufferUtils.createFloatBuffer(16);
     private IntBuffer viewport = BufferUtils.createIntBuffer(16);
     private ItemStack hoverItem = ItemStack.EMPTY;
+    protected GuiSlider slider = null;
 
     public GuiPageStructure(GuiScreenPonder parent, PonderPageStructure page) {
         super(parent, page);
@@ -80,8 +84,39 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
     }
 
     @Override
+    public void onResize() {
+        super.onResize();
+        int w = pageBounds.w;
+        int h = pageBounds.h;
+        this.buttonList.clear();
+        int buttonsHeight = 16;
+        this.buttonList.add(new GuiButtonExt(10,0,h- buttonsHeight,20, buttonsHeight,"<>"));
+        this.buttonList.add(new GuiButtonExt(14,20,h- buttonsHeight,20, buttonsHeight,"0"));
+        this.buttonList.add(new GuiButtonExt(11,160,h- buttonsHeight,20, buttonsHeight,"+"));
+        this.buttonList.add(new GuiButtonExt(12,40,h- buttonsHeight,20, buttonsHeight,"-"));
+        GuiSlider slider = new GuiSlider(13, 60, h - buttonsHeight, 100, buttonsHeight, "Zoom: ", "", -5, 5, viewPos.zoom_power, true, true, slider1 -> viewPos.zoom_power= slider1.getValue());
+        this.slider=slider;
+        this.buttonList.add(slider);
+    }
+
+    @Override
+    protected void actionPerformed(GuiButton button) throws IOException {
+        super.actionPerformed(button);
+        if(button.id==10){
+            StructureRenderManager.viewPos.resetAll();
+        } else if (button.id == 11) {
+            viewPos.zoom(0.1);
+        } else if (button.id == 12) {
+            viewPos.zoom(-0.1);
+        } else if (button.id == 14) {
+            viewPos.zoom_power=0;
+        }
+        this.slider.setValue(viewPos.zoom_power);
+        this.slider.updateSlider();
+    }
+
+    @Override
     public void draw(int mouseX, int mouseY, float partialTicks) {
-        super.draw(mouseX, mouseY, partialTicks);
 
         RenderUtils.setViewPort(pageBounds);
 
@@ -117,7 +152,7 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
 
         }
 
-        if(hoverComp == null && !parent.isMouseDownInPage()){
+        if(hoverComp == null && !parent.isMouseDownInPage() && this.buttonList.stream().noneMatch(GuiButton::isMouseOver)){
             RayTraceResult rayTraceResult = raycastFromCursor(MouseTracker.INSTANCE.x, MouseTracker.INSTANCE.y, modelView, projection, viewport);
 
             if(rayTraceResult!=null && rayTraceResult.typeOfHit== RayTraceResult.Type.BLOCK){
@@ -143,7 +178,9 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
             this.hoverItem=ItemStack.EMPTY;
         }
 
+        super.draw(mouseX, mouseY, partialTicks);
         RenderUtils.endViewPort();
+
     }
 
     private void drawHighlightBoxes(int scale) {
@@ -320,7 +357,7 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         for (int i = components.size()-1; i >=0; i--) {
             GuiHoverComponent hoveredComponent1 = components.get(i);
 
-            if(hoveredComponent1.getDrawable().getBoundingBox().expand(5).contains(mouseX,mouseY)){
+            if(this.buttonList.stream().noneMatch(GuiButton::isMouseOver) && hoveredComponent1.getDrawable().getBoundingBox().expand(5).contains(mouseX,mouseY)){
                 this.hoverComp = hoveredComponent1;
                 break;
             }
@@ -351,12 +388,16 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
     @Override
     public boolean mouseScroll(int mouseX, int mouseY, int wheelDelta) {
         super.mouseScroll(mouseX, mouseY, wheelDelta);
-        viewPos.zoom(-wheelDelta*0.01);
+        viewPos.zoom(wheelDelta*0.01);
+        this.slider.setValue(viewPos.zoom_power);
+        this.slider.updateSlider();
         return true;
     }
 
     @Override
     public boolean onMouseClick(int x, int y, int button) throws IOException {
+        if(this.buttonList.stream().anyMatch(GuiButton::isMouseOver))
+            return super.onMouseClick(x, y, button);
         if(hoverComp !=null){
             boolean clicked = hoverComp.getDrawable().onMouseClick(this.parent,x,y,button);
             if(clicked) return true;
