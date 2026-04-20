@@ -12,7 +12,10 @@ Notes:
 - This is because the structure is loaded in a single dummy world that doesn't have normal client-server structure, so some blocks with custom render relying on it can break.  
 - This mod has a few compatibility modules built-in, to fix/optimize some known ones.  
 
-Known fixes:
+Builtin compatibility fixes:
 - IC2 TileEntities (render fix)
 - EnderIO cable (render fix)
 - BuildCraft TileEntities (savedata optimization)
+
+Known unfixed compatibility problems:
+- ForgeMultiPart CBE Microblocks doesn't render  
