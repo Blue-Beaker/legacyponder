@@ -23,6 +23,18 @@ public class LegacyPonderConfig {
         public boolean enderio = true;
     }
 
+    @Comment("Manage UI and control settings.")
+    @LangKey("config.legacyponder.ui.name")
+    public static UI ui = new UI();
+    public static class UI {
+        @Comment("Mouse wheel sensivity for zooming in structure page.")
+        @LangKey("config.legacyponder.ui.wheel_sensivity.name")
+        public double wheel_sensivity = 0.2;
+        @Comment("Mouse movement sensivity for dragging in structure page.")
+        @LangKey("config.legacyponder.ui.cursor_sensivity.name")
+        public double cursor_sensivity = 1.0;
+    }
+
     @Comment("Enable demo entries. Demo entries explain what can be made with this mod.")
     @LangKey("config.legacyponder.demo.name")
     public static boolean demo = true;

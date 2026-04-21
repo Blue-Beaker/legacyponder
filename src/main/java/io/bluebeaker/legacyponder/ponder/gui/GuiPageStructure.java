@@ -39,6 +39,7 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.bluebeaker.legacyponder.LegacyPonderConfig.ui;
 import static io.bluebeaker.legacyponder.render.StructureRenderManager.getWorld;
 import static io.bluebeaker.legacyponder.render.StructureRenderManager.viewPos;
 
@@ -94,8 +95,10 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         this.buttonList.add(new GuiButtonExt(14,20,h- buttonsHeight,20, buttonsHeight,"0"));
         this.buttonList.add(new GuiButtonExt(11,160,h- buttonsHeight,20, buttonsHeight,"+"));
         this.buttonList.add(new GuiButtonExt(12,40,h- buttonsHeight,20, buttonsHeight,"-"));
-        GuiSlider slider = new GuiSlider(13, 60, h - buttonsHeight, 100, buttonsHeight, "Zoom: ", "", -5, 5, viewPos.zoom_power, true, true, slider1 -> viewPos.zoom_power= slider1.getValue());
+        GuiSlider slider = new GuiSlider(13, 60, h - buttonsHeight, 100, buttonsHeight, "", "", -5, 5, viewPos.zoom_power, true, true, slider1 -> viewPos.zoom_power= slider1.getValue());
+        slider.precision=2;
         this.slider=slider;
+        updateSlider();
         this.buttonList.add(slider);
     }
 
@@ -111,8 +114,15 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         } else if (button.id == 14) {
             viewPos.zoom_power=0;
         }
+        updateSlider();
+    }
+
+    protected void updateSlider() {
+        this.slider.maxValue=Math.max(5,viewPos.zoom_power);
+        this.slider.minValue=Math.min(-5,viewPos.zoom_power);
         this.slider.setValue(viewPos.zoom_power);
         this.slider.updateSlider();
+        this.slider.displayString=String.format("%.2f",this.slider.getValue());
     }
 
     @Override
@@ -388,9 +398,8 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
     @Override
     public boolean mouseScroll(int mouseX, int mouseY, int wheelDelta) {
         super.mouseScroll(mouseX, mouseY, wheelDelta);
-        viewPos.zoom(wheelDelta*0.01);
-        this.slider.setValue(viewPos.zoom_power);
-        this.slider.updateSlider();
+        viewPos.zoom((double) wheelDelta /120* ui.wheel_sensivity);
+        updateSlider();
         return true;
     }
 
@@ -458,12 +467,12 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
         int factor = scaledResolution.getScaleFactor();
         Vec2i mouseDelta = MouseTracker.INSTANCE.getMouseDelta();
-        float deltaX = (float) mouseDelta.x /factor;
-        float deltaY = (float) mouseDelta.y /factor;
+        double deltaX = (float) mouseDelta.x /factor * ui.cursor_sensivity;
+        double deltaY = (float) mouseDelta.y /factor * ui.cursor_sensivity;
 
         if(clickedMouseButton==0){
-            viewPos.addYaw(deltaX);
-            viewPos.addPitch(-deltaY);
+            viewPos.addYaw((float) deltaX);
+            viewPos.addPitch((float) -deltaY);
         }else if (clickedMouseButton<=2){
             viewPos.translate(deltaX/100f,deltaY/100f,0);
         }
