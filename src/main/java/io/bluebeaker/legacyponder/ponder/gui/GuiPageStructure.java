@@ -216,45 +216,12 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         GlStateManager.disableTexture2D();
         GlStateManager.disableLighting();
         GlStateManager.enableBlend();
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferbuilder = tessellator.getBuffer();
+
         for (HighlightArea highlightArea : page.getHighlightAreas()) {
-            BlockPos pos1 = highlightArea.getPos1();
-            BlockPos pos2 = highlightArea.getPos2();
+            Vec3d pos1 = highlightArea.getPos1();
+            Vec3d pos2 = highlightArea.getPos2();
             Color color = highlightArea.getColor();
-            float fighting_fix = 0.01f;
-            float x1= pos1.getX()-fighting_fix;
-            float y1= pos1.getY()-fighting_fix;
-            float z1= pos1.getZ()-fighting_fix;
-            float x2= pos2.getX()+1+fighting_fix;
-            float y2= pos2.getY()+1+fighting_fix;
-            float z2= pos2.getZ()+1+fighting_fix;
-
-            bufferbuilder.begin(3, DefaultVertexFormats.POSITION_COLOR);
-            int r = color.getRed();
-            int g = color.getGreen();
-            int b = color.getBlue();
-
-            // Line
-            bufferbuilder.pos(x1,y1,z1).color(r, g, b,255).endVertex();
-            bufferbuilder.pos(x2,y1,z1).color(r, g, b,255).endVertex();
-            bufferbuilder.pos(x2,y2,z1).color(r, g, b,255).endVertex();
-            bufferbuilder.pos(x1,y2,z1).color(r, g, b,255).endVertex();
-            bufferbuilder.pos(x1,y1,z1).color(r, g, b,255).endVertex();
-
-            bufferbuilder.pos(x1,y1,z2).color(r, g, b,255).endVertex();
-            bufferbuilder.pos(x2,y1,z2).color(r, g, b,255).endVertex();
-            bufferbuilder.pos(x2,y1,z1).color(r, g, b,255).endVertex();
-            bufferbuilder.pos(x2,y1,z2).color(r, g, b,255).endVertex();
-            bufferbuilder.pos(x2,y2,z2).color(r, g, b,255).endVertex();
-            bufferbuilder.pos(x2,y2,z1).color(r, g, b,255).endVertex();
-            bufferbuilder.pos(x2,y2,z2).color(r, g, b,255).endVertex();
-            bufferbuilder.pos(x1,y2,z2).color(r, g, b,255).endVertex();
-            bufferbuilder.pos(x1,y2,z1).color(r, g, b,255).endVertex();
-            bufferbuilder.pos(x1,y2,z2).color(r, g, b,255).endVertex();
-            bufferbuilder.pos(x1,y1,z2).color(r, g, b,255).endVertex();
-
-            tessellator.draw();
+            RenderUtils.drawHighlightBox(pos1, pos2, color);
         }
         GlStateManager.enableTexture2D();
     }

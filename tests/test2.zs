@@ -30,7 +30,7 @@ entry.addPage(PonderPage.fromDrawable(function(w,h){
     return group;
 }));
 entry.addPage(PonderPage.fromStructure("test1/stru1")
-    .addHighlightArea(HighlightArea.build(0,0,0,2,1,2).setColor(80,127,127))
+    .addHighlightArea(HighlightArea.build(0,0,0,3,2,3).setColor(80,127,127))
     .addHoverComponent(
         HoverComponent.build(1.5,1,1.5,function(w,h){
             val group = DrawableBuilder.buildGroup();

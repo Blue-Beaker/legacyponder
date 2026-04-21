@@ -17,7 +17,7 @@ entry.addPage(PonderPage.catalogPage());
 entry.addPage(PonderPage.dummyPage().setDescription("§bDummy page§r for the entry!"));
 entry.addPage(PonderPage.fromStructure("5").setDescription("§1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5"));
 entry.addPage(PonderPage.fromStructure("structure1")
-    .addHighlightArea(HighlightArea.build(0,0,0,2,1,2).setColor(80,127,127))
+    .addHighlightArea(HighlightArea.build(0,0,0,3,2,3).setColor(80,127,127))
     .addHoverComponent(
              HoverComponent.build(2.5,1,1.5,function(w,h){
                  return DrawableBuilder.buildItem(<minecraft:diamond>*2);

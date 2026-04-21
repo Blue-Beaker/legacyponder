@@ -63,7 +63,7 @@ public class PonderPageStructure extends PonderPageBase{
      * @return this
      */
     @ZenMethod
-    public PonderPageStructure addHighlightArea(int x1, int y1, int z1, int x2, int y2, int z2, int r, int g, int b){
+    public PonderPageStructure addHighlightArea(double x1, double y1, double z1, double x2, double y2, double z2, int r, int g, int b){
         this.highlightAreas.add(HighlightArea.build(x1,y1,z1,x2,y2,z2).setColor(r,g,b));
         return this;
     }
