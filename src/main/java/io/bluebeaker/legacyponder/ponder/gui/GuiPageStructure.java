@@ -269,42 +269,6 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         return getWorld().rayTraceBlocks(from, to);
     }
 
-    private void drawHoverLines(int scale, FloatBuffer modelView, FloatBuffer projection, IntBuffer viewport) {
-        GlStateManager.glLineWidth(scale);
-        GlStateManager.disableTexture2D();
-        GlStateManager.disableLighting();
-        GlStateManager.enableBlend();
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferbuilder = tessellator.getBuffer();
-        for (GuiHoverComponent hoverComponent : this.components) {
-            Vector3f pos = hoverComponent.internal.pos;
-            Color color = hoverComponent.internal.getColor();
-            float[] floats = RenderPosUtils.projectToScreen(pos.x, pos.y, pos.z, modelView, projection, viewport);
-
-            float x = floats[0] / scale;
-            float y = floats[1] / scale;
-
-            int hoverX = Math.round(x+ hoverComponent.offX);
-            int lineEndY = Math.round(y- hoverComponent.offY);
-
-            float[] pos1 = RenderPosUtils.unprojectFromScreen(hoverX* scale, lineEndY* scale, floats[2], modelView, projection, viewport);
-
-
-            bufferbuilder.begin(3, DefaultVertexFormats.POSITION_COLOR);
-            int r = color.getRed();
-            int g = color.getGreen();
-            int b = color.getBlue();
-
-            // Line
-            bufferbuilder.pos(pos.x,pos.y,pos.z).color(r, g, b,255).endVertex();
-            bufferbuilder.pos(pos1[0],pos1[1],pos1[2]).color(r, g, b,255).endVertex();
-
-            tessellator.draw();
-
-
-        }
-        GlStateManager.glLineWidth(1.0F);
-    }
     private void drawHoverLines2(int scale, FloatBuffer modelView, FloatBuffer projection, IntBuffer viewport) {
         GlStateManager.glLineWidth(scale);
         GlStateManager.disableTexture2D();
