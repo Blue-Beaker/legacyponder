@@ -69,6 +69,22 @@ public class PonderPageStructure extends PonderPageBase{
     }
 
     /**
+     * Conventional method for adding a highlight area to this structure page
+     * @param x1 x1
+     * @param y1 y1
+     * @param z1 z1
+     * @param r red
+     * @param g green
+     * @param b blue
+     * @return this
+     */
+    @ZenMethod
+    public PonderPageStructure addHighlightArea(double x1, double y1, double z1, int r, int g, int b){
+        this.highlightAreas.add(HighlightArea.build(x1,y1,z1,x1+1,y1+1,z1+1).setColor(r,g,b));
+        return this;
+    }
+
+    /**
      * Conventional method for adding a hover component to this structure page
      * @param x x
      * @param y y
@@ -80,7 +96,7 @@ public class PonderPageStructure extends PonderPageBase{
      * @return this
      */
     @ZenMethod
-    public PonderPageStructure addHoverComponent(float x, float y, float z, IDrawableSupplier drawableSupplier, int r, int g, int b){
+    public PonderPageStructure addHoverComponent(float x, float y, float z, int r, int g, int b, IDrawableSupplier drawableSupplier){
         this.hoverComponents.add(HoverComponent.build(x,y,z,drawableSupplier).setColor(r,g,b));
         return this;
     }

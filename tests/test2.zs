@@ -30,6 +30,10 @@ entry.addPage(PonderPage.fromDrawable(function(w,h){
     return group;
 }));
 entry.addPage(PonderPage.fromStructure("test1/stru1")
+    .addHighlightArea(2,1,1,3,2,2,255,180,180)
+    .addHoverComponent(2.5,1,1.5,255,180,180,function(w,h){
+             return DrawableBuilder.buildItem(<minecraft:diamond>*2);
+             })
     .addHighlightArea(HighlightArea.build(0,0,0,3,2,3).setColor(80,127,127))
     .addHoverComponent(
         HoverComponent.build(1.5,1,1.5,function(w,h){
@@ -47,11 +51,6 @@ entry.addPage(PonderPage.fromStructure("test1/stru1")
             return group;
             }
         ).setColor(80,127,127))
-    .addHoverComponent(
-         HoverComponent.build(2.5,1,1.5,function(w,h){
-             return DrawableBuilder.buildItem(<minecraft:diamond>*2);
-             }
-         ).setColor(255,180,180))
     );
 
 PonderRegistry.add("test_entry3",entry);
