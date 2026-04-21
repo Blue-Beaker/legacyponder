@@ -90,16 +90,20 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         int w = pageBounds.w;
         int h = pageBounds.h;
         this.buttonList.clear();
-        int buttonsHeight = 16;
-        this.buttonList.add(new GuiButtonExt(10,0,h- buttonsHeight,20, buttonsHeight,"<>"));
-        this.buttonList.add(new GuiButtonExt(14,20,h- buttonsHeight,20, buttonsHeight,"0"));
-        this.buttonList.add(new GuiButtonExt(11,160,h- buttonsHeight,20, buttonsHeight,"+"));
-        this.buttonList.add(new GuiButtonExt(12,40,h- buttonsHeight,20, buttonsHeight,"-"));
-        GuiSlider slider = new GuiSlider(13, 60, h - buttonsHeight, 100, buttonsHeight, "", "", -5, 5, viewPos.zoom_power, true, true, slider1 -> viewPos.zoom_power= slider1.getValue());
-        slider.precision=2;
-        this.slider=slider;
+
+        this.buttonList.add(new GuiButtonExt(10,0,h- 16,16, 16,"!"));
+        this.buttonList.add(new GuiButtonExt(14,16,h- 16,16, 16,"="));
+        if(UIConfig.zoom_buttons){
+            this.buttonList.add(new GuiButtonExt(11,UIConfig.zoom_slider?112:48,h- 16,16, 16,"+"));
+            this.buttonList.add(new GuiButtonExt(12,32,h- 16,16, 16,"-"));
+        }
+        if(UIConfig.zoom_slider){
+            GuiSlider slider = new GuiSlider(13, UIConfig.zoom_buttons?48:32, h - 16, 64, 16, "", "", -5, 5, viewPos.zoom_power, true, true, slider1 -> viewPos.zoom_power= slider1.getValue());
+            slider.precision=2;
+            this.slider=slider;
+            this.buttonList.add(slider);
+        }
         updateSlider();
-        this.buttonList.add(slider);
     }
 
     @Override
@@ -108,9 +112,9 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         if(button.id==10){
             StructureRenderManager.viewPos.resetAll();
         } else if (button.id == 11) {
-            viewPos.zoom(0.1);
+            viewPos.zoom(0.2);
         } else if (button.id == 12) {
-            viewPos.zoom(-0.1);
+            viewPos.zoom(-0.2);
         } else if (button.id == 14) {
             viewPos.zoom_power=0;
         }
@@ -118,6 +122,7 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
     }
 
     protected void updateSlider() {
+        if(this.slider==null) return;
         this.slider.maxValue=Math.max(5,viewPos.zoom_power);
         this.slider.minValue=Math.min(-5,viewPos.zoom_power);
         this.slider.setValue(viewPos.zoom_power);

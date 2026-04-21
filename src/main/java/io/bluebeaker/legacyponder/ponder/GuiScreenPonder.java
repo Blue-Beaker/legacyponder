@@ -81,16 +81,16 @@ public class GuiScreenPonder extends GuiScreen {
     @Override
     public void initGui() {
         this.buttonList.clear();
-        this.buttonList.add(new GuiButtonExt(0,this.width-20,0,20,20,"x"));
-        this.buttonList.add(new GuiButtonExt(1,2,this.height-22,20,20,"<"));
-        this.buttonList.add(new GuiButtonExt(2,23,this.height-22,20,20,">"));
-        this.buttonList.add(new GuiButtonExt(4,this.width-40,0,20,20,"?"));
-        this.buttonList.add(new GuiButtonExt(5,this.width-60,0,20,20,"#"));
+        this.buttonList.add(new GuiButtonExt(ButtonID.CLOSE,this.width-20,0,20,20,"x"));
+        this.buttonList.add(new GuiButtonExt(ButtonID.PREV,2,this.height-22,20,20,"<"));
+        this.buttonList.add(new GuiButtonExt(ButtonID.NEXT,23,this.height-22,20,20,">"));
+        this.buttonList.add(new GuiButtonExt(ButtonID.HELP,this.width-40,0,20,20,"?"));
+        this.buttonList.add(new GuiButtonExt(ButtonID.SETTINGS,this.width-60,0,20,20,"#"));
 
         if(!this.history.isEmpty()){
             HistoryEntry lastHistory = getLastHistory();
             this.lastEntryTitle=(I18n.format(PonderRegistry.getEntries().get(lastHistory.id).title)+" : "+(lastHistory.page+1));
-            this.buttonList.add(new GuiButtonExt(3,2,2,Math.min(100,20+fontRenderer.getStringWidth(lastEntryTitle)),16,"< "+lastEntryTitle));
+            this.buttonList.add(new GuiButtonExt(ButtonID.BACK,2,2,Math.min(100,20+fontRenderer.getStringWidth(lastEntryTitle)),16,"< "+lastEntryTitle));
         }
 
         this.pageBounds=new BoundingBox2D(2,24,this.width-4,this.height-48);
@@ -248,17 +248,17 @@ public class GuiScreenPonder extends GuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
-        if(button.id==0){
+        if(button.id==ButtonID.CLOSE){
             close();
-        } else if (button.id==1) {
+        } else if (button.id==ButtonID.PREV) {
             this.setCurrentPageID(this.currentPageID -1);
-        } else if (button.id==2) {
+        } else if (button.id==ButtonID.NEXT) {
             this.setCurrentPageID(this.currentPageID +1);
-        } else if (button.id==3) { //Back
+        } else if (button.id==ButtonID.BACK) { //Back
             this.popHistory();
-        } else if (button.id==4) { //Help
+        } else if (button.id==ButtonID.HELP) { //Help
 
-        } else if (button.id==5) { //Config
+        } else if (button.id==ButtonID.SETTINGS) { //Config
             Minecraft.getMinecraft()
                     .displayGuiScreen(
                     new GuiConfig(this,LegacyPonder.MODID,false,false,I18n.format("config.legacyponder.ui"),UIConfig.class));
@@ -315,5 +315,13 @@ public class GuiScreenPonder extends GuiScreen {
             this.id = id;
             this.page = page;
         }
+    }
+    public static class ButtonID{
+        public static final int CLOSE = 0;
+        public static final int PREV = 1;
+        public static final int NEXT = 2;
+        public static final int BACK = 3;
+        public static final int HELP = 4;
+        public static final int SETTINGS = 5;
     }
 }
