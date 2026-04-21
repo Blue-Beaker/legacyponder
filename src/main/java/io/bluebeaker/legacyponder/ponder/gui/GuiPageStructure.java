@@ -1,6 +1,7 @@
 package io.bluebeaker.legacyponder.ponder.gui;
 
 import io.bluebeaker.legacyponder.LegacyPonder;
+import io.bluebeaker.legacyponder.UIConfig;
 import io.bluebeaker.legacyponder.jeiplugin.JEIUtils;
 import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
 import io.bluebeaker.legacyponder.ponder.hover.GuiHoverComponent;
@@ -39,7 +40,6 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.bluebeaker.legacyponder.LegacyPonderConfig.ui;
 import static io.bluebeaker.legacyponder.render.StructureRenderManager.getWorld;
 import static io.bluebeaker.legacyponder.render.StructureRenderManager.viewPos;
 
@@ -398,7 +398,7 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
     @Override
     public boolean mouseScroll(int mouseX, int mouseY, int wheelDelta) {
         super.mouseScroll(mouseX, mouseY, wheelDelta);
-        viewPos.zoom((double) wheelDelta /120* ui.wheel_sensivity);
+        viewPos.zoom((double) wheelDelta /120* UIConfig.wheel_sensivity);
         updateSlider();
         return true;
     }
@@ -467,8 +467,8 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
         ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
         int factor = scaledResolution.getScaleFactor();
         Vec2i mouseDelta = MouseTracker.INSTANCE.getMouseDelta();
-        double deltaX = (float) mouseDelta.x /factor * ui.cursor_sensivity;
-        double deltaY = (float) mouseDelta.y /factor * ui.cursor_sensivity;
+        double deltaX = (float) mouseDelta.x /factor * UIConfig.cursor_sensivity;
+        double deltaY = (float) mouseDelta.y /factor * UIConfig.cursor_sensivity;
 
         if(clickedMouseButton==0){
             viewPos.addYaw((float) deltaX);

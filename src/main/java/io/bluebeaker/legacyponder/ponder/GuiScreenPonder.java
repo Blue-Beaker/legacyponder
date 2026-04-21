@@ -1,6 +1,7 @@
 package io.bluebeaker.legacyponder.ponder;
 
 import io.bluebeaker.legacyponder.LegacyPonder;
+import io.bluebeaker.legacyponder.UIConfig;
 import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
 import io.bluebeaker.legacyponder.ponder.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.ponder.gui.MouseTracker;
@@ -16,6 +17,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
+import net.minecraftforge.fml.client.config.GuiConfig;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -34,7 +36,8 @@ public class GuiScreenPonder extends GuiScreen {
     protected GuiInfoPage<?> guiInfoPage = PonderPageBlank.INSTANCE.getGuiPage(this);
 
     public void setLastScreen(GuiScreen lastScreen) {
-        this.lastScreen = lastScreen;
+        if (this.lastScreen==null)
+            this.lastScreen = lastScreen;
     }
 
     protected GuiScreen lastScreen;
@@ -81,6 +84,8 @@ public class GuiScreenPonder extends GuiScreen {
         this.buttonList.add(new GuiButtonExt(0,this.width-20,0,20,20,"x"));
         this.buttonList.add(new GuiButtonExt(1,2,this.height-22,20,20,"<"));
         this.buttonList.add(new GuiButtonExt(2,23,this.height-22,20,20,">"));
+        this.buttonList.add(new GuiButtonExt(4,this.width-40,0,20,20,"?"));
+        this.buttonList.add(new GuiButtonExt(5,this.width-60,0,20,20,"#"));
 
         if(!this.history.isEmpty()){
             HistoryEntry lastHistory = getLastHistory();
@@ -249,8 +254,14 @@ public class GuiScreenPonder extends GuiScreen {
             this.setCurrentPageID(this.currentPageID -1);
         } else if (button.id==2) {
             this.setCurrentPageID(this.currentPageID +1);
-        } else if (button.id==3) {
+        } else if (button.id==3) { //Back
             this.popHistory();
+        } else if (button.id==4) { //Help
+
+        } else if (button.id==5) { //Config
+            Minecraft.getMinecraft()
+                    .displayGuiScreen(
+                    new GuiConfig(this,LegacyPonder.MODID,false,false,I18n.format("config.legacyponder.ui"),UIConfig.class));
         } else if (button.id==31102009){
             this.isLinkActive=false;
         }
