@@ -5,6 +5,8 @@ import mods.legacyponder.IPonderEntry;
 import mods.legacyponder.PonderRegistry;
 import mods.legacyponder.PonderPage;
 import mods.legacyponder.DrawableBuilder;
+import mods.legacyponder.HoverComponent;
+import mods.legacyponder.HighlightArea;
 
 val entry = IPonderEntry.createPonderEntry("Entry 1","Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1");
 entry.addItem(<minecraft:diamond>);
@@ -14,7 +16,14 @@ entry.addIngredient(<minecraft:wool:0>|<minecraft:wool:1>|<minecraft:wool:2>|<mi
 entry.addPage(PonderPage.catalogPage());
 entry.addPage(PonderPage.dummyPage().setDescription("§bDummy page§r for the entry!"));
 entry.addPage(PonderPage.fromStructure("5").setDescription("§1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5"));
-entry.addPage(PonderPage.fromStructure("structure1").setDescription("§bStructure1"));
+entry.addPage(PonderPage.fromStructure("structure1")
+    .addHighlightArea(HighlightArea.build(0,0,0,2,1,2).setColor(80,127,127))
+    .addHoverComponent(
+             HoverComponent.build(2.5,1,1.5,function(w,h){
+                 return DrawableBuilder.buildItem(<minecraft:diamond>*2);
+                 }
+             ).setColor(255,180,180))
+    .setDescription("§bStructure1"));
 entry.addPage(PonderPage.fromDrawable(function(w,h){
     val group = DrawableBuilder.buildGroup();
     group.addChild(DrawableBuilder.buildText("Test",0xFFFFFFFF).setMaxWidth(0).setLinkPonder("test_entry3"),176/2,0);

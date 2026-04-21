@@ -19,6 +19,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
@@ -132,7 +133,6 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
 
     @Override
     public void draw(int mouseX, int mouseY, float partialTicks) {
-
         RenderUtils.setViewPort(pageBounds);
 
         StructureRenderManager.prepareTransformations(pageBounds.x, pageBounds.y, pageBounds.w,pageBounds.h);
@@ -154,6 +154,9 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
 
         StructureRenderManager.cleanTransformations();
 
+        // Maybe the state is wrong, so clean it to fix fonts not drawn properly
+        GlStateManager.enableDepth();
+        GlStateManager.disableDepth();
 
         if(!this.components.isEmpty()){
 
@@ -166,6 +169,8 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
             drawHoverComponents(mouseX, mouseY, modelView, projection, viewport, scale);
 
         }
+
+        List<String> tooltip = null;
 
         if(hoverComp == null && !parent.isMouseDownInPage() && this.buttonList.stream().noneMatch(GuiButton::isMouseOver)){
             RayTraceResult rayTraceResult = raycastFromCursor(MouseTracker.INSTANCE.x, MouseTracker.INSTANCE.y, modelView, projection, viewport);
@@ -180,17 +185,25 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
                 }
 
                 if(!hoverItem.isEmpty()){
-                    String text = hoverItem.getDisplayName();
-                    int textX = mouseX + 5;
-                    int textY = mouseY - 15;
-
-                    drawHoverBackground(new Color(0x5028007f), textX-4, textY-4, textX+mc.fontRenderer.getStringWidth(text)+4, textY+mc.fontRenderer.FONT_HEIGHT+4);
-
-                    mc.fontRenderer.drawStringWithShadow(text, textX, textY, Color.white.getRGB());
+                    tooltip=getItemToolTip(hoverItem);
+//                    String text = hoverItem.getDisplayName();
+//                    int textX = mouseX + 5;
+//                    int textY = mouseY - 15;
+//
+//                    drawHoverBackground(new Color(0x5028007f), textX-4, textY-4, textX+mc.fontRenderer.getStringWidth(text)+4, textY+mc.fontRenderer.FONT_HEIGHT+4);
+//
+//                    mc.fontRenderer.drawStringWithShadow(text, textX, textY, Color.white.getRGB());
                 }
             }
         }else {
             this.hoverItem=ItemStack.EMPTY;
+        }
+
+        if (tooltip != null && !tooltip.isEmpty()) {
+            GlStateManager.translate(0,0,100);
+            GuiUtils.drawHoveringText(tooltip, mouseX, mouseY, pageBounds.w,pageBounds.h,-1,mc.fontRenderer);
+            RenderHelper.disableStandardItemLighting();
+            GlStateManager.translate(0,0,-100);
         }
 
         super.draw(mouseX, mouseY, partialTicks);
