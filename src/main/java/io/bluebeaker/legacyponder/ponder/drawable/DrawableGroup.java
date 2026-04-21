@@ -136,8 +136,12 @@ public class DrawableGroup extends DrawableBase {
 
     @Override
     public boolean isFocused(GuiScreen screen, int mouseX, int mouseY) {
+        this.focusedChild=null;
         for (DrawableBase child : children) {
-            if(child.isFocused(screen, mouseX - this.x, mouseY - this.y)) return true;
+            if(child.isFocused(screen, mouseX - this.x, mouseY - this.y)){
+                this.focusedChild=child;
+                return true;
+            }
         }
         return false;
     }
