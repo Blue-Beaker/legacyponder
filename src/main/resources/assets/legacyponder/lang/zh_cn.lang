@@ -16,5 +16,7 @@ config.legacyponder.ui=UI
 config.legacyponder.ui.tooltip=界面调整.
 config.legacyponder.ui.wheel_sensivity=滚轮灵敏度
 config.legacyponder.ui.cursor_sensivity=光标灵敏度
+key.legacyponder.prev_page=上一页
+key.legacyponder.next_page=下一页
 ponderentry.demo_1.title=欢迎使用 解惑!
 ponderentry.demo_1.desc=通过示例了解本模组的功能!

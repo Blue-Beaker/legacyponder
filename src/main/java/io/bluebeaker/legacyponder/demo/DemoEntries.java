@@ -11,7 +11,7 @@ import io.bluebeaker.legacyponder.ponder.page.PonderPageBase;
 
 public class DemoEntries {
 
-    public static final String INTERNAL_DEMO_1 = "internal_demo_1";
+    public static final String INTERNAL_DEMO_1 = "internal:demo_1";
 
     public static void addDemoIfNeeded(){
         if(LegacyPonderConfig.demo && !demoAdded){

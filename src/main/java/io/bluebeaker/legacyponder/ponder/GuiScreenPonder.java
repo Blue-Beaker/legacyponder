@@ -1,5 +1,6 @@
 package io.bluebeaker.legacyponder.ponder;
 
+import io.bluebeaker.legacyponder.Keybinds;
 import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.UIConfig;
 import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
@@ -214,6 +215,10 @@ public class GuiScreenPonder extends GuiScreen {
                 return;
             }
             close();
+        }else if (Keybinds.prevPage.isActiveAndMatches(keyCode)) {
+            setCurrentPageID(currentPageID-1);
+        }else if (Keybinds.nextPage.isActiveAndMatches(keyCode)) {
+            setCurrentPageID(currentPageID+1);
         }else {
             guiInfoPage.onKeyTyped(typedChar, keyCode);
         }
