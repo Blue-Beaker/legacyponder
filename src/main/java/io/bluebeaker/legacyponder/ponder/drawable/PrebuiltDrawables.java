@@ -9,7 +9,10 @@ import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 @ZenClass("mods.legacyponder.PrebuiltDrawables")
@@ -55,6 +58,20 @@ public class PrebuiltDrawables {
             icons.addChild(new DrawableItem(items).setLinkPonder(key));
             titles.addChild(DrawableBuilder.buildText(I18n.format(entry.title), 0xFFFFFFFF).setLinkPonder(key));
         }
+        return drawable;
+    }
+    public static DrawableGroup buildSummary(String entryId, int width, int height){
+        DrawableGroup drawable = new DrawableGroup();
+        Entry entry = PonderRegistry.getEntries().get(entryId);
+
+        int columns = width / 16;
+        DrawableGrid items = new DrawableGrid(columns,16,16);
+        for (List<ItemStack> item : entry.getItems()) {
+            items.addChild(new DrawableItem(item));
+        }
+        drawable.addChild(items,items.getXMax()/2 - (Math.min(columns,items.children.size())*16)/2,0);
+        drawable.addChild(DrawableBuilder.formattedText(entry.summary, 0xFFFFFFFF).setMaxWidth(width).setAlign(0.5F),width/2,items.getHeight());
+
         return drawable;
     }
 }

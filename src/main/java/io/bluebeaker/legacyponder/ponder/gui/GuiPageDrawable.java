@@ -5,13 +5,16 @@ import io.bluebeaker.legacyponder.ponder.drawable.DrawableBase;
 import io.bluebeaker.legacyponder.ponder.page.PonderPageDrawable;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
 
-import java.io.IOException;
+import javax.annotation.Nullable;
 
 public class GuiPageDrawable extends GuiInfoPage<PonderPageDrawable> {
-    private DrawableBase drawableBase;
+    /**
+     * Cached drawable instance to be drawn. null if not initialized
+     */
+    @Nullable
+    private DrawableBase drawableBase = null;
     public GuiPageDrawable(GuiScreenPonder parent, PonderPageDrawable page) {
         super(parent, page);
-        drawableBase=page.getDrawable(pageBounds.w,pageBounds.h);
     }
 
     @Override
@@ -22,12 +25,14 @@ public class GuiPageDrawable extends GuiInfoPage<PonderPageDrawable> {
 
     @Override
     public void onKeyTyped(char typedChar, int keyCode) {
+        if(drawableBase == null) return;
         drawableBase.onKeyTyped(parent,typedChar,keyCode);
         super.onKeyTyped(typedChar, keyCode);
     }
     @Override
     public void draw(int mouseX, int mouseY, float partialTicks) {
         super.draw(mouseX, mouseY, partialTicks);
+        if(drawableBase == null) return;
         RenderUtils.setViewPort(pageBounds);
         drawableBase.draw(parent,mouseX,mouseY);
         if(drawableBase.isFocused(parent,mouseX,mouseY))
@@ -36,11 +41,13 @@ public class GuiPageDrawable extends GuiInfoPage<PonderPageDrawable> {
     }
 
     @Override
-    public boolean onMouseClick(int x, int y, int button) throws IOException {
+    public boolean onMouseClick(int x, int y, int button) {
+        if(drawableBase == null) return false;
         return drawableBase.onMouseClick(parent,x,y,button);
     }
     @Override
     public boolean onMouseRelease(int x, int y, int state) {
+        if(drawableBase == null) return false;
         return drawableBase.onMouseRelease(parent,x,y,state);
     }
 }

@@ -43,7 +43,7 @@ public class CommandShowEntry extends CommandBase {
             throw new EntryNotFoundException(I18n.format("commands.legacyponder.show.entrynotfound",id));
         }
         GuiScreenPonder screen = new GuiScreenPonder();
-        screen.setPonderID(id);
+        screen.setEntryID(id);
         if (args.length>=2){
             screen.setCurrentPageID(parseInt(args[1]));
         }

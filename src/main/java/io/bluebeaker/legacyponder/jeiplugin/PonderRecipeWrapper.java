@@ -85,7 +85,7 @@ public class PonderRecipeWrapper implements IRecipeWrapper {
     public boolean handleClick(Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
         if(button.mousePressed(minecraft,mouseX,mouseY)){
             GuiScreenPonder guiScreenPonder = new GuiScreenPonder();
-            guiScreenPonder.setPonderID(this.id);
+            guiScreenPonder.setEntryID(this.id);
             Minecraft.getMinecraft().displayGuiScreen(guiScreenPonder);
             return true;
         }else{

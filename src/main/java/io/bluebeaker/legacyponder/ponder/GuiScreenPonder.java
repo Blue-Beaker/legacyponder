@@ -8,6 +8,7 @@ import io.bluebeaker.legacyponder.ponder.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.ponder.gui.MouseTracker;
 import io.bluebeaker.legacyponder.ponder.page.PonderPageBase;
 import io.bluebeaker.legacyponder.ponder.page.PonderPageBlank;
+import io.bluebeaker.legacyponder.ponder.page.PonderPageSummary;
 import io.bluebeaker.legacyponder.render.StructureRenderManager;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
@@ -43,7 +44,7 @@ public class GuiScreenPonder extends GuiScreen {
 
     protected GuiScreen lastScreen;
     protected String lastEntryTitle = "";
-    protected String ponderID = "";
+    protected String entryID = "";
 
     protected final List<HistoryEntry> history = new ArrayList<>();
 
@@ -128,14 +129,14 @@ public class GuiScreenPonder extends GuiScreen {
         Minecraft.getMinecraft().displayGuiScreen(this.lastScreen);
     }
 
-    public void setPonderID(String id){
+    public void setEntryID(String id){
         this.currentEntry = PonderRegistry.getEntries().getOrDefault(id, EmptyEntry.INSTANCE);
-        this.ponderID = id;
+        this.entryID = id;
         this.pages=this.currentEntry.getPages().size();
-        this.setCurrentPageID(0);
+        this.setCurrentPageID(1);
     }
-    public String getPonderID(){
-        return this.ponderID;
+    public String getEntryID(){
+        return this.entryID;
     }
 
 
@@ -144,28 +145,28 @@ public class GuiScreenPonder extends GuiScreen {
      * @param page Page to jump to. value <= 0 for default.
      */
     public void jumpTo(String id, int page){
-        if((id.isEmpty() || id.equals(this.ponderID))
-                && (page<=0 || page==this.currentPageID+1)){
+        if((id.isEmpty() || id.equals(this.entryID))
+                && (page<=0 || page==this.currentPageID)){
             // No jump
             return;
         }
         this.pushHistory();
         if(!id.isEmpty())
-            this.setPonderID(id);
+            this.setEntryID(id);
         if(page>0)
-            this.setCurrentPageID(page-1);
+            this.setCurrentPageID(page);
         this.initGui();
     }
 
     public void pushHistory() {
-        this.history.add(new HistoryEntry(this.ponderID,this.currentPageID));
+        this.history.add(new HistoryEntry(this.entryID,this.currentPageID));
     }
 
     protected void popHistory(){
         int size = this.history.size();
         if(size==0) return;
         HistoryEntry historyEntry = this.history.get(size-1);
-        this.setPonderID(historyEntry.id);
+        this.setEntryID(historyEntry.id);
         this.setCurrentPageID(historyEntry.page);
         this.history.remove(size-1);
         this.initGui();
@@ -193,7 +194,7 @@ public class GuiScreenPonder extends GuiScreen {
 //            }
 
             // Draw page number
-            this.drawString(this.fontRenderer,String.format("%s/%s",this.currentPageID +1,this.pages),44,this.height-15,0xFFFFFFFF);
+            this.drawString(this.fontRenderer,String.format("%s/%s",this.currentPageID,this.pages),44,this.height-15,0xFFFFFFFF);
 
             // Draw page description
             RenderUtils.drawSplitString(this.fontRenderer,this.guiInfoPage.getFormattedDescription(),100,this.pageBounds.y+this.pageBounds.h+2, this.width-100,0xFFFFFFFF,true);
@@ -274,13 +275,13 @@ public class GuiScreenPonder extends GuiScreen {
     }
 
     public void setCurrentPageID(int page){
-        if(this.pages==0) return;
+        if(this.pages==0) page=0;
         this.currentPageID =page;
         while (this.currentPageID <0){
-            this.currentPageID +=this.pages;
+            this.currentPageID = this.currentPageID + (this.pages + 1);
         }
-        while (this.currentPageID >=this.pages){
-            this.currentPageID -=this.pages;
+        while (this.currentPageID > this.pages){
+            this.currentPageID = this.currentPageID - (this.pages + 1);
         }
         updateCurrentPage();
     }
@@ -293,8 +294,11 @@ public class GuiScreenPonder extends GuiScreen {
     }
 
     public PonderPageBase getPage(int pageID){
-        if(this.pages == 0 || pageID >= this.pages) return PonderPageBlank.INSTANCE;
-        return this.currentEntry.getPages().get(pageID);
+        if(pageID==0){
+            return new PonderPageSummary(entryID);
+        }
+        if(this.pages == 0 || pageID > this.pages) return PonderPageBlank.INSTANCE;
+        return this.currentEntry.getPages().get(pageID-1);
     }
 
     public boolean isMouseInPage(int x, int y){
