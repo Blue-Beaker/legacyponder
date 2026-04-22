@@ -1,32 +1,9 @@
 package io.bluebeaker.legacyponder.ponder.page;
 
-import io.bluebeaker.legacyponder.crafttweaker.DrawableBuilder;
-import io.bluebeaker.legacyponder.crafttweaker.IDrawableSupplier;
-import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
-import io.bluebeaker.legacyponder.ponder.Entry;
-import io.bluebeaker.legacyponder.ponder.drawable.DrawableBase;
-import io.bluebeaker.legacyponder.ponder.drawable.DrawableGrid;
-import net.minecraft.client.resources.I18n;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
+import io.bluebeaker.legacyponder.ponder.drawable.PrebuiltDrawables;
 
 public class PonderPageCatalog extends PonderPageDrawable{
     public PonderPageCatalog() {
-        super(new Supplier());
-    }
-    public static class Supplier implements IDrawableSupplier {
-        @Override
-        public DrawableBase process(int width, int height) {
-            DrawableGrid drawable = new DrawableGrid(1,width,10);
-            Map<String, Entry> entries = PonderRegistry.getEntries();
-            ArrayList<String> ids = new ArrayList<>(entries.keySet());
-            Collections.sort(ids);
-            for (String key : ids) {
-                drawable.addChild(DrawableBuilder.buildText(I18n.format(entries.get(key).title),0xFFFFFFFF).setLinkPonder(key));
-            }
-            return drawable;
-        }
+        super((w,h)-> PrebuiltDrawables.buildCatalog(w));
     }
 }

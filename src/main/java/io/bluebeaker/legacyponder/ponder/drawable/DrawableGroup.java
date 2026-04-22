@@ -53,8 +53,8 @@ public class DrawableGroup extends DrawableBase {
     @ZenMethod
     public void addChild(DrawableBase child){
         if(child!=this){
-            child.updateParentPos();
             child.setParent(this);
+            child.updateParentPos();
             children.add(child);
             updateSizes();
         }
