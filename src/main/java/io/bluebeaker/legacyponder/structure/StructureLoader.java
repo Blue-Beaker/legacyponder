@@ -3,6 +3,7 @@ package io.bluebeaker.legacyponder.structure;
 import io.bluebeaker.legacyponder.LegacyPonder;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
 import org.apache.commons.io.IOUtils;
 
@@ -26,25 +27,14 @@ public class StructureLoader {
         configDir.mkdirs();
         structureDir.mkdirs();
     }
-    private static void readTemplateOrStructure(String name, File file){
+
+    private static void readStructure(String name, File file){
         InputStream inputstream = null;
         try
         {
             inputstream = Files.newInputStream(file.toPath());
 
-            NBTTagCompound nbttagcompound = CompressedStreamTools.readCompressed(inputstream);
-
-            if (!nbttagcompound.hasKey("DataVersion", 99))
-            {
-                nbttagcompound.setInteger("DataVersion", 500);
-            }
-            if(nbttagcompound.hasKey("LegacyPonder_StructureVersion")){
-                // Custom structure format
-                PonderStructure structure = PonderStructure.loadFromNBT(nbttagcompound);
-                structures.put(name,structure);
-            }else {
-                structures.put(name, StructureConversion.convertTemplateNBTToStructure(nbttagcompound));
-            }
+            readStructureFromStream(name, inputstream);
         }
         catch (Throwable e)
         {
@@ -53,6 +43,38 @@ public class StructureLoader {
         finally
         {
             IOUtils.closeQuietly(inputstream);
+        }
+    }
+    private static void readStructureFromJar(ResourceLocation id){
+        InputStream inputstream = null;
+        try
+        {
+            inputstream = LegacyPonder.class.getResourceAsStream("/assets/" + id.getNamespace() + "/structures/" + id.getPath() + ".nbt");
+            readStructureFromStream(id.toString(), inputstream);
+        }
+        catch (Throwable e)
+        {
+            LegacyPonder.getLogger().error("Failed to load structure:",e);
+        }
+        finally
+        {
+            IOUtils.closeQuietly(inputstream);
+        }
+    }
+
+    private static void readStructureFromStream(String name, InputStream inputstream) throws IOException {
+        NBTTagCompound nbttagcompound = CompressedStreamTools.readCompressed(inputstream);
+
+        if (!nbttagcompound.hasKey("DataVersion", 99))
+        {
+            nbttagcompound.setInteger("DataVersion", 500);
+        }
+        if(nbttagcompound.hasKey("LegacyPonder_StructureVersion")){
+            // Custom structure format
+            PonderStructure structure = PonderStructure.loadFromNBT(nbttagcompound);
+            structures.put(name,structure);
+        }else {
+            structures.put(name, StructureConversion.convertTemplateNBTToStructure(nbttagcompound));
         }
     }
 
@@ -77,8 +99,14 @@ public class StructureLoader {
 
     @Nullable
     public static PonderStructure getStructure(String id){
+        id=id.replace(" ","_");
         if(!structures.containsKey(id)){
-            readTemplateOrStructure(id,new File(structureDir,id+".nbt"));
+            if(id.contains(":")){
+                ResourceLocation res = new ResourceLocation(id);
+                readStructureFromJar(res);
+            }else {
+                readStructure(id,new File(structureDir,id+".nbt"));
+            }
             LegacyPonder.getLogger().info("Loaded structure {}",id);
         }
         return structures.get(id);
