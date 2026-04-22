@@ -1,5 +1,6 @@
 package io.bluebeaker.legacyponder.render;
 
+import io.bluebeaker.legacyponder.UIConfig;
 import net.minecraft.util.math.Vec3d;
 
 public class StructureViewPos {
@@ -10,9 +11,13 @@ public class StructureViewPos {
     public Vec3d camera_offset = new Vec3d(0,0,0);
     public double zoom_power = 0;
 
+    public StructureViewPos(){
+        resetAll();
+    }
+
     public void resetAngle() {
-        this.yaw=60f;
-        this.pitch=30f;
+        this.yaw=UIConfig.default_yaw;
+        this.pitch=UIConfig.default_pitch;
     }
     public void resetScaling() {
         this.scale=1f;

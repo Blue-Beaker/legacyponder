@@ -2,6 +2,7 @@ package io.bluebeaker.legacyponder.render;
 
 import com.google.common.base.Predicates;
 import com.mojang.authlib.GameProfile;
+import io.bluebeaker.legacyponder.UIConfig;
 import io.bluebeaker.legacyponder.structure.events.StructureRenderEvent;
 import io.bluebeaker.legacyponder.utils.DummyPlayer;
 import io.bluebeaker.legacyponder.world.DummyWorld;
@@ -157,7 +158,7 @@ public class StructureRenderManager {
         Vec3d cameraOffset = viewPos.getZoomedOffset();
         GlStateManager.translate(cameraOffset.x, cameraOffset.y, cameraOffset.z);
 
-        GlStateManager.scale(viewPos.scale,viewPos.scale,viewPos.scale);
+        GlStateManager.scale(viewPos.scale, viewPos.scale, viewPos.scale);
         GlStateManager.rotate(viewPos.pitch, 1, 0, 0);
         GlStateManager.rotate(viewPos.yaw, 0, 1, 0);
 
@@ -167,8 +168,10 @@ public class StructureRenderManager {
     }
 
     public static void resetCameraOffset(){
-        int snapshotSize = Math.max(Math.max(world.templateSize.getX(), world.templateSize.getY()), world.templateSize.getY());
-        viewPos.camera_offset=new Vec3d(0,0,-snapshotSize * 0.5F - 3);
+
+        double structureSize = Math.max(Math.max(world.templateSize.getX(), world.templateSize.getY()), world.templateSize.getZ());
+
+        viewPos.camera_offset=new Vec3d(0,0,(-(structureSize) * 0.6F - 3)/ UIConfig.structure_scaling);
     }
 
     public static BufferBuilder updateBuffer(){

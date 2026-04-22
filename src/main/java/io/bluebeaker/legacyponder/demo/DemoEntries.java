@@ -18,6 +18,7 @@ public class DemoEntries {
             demoAdded=addDemoEntry();
         } else if (!LegacyPonderConfig.demo && demoAdded) {
             PonderRegistry.getEntries().remove(INTERNAL_DEMO_1);
+            demoAdded=false;
         }
     }
     private static boolean demoAdded = false;
@@ -33,7 +34,7 @@ public class DemoEntries {
                 return DrawableBuilder.formattedText("ponderentry.demo_1.page1.text",0xFFFFFFFF).setAlign(0).setSize(width, height);
             }
         }));
-        entry.addPage(PonderPageBase.fromStructure("legacyponder:tree").setDescription("A tree, with some utility blocks around it."));
+        entry.addPage(PonderPageBase.fromStructure("legacyponder:tree").setDescription("A tree, with some blocks around it."));
         entry.addPage(PonderPageBase.catalogPage());
 
         PonderRegistry.add(INTERNAL_DEMO_1, entry);

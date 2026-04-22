@@ -22,4 +22,17 @@ public class UIConfig {
     @Comment("Enable zoom slider in structure page.")
     @LangKey("config.legacyponder.ui.zoom_slider")
     public static boolean zoom_slider = true;
+
+    @Config.RangeDouble(min = 0.01, max = 100)
+    @Comment("Base scaling factor for structure view.")
+    @LangKey("config.legacyponder.ui.structure_scaling")
+    public static float structure_scaling = 1.0F;
+    @Config.RangeDouble(min = -180, max = 180)
+    @Comment("Default rotation yaw for structure view.")
+    @LangKey("config.legacyponder.ui.defaultYaw")
+    public static float default_yaw = 60F;
+    @Config.RangeDouble(min = -90, max = 90)
+    @Comment("Default rotation pitch for structure view.")
+    @LangKey("config.legacyponder.ui.defaultPitch")
+    public static float default_pitch = 15F;
 }
