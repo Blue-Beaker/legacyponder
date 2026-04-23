@@ -118,6 +118,6 @@ public class DrawableText extends DrawableBase {
         int stringWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(text1);
         this.w = maxWidth<=0 ? stringWidth : maxWidth;
         this.h = maxWidth<=0 ? Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT : Minecraft.getMinecraft().fontRenderer.getWordWrappedHeight(text1,maxWidth);
-        this.xOffset = Math.round(this.w*alignFactor);
+        this.xOffset = Math.round(Math.min(this.w,stringWidth)*alignFactor);
     }
 }
