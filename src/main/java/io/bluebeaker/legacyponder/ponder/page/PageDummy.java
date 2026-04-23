@@ -1,23 +1,23 @@
 package io.bluebeaker.legacyponder.ponder.page;
 
 import crafttweaker.annotations.ZenRegister;
-import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
 import stanhebben.zenscript.annotations.ZenClass;
 
-@ZenClass("mods.legacyponder.PonderPageDummy")
+@ZenClass("mods.legacyponder.PageDummy")
 @ZenRegister
-public class PonderPageDummy extends PonderPageBase {
+public class PageDummy extends PageBase {
     private String text = null;
 
-    public PonderPageDummy(String text){
+    public PageDummy(String text){
         this.text=text;
     }
-    public PonderPageDummy(){
+    public PageDummy(){
     }
     @Override
-    public void draw(GuiScreenPonder screen, int mouseX, int mouseY, float partialTicks){
+    public void draw(GuiUnconfusion screen, int mouseX, int mouseY, float partialTicks){
         BoundingBox2D pageBounds = screen.getPageBounds();
 
         RenderUtils.setViewPort(pageBounds);

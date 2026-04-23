@@ -3,7 +3,7 @@
 
 import mods.legacyponder.IPonderEntry;
 import mods.legacyponder.PonderRegistry;
-import mods.legacyponder.PonderPage;
+import mods.legacyponder.Page;
 import mods.legacyponder.DrawableBuilder;
 import mods.legacyponder.HoverComponent;
 import mods.legacyponder.HighlightArea;
@@ -13,10 +13,10 @@ entry.addItem(<minecraft:diamond>);
 entry.addFluid(<liquid:water>);
 entry.addIngredient(<ore:plankWood>);
 entry.addIngredient(<minecraft:wool:0>|<minecraft:wool:1>|<minecraft:wool:2>|<minecraft:wool:3>|<minecraft:wool:4>|<minecraft:wool:5>|<minecraft:wool:6>|<minecraft:wool:7>|<minecraft:wool:8>|<minecraft:wool:9>|<minecraft:wool:10>);
-entry.addPage(PonderPage.catalogPage());
-entry.addPage(PonderPage.dummyPage().setDescription("§bDummy page§r for the entry!"));
-entry.addPage(PonderPage.fromStructure("5").setDescription("§1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5"));
-entry.addPage(PonderPage.fromStructure("structure1")
+entry.addPage(Page.catalogPage());
+entry.addPage(Page.dummyPage().setDescription("§bDummy page§r for the entry!"));
+entry.addPage(Page.fromStructure("5").setDescription("§1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5 §1test1 §2test2 §3test3 §4test4 §5test5"));
+entry.addPage(Page.fromStructure("structure1")
     .addHighlightArea(HighlightArea.build(0,0,0,3,2,3).setColor(80,127,127))
     .addHoverComponent(
              HoverComponent.build(2.5,1,1.5,function(w,h){
@@ -24,7 +24,7 @@ entry.addPage(PonderPage.fromStructure("structure1")
                  }
              ).setColor(255,180,180))
     .setDescription("§bStructure1"));
-entry.addPage(PonderPage.fromDrawable(function(w,h){
+entry.addPage(Page.fromDrawable(function(w,h){
     val group = DrawableBuilder.buildGroup();
     group.addChild(DrawableBuilder.buildText("Test",0xFFFFFFFF).setMaxWidth(0).setLinkPonder("test_entry3"),176/2,0);
     group.addChild(DrawableBuilder.buildTexture("textures/gui/container/crafting_table.png",0,0,176,166),0,20);
@@ -37,7 +37,7 @@ entry.addPage(PonderPage.fromDrawable(function(w,h){
     group.setPosition((w/2)-(176/2),0);
     return group;
 }));
-entry.addPage(PonderPage.fromDrawable(function(w,h){
+entry.addPage(Page.fromDrawable(function(w,h){
     val group = DrawableBuilder.buildGroup();
     group.addChild(DrawableBuilder.buildText("Links",0xFFFFFFFF).setMaxWidth(0),176/2,0);
     group.addChild(DrawableBuilder.buildText("Click to show recipe of §bdiamond",0xFFFFFFFF).setMaxWidth(0).setLinkItem(<minecraft:diamond>),176/2,10);
@@ -50,7 +50,7 @@ entry.addPage(PonderPage.fromDrawable(function(w,h){
     return group;
 }));
 
-entry.addPage(PonderPage.fromStructure("dir1/structure2").setDescription("Structure 2"));
+entry.addPage(Page.fromStructure("dir1/structure2").setDescription("Structure 2"));
 
 PonderRegistry.add("test_entry",entry);
 

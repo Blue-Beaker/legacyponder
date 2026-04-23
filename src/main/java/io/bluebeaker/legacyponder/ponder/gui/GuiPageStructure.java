@@ -3,11 +3,11 @@ package io.bluebeaker.legacyponder.ponder.gui;
 import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.UIConfig;
 import io.bluebeaker.legacyponder.jeiplugin.JEIUtils;
-import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
 import io.bluebeaker.legacyponder.ponder.hover.GuiHoverComponent;
 import io.bluebeaker.legacyponder.ponder.hover.HighlightArea;
 import io.bluebeaker.legacyponder.ponder.hover.HoverComponent;
-import io.bluebeaker.legacyponder.ponder.page.PonderPageStructure;
+import io.bluebeaker.legacyponder.ponder.page.PageStructure;
 import io.bluebeaker.legacyponder.render.RenderPosUtils;
 import io.bluebeaker.legacyponder.render.StructureRenderManager;
 import io.bluebeaker.legacyponder.structure.PonderStructure;
@@ -44,7 +44,7 @@ import java.util.List;
 import static io.bluebeaker.legacyponder.render.StructureRenderManager.getWorld;
 import static io.bluebeaker.legacyponder.render.StructureRenderManager.viewPos;
 
-public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
+public class GuiPageStructure extends GuiInfoPage<PageStructure> {
 
     /** All hover components in this structure page */
     protected final List<GuiHoverComponent> components = new ArrayList<>();
@@ -64,7 +64,7 @@ public class GuiPageStructure extends GuiInfoPage<PonderPageStructure> {
     private ItemStack hoverItem = ItemStack.EMPTY;
     protected GuiSlider slider = null;
 
-    public GuiPageStructure(GuiScreenPonder parent, PonderPageStructure page) {
+    public GuiPageStructure(GuiUnconfusion parent, PageStructure page) {
         super(parent, page);
 
         for (HoverComponent hoverComponent : page.getHoverComponents()) {

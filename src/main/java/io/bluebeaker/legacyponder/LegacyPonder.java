@@ -53,16 +53,16 @@ public class LegacyPonder
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         StructureLoader.loadTemplates();
-        if(LegacyPonderConfig.compat.buildcraft && Loader.isModLoaded("buildcraftcore")){
+        if(CommonConfig.compat.buildcraft && Loader.isModLoaded("buildcraftcore")){
             MinecraftForge.EVENT_BUS.register(new EventHandlerBC());
         }
-        if(LegacyPonderConfig.compat.ic2 && Loader.isModLoaded("ic2")){
+        if(CommonConfig.compat.ic2 && Loader.isModLoaded("ic2")){
             MinecraftForge.EVENT_BUS.register(new EventHandlerIC2());
         }
-        if(LegacyPonderConfig.compat.forgemultipart && Loader.isModLoaded("forgemultipartcbe")){
+        if(CommonConfig.compat.forgemultipart && Loader.isModLoaded("forgemultipartcbe")){
             MinecraftForge.EVENT_BUS.register(new EventHandlerFMP());
         }
-        if(LegacyPonderConfig.compat.enderio && Loader.isModLoaded("enderioconduits")){
+        if(CommonConfig.compat.enderio && Loader.isModLoaded("enderioconduits")){
             MinecraftForge.EVENT_BUS.register(new EventHandlerEIOConduits());
         }
         DemoEntries.addDemoIfNeeded();

@@ -6,9 +6,9 @@ import net.minecraftforge.common.config.Config.LangKey;
 import net.minecraftforge.common.config.Config.RequiresMcRestart;
 import net.minecraftforge.common.config.Config.Type;
 
-@Config.LangKey("config.legacyponder.general")
-@Config(name = "legacyponder/legacyponder",modid = LegacyPonder.MODID,type = Type.INSTANCE,category = "general")
-public class LegacyPonderConfig {
+@Config.LangKey("config.legacyponder.common")
+@Config(name = "legacyponder/common",modid = LegacyPonder.MODID,type = Type.INSTANCE,category = "general")
+public class CommonConfig {
     @Comment("Manage built-in mod compatibility for mods.")
     @LangKey("config.legacyponder.compat")
     public static Compat compat = new Compat();

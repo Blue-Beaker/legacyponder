@@ -2,7 +2,7 @@ package io.bluebeaker.legacyponder.ponder.link;
 
 import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
 import io.bluebeaker.legacyponder.ponder.Entry;
-import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
 import io.bluebeaker.legacyponder.utils.TextUtils;
 import net.minecraft.client.resources.I18n;
 
@@ -24,14 +24,14 @@ public class LinkPonder implements LinkBase{
     }
 
     @Override
-    public void onClick(GuiScreenPonder screen, int button) {
+    public void onClick(GuiUnconfusion screen, int button) {
         if(button==0){
             screen.jumpTo(this.id, this.page);
         }
     }
 
     @Override
-    public List<String> getTooltip(GuiScreenPonder screen) {
+    public List<String> getTooltip(GuiUnconfusion screen) {
         if(id.isEmpty()){
             // If id unspecified, show only page
             return Collections.singletonList("-> "+I18n.format("link.legacyponder.page",this.page));

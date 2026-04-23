@@ -1,8 +1,7 @@
 package io.bluebeaker.legacyponder.ponder.link;
 
-import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
 import io.bluebeaker.legacyponder.utils.TextUtils;
-import net.minecraft.client.resources.I18n;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +14,7 @@ public class LinkHover implements LinkBase{
     }
 
     @Override
-    public void onClick(GuiScreenPonder screen, int button) {
+    public void onClick(GuiUnconfusion screen, int button) {
     }
 
     @Override
@@ -24,7 +23,7 @@ public class LinkHover implements LinkBase{
     }
 
     @Override
-    public List<String> getTooltip(GuiScreenPonder screen) {
+    public List<String> getTooltip(GuiUnconfusion screen) {
         return Arrays.asList(TextUtils.formatLines(tooltip));
     }
 }

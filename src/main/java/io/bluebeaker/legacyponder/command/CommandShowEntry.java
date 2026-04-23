@@ -2,7 +2,7 @@ package io.bluebeaker.legacyponder.command;
 
 import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
 import io.bluebeaker.legacyponder.ponder.Entry;
-import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
@@ -42,7 +42,7 @@ public class CommandShowEntry extends CommandBase {
         if(entry==null){
             throw new EntryNotFoundException(I18n.format("commands.legacyponder.show.entrynotfound",id));
         }
-        GuiScreenPonder screen = new GuiScreenPonder();
+        GuiUnconfusion screen = new GuiUnconfusion();
         screen.setEntryID(id);
         if (args.length>=2){
             screen.setCurrentPageID(parseInt(args[1]));

@@ -3,7 +3,7 @@ package io.bluebeaker.legacyponder.ponder.drawable;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
-import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
 import io.bluebeaker.legacyponder.ponder.link.*;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import net.minecraft.client.gui.GuiScreen;
@@ -76,7 +76,7 @@ public abstract class DrawableBase {
         return this.getBoundingBox().contains(mouseX,mouseY);
     }
 
-    public boolean onMouseHover(GuiScreenPonder screen, int mouseX, int mouseY){
+    public boolean onMouseHover(GuiUnconfusion screen, int mouseX, int mouseY){
         if (this.link!=null){
             this.isHovered=true;
             List<String> tooltip = link.getTooltip(screen);
@@ -152,7 +152,7 @@ public abstract class DrawableBase {
         return this;
     }
 
-    public void onKeyTyped(GuiScreenPonder parent, char typedChar, int keyCode) {
+    public void onKeyTyped(GuiUnconfusion parent, char typedChar, int keyCode) {
         if (this.link!=null){
             link.onKeyDown(parent,keyCode);
         }
@@ -178,7 +178,7 @@ public abstract class DrawableBase {
         return this.hasLink() && this.link.isClickable();
     }
 
-    public boolean onMouseClick(GuiScreenPonder parent, int x, int y, int button) {
+    public boolean onMouseClick(GuiUnconfusion parent, int x, int y, int button) {
         if (this.link!=null && this.isFocused(parent,x,y)){
             link.onClick(parent,button);
             return true;
@@ -186,7 +186,7 @@ public abstract class DrawableBase {
         return false;
     }
 
-    public boolean onMouseRelease(GuiScreenPonder parent, int x, int y, int state) {
+    public boolean onMouseRelease(GuiUnconfusion parent, int x, int y, int state) {
         return false;
     }
 }

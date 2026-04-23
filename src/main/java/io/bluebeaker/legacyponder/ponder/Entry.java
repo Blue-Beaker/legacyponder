@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.ponder;
 
-import io.bluebeaker.legacyponder.ponder.page.PonderPageBase;
+import io.bluebeaker.legacyponder.ponder.page.PageBase;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -11,7 +11,7 @@ import java.util.List;
 public class Entry {
     public final String title;
     public final String summary;
-    private final List<PonderPageBase> pages;
+    private final List<PageBase> pages;
 
     private final List<List<ItemStack>> items;
     private final List<FluidStack> fluids;
@@ -24,10 +24,10 @@ public class Entry {
         this.fluids=new ArrayList<>();
     }
 
-    public void addPage(PonderPageBase page){
+    public void addPage(PageBase page){
         this.pages.add(page);
     }
-    public List<PonderPageBase> getPages(){
+    public List<PageBase> getPages(){
         return pages;
     }
 

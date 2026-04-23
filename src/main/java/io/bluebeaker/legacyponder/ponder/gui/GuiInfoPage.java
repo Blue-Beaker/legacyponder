@@ -1,7 +1,7 @@
 package io.bluebeaker.legacyponder.ponder.gui;
 
-import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
-import io.bluebeaker.legacyponder.ponder.page.PonderPageBase;
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
+import io.bluebeaker.legacyponder.ponder.page.PageBase;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import io.bluebeaker.legacyponder.utils.TextUtils;
 import net.minecraft.client.Minecraft;
@@ -9,12 +9,12 @@ import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
 
-public class GuiInfoPage<T extends PonderPageBase> extends GuiScreen {
-    final GuiScreenPonder parent;
+public class GuiInfoPage<T extends PageBase> extends GuiScreen {
+    final GuiUnconfusion parent;
     final T page;
     protected BoundingBox2D pageBounds = BoundingBox2D.EMPTY;
     private final String formattedDescription;
-    public GuiInfoPage(GuiScreenPonder parent, T page) {
+    public GuiInfoPage(GuiUnconfusion parent, T page) {
         this.parent = parent;
         this.page = page;
         this.formattedDescription = TextUtils.formatKey(page.getDescription());

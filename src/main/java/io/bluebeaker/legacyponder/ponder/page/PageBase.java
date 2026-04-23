@@ -2,10 +2,9 @@ package io.bluebeaker.legacyponder.ponder.page;
 
 import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.crafttweaker.IDrawableSupplier;
-import io.bluebeaker.legacyponder.ponder.drawable.DrawableTexture;
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
 import io.bluebeaker.legacyponder.ponder.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.ponder.gui.GuiPageDefault;
-import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
 import io.bluebeaker.legacyponder.ponder.hover.HoverComponent;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
@@ -15,31 +14,31 @@ import stanhebben.zenscript.annotations.ZenSetter;
 import java.util.ArrayList;
 import java.util.List;
 
-@ZenClass("mods.legacyponder.PonderPage")
+@ZenClass("mods.legacyponder.Page")
 @ZenRegister
-public abstract class PonderPageBase {
+public abstract class PageBase {
 
     protected final List<HoverComponent> hoverComponents = new ArrayList<>();
 
     /** Build a new dummy page for testing.
      * @return The new dummy page */
     @ZenMethod
-    public static PonderPageDummy dummyPage(){
-        return new PonderPageDummy();
+    public static PageDummy dummyPage(){
+        return new PageDummy();
     }
     /** Build a new dummy page for testing, with text set.
      * @param text The text to be displayed
      * @return The new dummy page */
     @ZenMethod
-    public static PonderPageDummy dummyPage(String text){
-        return new PonderPageDummy(text);
+    public static PageDummy dummyPage(String text){
+        return new PageDummy(text);
     }
 
     /** Build a new page, showing all registered entries as links
      * @return The new catalog page */
     @ZenMethod
-    public static PonderPageCatalog catalogPage(){
-        return new PonderPageCatalog();
+    public static PageCatalog catalogPage(){
+        return new PageCatalog();
     }
 
     /** Build a new page to display the structure from the specified path.
@@ -48,36 +47,24 @@ public abstract class PonderPageBase {
      * @param path The path. Split subdirectories with '/'.
      * @return The new page with structure */
     @ZenMethod
-    public static PonderPageStructure fromStructure(String path){
-        return new PonderPageStructure(path);
-    }
-
-    /** Build a new page to display the defined texture.
-     * @param x section left X
-     * @param y section top Y
-     * @param w section width
-     * @param h section height
-     * @param texture ResourceLocation for the texture.
-     * @return The new page with texture */
-    @ZenMethod
-    public static PonderPageDrawable fromTexture(String texture, int x, int y, int w, int h){
-        return fromDrawable((width, height) -> DrawableTexture.build(texture, x, y, w, h));
+    public static PageStructure fromStructure(String path){
+        return new PageStructure(path);
     }
 
     /** Build a new page to display the drawable. The drawable system is flexible and can draw textures, texts, or items.
      * @param drawableSupplier A function accepting width and height, returning the drawable to render. The function is called after selecting the page, and after resizing.
      * @return The new page with drawable */
     @ZenMethod
-    public static PonderPageDrawable fromDrawable(IDrawableSupplier drawableSupplier){
-        return new PonderPageDrawable(drawableSupplier);
+    public static PageDrawable fromDrawable(IDrawableSupplier drawableSupplier){
+        return new PageDrawable(drawableSupplier);
     }
 
     private String description = "";
 
-    public PonderPageBase() {
+    public PageBase() {
     }
 
-    public GuiInfoPage<? extends PonderPageBase> getGuiPage(GuiScreenPonder parent){
+    public GuiInfoPage<? extends PageBase> getGuiPage(GuiUnconfusion parent){
         return new GuiPageDefault<>(parent,this);
     }
 
@@ -87,13 +74,13 @@ public abstract class PonderPageBase {
      * @param mouseY Mouse Y relative to page area
      * @param partialTicks Parent partialTicks
      */
-    public void draw(GuiScreenPonder screen, int mouseX, int mouseY, float partialTicks){
+    public void draw(GuiUnconfusion screen, int mouseX, int mouseY, float partialTicks){
     }
 
     /** @param langKey Localization key for the description, or the description itself.
      * @return The page itself, for chaining */
     @ZenMethod
-    public PonderPageBase setDescription(String langKey){
+    public PageBase setDescription(String langKey){
         this.description=langKey;
         return this;
     }
@@ -112,7 +99,7 @@ public abstract class PonderPageBase {
     }
 
     @ZenMethod
-    public PonderPageBase addHoverComponent(HoverComponent component) {
+    public PageBase addHoverComponent(HoverComponent component) {
         this.hoverComponents.add(component);
         return this;
     }

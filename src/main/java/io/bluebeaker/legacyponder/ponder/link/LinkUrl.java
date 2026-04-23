@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.ponder.link;
 
-import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
 import io.bluebeaker.legacyponder.utils.TextUtils;
 
 import javax.annotation.Nullable;
@@ -19,7 +19,7 @@ public class LinkUrl implements LinkBase{
     }
 
     @Override
-    public void onClick(GuiScreenPonder screen, int button) {
+    public void onClick(GuiUnconfusion screen, int button) {
         if(button==0){
             screen.openUrl(url);
             screen.releaseMouse();
@@ -27,7 +27,7 @@ public class LinkUrl implements LinkBase{
     }
 
     @Override
-    public List<String> getTooltip(GuiScreenPonder screen) {
+    public List<String> getTooltip(GuiUnconfusion screen) {
         if(tooltip==null){
             return Collections.singletonList(url);
         }else {

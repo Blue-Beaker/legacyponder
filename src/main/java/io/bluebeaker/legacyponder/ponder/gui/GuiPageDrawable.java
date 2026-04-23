@@ -1,19 +1,19 @@
 package io.bluebeaker.legacyponder.ponder.gui;
 
-import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
 import io.bluebeaker.legacyponder.ponder.drawable.DrawableBase;
-import io.bluebeaker.legacyponder.ponder.page.PonderPageDrawable;
+import io.bluebeaker.legacyponder.ponder.page.PageDrawable;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
 
 import javax.annotation.Nullable;
 
-public class GuiPageDrawable extends GuiInfoPage<PonderPageDrawable> {
+public class GuiPageDrawable extends GuiInfoPage<PageDrawable> {
     /**
      * Cached drawable instance to be drawn. null if not initialized
      */
     @Nullable
     private DrawableBase drawableBase = null;
-    public GuiPageDrawable(GuiScreenPonder parent, PonderPageDrawable page) {
+    public GuiPageDrawable(GuiUnconfusion parent, PageDrawable page) {
         super(parent, page);
     }
 

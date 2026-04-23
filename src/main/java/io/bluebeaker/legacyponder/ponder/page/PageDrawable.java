@@ -5,15 +5,15 @@ import io.bluebeaker.legacyponder.crafttweaker.IDrawableSupplier;
 import io.bluebeaker.legacyponder.ponder.drawable.DrawableBase;
 import io.bluebeaker.legacyponder.ponder.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.ponder.gui.GuiPageDrawable;
-import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-@ZenClass("mods.legacyponder.PonderPageDrawable")
+@ZenClass("mods.legacyponder.PageDrawable")
 @ZenRegister
-public class PonderPageDrawable extends PonderPageBase{
+public class PageDrawable extends PageBase{
     private final IDrawableSupplier drawableSupplier;
-    public PonderPageDrawable(IDrawableSupplier drawableSupplier){
+    public PageDrawable(IDrawableSupplier drawableSupplier){
         this.drawableSupplier = drawableSupplier;
     }
 
@@ -28,7 +28,7 @@ public class PonderPageDrawable extends PonderPageBase{
     }
 
     @Override
-    public GuiInfoPage<PonderPageDrawable> getGuiPage(GuiScreenPonder parent) {
+    public GuiInfoPage<PageDrawable> getGuiPage(GuiUnconfusion parent) {
         return new GuiPageDrawable(parent,this);
     }
 }

@@ -1,10 +1,10 @@
 package io.bluebeaker.legacyponder.ponder.gui;
 
-import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
-import io.bluebeaker.legacyponder.ponder.page.PonderPageBase;
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
+import io.bluebeaker.legacyponder.ponder.page.PageBase;
 
-public class GuiPageDefault<T extends PonderPageBase> extends GuiInfoPage<T> {
-    public GuiPageDefault(GuiScreenPonder parent, T page) {
+public class GuiPageDefault<T extends PageBase> extends GuiInfoPage<T> {
+    public GuiPageDefault(GuiUnconfusion parent, T page) {
         super(parent, page);
     }
 

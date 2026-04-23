@@ -6,9 +6,9 @@ import io.bluebeaker.legacyponder.UIConfig;
 import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
 import io.bluebeaker.legacyponder.ponder.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.ponder.gui.MouseTracker;
-import io.bluebeaker.legacyponder.ponder.page.PonderPageBase;
-import io.bluebeaker.legacyponder.ponder.page.PonderPageBlank;
-import io.bluebeaker.legacyponder.ponder.page.PonderPageSummary;
+import io.bluebeaker.legacyponder.ponder.page.PageBase;
+import io.bluebeaker.legacyponder.ponder.page.PageBlank;
+import io.bluebeaker.legacyponder.ponder.page.PageSummary;
 import io.bluebeaker.legacyponder.render.StructureRenderManager;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
@@ -27,15 +27,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuiScreenPonder extends GuiScreen {
+public class GuiUnconfusion extends GuiScreen {
     @Nonnull
     protected Entry currentEntry = EmptyEntry.INSTANCE;
     protected int currentPageID = 0;
     @Nonnull
-    protected PonderPageBase currentPage = PonderPageBlank.INSTANCE;
+    protected PageBase currentPage = PageBlank.INSTANCE;
     protected int pages = 0;
     @Nonnull
-    protected GuiInfoPage<?> guiInfoPage = PonderPageBlank.INSTANCE.getGuiPage(this);
+    protected GuiInfoPage<?> guiInfoPage = PageBlank.INSTANCE.getGuiPage(this);
 
     public void setLastScreen(GuiScreen lastScreen) {
         if (this.lastScreen==null)
@@ -76,7 +76,7 @@ public class GuiScreenPonder extends GuiScreen {
 
     protected BoundingBox2D pageBounds = BoundingBox2D.EMPTY;
 
-    public GuiScreenPonder(){
+    public GuiUnconfusion(){
         StructureRenderManager.viewPos.resetAll();
     }
 
@@ -286,18 +286,18 @@ public class GuiScreenPonder extends GuiScreen {
         updateCurrentPage();
     }
     public void updateCurrentPage(){
-        PonderPageBase page = getPage(this.currentPageID);
+        PageBase page = getPage(this.currentPageID);
         this.currentPage=page;
         this.guiInfoPage = page.getGuiPage(this);
         guiInfoPage.onResize();
         guiInfoPage.onPageRefresh();
     }
 
-    public PonderPageBase getPage(int pageID){
+    public PageBase getPage(int pageID){
         if(pageID==0){
-            return new PonderPageSummary(entryID);
+            return new PageSummary(entryID);
         }
-        if(this.pages == 0 || pageID > this.pages) return PonderPageBlank.INSTANCE;
+        if(this.pages == 0 || pageID > this.pages) return PageBlank.INSTANCE;
         return this.currentEntry.getPages().get(pageID-1);
     }
 

@@ -1,7 +1,7 @@
 package io.bluebeaker.legacyponder.ponder.drawable;
 
 import crafttweaker.annotations.ZenRegister;
-import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -101,25 +101,25 @@ public class DrawableGroup extends DrawableBase {
     }
 
     @Override
-    public boolean onMouseClick(GuiScreenPonder parent, int x, int y, int button) {
+    public boolean onMouseClick(GuiUnconfusion parent, int x, int y, int button) {
         if(this.focusedChild==null) return false;
         return this.focusedChild.onMouseClick(parent,x-this.x,y-this.y,button);
     }
 
     @Override
-    public boolean onMouseRelease(GuiScreenPonder parent, int x, int y, int state) {
+    public boolean onMouseRelease(GuiUnconfusion parent, int x, int y, int state) {
         if(this.focusedChild==null) return false;
         return this.focusedChild.onMouseRelease(parent,x-this.x,y-this.y,state);
     }
 
     @Override
-    public void onKeyTyped(GuiScreenPonder parent, char typedChar, int keyCode) {
+    public void onKeyTyped(GuiUnconfusion parent, char typedChar, int keyCode) {
         if(this.focusedChild==null) return;
         this.focusedChild.onKeyTyped(parent,typedChar,keyCode);
     }
 
     @Override
-    public boolean onMouseHover(GuiScreenPonder screen, int mouseX, int mouseY) {
+    public boolean onMouseHover(GuiUnconfusion screen, int mouseX, int mouseY) {
         if(!this.isInteractable()){
             return false;
         }

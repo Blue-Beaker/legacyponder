@@ -2,7 +2,7 @@ package io.bluebeaker.legacyponder.ponder.page;
 
 import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.crafttweaker.IDrawableSupplier;
-import io.bluebeaker.legacyponder.ponder.GuiScreenPonder;
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
 import io.bluebeaker.legacyponder.ponder.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.ponder.gui.GuiPageStructure;
 import io.bluebeaker.legacyponder.ponder.hover.HighlightArea;
@@ -14,9 +14,9 @@ import stanhebben.zenscript.annotations.ZenMethod;
 import java.util.ArrayList;
 import java.util.List;
 
-@ZenClass("mods.legacyponder.PonderPageStructure")
+@ZenClass("mods.legacyponder.PageStructure")
 @ZenRegister
-public class PonderPageStructure extends PonderPageBase{
+public class PageStructure extends PageBase{
 
     protected final List<HighlightArea> highlightAreas = new ArrayList<>();
 
@@ -31,17 +31,17 @@ public class PonderPageStructure extends PonderPageBase{
 
     public final String structureID;
 
-    public PonderPageStructure(String id){
+    public PageStructure(String id){
         this.structureID = id;
     }
 
     @Override
-    public GuiInfoPage<PonderPageStructure> getGuiPage(GuiScreenPonder parent) {
+    public GuiInfoPage<PageStructure> getGuiPage(GuiUnconfusion parent) {
         return new GuiPageStructure(parent,this);
     }
 
     @ZenMethod
-    public PonderPageStructure addHighlightArea(HighlightArea area){
+    public PageStructure addHighlightArea(HighlightArea area){
         this.highlightAreas.add(area);
         return this;
     }
@@ -63,7 +63,7 @@ public class PonderPageStructure extends PonderPageBase{
      * @return this
      */
     @ZenMethod
-    public PonderPageStructure addHighlightArea(double x1, double y1, double z1, double x2, double y2, double z2, int r, int g, int b){
+    public PageStructure addHighlightArea(double x1, double y1, double z1, double x2, double y2, double z2, int r, int g, int b){
         this.highlightAreas.add(HighlightArea.build(x1,y1,z1,x2,y2,z2).setColor(r,g,b));
         return this;
     }
@@ -79,7 +79,7 @@ public class PonderPageStructure extends PonderPageBase{
      * @return this
      */
     @ZenMethod
-    public PonderPageStructure addHighlightArea(double x1, double y1, double z1, int r, int g, int b){
+    public PageStructure addHighlightArea(double x1, double y1, double z1, int r, int g, int b){
         this.highlightAreas.add(HighlightArea.build(x1,y1,z1,x1+1,y1+1,z1+1).setColor(r,g,b));
         return this;
     }
@@ -96,7 +96,7 @@ public class PonderPageStructure extends PonderPageBase{
      * @return this
      */
     @ZenMethod
-    public PonderPageStructure addHoverComponent(float x, float y, float z, int r, int g, int b, IDrawableSupplier drawableSupplier){
+    public PageStructure addHoverComponent(float x, float y, float z, int r, int g, int b, IDrawableSupplier drawableSupplier){
         this.hoverComponents.add(HoverComponent.build(x,y,z,drawableSupplier).setColor(r,g,b));
         return this;
     }

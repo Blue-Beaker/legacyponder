@@ -3,7 +3,7 @@
 
 import mods.legacyponder.IPonderEntry;
 import mods.legacyponder.PonderRegistry;
-import mods.legacyponder.PonderPage;
+import mods.legacyponder.Page;
 import mods.legacyponder.DrawableBuilder;
 import mods.legacyponder.HoverComponent;
 import mods.legacyponder.HighlightArea;
@@ -20,7 +20,7 @@ entry.addIngredient(<ore:plankWood>);
 entry.addIngredient(<minecraft:wool:0>);
 entry.addIngredient(<liquid:lava>);
 
-entry.addPage(PonderPage.fromDrawable(function(w,h){
+entry.addPage(Page.fromDrawable(function(w,h){
     val group = DrawableBuilder.buildGroup();
     group.addChild(DrawableBuilder.buildText("Test",0xFFFFFFFF).setAlign(0.5),w/2,0);
     group.addChild(DrawableBuilder.buildTexture("textures/gui/container/crafting_table.png",0,0,176,166),0,20);
@@ -29,7 +29,7 @@ entry.addPage(PonderPage.fromDrawable(function(w,h){
     group.addChild(DrawableBuilder.buildItem(<ore:plankWood>),66,37);
     return group;
 }));
-entry.addPage(PonderPage.fromStructure("test1/stru1")
+entry.addPage(Page.fromStructure("test1/stru1")
     .addHighlightArea(2,1,1,3,2,2,255,180,180)
     .addHoverComponent(2.5,1,1.5,255,180,180,function(w,h){
              return DrawableBuilder.buildItem(<minecraft:diamond>*2);
