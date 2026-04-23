@@ -16,7 +16,7 @@ public class LinkPonder implements LinkBase{
     public final int page;
 
     public LinkPonder(String id){
-        this(id,0);
+        this(id,-1);
     }
     public LinkPonder(String id, int page) {
         this.id = id;
@@ -42,7 +42,7 @@ public class LinkPonder implements LinkBase{
         List<String> tooltip = new ArrayList<>();
 
         String title = I18n.format(entry.title);
-        tooltip.add(this.page<=1?title:title+" -> "+I18n.format("link.legacyponder.page",this.page));
+        tooltip.add(this.page<0?title:title+" -> "+I18n.format("link.legacyponder.page",this.page));
 
         if(entry.summary.isEmpty()) return tooltip;
         tooltip.add("");

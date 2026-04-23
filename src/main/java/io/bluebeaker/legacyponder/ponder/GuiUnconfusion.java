@@ -146,7 +146,7 @@ public class GuiUnconfusion extends GuiScreen {
      */
     public void jumpTo(String id, int page){
         if((id.isEmpty() || id.equals(this.entryID))
-                && (page<=0 || page==this.currentPageID)){
+                && (page<0 || page==this.currentPageID)){
             // No jump
             return;
         }
@@ -154,7 +154,7 @@ public class GuiUnconfusion extends GuiScreen {
         if(!id.isEmpty())
             this.setEntryID(id);
         if(page>0)
-            this.setCurrentPageID(page);
+            this.setCurrentPageID(Math.max(page,pages));
         this.initGui();
     }
 

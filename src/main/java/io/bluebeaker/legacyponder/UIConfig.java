@@ -34,5 +34,5 @@ public class UIConfig {
     @Config.RangeDouble(min = -90, max = 90)
     @Comment("Default rotation pitch for structure view.")
     @LangKey("config.legacyponder.ui.defaultPitch")
-    public static float default_pitch = 15F;
+    public static float default_pitch = 20F;
 }
