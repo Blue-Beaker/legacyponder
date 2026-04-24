@@ -20,6 +20,8 @@ public class DrawableFluid extends DrawableBase{
 
     public DrawableFluid(FluidStack fluid){
         this.fluid=fluid;
+        this.w=16;
+        this.h=16;
         resetLink();
     }
 
@@ -61,16 +63,5 @@ public class DrawableFluid extends DrawableBase{
     @Override
     public DrawableBase setSize(int w, int h) {
         return this;
-    }
-
-    @ZenMethod
-    @Override
-    public int getWidth() {
-        return 16;
-    }
-    @ZenMethod
-    @Override
-    public int getHeight() {
-        return 16;
     }
 }

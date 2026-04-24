@@ -34,16 +34,39 @@ public class DrawableScroll extends DrawableBase{
         RenderUtils.endViewPort();
     }
 
-    public void scrollBy(int x, int y){
+    public boolean scrollX(int x){
+        int lastScrollX=this.scrollX;
+        if(this.internal.getWidth()<=this.w) this.scrollX=internal.getXMin();
         this.scrollX=scrollX-x;
-        this.scrollY=scrollY-y;
         this.scrollX=Math.max(scrollX,w-internal.getXMax());
-        this.scrollY=Math.max(scrollY,h-internal.getYMax());
         this.scrollX=Math.min(scrollX,internal.getXMin());
+        this.internal.updateParentPos();
+        return lastScrollX!=this.scrollX;
+    }
+    public boolean scrollY(int y){
+        int lastScrollY=this.scrollY;
+        if(this.internal.getHeight()<=this.h) this.scrollY=internal.getYMin();
+        this.scrollY=scrollY-y;
+        this.scrollY=Math.max(scrollY,h-internal.getYMax());
         this.scrollY=Math.min(scrollY,internal.getYMin());
         this.internal.updateParentPos();
+        return lastScrollY!=this.scrollY;
     }
 
+    @Override
+    public boolean onMouseScroll(int mouseX, int mouseY, int wheelDelta) {
+        boolean shiftDown = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+        int wheel = -(int) Math.ceil((double) wheelDelta / 12);
+
+        if(shiftDown){
+            if(this.scrollX(wheel))
+                return true;
+        }else {
+            if(this.scrollY(wheel))
+                return true;
+        }
+        return internal.onMouseScroll(mouseX, mouseY, wheelDelta);
+    }
 
     @Override
     public boolean onMouseClick(GuiUnconfusion parent, int x, int y, int button) {
@@ -58,21 +81,20 @@ public class DrawableScroll extends DrawableBase{
     }
 
     @Override
-    public void onKeyTyped(GuiUnconfusion parent, char typedChar, int keyCode) {
-        if(this.internal==null) return;
-        this.internal.onKeyTyped(parent,typedChar,keyCode);
+    public boolean onKeyTyped(GuiUnconfusion parent, char typedChar, int keyCode) {
+        if(this.internal==null) return false;
+        boolean scroll = false;
         if(keyCode==Keyboard.KEY_RIGHT){
-            this.scrollBy(10,0);
+            scroll |= this.scrollX(10);
+        } else if(keyCode==Keyboard.KEY_LEFT){
+            scroll |= this.scrollX(-10);
+        } else if(keyCode==Keyboard.KEY_UP){
+            scroll |= this.scrollY(-10);
+        } else if(keyCode==Keyboard.KEY_DOWN){
+            scroll |= this.scrollY(10);
         }
-        if(keyCode==Keyboard.KEY_LEFT){
-            this.scrollBy(-10,0);
-        }
-        if(keyCode==Keyboard.KEY_UP){
-            this.scrollBy(0,-10);
-        }
-        if(keyCode==Keyboard.KEY_DOWN){
-            this.scrollBy(0,10);
-        }
+        if (scroll) return true;
+        return this.internal.onKeyTyped(parent,typedChar,keyCode);
     }
 
     @Override

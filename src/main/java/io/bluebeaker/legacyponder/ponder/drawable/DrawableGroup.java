@@ -116,9 +116,15 @@ public class DrawableGroup extends DrawableBase {
     }
 
     @Override
-    public void onKeyTyped(GuiUnconfusion parent, char typedChar, int keyCode) {
-        if(this.focusedChild==null) return;
-        this.focusedChild.onKeyTyped(parent,typedChar,keyCode);
+    public boolean onMouseScroll(int mouseX, int mouseY, int wheelDelta) {
+        if(this.focusedChild==null) return false;
+        return focusedChild.onMouseScroll(mouseX, mouseY, wheelDelta);
+    }
+
+    @Override
+    public boolean onKeyTyped(GuiUnconfusion parent, char typedChar, int keyCode) {
+        if(this.focusedChild==null) return false;
+        return this.focusedChild.onKeyTyped(parent,typedChar,keyCode);
     }
 
     @Override

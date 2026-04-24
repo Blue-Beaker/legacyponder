@@ -33,6 +33,8 @@ public class DrawableItem extends DrawableBase {
     }
     public DrawableItem(Collection<ItemStack> stacks){
         this.itemStacks = ItemUtils.expandWildcard(stacks);
+        this.w=16;
+        this.h=16;
         resetLink();
     }
 
@@ -90,17 +92,6 @@ public class DrawableItem extends DrawableBase {
     @Override
     public DrawableBase setSize(int w, int h) {
         return this;
-    }
-
-    @ZenMethod
-    @Override
-    public int getWidth() {
-        return 16;
-    }
-    @ZenMethod
-    @Override
-    public int getHeight() {
-        return 16;
     }
 
     public static class LinkItems implements LinkItemBase {

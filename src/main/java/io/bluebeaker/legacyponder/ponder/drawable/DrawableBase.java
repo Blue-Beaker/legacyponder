@@ -164,10 +164,11 @@ public abstract class DrawableBase {
         return this;
     }
 
-    public void onKeyTyped(GuiUnconfusion parent, char typedChar, int keyCode) {
+    public boolean onKeyTyped(GuiUnconfusion parent, char typedChar, int keyCode) {
         if (this.link!=null){
-            link.onKeyDown(parent,keyCode);
+            return link.onKeyDown(parent,keyCode);
         }
+        return false;
     }
 
     @ZenMethod
@@ -199,6 +200,10 @@ public abstract class DrawableBase {
     }
 
     public boolean onMouseRelease(GuiUnconfusion parent, int x, int y, int state) {
+        return false;
+    }
+
+    public boolean onMouseScroll(int mouseX, int mouseY, int wheelDelta) {
         return false;
     }
 }

@@ -39,7 +39,7 @@ public class PrebuiltDrawables {
 
         DrawableGroup drawable = new DrawableGroup();
         DrawableGrid icons = new DrawableGrid(1, 16, 16);
-        DrawableGrid titles = new DrawableGrid(1, width-16, 16);
+        DrawableGrid titles = new DrawableGrid(1, width-18, 16);
         drawable.addChild(icons, 0, 0);
         drawable.addChild(titles, 18, 3);
         Map<String, Entry> entries = PonderRegistry.getEntries();
