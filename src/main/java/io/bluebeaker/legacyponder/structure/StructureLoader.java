@@ -19,7 +19,7 @@ import java.util.Map;
 public class StructureLoader {
     public static final Map<String, PonderStructure> structures = new HashMap<>();
 
-    public static final File configDir = new File(Loader.instance().getConfigDir(),"legacyponder");
+    public static final File configDir = new File(Loader.instance().getConfigDir(),LegacyPonder.MODID);
     public static final File structureDir = new File(configDir,"structures");
 
     public static void loadTemplates(){

@@ -19,6 +19,7 @@ val entry = IPonderEntry.createPonderEntry("Entry 3","Example entry 3 with custo
 entry.addIngredient(<ore:plankWood>);
 entry.addIngredient(<minecraft:wool:0>);
 entry.addIngredient(<liquid:lava>);
+entry.addIngredient(<microblockcbe:microblock:1>.withTag({mat: "minecraft:stone[variant=stone]"}));
 
 entry.addPage(Page.fromDrawable(function(w,h){
     val group = DrawableBuilder.buildGroup();

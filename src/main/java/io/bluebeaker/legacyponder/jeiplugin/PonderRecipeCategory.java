@@ -17,7 +17,7 @@ import javax.annotation.Nullable;
 public class PonderRecipeCategory implements IRecipeCategory<PonderRecipeWrapper> {
     public static final int recipeWidth = 160;
     public static final int recipeHeight = 125;
-    public static final String UID = "legacyponder.ponder";
+    public static final String UID = LegacyPonder.MODID+".ponder";
     private final IDrawable background;
     private final IDrawable icon;
     private final IDrawable slotBackground;

@@ -5,7 +5,7 @@ import net.minecraftforge.common.config.Config.Comment;
 import net.minecraftforge.common.config.Config.LangKey;
 
 @LangKey("config.legacyponder.ui")
-@Config(name = "legacyponder/ui",modid = LegacyPonder.MODID,type = Config.Type.INSTANCE,category = "ui")
+@Config(name = LegacyPonder.MODID+"/ui",modid = LegacyPonder.MODID,type = Config.Type.INSTANCE,category = "ui")
 public class UIConfig {
     @Config.RangeDouble(min = -10, max = 10)
     @Comment("Mouse wheel sensivity for zooming in structure page.")
