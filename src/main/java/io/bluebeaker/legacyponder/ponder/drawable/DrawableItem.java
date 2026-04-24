@@ -33,6 +33,7 @@ public class DrawableItem extends DrawableBase {
     }
     public DrawableItem(Collection<ItemStack> stacks){
         this.itemStacks = ItemUtils.expandWildcard(stacks);
+        resetLink();
     }
 
 
@@ -63,7 +64,7 @@ public class DrawableItem extends DrawableBase {
         renderItem.renderItemOverlayIntoGUI(screen.mc.fontRenderer, activeStack,x,y,null);
         RenderHelper.disableStandardItemLighting();
 
-        if(isClickable() && isLastHovered()){
+        if(isLinkClickable() && isLastHovered()){
             GuiUtils.drawGradientRect(300, x, y, x + 16, y + 16, 0x80ffffff, 0x80ffffff);
         }
 

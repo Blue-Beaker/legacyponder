@@ -41,7 +41,7 @@ public class DrawableFluid extends DrawableBase{
         GlStateManager.disableBlend();
         GlStateManager.disableRescaleNormal();
 
-        if(isClickable() && isLastHovered()){
+        if(isLinkClickable() && isLastHovered()){
             GuiUtils.drawGradientRect(300, x, y, x + 16, y + 16, 0x80ffffff, 0x80ffffff);
         }
 

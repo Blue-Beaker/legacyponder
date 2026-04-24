@@ -39,7 +39,7 @@ public class DrawableBox extends DrawableBase {
     @Override
     public void draw(GuiScreen screen, int mouseX, int mouseY) {
         int color1 = color;
-        if(isClickable() && isLastHovered()){
+        if(isLinkClickable() && isLastHovered()){
             Color color2 = new Color(color1);
             float[] hsb = Color.RGBtoHSB(color2.getRed(), color2.getGreen(), color2.getBlue(), null);
             hsb[1] = Math.min(1, hsb[1]-0.2f);

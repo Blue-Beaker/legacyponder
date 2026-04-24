@@ -32,7 +32,6 @@ public abstract class DrawableBase {
     protected DrawableBase parent = null;
 
     public DrawableBase(){
-        resetLink();
     }
     @ZenMethod
     public DrawableBase setPosition(int x, int y){
@@ -115,6 +114,10 @@ public abstract class DrawableBase {
     @ZenMethod
     public int getAbsY() {return y+parentY;}
 
+    /** Override this to add a default link to this drawable.
+     * Make sure to call {@link DrawableBase#resetLink} in your init method after setting fields.
+     * @return Default Link for this drawable
+     */
     @Nullable
     public LinkBase getDefaultLink(){
         return null;
@@ -170,11 +173,11 @@ public abstract class DrawableBase {
 
     @ZenMethod
     public boolean isInteractable() {
-        return interactable || this.hasLink();
+        return interactable;
     }
 
     @ZenMethod
-    public boolean isClickable() {
+    public boolean isLinkClickable() {
         return this.hasLink() && this.link.isClickable();
     }
 
