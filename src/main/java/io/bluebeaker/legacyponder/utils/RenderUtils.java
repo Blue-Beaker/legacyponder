@@ -36,18 +36,26 @@ public class RenderUtils {
         drawSplitString(fontRenderer,text,x,y,wrapWidth,color,true);
     }
 
-    public static void drawSplitString(FontRenderer fontRenderer, String text, int x, int y, int wrapWidth, int color, boolean dropShadow){
+    public static List<String> listFormattedStringToWidth(FontRenderer fr, String text, int wrapWidth){
         String[] split = TextUtils.splitLines(text);
         List<String> strings = new ArrayList<>();
+        if(wrapWidth!=0 && wrapWidth<10){
+            wrapWidth=10; // Prevent stack overflow
+        }
         if(wrapWidth==0){
             Collections.addAll(strings, split);
         }else {
             for (String s : split) {
-                strings.addAll(fontRenderer.listFormattedStringToWidth(s, wrapWidth));
+                strings.addAll(fr.listFormattedStringToWidth(s, wrapWidth));
             }
         }
+        return strings;
+    }
+
+    public static void drawSplitString(FontRenderer fr, String text, int x, int y, int wrapWidth, int color, boolean dropShadow){
+        List<String> strings = listFormattedStringToWidth(fr,text,wrapWidth);
         for (int i = 0; i < strings.size(); i++) {
-            fontRenderer.drawString(strings.get(i),x,y+i*fontRenderer.FONT_HEIGHT,color,dropShadow);
+            fr.drawString(strings.get(i),x,y+i*fr.FONT_HEIGHT,color,dropShadow);
         }
     }
 

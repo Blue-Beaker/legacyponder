@@ -114,25 +114,16 @@ public class DrawableText extends DrawableBase {
     private void updateSizes(){
         String text1 = getText();
         int textWidth=0;
-        int textHeight=0;
         FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
 
-        for (String line : TextUtils.splitLines(text1)) {
-            if (maxWidth > 0) {
-                List<String> strings = fr.listFormattedStringToWidth(line, maxWidth);
-                for (String line1 : strings) {
-                    textWidth = Math.max(textWidth, fr.getStringWidth(line1));
-                }
-                textHeight += fr.FONT_HEIGHT*strings.size();
-            }else {
-                textWidth = Math.max(textWidth, fr.getStringWidth(line));
-                textHeight += fr.FONT_HEIGHT;
-            }
+        List<String> lines = RenderUtils.listFormattedStringToWidth(fr, text1, maxWidth);
+
+        for (String line : lines) {
+            textWidth = Math.max(textWidth, fr.getStringWidth(line));
         }
 
-
         this.w = textWidth;
-        this.h = textHeight;
+        this.h = lines.size()*fr.FONT_HEIGHT;
         this.xOffset = Math.round(this.w *alignFactor);
     }
 
