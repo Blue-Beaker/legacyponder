@@ -3,6 +3,7 @@ package io.bluebeaker.legacyponder.ponder.drawable;
 import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.crafttweaker.DrawableBuilder;
 import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
+import io.bluebeaker.legacyponder.demo.DemoEntries;
 import io.bluebeaker.legacyponder.ponder.Entry;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
@@ -49,6 +50,7 @@ public class PrebuiltDrawables {
             Pattern pattern = Pattern.compile(filter);
             ids.removeIf((id)-> !pattern.matcher(id).matches());
         }
+        ids.remove(DemoEntries.HELP_ID);
 
         Collections.sort(ids);
         for (String key : ids) {
