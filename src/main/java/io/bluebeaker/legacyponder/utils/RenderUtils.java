@@ -37,7 +37,7 @@ public class RenderUtils {
     }
 
     public static void drawSplitString(FontRenderer fontRenderer, String text, int x, int y, int wrapWidth, int color, boolean dropShadow){
-        String[] split = text.split("\\\\n");
+        String[] split = text.replace("\\n","\n").split("\n");
         List<String> strings = new ArrayList<>();
         if(wrapWidth==0){
             Collections.addAll(strings, split);
