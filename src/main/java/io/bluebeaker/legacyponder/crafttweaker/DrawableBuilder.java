@@ -3,6 +3,7 @@ package io.bluebeaker.legacyponder.crafttweaker;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
+import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.text.ITextComponent;
 import io.bluebeaker.legacyponder.ponder.drawable.*;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -65,6 +66,10 @@ public class DrawableBuilder {
     @ZenMethod
     public static DrawableItem buildItem(IItemStack[] item){
         return DrawableItem.build(item);
+    }
+    @ZenMethod
+    public static DrawableFluid buildFluid(ILiquidStack fluid){
+        return DrawableFluid.build(fluid);
     }
 
     /** Build a DrawableText with the specified text and color. The text will be formatted as a translation key, so it can be used for localization. If the text is not a valid translation key, it will be displayed as is.

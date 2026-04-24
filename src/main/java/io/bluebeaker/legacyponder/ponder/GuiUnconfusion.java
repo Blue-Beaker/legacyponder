@@ -236,45 +236,60 @@ public class GuiUnconfusion extends GuiScreen {
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) {
-        if (keyCode == 1)
-        {
-            if(!this.history.isEmpty()){
-                popHistory();
-                return;
+        try{
+            if (keyCode == 1) {
+                if (!this.history.isEmpty()) {
+                    popHistory();
+                    return;
+                }
+                close();
+            } else if (Keybinds.prevPage.isActiveAndMatches(keyCode)) {
+                setCurrentPageID(currentPageID - 1);
+            } else if (Keybinds.nextPage.isActiveAndMatches(keyCode)) {
+                setCurrentPageID(currentPageID + 1);
+            } else {
+                guiInfoPage.onKeyTyped(typedChar, keyCode);
             }
-            close();
-        }else if (Keybinds.prevPage.isActiveAndMatches(keyCode)) {
-            setCurrentPageID(currentPageID-1);
-        }else if (Keybinds.nextPage.isActiveAndMatches(keyCode)) {
-            setCurrentPageID(currentPageID+1);
-        }else {
-            guiInfoPage.onKeyTyped(typedChar, keyCode);
+        } catch (Exception e) {
+            LegacyPonder.getLogger().error("Error handling key {} on ponder page {}: {}",keyCode,this.currentPage,e);
         }
     }
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        mouseDownInPage = isMouseInPage(mouseX, mouseY);
-        if (mouseDownInPage && guiInfoPage.onMouseClick(mouseX - this.pageBounds.x, mouseY - this.pageBounds.y, mouseButton)) {
-            return;
+        try {
+            mouseDownInPage = isMouseInPage(mouseX, mouseY);
+            if (mouseDownInPage && guiInfoPage.onMouseClick(mouseX - this.pageBounds.x, mouseY - this.pageBounds.y, mouseButton)) {
+                return;
+            }
+        } catch (Exception e) {
+            LegacyPonder.getLogger().error("Error handling mouse click on ponder page {}: {}",this.currentPage,e);
         }
         super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int state) {
-        if(mouseDownInPage){
-            guiInfoPage.onMouseRelease(mouseX - this.pageBounds.x, mouseY - this.pageBounds.y, state);
-            mouseDownInPage=false;
-            return;
+        try {
+            if(mouseDownInPage){
+                guiInfoPage.onMouseRelease(mouseX - this.pageBounds.x, mouseY - this.pageBounds.y, state);
+                mouseDownInPage=false;
+                return;
+            }
+        } catch (Exception e) {
+            LegacyPonder.getLogger().error("Error handling mouse releasing on ponder page {}: {}",this.currentPage,e);
         }
         super.mouseReleased(mouseX, mouseY, state);
     }
 
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
-        if(mouseDownInPage && guiInfoPage.onMouseDrag(mouseX - this.pageBounds.x, mouseY - this.pageBounds.y, clickedMouseButton, timeSinceLastClick)){
-            return;
+        try{
+            if(mouseDownInPage && guiInfoPage.onMouseDrag(mouseX - this.pageBounds.x, mouseY - this.pageBounds.y, clickedMouseButton, timeSinceLastClick)){
+                return;
+            }
+        } catch (Exception e) {
+            LegacyPonder.getLogger().error("Error handling mouse dragging on ponder page {}: {}",this.currentPage,e);
         }
         super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
     }

@@ -4,17 +4,16 @@ import mezz.jei.api.IRecipesGui;
 import mezz.jei.api.recipe.IFocus;
 import mezz.jei.config.KeyBindings;
 import mezz.jei.gui.Focus;
-import net.minecraft.item.ItemStack;
 
 public class JEIUtils {
 
-    public static void handleJEIAction(ItemStack itemStack, JEIAction action) {
-        if(PonderJEIPlugin.runtime==null) return;
+    public static <V> void handleJEIAction(V ingredient, JEIAction action) {
+        if(PonderJEIPlugin.runtime==null || ingredient==null) return;
         IRecipesGui recipesGui = PonderJEIPlugin.runtime.getRecipesGui();
         if(action== JEIAction.RECIPE) {
-            recipesGui.show(new Focus<>(IFocus.Mode.OUTPUT, itemStack));
+            recipesGui.show(new Focus<>(IFocus.Mode.OUTPUT, ingredient));
         } else if(action== JEIAction.USAGE) {
-            recipesGui.show(new Focus<>(IFocus.Mode.INPUT, itemStack));
+            recipesGui.show(new Focus<>(IFocus.Mode.INPUT, ingredient));
         }
     }
 

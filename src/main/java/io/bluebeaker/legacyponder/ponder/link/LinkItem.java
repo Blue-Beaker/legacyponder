@@ -11,7 +11,7 @@ public class LinkItem implements LinkItemBase {
     }
 
     @Override
-    public ItemStack getItem() {
+    public ItemStack getIngredient() {
         return item;
     }
 }

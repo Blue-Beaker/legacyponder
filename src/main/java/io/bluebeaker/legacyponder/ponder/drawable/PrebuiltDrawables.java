@@ -6,6 +6,7 @@ import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
 import io.bluebeaker.legacyponder.ponder.Entry;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -69,6 +70,10 @@ public class PrebuiltDrawables {
         for (List<ItemStack> item : entry.getItems()) {
             items.addChild(new DrawableItem(item));
         }
+        for (FluidStack fluid : entry.getFluids()) {
+            items.addChild(new DrawableFluid(fluid));
+        }
+
         drawable.addChild(items,items.getXMax()/2 - (Math.min(columns,items.children.size())*16)/2,0);
         drawable.addChild(DrawableBuilder.formattedText(entry.summary, 0xFFFFFFFF).setMaxWidth(width).setAlign(0.5F),width/2,items.getHeight());
 

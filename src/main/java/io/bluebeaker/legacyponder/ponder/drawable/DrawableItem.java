@@ -108,7 +108,7 @@ public class DrawableItem extends DrawableBase {
             this.parent = parent;
         }
         @Override
-        public ItemStack getItem() {
+        public ItemStack getIngredient() {
             return parent.getActiveStack();
         }
     }
