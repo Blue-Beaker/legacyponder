@@ -4,6 +4,7 @@ import io.bluebeaker.legacyponder.Keybinds;
 import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.UIConfig;
 import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
+import io.bluebeaker.legacyponder.demo.DemoEntries;
 import io.bluebeaker.legacyponder.ponder.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.ponder.gui.MouseTracker;
 import io.bluebeaker.legacyponder.ponder.page.PageBase;
@@ -310,6 +311,7 @@ public class GuiUnconfusion extends GuiScreen {
                 this.popHistory();
                 break;
             case ButtonID.HELP: //Help
+                this.jumpTo(DemoEntries.HELP_ID,-1);
                 break;
             case ButtonID.SETTINGS: //Config
                 Minecraft.getMinecraft()

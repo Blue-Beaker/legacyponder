@@ -115,7 +115,11 @@ public class DrawableText extends DrawableBase {
 
     private void updateSizes(){
         String text1 = getText();
-        int stringWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(text1);
+        int stringWidth=0;
+        for (String s : text1.replace("\\n", "\n").split("\n")) {
+            stringWidth = Math.max(stringWidth, Minecraft.getMinecraft().fontRenderer.getStringWidth(s));
+        }
+
         this.w = maxWidth<=0 ? stringWidth : maxWidth;
         this.h = maxWidth<=0 ? Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT : Minecraft.getMinecraft().fontRenderer.getWordWrappedHeight(text1,maxWidth);
         this.xOffset = Math.round(Math.min(this.w,stringWidth)*alignFactor);
