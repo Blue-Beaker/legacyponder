@@ -19,7 +19,7 @@ public class DrawableGrid extends DrawableGroup{
     }
 
     @Override
-    protected void updateSizes() {
+    public void updateSizes() {
         int column = 0;
         int line = 0;
         for (DrawableBase child : children) {
@@ -33,9 +33,12 @@ public class DrawableGrid extends DrawableGroup{
         x1=0;
         y1=0;
         x2=columns*colWidth;
-        y2=lineHeight*(line+1);
+        y2=lineHeight*(column==0?line:line+1);
         w=x2-x1;
         h=y2-y1;
+        if(this.parent instanceof DrawableGroup){
+            ((DrawableGroup) this.parent).updateSizes();
+        }
     }
 
     @ZenGetter("columns")

@@ -4,11 +4,11 @@ import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
 import io.bluebeaker.legacyponder.ponder.link.LinkBase;
 import io.bluebeaker.legacyponder.ponder.link.LinkItemBase;
 import io.bluebeaker.legacyponder.utils.ItemUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.item.ItemStack;
@@ -55,7 +55,7 @@ public class DrawableItem extends DrawableBase {
     }
 
     @Override
-    public void draw(GuiScreen screen, int mouseX, int mouseY) {
+    public void draw(GuiUnconfusion screen, int mouseX, int mouseY) {
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
         RenderHelper.enableGUIStandardItemLighting();
 

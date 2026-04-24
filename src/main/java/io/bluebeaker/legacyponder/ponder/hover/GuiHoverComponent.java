@@ -1,7 +1,7 @@
 package io.bluebeaker.legacyponder.ponder.hover;
 
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
 import io.bluebeaker.legacyponder.ponder.drawable.DrawableBase;
-import net.minecraft.client.gui.GuiScreen;
 
 public class GuiHoverComponent {
     public final HoverComponent internal;
@@ -19,7 +19,7 @@ public class GuiHoverComponent {
         DrawableBase drawable = getDrawable();
         drawable.setPosition(x,y);
     }
-    public void draw(GuiScreen parent, int x, int y, int mouseX, int mouseY){
+    public void draw(GuiUnconfusion parent, int x, int y, int mouseX, int mouseY){
         DrawableBase drawable = getDrawable();
         drawable.draw(parent,mouseX,mouseY);
     }

@@ -2,10 +2,10 @@ package io.bluebeaker.legacyponder.ponder.drawable;
 
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.text.ITextComponent;
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
 import io.bluebeaker.legacyponder.utils.TextUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -76,7 +76,7 @@ public class DrawableText extends DrawableBase {
     }
 
     @Override
-    public void draw(GuiScreen screen, int mouseX, int mouseY) {
+    public void draw(GuiUnconfusion screen, int mouseX, int mouseY) {
         String text1 = getText();
         if(isLinkClickable() && isLastHovered()){
             // Add underline formatting when hovered and interactable to indicate that the text can be interacted with

@@ -76,7 +76,7 @@ public class DrawableGroup extends DrawableBase {
         updateSizes();
     }
     @Override
-    public void draw(GuiScreen screen, int mouseX, int mouseY) {
+    public void draw(GuiUnconfusion screen, int mouseX, int mouseY) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x,y,0);
         for (DrawableBase child : children) {
@@ -85,7 +85,7 @@ public class DrawableGroup extends DrawableBase {
         GlStateManager.popMatrix();
     }
 
-    protected void updateSizes(){
+    public void updateSizes(){
         x1=0;
         y1=0;
         x2=0;
@@ -98,6 +98,9 @@ public class DrawableGroup extends DrawableBase {
         }
         w=x2-x1;
         h=y2-y1;
+        if(this.parent instanceof DrawableGroup){
+            ((DrawableGroup) this.parent).updateSizes();
+        }
     }
 
     @Override

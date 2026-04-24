@@ -2,10 +2,10 @@ package io.bluebeaker.legacyponder.ponder.drawable;
 
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
 import io.bluebeaker.legacyponder.ponder.link.LinkBase;
 import io.bluebeaker.legacyponder.ponder.link.LinkFluid;
 import io.bluebeaker.legacyponder.utils.FluidRender;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.client.config.GuiUtils;
@@ -28,7 +28,7 @@ public class DrawableFluid extends DrawableBase{
     }
 
     @Override
-    public void draw(GuiScreen screen, int mouseX, int mouseY) {
+    public void draw(GuiUnconfusion screen, int mouseX, int mouseY) {
 
         GlStateManager.enableRescaleNormal();
         GlStateManager.enableBlend();

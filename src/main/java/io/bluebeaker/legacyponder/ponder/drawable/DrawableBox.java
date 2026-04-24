@@ -1,7 +1,7 @@
 package io.bluebeaker.legacyponder.ponder.drawable;
 
 import crafttweaker.annotations.ZenRegister;
-import net.minecraft.client.gui.GuiScreen;
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
 import net.minecraftforge.fml.client.config.GuiUtils;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -37,7 +37,7 @@ public class DrawableBox extends DrawableBase {
     }
 
     @Override
-    public void draw(GuiScreen screen, int mouseX, int mouseY) {
+    public void draw(GuiUnconfusion screen, int mouseX, int mouseY) {
         int color1 = color;
         if(isLinkClickable() && isLastHovered()){
             Color color2 = new Color(color1);

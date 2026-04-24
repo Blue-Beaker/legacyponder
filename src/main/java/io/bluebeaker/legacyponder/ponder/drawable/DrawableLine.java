@@ -1,6 +1,7 @@
 package io.bluebeaker.legacyponder.ponder.drawable;
 
 import crafttweaker.annotations.ZenRegister;
+import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
 import io.bluebeaker.legacyponder.utils.Vec2i;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.config.GuiUtils;
@@ -61,7 +62,7 @@ public class DrawableLine extends DrawableBase {
     }
 
     @Override
-    public void draw(GuiScreen screen, int mouseX, int mouseY) {
+    public void draw(GuiUnconfusion screen, int mouseX, int mouseY) {
 
         for (int i = 1; i < points.size(); i++) {
             Vec2i start = points.get(i - 1);

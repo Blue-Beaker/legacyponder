@@ -46,7 +46,16 @@ public abstract class DrawableBase {
         return this;
     }
 
-    public abstract void draw(GuiScreen screen, int mouseX, int mouseY);
+    public abstract void draw(GuiUnconfusion screen, int mouseX, int mouseY);
+
+    /** Get drawing offset for its child
+     * @return Offset X
+     */
+    public int getOffsetX() {return x;}
+    /** Get drawing offset for its child
+     * @return Offset Y
+     */
+    public int getOffsetY() {return y;}
 
     @ZenMethod
     public int getX() {return x;}
@@ -105,8 +114,8 @@ public abstract class DrawableBase {
             parentY=0;
             return;
         }
-        this.parentX=parent.x+parent.parentX;
-        this.parentY=parent.y+parent.parentY;
+        this.parentX=parent.getOffsetX()+parent.parentX;
+        this.parentY=parent.getOffsetY()+parent.parentY;
     }
 
     @ZenMethod

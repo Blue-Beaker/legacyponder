@@ -112,6 +112,14 @@ public class DrawableBuilder {
      * @return The new DrawableGroup instance
      */
     @ZenMethod
+    public static DrawableScroll buildScroll(DrawableBase internal, int width, int height){
+        return new DrawableScroll(internal, width, height);
+    }
+
+    /** Build an empty DrawableGroup, which can be used to group multiple drawables together. The drawables in the group will be drawn in the order they were added.
+     * @return The new DrawableGroup instance
+     */
+    @ZenMethod
     public static DrawableGroup buildGroup(){
         return new DrawableGroup();
     }
