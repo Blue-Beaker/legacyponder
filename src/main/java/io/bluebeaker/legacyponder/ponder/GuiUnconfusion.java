@@ -225,7 +225,7 @@ public class GuiUnconfusion extends GuiScreen {
                         break;
                     case ButtonID.BACK:
                         List<String> historyTip = this.history.stream().map(HistoryEntry::getTitleAndPage).collect(Collectors.toList());
-                        historyTip.add("§l"+I18n.format(this.currentEntry.title));
+                        historyTip.add("§l"+I18n.format(this.currentEntry.title)+" : "+currentPageID);
                         this.drawHoveringText(historyTip, mouseX, mouseY);
                         break;
                 }
