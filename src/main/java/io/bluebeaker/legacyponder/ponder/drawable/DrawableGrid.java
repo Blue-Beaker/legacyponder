@@ -36,8 +36,8 @@ public class DrawableGrid extends DrawableGroup{
         y2=lineHeight*(column==0?line:line+1);
         w=x2-x1;
         h=y2-y1;
-        if(this.parent instanceof DrawableGroup){
-            ((DrawableGroup) this.parent).updateSizes();
+        if(this.parent instanceof DrawableContainer){
+            ((DrawableContainer) this.parent).updateSizes();
         }
     }
 

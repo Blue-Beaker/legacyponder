@@ -13,13 +13,8 @@ import java.util.List;
 
 @ZenClass("mods.legacyponder.DrawableGroup")
 @ZenRegister
-public class DrawableGroup extends DrawableBase {
+public class DrawableGroup extends DrawableContainer {
     final List<DrawableBase> children = new ArrayList<>();
-
-    @Nullable
-    public DrawableBase getFocusedChild() {
-        return focusedChild;
-    }
 
     @Nullable
     private DrawableBase focusedChild = null;
@@ -85,6 +80,12 @@ public class DrawableGroup extends DrawableBase {
         GlStateManager.popMatrix();
     }
 
+    @Nullable
+    @Override
+    public DrawableBase getFocusedChild() {
+        return focusedChild;
+    }
+    @Override
     public void updateSizes(){
         x1=0;
         y1=0;
@@ -98,33 +99,9 @@ public class DrawableGroup extends DrawableBase {
         }
         w=x2-x1;
         h=y2-y1;
-        if(this.parent instanceof DrawableGroup){
-            ((DrawableGroup) this.parent).updateSizes();
+        if(this.parent instanceof DrawableContainer){
+            ((DrawableContainer) this.parent).updateSizes();
         }
-    }
-
-    @Override
-    public boolean onMouseClick(GuiUnconfusion parent, int x, int y, int button) {
-        if(this.focusedChild==null) return false;
-        return this.focusedChild.onMouseClick(parent,x-this.x,y-this.y,button);
-    }
-
-    @Override
-    public boolean onMouseRelease(GuiUnconfusion parent, int x, int y, int state) {
-        if(this.focusedChild==null) return false;
-        return this.focusedChild.onMouseRelease(parent,x-this.x,y-this.y,state);
-    }
-
-    @Override
-    public boolean onMouseScroll(int mouseX, int mouseY, int wheelDelta) {
-        if(this.focusedChild==null) return false;
-        return focusedChild.onMouseScroll(mouseX, mouseY, wheelDelta);
-    }
-
-    @Override
-    public boolean onKeyTyped(GuiUnconfusion parent, char typedChar, int keyCode) {
-        if(this.focusedChild==null) return false;
-        return this.focusedChild.onKeyTyped(parent,typedChar,keyCode);
     }
 
     @Override

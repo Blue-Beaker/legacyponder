@@ -7,8 +7,10 @@ import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Keyboard;
 import stanhebben.zenscript.annotations.ZenClass;
 
+import javax.annotation.Nullable;
+
 @ZenClass("mods.legacyponder.DrawableScroll")
-public class DrawableScroll extends DrawableBase{
+public class DrawableScroll extends DrawableContainer{
     public DrawableBase internal = null;
     public int scrollX = 0;
     public int scrollY = 0;
@@ -68,16 +70,10 @@ public class DrawableScroll extends DrawableBase{
         return internal.onMouseScroll(mouseX, mouseY, wheelDelta);
     }
 
+    @Nullable
     @Override
-    public boolean onMouseClick(GuiUnconfusion parent, int x, int y, int button) {
-        if(this.internal==null) return false;
-        return this.internal.onMouseClick(parent,x-getOffsetX(),y-getOffsetY(),button);
-    }
-
-    @Override
-    public boolean onMouseRelease(GuiUnconfusion parent, int x, int y, int state) {
-        if(this.internal==null) return false;
-        return this.internal.onMouseRelease(parent,x-getOffsetX(),y-getOffsetY(),state);
+    DrawableBase getFocusedChild() {
+        return internal;
     }
 
     @Override
