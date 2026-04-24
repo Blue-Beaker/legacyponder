@@ -29,6 +29,8 @@ public class GuiInfoPage<T extends PageBase> extends GuiScreen {
 
     public void onResize(){
         this.pageBounds=parent.getPageBounds();
+        this.width=this.pageBounds.w;
+        this.height=this.pageBounds.h;
     }
 
     public void onPageRefresh(){

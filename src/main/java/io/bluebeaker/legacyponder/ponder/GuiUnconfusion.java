@@ -16,6 +16,7 @@ import io.bluebeaker.legacyponder.utils.Vec2i;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
@@ -26,6 +27,7 @@ import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GuiUnconfusion extends GuiScreen {
     @Nonnull
@@ -89,9 +91,9 @@ public class GuiUnconfusion extends GuiScreen {
         this.buttonList.add(new GuiButtonExt(ButtonID.HELP,this.width-40,0,20,20,"?"));
         this.buttonList.add(new GuiButtonExt(ButtonID.SETTINGS,this.width-60,0,20,20,"#"));
 
-        if(!this.history.isEmpty()){
-            HistoryEntry lastHistory = getLastHistory();
-            this.lastEntryTitle=(I18n.format(PonderRegistry.getEntries().get(lastHistory.id).title)+" : "+(lastHistory.page+1));
+        HistoryEntry lastHistory = getLastHistory();
+        if (lastHistory != null) {
+            this.lastEntryTitle=(lastHistory.getTitleAndPage());
             this.buttonList.add(new GuiButtonExt(ButtonID.BACK,2,2,Math.min(100,20+fontRenderer.getStringWidth(lastEntryTitle)),16,"< "+lastEntryTitle));
         }
 
@@ -205,6 +207,31 @@ public class GuiUnconfusion extends GuiScreen {
             LegacyPonder.getLogger().error("Error drawing ponder page {}: {}",this.currentPage,e);
         }
         super.drawScreen(mouseX, mouseY, partialTicks);
+
+        drawButtonTooltip(mouseX, mouseY);
+    }
+
+    private void drawButtonTooltip(int mouseX, int mouseY) {
+        for (GuiButton button : this.buttonList) {
+            if(button.isMouseOver()){
+                GlStateManager.disableDepth();
+                switch (button.id){
+                    case ButtonID.SETTINGS:
+                        this.drawHoveringText(I18n.format("button.legacyponder.settings"), mouseX, mouseY);
+                        break;
+                    case ButtonID.HELP:
+                        this.drawHoveringText(I18n.format("button.legacyponder.help"), mouseX, mouseY);
+                        break;
+                    case ButtonID.BACK:
+                        List<String> historyTip = this.history.stream().map(HistoryEntry::getTitleAndPage).collect(Collectors.toList());
+                        historyTip.add("§l"+I18n.format(this.currentEntry.title));
+                        this.drawHoveringText(historyTip, mouseX, mouseY);
+                        break;
+                }
+                GlStateManager.disableLighting();
+                return;
+            }
+        }
     }
 
     @Override
@@ -254,22 +281,29 @@ public class GuiUnconfusion extends GuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
-        if(button.id==ButtonID.CLOSE){
-            close();
-        } else if (button.id==ButtonID.PREV) {
-            this.setCurrentPageID(this.currentPageID -1);
-        } else if (button.id==ButtonID.NEXT) {
-            this.setCurrentPageID(this.currentPageID +1);
-        } else if (button.id==ButtonID.BACK) { //Back
-            this.popHistory();
-        } else if (button.id==ButtonID.HELP) { //Help
-
-        } else if (button.id==ButtonID.SETTINGS) { //Config
-            Minecraft.getMinecraft()
-                    .displayGuiScreen(
-                    new GuiConfig(this,LegacyPonder.MODID,false,false,I18n.format("config.legacyponder.ui"),UIConfig.class));
-        } else if (button.id==31102009){
-            this.isLinkActive=false;
+        switch (button.id){
+            case ButtonID.CLOSE:
+                close();
+                break;
+            case ButtonID.PREV:
+                this.setCurrentPageID(this.currentPageID -1);
+                break;
+            case ButtonID.NEXT:
+                this.setCurrentPageID(this.currentPageID +1);
+                break;
+            case ButtonID.BACK: //Back
+                this.popHistory();
+                break;
+            case ButtonID.HELP: //Help
+                break;
+            case ButtonID.SETTINGS: //Config
+                Minecraft.getMinecraft()
+                        .displayGuiScreen(
+                                new GuiConfig(this,LegacyPonder.MODID,false,false,I18n.format("config.legacyponder.ui"),UIConfig.class));
+                break;
+            case ButtonID.LINK_CONFIRMED:
+                this.isLinkActive=false;
+                break;
         }
         super.actionPerformed(button);
     }
@@ -324,6 +358,12 @@ public class GuiUnconfusion extends GuiScreen {
             this.id = id;
             this.page = page;
         }
+        public String getTitle(){
+            return I18n.format(PonderRegistry.getEntries().get(id).title);
+        }
+        public String getTitleAndPage(){
+            return getTitle()+" : "+(page);
+        }
     }
     public static class ButtonID{
         public static final int CLOSE = 0;
@@ -332,5 +372,6 @@ public class GuiUnconfusion extends GuiScreen {
         public static final int BACK = 3;
         public static final int HELP = 4;
         public static final int SETTINGS = 5;
+        public static final int LINK_CONFIRMED = 31102009;
     }
 }

@@ -18,6 +18,12 @@ config.legacyponder.ui.wheel_sensivity=Wheel Sensivity
 config.legacyponder.ui.cursor_sensivity=Cursor Sensivity
 key.legacyponder.prev_page=Previous Page
 key.legacyponder.next_page=Next Page
+
+button.legacyponder.help=Help
+button.legacyponder.settings=Settings
+button.legacyponder.reset_view=Reset View
+button.legacyponder.reset_zoom=Reset Zoom
+
 ponderentry.demo_1.title=Welcome to Unconfusion!
 ponderentry.demo_1.desc=See what can be made with Unconfusion in this demo!
 ponderentry.demo_1.page1.text=Unconfusion is a mod to make intuitive in-game tutorials for modpacks and mod players.\nMain Features:\n- Paged manual entries\n- Structure view pages\n- Element-based pages, can be used to represent GUIs, or provide detailed explanations.\n- Uses CraftTweaker ZenScript to fully customize entries and pages

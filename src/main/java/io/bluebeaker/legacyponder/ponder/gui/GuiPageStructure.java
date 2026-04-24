@@ -22,6 +22,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -92,14 +93,14 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
         int h = pageBounds.h;
         this.buttonList.clear();
 
-        this.buttonList.add(new GuiButtonExt(10,0,h- 16,16, 16,"!"));
-        this.buttonList.add(new GuiButtonExt(14,16,h- 16,16, 16,"="));
+        this.buttonList.add(new GuiButtonExt(ButtonID.RESET_VIEW,0,h- 16,16, 16,"!"));
+        this.buttonList.add(new GuiButtonExt(ButtonID.RESET_ZOOM,16,h- 16,16, 16,"="));
         if(UIConfig.zoom_buttons){
-            this.buttonList.add(new GuiButtonExt(11,UIConfig.zoom_slider?112:48,h- 16,16, 16,"+"));
-            this.buttonList.add(new GuiButtonExt(12,32,h- 16,16, 16,"-"));
+            this.buttonList.add(new GuiButtonExt(ButtonID.ZOOM_IN,UIConfig.zoom_slider?112:48,h- 16,16, 16,"+"));
+            this.buttonList.add(new GuiButtonExt(ButtonID.ZOOM_OUT,32,h- 16,16, 16,"-"));
         }
         if(UIConfig.zoom_slider){
-            GuiSlider slider = new GuiSlider(13, UIConfig.zoom_buttons?48:32, h - 16, 64, 16, "", "", -5, 5, viewPos.zoom_power, true, true, slider1 -> viewPos.zoom_power= slider1.getValue());
+            GuiSlider slider = new GuiSlider(ButtonID.ZOOM_SLIDER, UIConfig.zoom_buttons?48:32, h - 16, 64, 16, "", "", -5, 5, viewPos.zoom_power, true, true, slider1 -> viewPos.zoom_power= slider1.getValue());
             slider.precision=2;
             this.slider=slider;
             this.buttonList.add(slider);
@@ -110,13 +111,13 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         super.actionPerformed(button);
-        if(button.id==10){
+        if(button.id==ButtonID.RESET_VIEW){
             StructureRenderManager.viewPos.resetAll();
-        } else if (button.id == 11) {
+        } else if (button.id == ButtonID.ZOOM_IN) {
             viewPos.zoom(0.2);
-        } else if (button.id == 12) {
+        } else if (button.id == ButtonID.ZOOM_OUT) {
             viewPos.zoom(-0.2);
-        } else if (button.id == 14) {
+        } else if (button.id == ButtonID.RESET_ZOOM) {
             viewPos.zoom_power=0;
         }
         updateSlider();
@@ -201,14 +202,33 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
 
         if (tooltip != null && !tooltip.isEmpty()) {
             GlStateManager.translate(0,0,100);
-            GuiUtils.drawHoveringText(tooltip, mouseX, mouseY, pageBounds.w,pageBounds.h,-1,mc.fontRenderer);
+            this.drawHoveringText(tooltip, mouseX, mouseY);
             RenderHelper.disableStandardItemLighting();
             GlStateManager.translate(0,0,-100);
         }
 
         super.draw(mouseX, mouseY, partialTicks);
-        RenderUtils.endViewPort();
 
+        drawButtonTooltip(mouseX, mouseY);
+        RenderUtils.endViewPort();
+    }
+
+    private void drawButtonTooltip(int mouseX, int mouseY) {
+        for (GuiButton button : this.buttonList) {
+            if(button.isMouseOver()){
+                GlStateManager.disableDepth();
+                switch (button.id){
+                    case ButtonID.RESET_VIEW:
+                        this.drawHoveringText(I18n.format("button.legacyponder.reset_view"), mouseX, mouseY);
+                        break;
+                    case ButtonID.RESET_ZOOM:
+                        this.drawHoveringText(I18n.format("button.legacyponder.reset_zoom"), mouseX, mouseY);
+                        break;
+                }
+                GlStateManager.disableLighting();
+                break;
+            }
+        }
     }
 
     private void drawHighlightBoxes(int scale) {
@@ -432,5 +452,12 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
     public void updateScreen() {
         super.updateScreen();
 //        StructureRenderManager.getWorld().tick();
+    }
+    public static class ButtonID{
+        public static final int ZOOM_OUT = 0;
+        public static final int ZOOM_IN = 1;
+        public static final int ZOOM_SLIDER = 2;
+        public static final int RESET_ZOOM = 3;
+        public static final int RESET_VIEW = 4;
     }
 }
