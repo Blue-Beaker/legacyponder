@@ -3,11 +3,11 @@ package io.bluebeaker.legacyponder.utils;
 import net.minecraft.client.resources.I18n;
 
 public class TextUtils {
-    public static String formatKey(String key){
-        return I18n.format(key);
+    public static String formatKey(String key, Object... parameters){
+        return I18n.format(key, parameters);
     }
-    public static String[] formatLines(String text){
-        return splitLines(I18n.format(text));
+    public static String[] formatLines(String text, Object... parameters){
+        return splitLines(I18n.format(text, parameters));
     }
 
     public static String[] splitLines(String text1) {

@@ -8,7 +8,9 @@ import io.bluebeaker.legacyponder.crafttweaker.IPonderEntry;
 import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
 import io.bluebeaker.legacyponder.ponder.drawable.DrawableBase;
 import io.bluebeaker.legacyponder.ponder.drawable.DrawableGroup;
+import io.bluebeaker.legacyponder.ponder.drawable.DrawableText;
 import io.bluebeaker.legacyponder.ponder.page.PageBase;
+import net.minecraft.util.text.TextComponentKeybind;
 
 public class DemoEntries {
 
@@ -47,8 +49,13 @@ public class DemoEntries {
         IPonderEntry entry = IPonderEntry.createPonderEntry("unconfusion.entry.help.title","unconfusion.entry.help.desc");
         entry.addPage(PageBase.fromDrawable((w, h) -> {
             DrawableGroup group = DrawableBuilder.buildGroup();
-            group.addChild(DrawableBuilder.formattedText("unconfusion.entry.help.desc",0xFFFFFFFF).setAlign(0.5F).setMaxWidth(w),w/2, (int) (h*0.3-5));
-            group.addChild(DrawableBuilder.formattedText("unconfusion.entry.help.page1.bottomleft",0xFFFFFFFF),2,h-12);
+            int textY = (int)(h*0.3-5);
+
+            DrawableText desc = DrawableBuilder.formattedText("unconfusion.entry.help.page1.text1", 0xFFFFFFFF).setAlign(0.5F).setMaxWidth(w);
+            group.addChild(desc,w/2, textY);
+            textY += desc.getHeight();
+
+            group.addChild(DrawableBuilder.formattedText("unconfusion.entry.help.page1.bottomleft",0xFFFFFFFF,new TextComponentKeybind("key.legacyponder.prev_page").getFormattedText(), new TextComponentKeybind("key.legacyponder.next_page").getFormattedText()),2,h-12);
             group.addChild(DrawableBuilder.formattedText("unconfusion.entry.help.page1.topleft",0xFFFFFFFF),2,2);
             group.addChild(DrawableBuilder.formattedText("unconfusion.entry.help.page1.topright",0xFFFFFFFF).setAlign(1),w,2);
             return group;

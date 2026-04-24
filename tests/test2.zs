@@ -28,6 +28,7 @@ entry.addPage(Page.fromDrawable(function(w,h){
     group.addChild(DrawableBuilder.buildItem(<minecraft:gold_ingot>*10),30,37);
     group.addChild(DrawableBuilder.buildItem(<minecraft:beacon>),48,37);
     group.addChild(DrawableBuilder.buildItem(<ore:plankWood>),66,37);
+    group.addChild(DrawableBuilder.formattedText("commands.legacyponder.save.success",0xFFFFFFFF, "aaa").setAlign(0.5),w/2,60);
     return group;
 }));
 entry.addPage(Page.fromStructure("test1/stru1")

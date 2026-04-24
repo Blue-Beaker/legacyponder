@@ -38,8 +38,8 @@ public class DrawableText extends DrawableBase {
      * @return The new DrawableText instance
      */
     @ZenMethod
-    public static DrawableText buildFormatted(String text, int color) {
-        return new DrawableText(TextUtils.formatKey(text),color);
+    public static DrawableText buildFormatted(String text, int color, Object... parameters) {
+        return new DrawableText(TextUtils.formatKey(text, parameters),color);
     }
 
     /** Build a DrawableText with the specified text/ITextComponent.
@@ -84,7 +84,12 @@ public class DrawableText extends DrawableBase {
             // Add underline formatting when hovered and interactable to indicate that the text can be interacted with
             text1="§n"+ PATTERN.matcher(text1).replaceAll("$1§n");
         }
-        RenderUtils.drawSplitString(screen.mc.fontRenderer, text1, x-xOffset,y,maxWidth,color,dropShadow);
+        FontRenderer fr = screen.mc.fontRenderer;
+        List<String> strings = RenderUtils.listFormattedStringToWidth(fr,text,maxWidth);
+        for (int i = 0; i < strings.size(); i++) {
+            fr.drawString(strings.get(i),x-(fr.getStringWidth(strings.get(i))*alignFactor),y+i*fr.FONT_HEIGHT,color,dropShadow);
+        }
+//        RenderUtils.drawSplitString(screen.mc.fontRenderer, text1, x-xOffset,y,maxWidth,color,dropShadow);
     }
 
     @ZenMethod
