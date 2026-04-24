@@ -7,6 +7,10 @@ public class TextUtils {
         return I18n.format(key);
     }
     public static String[] formatLines(String text){
-        return I18n.format(text).replace("\\n","\n").split("\n");
+        return splitLines(I18n.format(text));
+    }
+
+    public static String[] splitLines(String text1) {
+        return text1.replace("\\n", "\n").split("\n");
     }
 }

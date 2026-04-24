@@ -49,8 +49,10 @@ public class DemoEntries {
             DrawableGroup group = DrawableBuilder.buildGroup();
             group.addChild(DrawableBuilder.formattedText("unconfusion.entry.help.desc",0xFFFFFFFF).setAlign(0.5F).setMaxWidth(w),w/2, (int) (h*0.3-5));
             group.addChild(DrawableBuilder.formattedText("unconfusion.entry.help.page1.bottomleft",0xFFFFFFFF),2,h-12);
+            group.addChild(DrawableBuilder.formattedText("unconfusion.entry.help.page1.topleft",0xFFFFFFFF),2,2);
+            group.addChild(DrawableBuilder.formattedText("unconfusion.entry.help.page1.topright",0xFFFFFFFF).setAlign(1),w,2);
             return group;
-        }));
+        }).setDescription("unconfusion.entry.help.page1.desc"));
         entry.addPage(PageBase.fromStructure("legacyponder:tree").setDescription("A tree, with some blocks around it."));
         entry.addPage(PageBase.catalogPage());
 

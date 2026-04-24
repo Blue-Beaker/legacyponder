@@ -6,9 +6,11 @@ import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
 import io.bluebeaker.legacyponder.utils.TextUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 @ZenClass("mods.legacyponder.DrawableText")
@@ -82,11 +84,7 @@ public class DrawableText extends DrawableBase {
             // Add underline formatting when hovered and interactable to indicate that the text can be interacted with
             text1="§n"+ PATTERN.matcher(text1).replaceAll("$1§n");
         }
-//        if(maxWidth<=0){
-//            screen.mc.fontRenderer.drawString(text1, x-xOffset,y,color,dropShadow);
-//        }else {
-            RenderUtils.drawSplitString(screen.mc.fontRenderer, text1, x-xOffset,y,maxWidth,color,dropShadow);
-//        }
+        RenderUtils.drawSplitString(screen.mc.fontRenderer, text1, x-xOffset,y,maxWidth,color,dropShadow);
     }
 
     @ZenMethod
@@ -115,13 +113,27 @@ public class DrawableText extends DrawableBase {
 
     private void updateSizes(){
         String text1 = getText();
-        int stringWidth=0;
-        for (String s : text1.replace("\\n", "\n").split("\n")) {
-            stringWidth = Math.max(stringWidth, Minecraft.getMinecraft().fontRenderer.getStringWidth(s));
+        int textWidth=0;
+        int textHeight=0;
+        FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
+
+        for (String line : TextUtils.splitLines(text1)) {
+            if (maxWidth > 0) {
+                List<String> strings = fr.listFormattedStringToWidth(line, maxWidth);
+                for (String line1 : strings) {
+                    textWidth = Math.max(textWidth, fr.getStringWidth(line1));
+                }
+                textHeight += fr.FONT_HEIGHT*strings.size();
+            }else {
+                textWidth = Math.max(textWidth, fr.getStringWidth(line));
+                textHeight += fr.FONT_HEIGHT;
+            }
         }
 
-        this.w = maxWidth<=0 ? stringWidth : maxWidth;
-        this.h = maxWidth<=0 ? Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT : Minecraft.getMinecraft().fontRenderer.getWordWrappedHeight(text1,maxWidth);
-        this.xOffset = Math.round(Math.min(this.w,stringWidth)*alignFactor);
+
+        this.w = textWidth;
+        this.h = textHeight;
+        this.xOffset = Math.round(this.w *alignFactor);
     }
+
 }
