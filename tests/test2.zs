@@ -1,8 +1,8 @@
 #reloadable
 #sideonly client
 
-import mods.legacyponder.IPonderEntry;
-import mods.legacyponder.PonderRegistry;
+import mods.legacyponder.IEntry;
+import mods.legacyponder.ManualRegistry;
 import mods.legacyponder.Page;
 import mods.legacyponder.DrawableBuilder;
 import mods.legacyponder.HoverComponent;
@@ -14,7 +14,7 @@ import crafttweaker.text.ITextComponent;
 
 
 
-val entry = IPonderEntry.createPonderEntry("Entry 3","Example entry 3 with custom GUI");
+val entry = IEntry.createEntry("Entry 3","Example entry 3 with custom GUI");
 
 entry.addIngredient(<ore:plankWood>);
 entry.addIngredient(<minecraft:wool:0>);
@@ -55,4 +55,4 @@ entry.addPage(Page.fromStructure("test1/stru1")
         ).setColor(80,127,127))
     );
 
-PonderRegistry.add("test_entry3",entry);
+ManualRegistry.add("test_entry3",entry);

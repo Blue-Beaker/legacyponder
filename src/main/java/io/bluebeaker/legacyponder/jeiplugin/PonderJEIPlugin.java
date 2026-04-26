@@ -19,10 +19,10 @@ public class PonderJEIPlugin implements IModPlugin {
     public void registerCategories(IRecipeCategoryRegistration registry) {
         IJeiHelpers jeiHelpers = registry.getJeiHelpers();
         IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
-        registry.addRecipeCategories(new PonderRecipeCategory(guiHelper));
+        registry.addRecipeCategories(new UnconfusionRecipeCategory(guiHelper));
     }
     public void register(IModRegistry registry){
         IJeiHelpers jeiHelpers = registry.getJeiHelpers();
-        registry.addRecipes(PonderRecipeRegistry.getRecipes(jeiHelpers),PonderRecipeCategory.UID);
+        registry.addRecipes(PonderRecipeRegistry.getRecipes(jeiHelpers), UnconfusionRecipeCategory.UID);
     }
 }

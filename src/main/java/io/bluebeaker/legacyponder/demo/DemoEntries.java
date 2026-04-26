@@ -4,12 +4,12 @@ import crafttweaker.mc1120.brackets.BracketHandlerOre;
 import io.bluebeaker.legacyponder.CommonConfig;
 import io.bluebeaker.legacyponder.crafttweaker.DrawableBuilder;
 import io.bluebeaker.legacyponder.crafttweaker.IDrawableSupplier;
-import io.bluebeaker.legacyponder.crafttweaker.IPonderEntry;
-import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
-import io.bluebeaker.legacyponder.ponder.drawable.DrawableBase;
-import io.bluebeaker.legacyponder.ponder.drawable.DrawableGroup;
-import io.bluebeaker.legacyponder.ponder.drawable.DrawableText;
-import io.bluebeaker.legacyponder.ponder.page.PageBase;
+import io.bluebeaker.legacyponder.crafttweaker.IEntry;
+import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
+import io.bluebeaker.legacyponder.manual.drawable.DrawableBase;
+import io.bluebeaker.legacyponder.manual.drawable.DrawableGroup;
+import io.bluebeaker.legacyponder.manual.drawable.DrawableText;
+import io.bluebeaker.legacyponder.manual.page.PageBase;
 import net.minecraft.util.text.TextComponentKeybind;
 
 public class DemoEntries {
@@ -21,16 +21,16 @@ public class DemoEntries {
         if(CommonConfig.demo){
             demoAdded=addDemoEntry();
         } else if (demoAdded) {
-            PonderRegistry.getEntries().remove(INTERNAL_DEMO_ID);
+            ManualRegistry.getEntries().remove(INTERNAL_DEMO_ID);
             demoAdded=false;
         }
         addHelpEntry();
     }
     private static boolean demoAdded = false;
     public static boolean addDemoEntry(){
-        if(PonderRegistry.getEntries().containsKey(INTERNAL_DEMO_ID)) return false;
+        if(ManualRegistry.getEntries().containsKey(INTERNAL_DEMO_ID)) return false;
 
-        IPonderEntry entry = IPonderEntry.createPonderEntry("unconfusion.entry.demo_1.title","unconfusion.entry.demo_1.desc");
+        IEntry entry = IEntry.createEntry("unconfusion.entry.demo_1.title","unconfusion.entry.demo_1.desc");
 
         entry.addIngredient(BracketHandlerOre.getOre("ingotGold"));
         entry.addPage(PageBase.fromDrawable(new IDrawableSupplier() {
@@ -42,11 +42,11 @@ public class DemoEntries {
         entry.addPage(PageBase.fromStructure("legacyponder:tree").setDescription("A tree, with some blocks around it."));
         entry.addPage(PageBase.catalogPage());
 
-        PonderRegistry.add(INTERNAL_DEMO_ID, entry);
+        ManualRegistry.add(INTERNAL_DEMO_ID, entry);
         return true;
     }
     public static void addHelpEntry(){
-        IPonderEntry entry = IPonderEntry.createPonderEntry("unconfusion.entry.help.title","unconfusion.entry.help.desc");
+        IEntry entry = IEntry.createEntry("unconfusion.entry.help.title","unconfusion.entry.help.desc");
         entry.addPage(PageBase.fromDrawable((w, h) -> {
             DrawableGroup group = DrawableBuilder.buildGroup();
             int textY = (int)(h*0.3-5);
@@ -63,6 +63,6 @@ public class DemoEntries {
         entry.addPage(PageBase.fromStructure("legacyponder:tree").setDescription("A tree, with some blocks around it."));
         entry.addPage(PageBase.catalogPage());
 
-        PonderRegistry.add(HELP_ID, entry);
+        ManualRegistry.add(HELP_ID, entry);
     }
 }

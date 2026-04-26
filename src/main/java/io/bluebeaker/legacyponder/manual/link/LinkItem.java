@@ -1,0 +1,17 @@
+package io.bluebeaker.legacyponder.manual.link;
+
+import net.minecraft.item.ItemStack;
+
+public class LinkItem implements LinkItemBase {
+
+    private final ItemStack item;
+
+    public LinkItem(ItemStack item) {
+        this.item = item;
+    }
+
+    @Override
+    public ItemStack getIngredient() {
+        return item;
+    }
+}

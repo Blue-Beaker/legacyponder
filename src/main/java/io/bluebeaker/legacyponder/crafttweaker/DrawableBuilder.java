@@ -5,7 +5,7 @@ import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.text.ITextComponent;
-import io.bluebeaker.legacyponder.ponder.drawable.*;
+import io.bluebeaker.legacyponder.manual.drawable.*;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 

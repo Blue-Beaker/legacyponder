@@ -1,8 +1,8 @@
 package io.bluebeaker.legacyponder.command;
 
-import io.bluebeaker.legacyponder.crafttweaker.PonderRegistry;
-import io.bluebeaker.legacyponder.ponder.Entry;
-import io.bluebeaker.legacyponder.ponder.GuiUnconfusion;
+import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
+import io.bluebeaker.legacyponder.manual.Entry;
+import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
@@ -38,7 +38,7 @@ public class CommandShowEntry extends CommandBase {
             throw new WrongUsageException("commands.legacyponder.show.usage");
         }
         String id = args[0];
-        Entry entry = PonderRegistry.getEntries().get(id);
+        Entry entry = ManualRegistry.getEntries().get(id);
         if(entry==null){
             throw new EntryNotFoundException(I18n.format("commands.legacyponder.show.entrynotfound",id));
         }
@@ -64,7 +64,7 @@ public class CommandShowEntry extends CommandBase {
         {
             String match = args.length==1? args[0] : "";
             List<String> completions = new ArrayList<>();
-            for (String id : PonderRegistry.getEntries().keySet()) {
+            for (String id : ManualRegistry.getEntries().keySet()) {
                 if(id.startsWith(match)){
                     completions.add(id);
                 }

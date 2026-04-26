@@ -1,7 +1,7 @@
 package io.bluebeaker.legacyponder.crafttweaker;
 
 import crafttweaker.annotations.ZenRegister;
-import io.bluebeaker.legacyponder.ponder.drawable.DrawableBase;
+import io.bluebeaker.legacyponder.manual.drawable.DrawableBase;
 import stanhebben.zenscript.annotations.ZenClass;
 
 @ZenRegister
