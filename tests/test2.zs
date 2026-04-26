@@ -32,6 +32,9 @@ entry.addPage(Page.fromDrawable(function(w,h){
     return group;
 }));
 entry.addPage(Page.fromStructure("test1/stru1")
+    .setOverlay(function(w,h){
+                             return DrawableBuilder.buildText(ITextComponent.fromString("Test"),0xFFFFFFFF).setAlign(1).setVAlign(1).setLinkItem(<minecraft:iron_ingot>).setPosition(w,h);
+                             })
     .addHighlightArea(2,1,1,3,2,2,255,180,180)
     .addHoverComponent(2.5,1,1.5,255,180,180,function(w,h){
              return DrawableBuilder.buildItem(<minecraft:diamond>*2);

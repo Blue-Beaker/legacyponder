@@ -4,6 +4,7 @@ import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.UIConfig;
 import io.bluebeaker.legacyponder.jeiplugin.JEIUtils;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
+import io.bluebeaker.legacyponder.manual.drawable.DrawableBase;
 import io.bluebeaker.legacyponder.manual.hover.GuiHoverComponent;
 import io.bluebeaker.legacyponder.manual.hover.HighlightArea;
 import io.bluebeaker.legacyponder.manual.hover.HoverComponent;
@@ -60,6 +61,11 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
     protected int dragX = 0;
     protected int dragY = 0;
 
+
+    /** Optional overlay drawable */
+    protected DrawableBase overlay = null;
+    protected boolean overlayFocused = false;
+
     private FloatBuffer modelView = BufferUtils.createFloatBuffer(16);
     private FloatBuffer projection = BufferUtils.createFloatBuffer(16);
     private IntBuffer viewport = BufferUtils.createIntBuffer(16);
@@ -112,6 +118,8 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
             this.buttonList.add(slider);
         }
         updateSlider();
+
+        overlay = page.getOverlay(w,h);
     }
 
     @Override
@@ -218,6 +226,15 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
         }
 
         super.draw(mouseX, mouseY, partialTicks);
+
+        overlayFocused = false;
+        if(overlay!=null){
+            overlay.draw(parent,mouseX,mouseY);
+            if(overlay.isFocused(parent,mouseX,mouseY)) {
+                overlayFocused = true;
+                overlay.onMouseHover(parent, mouseX, mouseY);
+            }
+        }
 
         drawButtonTooltip(mouseX, mouseY);
 
@@ -376,8 +393,14 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
         GuiUtils.drawGradientRect(0, x1 +1, y1 +1, x2-1, y2-1, col2,col2);
     }
 
+    private boolean isOverlayFocused() {
+        return overlay != null && overlayFocused;
+    }
+
     @Override
     public boolean mouseScroll(int mouseX, int mouseY, int wheelDelta) {
+        if(isOverlayFocused() && overlay.onMouseScroll(parent, mouseY, wheelDelta, mouseX)) return true;
+
         super.mouseScroll(mouseX, mouseY, wheelDelta);
         viewPos.zoom((double) wheelDelta /120* UIConfig.wheel_sensivity);
         updateSlider();
@@ -386,6 +409,8 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
 
     @Override
     public boolean onMouseClick(int x, int y, int button) throws IOException {
+        if(isOverlayFocused()  && overlay.onMouseClick(parent,x,y,button)) return true;
+
         if(this.buttonList.stream().anyMatch(GuiButton::isMouseOver))
             return super.onMouseClick(x, y, button);
         if(hoverComp !=null){
@@ -403,6 +428,8 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
 
     @Override
     public boolean onMouseRelease(int x, int y, int state) {
+        if(isOverlayFocused()  && overlay.onMouseRelease(parent,x,y,state)) return true;
+
         if(dragComp){
             dragComp =false;
             dragX =0;
@@ -416,6 +443,9 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
     @Override
     public void onKeyTyped(char typedChar, int keyCode) {
         if(parent.isMouseDownInPage()) return;
+
+        if(isOverlayFocused()  && overlay.onKeyTyped(parent,typedChar,keyCode)) return;
+
 
         if(hoverComp !=null){
             hoverComp.getDrawable().onKeyTyped(this.parent,typedChar,keyCode);

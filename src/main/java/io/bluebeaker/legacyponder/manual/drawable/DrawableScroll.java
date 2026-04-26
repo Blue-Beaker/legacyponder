@@ -56,7 +56,7 @@ public class DrawableScroll extends DrawableContainer{
     }
 
     @Override
-    public boolean onMouseScroll(int mouseX, int mouseY, int wheelDelta) {
+    public boolean onMouseScroll(GuiUnconfusion parent, int mouseY, int wheelDelta, int mouseX) {
         boolean shiftDown = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
         int wheel = -(int) Math.ceil((double) wheelDelta / 12);
 
@@ -67,7 +67,7 @@ public class DrawableScroll extends DrawableContainer{
             if(this.scrollY(wheel))
                 return true;
         }
-        return internal.onMouseScroll(mouseX, mouseY, wheelDelta);
+        return internal.onMouseScroll(parent, mouseY, wheelDelta, mouseX);
     }
 
     @Nullable

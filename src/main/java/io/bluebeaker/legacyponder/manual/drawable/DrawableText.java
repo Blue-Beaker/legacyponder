@@ -22,8 +22,10 @@ public class DrawableText extends DrawableBase {
     private final int color;
     private boolean dropShadow = true;
     private int maxWidth = 0;
-    private float alignFactor = 0F;
+    private float hAlign = 0F;
+    private float vAlign = 0F;
     private int xOffset = 0;
+    private int yOffset = 0;
 
     public DrawableText(String text, int color){
         this.text = text;
@@ -68,7 +70,17 @@ public class DrawableText extends DrawableBase {
      */
     @ZenMethod
     public DrawableText setAlign(float alignFactor){
-        this.alignFactor=alignFactor;
+        this.hAlign =alignFactor;
+        updateSizes();
+        return this;
+    }
+    /** Set the vertical alignment of the text.
+     * @param vAlignFactor Vertical alignment factor. 0 is top aligned, 0.5 is centered, and 1 is bottom aligned. Values outside of this range are allowed for more extreme alignments.
+     * @return This
+     */
+    @ZenMethod
+    public DrawableText setVAlign(float vAlignFactor){
+        this.vAlign =vAlignFactor;
         updateSizes();
         return this;
     }
@@ -85,10 +97,11 @@ public class DrawableText extends DrawableBase {
             text1="§n"+ PATTERN.matcher(text1).replaceAll("$1§n");
         }
         FontRenderer fr = screen.mc.fontRenderer;
-        List<String> strings = RenderUtils.listFormattedStringToWidth(fr,text,maxWidth);
-        for (int i = 0; i < strings.size(); i++) {
-            fr.drawString(strings.get(i),x-(fr.getStringWidth(strings.get(i))*alignFactor),y+i*fr.FONT_HEIGHT,color,dropShadow);
-        }
+        RenderUtils.drawSplitString(fr,text1,x,y,maxWidth,color,dropShadow, hAlign, vAlign);
+//        List<String> strings = RenderUtils.listFormattedStringToWidth(fr,text,maxWidth);
+//        for (int i = 0; i < strings.size(); i++) {
+//            fr.drawString(strings.get(i),x-(fr.getStringWidth(strings.get(i))*alignFactor),y+i*fr.FONT_HEIGHT,color,dropShadow);
+//        }
 //        RenderUtils.drawSplitString(screen.mc.fontRenderer, text1, x-xOffset,y,maxWidth,color,dropShadow);
     }
 
@@ -114,7 +127,11 @@ public class DrawableText extends DrawableBase {
     @ZenMethod
     public int getXMin() {return x-xOffset;}
     @ZenMethod
-    public int getXMax(){return x-xOffset +w;}
+    public int getXMax(){return x-xOffset+w;}
+    @ZenMethod
+    public int getYMin() {return y-yOffset;}
+    @ZenMethod
+    public int getYMax(){return y-yOffset+h;}
 
     private void updateSizes(){
         String text1 = getText();
@@ -129,7 +146,8 @@ public class DrawableText extends DrawableBase {
 
         this.w = textWidth;
         this.h = lines.size()*fr.FONT_HEIGHT;
-        this.xOffset = Math.round(this.w *alignFactor);
+        this.xOffset = Math.round(this.w * hAlign);
+        this.yOffset = Math.round(this.h * vAlign);
     }
 
 }

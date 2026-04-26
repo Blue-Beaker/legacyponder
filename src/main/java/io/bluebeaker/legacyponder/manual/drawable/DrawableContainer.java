@@ -23,9 +23,9 @@ public abstract class DrawableContainer extends DrawableBase {
     }
 
     @Override
-    public boolean onMouseScroll(int mouseX, int mouseY, int wheelDelta) {
+    public boolean onMouseScroll(GuiUnconfusion parent, int mouseY, int wheelDelta, int mouseX) {
         if(this.getFocusedChild()==null) return false;
-        return getFocusedChild().onMouseScroll(mouseX, mouseY, wheelDelta);
+        return getFocusedChild().onMouseScroll(parent, mouseY, wheelDelta, mouseX);
     }
 
     @Override

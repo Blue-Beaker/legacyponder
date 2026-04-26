@@ -3,6 +3,7 @@ package io.bluebeaker.legacyponder.manual.page;
 import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.crafttweaker.IDrawableSupplier;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
+import io.bluebeaker.legacyponder.manual.drawable.DrawableBase;
 import io.bluebeaker.legacyponder.manual.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.manual.gui.GuiPageStructure;
 import io.bluebeaker.legacyponder.manual.hover.HighlightArea;
@@ -11,6 +12,7 @@ import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,9 @@ import java.util.List;
 public class PageStructure extends PageBase{
 
     protected final List<HighlightArea> highlightAreas = new ArrayList<>();
+
+    @Nullable
+    protected IDrawableSupplier overlaySupplier;
 
     /**
      * @return Structure ID of this page
@@ -99,5 +104,27 @@ public class PageStructure extends PageBase{
     public PageStructure addHoverComponent(float x, float y, float z, int r, int g, int b, IDrawableSupplier drawableSupplier){
         this.hoverComponents.add(HoverComponent.build(x,y,z,drawableSupplier).setColor(r,g,b));
         return this;
+    }
+
+    /** Add an overlay in this page.
+     * @param overlaySupplier {@link IDrawableSupplier} to provide the drawable
+     * @return this
+     */
+    @ZenMethod
+    public PageStructure setOverlay(IDrawableSupplier overlaySupplier){
+        this.overlaySupplier = overlaySupplier;
+        return this;
+    }
+
+    /** Build a drawable from this page.
+     * @param width width
+     * @param height height
+     * @return The drawable built for the specified page size
+     */
+    @ZenMethod
+    @Nullable
+    public DrawableBase getOverlay(int width, int height){
+        if(overlaySupplier==null) return null;
+        return overlaySupplier.process(width, height);
     }
 }

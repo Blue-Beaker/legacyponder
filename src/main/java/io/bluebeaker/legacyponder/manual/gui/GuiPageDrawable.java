@@ -55,6 +55,6 @@ public class GuiPageDrawable extends GuiInfoPage<PageDrawable> {
     public boolean mouseScroll(int mouseX, int mouseY, int wheelDelta) {
         super.mouseScroll(mouseX, mouseY, wheelDelta);
         if(drawableBase == null) return false;
-        return drawableBase.onMouseScroll(mouseX, mouseY, wheelDelta);
+        return drawableBase.onMouseScroll(parent, mouseY, wheelDelta, mouseX);
     }
 }

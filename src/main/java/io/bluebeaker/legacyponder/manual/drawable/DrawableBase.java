@@ -203,7 +203,7 @@ public abstract class DrawableBase {
         return false;
     }
 
-    public boolean onMouseScroll(int mouseX, int mouseY, int wheelDelta) {
+    public boolean onMouseScroll(GuiUnconfusion parent, int mouseY, int wheelDelta, int mouseX) {
         return false;
     }
 }
