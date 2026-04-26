@@ -53,9 +53,17 @@ public class RenderUtils {
     }
 
     public static void drawSplitString(FontRenderer fr, String text, int x, int y, int wrapWidth, int color, boolean dropShadow){
+        drawSplitString(fr, text, x, y, wrapWidth, color, dropShadow, 0, 0);
+    }
+    public static void drawSplitString(FontRenderer fr, String text, int x, int y, int wrapWidth, int color, boolean dropShadow, float hAlign, float vAlign){
         List<String> strings = listFormattedStringToWidth(fr,text,wrapWidth);
+        float drawY = y - (vAlign*strings.size()*fr.FONT_HEIGHT);
         for (int i = 0; i < strings.size(); i++) {
-            fr.drawString(strings.get(i),x,y+i*fr.FONT_HEIGHT,color,dropShadow);
+            float drawX = x;
+            if(hAlign!=0){
+                drawX = x - (fr.getStringWidth(strings.get(i))*hAlign);
+            }
+            fr.drawString(strings.get(i),drawX,drawY+i*fr.FONT_HEIGHT,color,dropShadow);
         }
     }
 

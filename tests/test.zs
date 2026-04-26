@@ -51,6 +51,11 @@ entry.addPage(Page.fromDrawable(function(w,h){
 }));
 
 entry.addPage(Page.fromStructure("dir1/structure2").setDescription("Structure 2"));
+entry.addPage(Page.fromStructure("no_structure/no_structure")
+    .addHighlightArea(2,1,1,3,2,2,255,180,180)
+    .addHoverComponent(2.5,1,1.5,255,180,180,function(w,h){
+             return DrawableBuilder.buildItem(<minecraft:diamond>*2);
+             }).setDescription("Example when no structure was found"));
 
 ManualRegistry.add("test_entry",entry);
 

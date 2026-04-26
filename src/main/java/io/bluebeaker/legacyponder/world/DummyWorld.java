@@ -80,7 +80,7 @@ public class DummyWorld extends World {
         }
     }
 
-    private void clearWorld() {
+    public void clearWorld() {
         ((DummyChunkProvider)chunkProvider).clear();
         currentStructure=null;
         this.loadedEntityList.clear();

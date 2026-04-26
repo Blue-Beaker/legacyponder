@@ -13,6 +13,7 @@ import io.bluebeaker.legacyponder.render.StructureRenderManager;
 import io.bluebeaker.legacyponder.structure.PonderStructure;
 import io.bluebeaker.legacyponder.structure.StructureLoader;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
+import io.bluebeaker.legacyponder.utils.TextUtils;
 import io.bluebeaker.legacyponder.utils.Vec2i;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -64,6 +65,7 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
     private IntBuffer viewport = BufferUtils.createIntBuffer(16);
     private ItemStack hoverItem = ItemStack.EMPTY;
     protected GuiSlider slider = null;
+    public boolean isStructureLoaded = false;
 
     public GuiPageStructure(GuiUnconfusion parent, PageStructure page) {
         super(parent, page);
@@ -81,6 +83,10 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
         PonderStructure structure = StructureLoader.getStructure(page.structureID);
         if(structure!=null){
             StructureRenderManager.getWorld().loadStructure(structure);
+            isStructureLoaded=true;
+        }else {
+            StructureRenderManager.getWorld().clearWorld();
+            isStructureLoaded=false;
         }
         StructureRenderManager.resetCameraOffset();
         StructureRenderManager.updateBuffer();
@@ -136,57 +142,60 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
     public void draw(int mouseX, int mouseY, float partialTicks) {
         RenderUtils.setViewPort(pageBounds);
 
-        StructureRenderManager.prepareTransformations(pageBounds.x, pageBounds.y, pageBounds.w,pageBounds.h);
+        if(!isStructureLoaded){
+            RenderUtils.drawSplitString(fontRenderer, TextUtils.formatKey("error.legacyponder.structure_not_found",this.page.structureID),width/2,height/2,width,0xFFFFFFFF,true,0.5F,0.5F);
+        }else {
+            StructureRenderManager.prepareTransformations(pageBounds.x, pageBounds.y, pageBounds.w,pageBounds.h);
 
 
-        StructureRenderManager.renderStructure(partialTicks, pageBounds.x, pageBounds.y, pageBounds.w,pageBounds.h);
+            StructureRenderManager.renderStructure(partialTicks, pageBounds.x, pageBounds.y, pageBounds.w,pageBounds.h);
 
-        ScaledResolution scaled = new ScaledResolution(Minecraft.getMinecraft());
-        int scale = scaled.getScaleFactor();
+            ScaledResolution scaled = new ScaledResolution(Minecraft.getMinecraft());
+            int scale = scaled.getScaleFactor();
 
-        if(!this.page.getHighlightAreas().isEmpty()){
-            drawHighlightBoxes(scale);
-        }
+            if(!this.page.getHighlightAreas().isEmpty()){
+                drawHighlightBoxes(scale);
+            }
 
-        // Get Matrix for hover component rendering and raycasting
-        GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, modelView);
-        GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, projection);
-        GL11.glGetInteger(GL11.GL_VIEWPORT, viewport);
+            // Get Matrix for hover component rendering and raycasting
+            GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, modelView);
+            GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, projection);
+            GL11.glGetInteger(GL11.GL_VIEWPORT, viewport);
 
-        StructureRenderManager.cleanTransformations();
+            StructureRenderManager.cleanTransformations();
 
-        // Maybe the state is wrong, so clean it to fix fonts not drawn properly
-        GlStateManager.enableDepth();
-        GlStateManager.disableDepth();
+            // Maybe the state is wrong, so clean it to fix fonts not drawn properly
+            GlStateManager.enableDepth();
+            GlStateManager.disableDepth();
 
-        if(!this.components.isEmpty()){
+            if(!this.components.isEmpty()){
 
 
-            GlStateManager.enableTexture2D();
-            GlStateManager.disableTexture2D();
+                GlStateManager.enableTexture2D();
+                GlStateManager.disableTexture2D();
 
-            drawHoverLines2(scale, modelView, projection, viewport);
+                drawHoverLines2(scale, modelView, projection, viewport);
 
-            drawHoverComponents(mouseX, mouseY, modelView, projection, viewport, scale);
+                drawHoverComponents(mouseX, mouseY, modelView, projection, viewport, scale);
 
-        }
+            }
 
-        List<String> tooltip = null;
+            List<String> tooltip = null;
 
-        if(hoverComp == null && !parent.isMouseDownInPage() && this.buttonList.stream().noneMatch(GuiButton::isMouseOver)){
-            RayTraceResult rayTraceResult = raycastFromCursor(MouseTracker.INSTANCE.x, MouseTracker.INSTANCE.y, modelView, projection, viewport);
+            if(hoverComp == null && !parent.isMouseDownInPage() && this.buttonList.stream().noneMatch(GuiButton::isMouseOver)){
+                RayTraceResult rayTraceResult = raycastFromCursor(MouseTracker.INSTANCE.x, MouseTracker.INSTANCE.y, modelView, projection, viewport);
 
-            if(rayTraceResult!=null && rayTraceResult.typeOfHit== RayTraceResult.Type.BLOCK){
-                BlockPos pos = rayTraceResult.getBlockPos();
-                try {
-                    this.hoverItem = getWorld().getBlockState(pos).getBlock().getPickBlock(getWorld().getBlockState(pos), rayTraceResult, mc.world, pos, StructureRenderManager.getPlayer());
-                }catch (Exception e){
-                    LegacyPonder.getLogger().warn("Error getting pick block for pos {}:",pos,e);
-                    this.hoverItem = ItemStack.EMPTY;
-                }
+                if(rayTraceResult!=null && rayTraceResult.typeOfHit== RayTraceResult.Type.BLOCK){
+                    BlockPos pos = rayTraceResult.getBlockPos();
+                    try {
+                        this.hoverItem = getWorld().getBlockState(pos).getBlock().getPickBlock(getWorld().getBlockState(pos), rayTraceResult, mc.world, pos, StructureRenderManager.getPlayer());
+                    }catch (Exception e){
+                        LegacyPonder.getLogger().warn("Error getting pick block for pos {}:",pos,e);
+                        this.hoverItem = ItemStack.EMPTY;
+                    }
 
-                if(!hoverItem.isEmpty()){
-                    tooltip=getItemToolTip(hoverItem);
+                    if(!hoverItem.isEmpty()){
+                        tooltip=getItemToolTip(hoverItem);
 //                    String text = hoverItem.getDisplayName();
 //                    int textX = mouseX + 5;
 //                    int textY = mouseY - 15;
@@ -194,23 +203,26 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
 //                    drawHoverBackground(new Color(0x5028007f), textX-4, textY-4, textX+mc.fontRenderer.getStringWidth(text)+4, textY+mc.fontRenderer.FONT_HEIGHT+4);
 //
 //                    mc.fontRenderer.drawStringWithShadow(text, textX, textY, Color.white.getRGB());
+                    }
                 }
+            }else {
+                this.hoverItem=ItemStack.EMPTY;
             }
-        }else {
-            this.hoverItem=ItemStack.EMPTY;
-        }
 
-        if (tooltip != null && !tooltip.isEmpty()) {
-            GlStateManager.translate(0,0,100);
-            this.drawHoveringText(tooltip, mouseX, mouseY);
-            RenderHelper.disableStandardItemLighting();
-            GlStateManager.translate(0,0,-100);
+            if (tooltip != null && !tooltip.isEmpty()) {
+                GlStateManager.translate(0,0,100);
+                this.drawHoveringText(tooltip, mouseX, mouseY);
+                RenderHelper.disableStandardItemLighting();
+                GlStateManager.translate(0,0,-100);
+            }
         }
 
         super.draw(mouseX, mouseY, partialTicks);
 
         drawButtonTooltip(mouseX, mouseY);
+
         RenderUtils.endViewPort();
+
     }
 
     private void drawButtonTooltip(int mouseX, int mouseY) {

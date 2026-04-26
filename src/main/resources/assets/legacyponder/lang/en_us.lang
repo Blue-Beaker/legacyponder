@@ -23,16 +23,16 @@ button.legacyponder.help=Help
 button.legacyponder.settings=Settings
 button.legacyponder.reset_view=Reset View
 button.legacyponder.reset_zoom=Reset Zoom
+error.legacyponder.structure_not_found=Error: structure '%s' not found.
 
 unconfusion.entry.demo_1.title=Welcome to Unconfusion!
 unconfusion.entry.demo_1.desc=See what can be made with Unconfusion in this demo!
-unconfusion.entry.demo_1.page1.text=Unconfusion is a mod to make intuitive in-game tutorials for modpacks and mod players.\nMain Features:\n- Paged manual entries\n- Structure view pages\n- Element-based pages, can be used to represent GUIs, or provide detailed explanations.\n- Uses CraftTweaker ZenScript to fully customize entries and pages
+unconfusion.entry.demo_1.page1.text=Unconfusion is a mod to make intuitive in-game tutorials for modpacks and mod players.\nMain Features:\n- Pages and entries-based manual\n- Structure view pages\n- Element-based pages, can be used to represent GUIs, or provide detailed explanations.\n- Uses CraftTweaker ZenScript to fully customize entries and pages
 
 unconfusion.entry.help.title=Unconfusion User Manual
 unconfusion.entry.help.desc=Unconfusion is a mod for intuitive in-game tutorials.\nSee this help to learn how to use it.
-unconfusion.entry.help.page1.text1=Unconfusion is a mod for intuitive in-game tutorials.\nSee this help to learn how to use it.\n\nThis page introduces the buttons to navigate in the documentation.
+unconfusion.entry.help.page1.text1=Unconfusion is a mod for intuitive in-game tutorials.\nSee this help to learn how to use it.\n\nThis page introduces the buttons in this main GUI.
 unconfusion.entry.help.page1.desc=Basic UI
-unconfusion.entry.help.page1.bottomleft=▼ Prev/Next Page (Hotkey: %s/%s)
-unconfusion.entry.help.page1.topleft=▲ Back/History (Hotkey: Esc)
-unconfusion.entry.help.page1.topright=Help Options Close ▲
-unconfusion.entry.help.page1.keybind1=Also, %s and %s can be used for page up/down.
+unconfusion.entry.help.page1.bottomleft=▼ Prev/Next Page (Hotkey: §e%s§r/§e%s§r)
+unconfusion.entry.help.page1.topleft=▲ Back/History (Hotkey: §eEsc§r)
+unconfusion.entry.help.page1.topright=Options Help Close ▲

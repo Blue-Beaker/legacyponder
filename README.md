@@ -18,4 +18,4 @@ Builtin compatibility fixes:
 - BuildCraft TileEntities (savedata optimization)
 
 Known unfixed compatibility problems:
-- ForgeMultiPart CBE Microblocks doesn't render  
+- ForgeMultiPart CBE Microblocks doesn't render

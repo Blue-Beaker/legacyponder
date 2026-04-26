@@ -23,6 +23,16 @@ button.legacyponder.help=帮助
 button.legacyponder.settings=设置
 button.legacyponder.reset_view=重置视角
 button.legacyponder.reset_zoom=重置缩放
+error.legacyponder.structure_not_found=错误: 找不到结构 '%s' .
 
 unconfusion.entry.demo_1.title=欢迎使用 解惑!
 unconfusion.entry.demo_1.desc=通过示例了解本模组的功能!
+unconfusion.entry.demo_1.page1.text=解惑 是一个用于展示直观教程的模组.\n主要功能:\n- 手册由条目与页面组成\n- 方块结构视图\n- 基于界面元素构建的视图, 可用于展示GUI, 或提供详细的解释. \n- 使用 CraftTweaker ZenScript 来完全自定义条目与页面.
+
+unconfusion.entry.help.title=解惑 用户指南
+unconfusion.entry.help.desc=解惑 是一个用于展示直观教程的模组.\n阅览此帮助以快速入门.
+unconfusion.entry.help.page1.text1=解惑 是一个用于展示直观教程的模组.\n阅览此帮助以快速入门.\n\n本页介绍此主界面包含的按钮.
+unconfusion.entry.help.page1.desc=基本界面
+unconfusion.entry.help.page1.bottomleft=▼ 上一页/下一页 (快捷键: §e%s§r/§e%s§r)
+unconfusion.entry.help.page1.topleft=▲ 返回/历史记录 (快捷键: §eEsc§r)
+unconfusion.entry.help.page1.topright=选项 帮助 关闭 ▲
