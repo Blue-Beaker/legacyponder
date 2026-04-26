@@ -43,6 +43,11 @@ public class HighlightArea {
     }
 
     @ZenMethod
+    public HighlightArea setColor(int rgb){
+        this.color = new Color(rgb);
+        return this;
+    }
+    @ZenMethod
     public HighlightArea setColor(int r, int g, int b){
         this.color = new Color(r,g,b);
         return this;

@@ -28,6 +28,11 @@ public class HoverComponent {
         return new HoverComponent(x,y,z,drawableSupplier);
     }
     @ZenMethod
+    public HoverComponent setColor(int rgb){
+        this.color = new Color(rgb);
+        return this;
+    }
+    @ZenMethod
     public HoverComponent setColor(int r, int g, int b){
         this.color = new Color(r,g,b);
         return this;

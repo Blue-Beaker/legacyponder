@@ -31,8 +31,19 @@ unconfusion.entry.demo_1.page1.text=Unconfusion is a mod to make intuitive in-ga
 
 unconfusion.entry.help.title=Unconfusion User Manual
 unconfusion.entry.help.desc=Unconfusion is a mod for intuitive in-game tutorials.\nSee this help to learn how to use it.
+
 unconfusion.entry.help.page1.text1=Unconfusion is a mod for intuitive in-game tutorials.\nSee this help to learn how to use it.\n\nThis page introduces the buttons in this main GUI.
 unconfusion.entry.help.page1.desc=Basic UI
 unconfusion.entry.help.page1.bottomleft=▼ Prev/Next Page (Hotkey: §e%s§r/§e%s§r)
 unconfusion.entry.help.page1.topleft=▲ Back/History (Hotkey: §eEsc§r)
 unconfusion.entry.help.page1.topright=Options Help Close ▲
+
+unconfusion.entry.help.page2.desc=Basic controls of structure view.
+unconfusion.entry.help.page2.middle=This page is a main feature of the mod - Structure view.\nDrag with left button to rotate, right/middle button to pan, and scroll to zoom.
+unconfusion.entry.help.page2.bottomleft=▼These buttons also controls the structure view.
+
+unconfusion.entry.help.page3.desc=The structure again, with popups.
+unconfusion.entry.help.page3.hover1=There may also be information hovering like this. Try to drag this popup!
+
+unconfusion.entry.help.page4.desc=Check out the recipes!
+unconfusion.entry.help.page4.hover1=§e%s§r/§e%s§r (JEI hotkeys) can be used on a block in structure, or an item on the page, to show recipes/usage for them.
