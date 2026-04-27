@@ -31,7 +31,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 import net.minecraftforge.fml.client.config.GuiSlider;
-import net.minecraftforge.fml.client.config.GuiUtils;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
@@ -182,10 +181,13 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
                 GlStateManager.enableTexture2D();
                 GlStateManager.disableTexture2D();
 
-                drawHoverLines2(scale, modelView, projection, viewport);
+                updateHoverPositions(scale,modelView,projection,viewport);
 
-                drawHoverComponents(mouseX, mouseY, modelView, projection, viewport, scale);
+                drawHoverLines2(scale);
 
+                drawHoverComponents(mouseX, mouseY);
+
+                checkComponentHover(mouseX, mouseY);
             }
 
             List<String> tooltip = null;
@@ -285,7 +287,19 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
         return getWorld().rayTraceBlocks(from, to);
     }
 
-    private void drawHoverLines2(int scale, FloatBuffer modelView, FloatBuffer projection, IntBuffer viewport) {
+    protected void updateHoverPositions(int scale, FloatBuffer modelView, FloatBuffer projection, IntBuffer viewport){
+        for (GuiHoverComponent hoverComponent : this.components) {
+            Vector3f pos = hoverComponent.internal.pos;
+            float[] floats = RenderPosUtils.projectToScreen(pos.x, pos.y, pos.z, modelView, projection, viewport);
+
+            float x = floats[0] / scale - pageBounds.x;
+            float y = parent.height - floats[1] / scale - pageBounds.y;
+
+            hoverComponent.updatePos(x,y);
+        }
+    }
+
+    protected void drawHoverLines2(int scale) {
         GlStateManager.glLineWidth(scale);
         GlStateManager.disableTexture2D();
         GlStateManager.disableLighting();
@@ -293,104 +307,58 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
         for (GuiHoverComponent hoverComponent : this.components) {
-            Vector3f pos = hoverComponent.internal.pos;
-            Color color = hoverComponent.internal.getColor();
-            float[] floats = RenderPosUtils.projectToScreen(pos.x, pos.y, pos.z, modelView, projection, viewport);
-
-            float x = floats[0] / scale - pageBounds.x;
-            float y = parent.height - floats[1] / scale - pageBounds.y;
-
-            int hoverX = Math.round(x+ hoverComponent.offX);
-            int hoverY = Math.round(y+ hoverComponent.offY);
-
-            hoverComponent.updatePosition(hoverX,hoverY);
-
-            int x1 = hoverComponent.getDrawable().getXMin();
-            int y1 = hoverComponent.getDrawable().getYMin();
-            int x2 = hoverComponent.getDrawable().getXMax();
-            int y2 = hoverComponent.getDrawable().getYMax();
-
-            int lineEndX = (x1+x2)/2;
-            int lineEndY = (y1+y2)/2;
 
             bufferbuilder.begin(3, DefaultVertexFormats.POSITION_COLOR);
+
+            Color color = hoverComponent.internal.getColor();
             int r = color.getRed();
             int g = color.getGreen();
             int b = color.getBlue();
-
+            Vec2i lineEnd = hoverComponent.getLineEnd();
             // Line
-            bufferbuilder.pos(x,y,0).color(r, g, b, 0).endVertex();
-            bufferbuilder.pos(lineEndX,lineEndY,0).color(r, g, b, 255).endVertex();
+            bufferbuilder.pos(hoverComponent.lineX,hoverComponent.lineY,0).color(r, g, b, 0).endVertex();
+            bufferbuilder.pos(lineEnd.x,lineEnd.y,0).color(r, g, b, 255).endVertex();
 
             tessellator.draw();
-
-
         }
         GlStateManager.glLineWidth(1.0F);
     }
 
-    private void drawHoverComponents(int mouseX, int mouseY, FloatBuffer modelView, FloatBuffer projection, IntBuffer viewport, int scale) {
+    protected void drawHoverComponents(int mouseX, int mouseY) {
         GlStateManager.disableTexture2D();
         GlStateManager.disableLighting();
 
         for (GuiHoverComponent hoverComponent : this.components) {
-            Vector3f pos = hoverComponent.internal.pos;
-            Color color = hoverComponent.internal.getColor();
-            float[] floats = RenderPosUtils.projectToScreen(pos.x, pos.y, pos.z, modelView, projection, viewport);
             // Try to draw the component
             try {
-                float x = floats[0] / scale - pageBounds.x;
-                float y = parent.height - floats[1] / scale - pageBounds.y;
-
-                int hoverX = Math.round(x+ hoverComponent.offX);
-                int hoverY = Math.round(y+ hoverComponent.offY);
-
-                int x1 = hoverComponent.getDrawable().getXMin();
-                int y1 = hoverComponent.getDrawable().getYMin();
-                int x2 = hoverComponent.getDrawable().getXMax();
-                int y2 = hoverComponent.getDrawable().getYMax();
-
-                drawHoverBackground(color, x1-3, y1-3, x2+3, y2+3);
-
-                hoverComponent.draw(this.parent, hoverX, hoverY, mouseX, mouseY);
-
+                hoverComponent.drawBackground();
+                hoverComponent.draw(this.parent, mouseX, mouseY);
             } catch (Exception e) {
                 LegacyPonder.getLogger().warn("Error drawing hoverComponent {}:",hoverComponent,e);
             }
         }
+    }
+
+    protected void checkComponentHover(int mouseX, int mouseY) {
         // When dragging a component, skip hover detection
         if(dragComp) return;
+
         // Check if hovering any component, start from the last one to ensure hovering the topmost one
         this.hoverComp =null;
+        // If hovered on a button, skip hovering check
+        if(this.buttonList.stream().anyMatch(GuiButton::isMouseOver)) return;
         for (int i = components.size()-1; i >=0; i--) {
             GuiHoverComponent hoveredComponent1 = components.get(i);
 
-            if(this.buttonList.stream().noneMatch(GuiButton::isMouseOver) && hoveredComponent1.getDrawable().getBoundingBox().expand(5).contains(mouseX,mouseY)){
+            if(hoveredComponent1.getDrawable().getBoundingBox().expand(5).contains(mouseX, mouseY)){
                 this.hoverComp = hoveredComponent1;
                 break;
             }
         }
         // If hovering a component, call its hover action
-        if(this.hoverComp !=null && this.hoverComp.getDrawable().isFocused(parent,mouseX,mouseY)){
+        if(this.hoverComp !=null && this.hoverComp.getDrawable().isFocused(parent, mouseX, mouseY)){
             this.hoverComp.getDrawable().onMouseHover(this.parent, mouseX, mouseY);
         }
-    }
-
-    private static void drawHoverBackground(Color color, int x1, int y1, int x2, int y2) {
-        int r = color.getRed();
-        int g = color.getGreen();
-        int b = color.getBlue();
-        int rgb = color.getRGB();
-
-        // Box
-        GuiUtils.drawGradientRect(0, x1 +1, y1, x2-1, y1 +1, rgb, rgb);
-        GuiUtils.drawGradientRect(0, x1 +1, y2-1, x2-1, y2, rgb, rgb);
-
-        GuiUtils.drawGradientRect(0, x1, y1 +1, x1 +1, y2-1, rgb, rgb);
-        GuiUtils.drawGradientRect(0, x2-1, y1 +1, x2, y2-1, rgb, rgb);
-
-        int col2 = (int)(r*0.2F)<<16 | (int)(g*0.2F)<<8 | (int)(b*0.2F) | 0xFF000000;
-        GuiUtils.drawGradientRect(0, x1 +1, y1 +1, x2-1, y2-1, col2,col2);
     }
 
     private boolean isOverlayFocused() {
