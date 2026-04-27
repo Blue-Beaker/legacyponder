@@ -7,7 +7,6 @@ import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.manual.drawable.DrawableBase;
 import io.bluebeaker.legacyponder.manual.hover.GuiHoverComponent;
 import io.bluebeaker.legacyponder.manual.hover.HighlightArea;
-import io.bluebeaker.legacyponder.manual.hover.HoverComponent;
 import io.bluebeaker.legacyponder.manual.page.PageStructure;
 import io.bluebeaker.legacyponder.render.RenderPosUtils;
 import io.bluebeaker.legacyponder.render.StructureRenderManager;
@@ -19,11 +18,8 @@ import io.bluebeaker.legacyponder.utils.Vec2i;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -40,26 +36,14 @@ import java.awt.*;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
 import java.util.List;
 
 import static io.bluebeaker.legacyponder.render.StructureRenderManager.getWorld;
 import static io.bluebeaker.legacyponder.render.StructureRenderManager.viewPos;
 
-public class GuiPageStructure extends GuiInfoPage<PageStructure> {
-
-    /** All hover components in this structure page */
-    protected final List<GuiHoverComponent> components = new ArrayList<>();
-    /** Currently hovered component */
-    protected GuiHoverComponent hoverComp = null;
-    /** Is dragging a component? */
-    protected boolean dragComp = false;
+public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
     /** Is dragging the camera? */
     protected boolean dragCam = false;
-    /** Used when dragging a component */
-    protected int dragX = 0;
-    protected int dragY = 0;
-
 
     /** Optional overlay drawable */
     protected DrawableBase overlay = null;
@@ -74,10 +58,6 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
 
     public GuiPageStructure(GuiUnconfusion parent, PageStructure page) {
         super(parent, page);
-
-        for (HoverComponent hoverComponent : page.getHoverComponents()) {
-            this.components.add(hoverComponent.getGui());
-        }
     }
 
     @Override
@@ -299,76 +279,15 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
         }
     }
 
-    protected void drawHoverLines2(int scale) {
-        GlStateManager.glLineWidth(scale);
-        GlStateManager.disableTexture2D();
-        GlStateManager.disableLighting();
-        GlStateManager.enableBlend();
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferbuilder = tessellator.getBuffer();
-        for (GuiHoverComponent hoverComponent : this.components) {
-
-            bufferbuilder.begin(3, DefaultVertexFormats.POSITION_COLOR);
-
-            Color color = hoverComponent.internal.getColor();
-            int r = color.getRed();
-            int g = color.getGreen();
-            int b = color.getBlue();
-            Vec2i lineEnd = hoverComponent.getLineEnd();
-            // Line
-            bufferbuilder.pos(hoverComponent.lineX,hoverComponent.lineY,0).color(r, g, b, 0).endVertex();
-            bufferbuilder.pos(lineEnd.x,lineEnd.y,0).color(r, g, b, 255).endVertex();
-
-            tessellator.draw();
-        }
-        GlStateManager.glLineWidth(1.0F);
-    }
-
-    protected void drawHoverComponents(int mouseX, int mouseY) {
-        GlStateManager.disableTexture2D();
-        GlStateManager.disableLighting();
-
-        for (GuiHoverComponent hoverComponent : this.components) {
-            // Try to draw the component
-            try {
-                hoverComponent.drawBackground();
-                hoverComponent.draw(this.parent, mouseX, mouseY);
-            } catch (Exception e) {
-                LegacyPonder.getLogger().warn("Error drawing hoverComponent {}:",hoverComponent,e);
-            }
-        }
-    }
-
-    protected void checkComponentHover(int mouseX, int mouseY) {
-        // When dragging a component, skip hover detection
-        if(dragComp) return;
-
-        // Check if hovering any component, start from the last one to ensure hovering the topmost one
-        this.hoverComp =null;
-        // If hovered on a button, skip hovering check
-        if(this.buttonList.stream().anyMatch(GuiButton::isMouseOver)) return;
-        for (int i = components.size()-1; i >=0; i--) {
-            GuiHoverComponent hoveredComponent1 = components.get(i);
-
-            if(hoveredComponent1.getDrawable().getBoundingBox().expand(5).contains(mouseX, mouseY)){
-                this.hoverComp = hoveredComponent1;
-                break;
-            }
-        }
-        // If hovering a component, call its hover action
-        if(this.hoverComp !=null && this.hoverComp.getDrawable().isFocused(parent, mouseX, mouseY)){
-            this.hoverComp.getDrawable().onMouseHover(this.parent, mouseX, mouseY);
-        }
-    }
-
     private boolean isOverlayFocused() {
         return overlay != null && overlayFocused;
     }
 
     @Override
     public boolean mouseScroll(int mouseX, int mouseY, int wheelDelta) {
-        if(isOverlayFocused() && overlay.onMouseScroll(parent, mouseY, wheelDelta, mouseX)) return true;
-
+        if(isOverlayFocused() && overlay.onMouseScroll(parent, mouseX, mouseY, wheelDelta)) return true;
+        if(mouseScrollHover(mouseX,mouseY,wheelDelta)) return true;
+        
         super.mouseScroll(mouseX, mouseY, wheelDelta);
         viewPos.zoom((double) wheelDelta /120* UIConfig.wheel_sensivity);
         updateSlider();
@@ -381,16 +300,9 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
 
         if(this.buttonList.stream().anyMatch(GuiButton::isMouseOver))
             return super.onMouseClick(x, y, button);
-        if(hoverComp !=null){
-            boolean clicked = hoverComp.getDrawable().onMouseClick(this.parent,x,y,button);
-            if(clicked) return true;
-            dragComp =true;
-            dragX =x- hoverComp.offX;
-            dragY =y- hoverComp.offY;
-            return true;
-        }else {
-            dragCam = true;
-        }
+        if(mouseDownHover(x, y, button)) return true;
+
+        dragCam = true;
         return super.onMouseClick(x, y, button);
     }
 
@@ -398,12 +310,7 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
     public boolean onMouseRelease(int x, int y, int state) {
         if(isOverlayFocused()  && overlay.onMouseRelease(parent,x,y,state)) return true;
 
-        if(dragComp){
-            dragComp =false;
-            dragX =0;
-            dragY =0;
-            return true;
-        }
+        if (mouseReleaseHover()) return true;
         dragCam = false;
         return super.onMouseRelease(x, y, state);
     }
@@ -415,10 +322,7 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
         if(isOverlayFocused()  && overlay.onKeyTyped(parent,typedChar,keyCode)) return;
 
 
-        if(hoverComp !=null){
-            hoverComp.getDrawable().onKeyTyped(this.parent,typedChar,keyCode);
-            return;
-        }
+        if (keyTypedHover(typedChar, keyCode)) return;
         try {
             JEIUtils.JEIAction action = JEIUtils.getJEIAction(keyCode);
             if(action!= JEIUtils.JEIAction.NONE && !this.hoverItem.isEmpty()){
@@ -434,11 +338,7 @@ public class GuiPageStructure extends GuiInfoPage<PageStructure> {
     @Override
     public boolean onMouseDrag(int x, int y, int clickedMouseButton, long timeSinceLastClick) {
 
-        if(dragComp && hoverComp !=null){
-            hoverComp.offX =x-dragX;
-            hoverComp.offY =y-dragY;
-            return true;
-        }
+        if (dragHover(x, y)) return true;
         if(!dragCam) return false;
 
         super.onMouseDrag(x, y, clickedMouseButton, timeSinceLastClick);

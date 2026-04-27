@@ -7,6 +7,7 @@ import mods.legacyponder.Page;
 import mods.legacyponder.DrawableBuilder;
 import mods.legacyponder.HoverComponent;
 import mods.legacyponder.HighlightArea;
+import mods.legacyponder.ColorUtil.packRGB;
 
 val entry = IEntry.createEntry("Entry 1","Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1");
 entry.addItem(<minecraft:diamond>);
@@ -52,8 +53,8 @@ entry.addPage(Page.fromDrawable(function(w,h){
 
 entry.addPage(Page.fromStructure("dir1/structure2").setDescription("Structure 2"));
 entry.addPage(Page.fromStructure("no_structure/no_structure")
-    .addHighlightArea(2,1,1,3,2,2,255,180,180)
-    .addHoverComponent(2.5,1,1.5,255,180,180,function(w,h){
+    .addHighlightArea(2,1,1,3,2,2,packRGB(255,180,180))
+    .addHoverComponent(2.5,1,1.5,packRGB(255,180,180),function(w,h){
              return DrawableBuilder.buildItem(<minecraft:diamond>*2);
              }).setDescription("Example when no structure was found"));
 

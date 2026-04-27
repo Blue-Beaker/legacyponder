@@ -6,6 +6,7 @@ import io.bluebeaker.legacyponder.manual.drawable.DrawableBase;
 import io.bluebeaker.legacyponder.manual.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.manual.gui.GuiPageDrawable;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
+import io.bluebeaker.legacyponder.manual.hover.HoverComponent;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -25,6 +26,20 @@ public class PageDrawable extends PageBase{
     @ZenMethod
     public DrawableBase getDrawable(int width, int height){
         return drawableSupplier.process(width, height);
+    }
+
+    /**
+     * Conventional method for adding a hover component to this structure page
+     * @param x x
+     * @param y y
+     * @param drawableSupplier the method supplying the drawable for this hover component
+     * @param rgb color in 0xRRGGBB format
+     * @return this
+     */
+    @ZenMethod
+    public PageDrawable addHoverComponent(float x, float y, int rgb, IDrawableSupplier drawableSupplier){
+        this.hoverComponents.add(HoverComponent.build(x,y,0,drawableSupplier).setColor(rgb));
+        return this;
     }
 
     @Override

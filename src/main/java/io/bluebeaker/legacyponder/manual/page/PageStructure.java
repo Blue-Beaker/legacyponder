@@ -62,24 +62,6 @@ public class PageStructure extends PageBase{
      * @param x2 x2
      * @param y2 y2
      * @param z2 z2
-     * @param r red
-     * @param g green
-     * @param b blue
-     * @return this
-     */
-    @ZenMethod
-    public PageStructure addHighlightArea(double x1, double y1, double z1, double x2, double y2, double z2, int r, int g, int b){
-        this.highlightAreas.add(HighlightArea.build(x1,y1,z1,x2,y2,z2).setColor(r,g,b));
-        return this;
-    }
-    /**
-     * Conventional method for adding a highlight area to this structure page
-     * @param x1 x1
-     * @param y1 y1
-     * @param z1 z1
-     * @param x2 x2
-     * @param y2 y2
-     * @param z2 z2
      * @param rgb color
      * @return this
      */
@@ -94,21 +76,6 @@ public class PageStructure extends PageBase{
      * @param x1 x1
      * @param y1 y1
      * @param z1 z1
-     * @param r red
-     * @param g green
-     * @param b blue
-     * @return this
-     */
-    @ZenMethod
-    public PageStructure addHighlightArea(double x1, double y1, double z1, int r, int g, int b){
-        this.highlightAreas.add(HighlightArea.build(x1,y1,z1,x1+1,y1+1,z1+1).setColor(r,g,b));
-        return this;
-    }
-    /**
-     * Conventional method for adding a highlight area to this structure page
-     * @param x1 x1
-     * @param y1 y1
-     * @param z1 z1
      * @param rgb color
      * @return this
      */
@@ -118,22 +85,6 @@ public class PageStructure extends PageBase{
         return this;
     }
 
-    /**
-     * Conventional method for adding a hover component to this structure page
-     * @param x x
-     * @param y y
-     * @param z z
-     * @param drawableSupplier the method supplying the drawable for this hover component
-     * @param r red
-     * @param g green
-     * @param b blue
-     * @return this
-     */
-    @ZenMethod
-    public PageStructure addHoverComponent(float x, float y, float z, int r, int g, int b, IDrawableSupplier drawableSupplier){
-        this.hoverComponents.add(HoverComponent.build(x,y,z,drawableSupplier).setColor(r,g,b));
-        return this;
-    }
     /**
      * Conventional method for adding a hover component to this structure page
      * @param x x
