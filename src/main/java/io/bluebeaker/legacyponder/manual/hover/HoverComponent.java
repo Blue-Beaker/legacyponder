@@ -5,6 +5,7 @@ import io.bluebeaker.legacyponder.crafttweaker.IDrawableSupplier;
 import org.lwjgl.util.vector.Vector3f;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
+import stanhebben.zenscript.annotations.ZenProperty;
 
 import java.awt.*;
 
@@ -15,8 +16,10 @@ public class HoverComponent {
     protected Color color = new Color(80,0,255);
 
     public final IDrawableSupplier drawableSupplier;
+    @ZenProperty
     public int offsetX=60;
-    public int offsetY=-30;
+    @ZenProperty
+    public int offsetY=-10;
 
     public HoverComponent(float x, float y, float z, IDrawableSupplier drawableSupplier){
         this.pos=new Vector3f(x, y, z);
@@ -26,6 +29,12 @@ public class HoverComponent {
     @ZenMethod
     public static HoverComponent build(float x, float y, float z, IDrawableSupplier drawableSupplier){
         return new HoverComponent(x,y,z,drawableSupplier);
+    }
+    @ZenMethod
+    public HoverComponent setDefaultOffset(int offsetX, int offsetY){
+        this.offsetX=offsetX;
+        this.offsetY=offsetY;
+        return this;
     }
     @ZenMethod
     public HoverComponent setColor(int rgb){
