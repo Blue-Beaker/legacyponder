@@ -17,6 +17,10 @@ public class CommonConfig {
     @LangKey("config.legacyponder.drawing_logs_interval")
     public static int drawing_logs_interval = 1000;
 
+    @Comment("Print verbose logs for debugging.")
+    @LangKey("config.legacyponder.log_debug")
+    public static boolean log_debug = false;
+
     public static class Compat{
         @RequiresMcRestart
         public boolean buildcraft = true;

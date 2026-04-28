@@ -61,6 +61,13 @@ public class StructureRenderManager {
     public static DummyPlayer getPlayer() {
         return player;
     }
+    public static void syncPlayerPos(Vec3d pos){
+        player.posX=pos.x;
+        player.posY=pos.y-player.eyeHeight;
+        player.posZ=pos.z;
+        player.rotationYaw= viewPos.yaw;
+        player.rotationPitch= viewPos.pitch;
+    }
 
     public static void renderStructure(float partialTicks, int offsetX, int offsetY, int sizeX, int sizeY){
 

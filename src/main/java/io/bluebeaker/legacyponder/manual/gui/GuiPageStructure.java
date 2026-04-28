@@ -32,7 +32,6 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
 
-import javax.annotation.Nullable;
 import java.awt.*;
 import java.io.IOException;
 import java.nio.FloatBuffer;
@@ -176,12 +175,18 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
             List<String> tooltip = null;
 
             if(hoverComp == null && !parent.isMouseDownInPage() && this.buttonList.stream().noneMatch(GuiButton::isMouseOver)){
+                // Calculate projection
+                float[] pos0 = RenderPosUtils.unprojectFromScreen(MouseTracker.INSTANCE.x, MouseTracker.INSTANCE.y, 0.0F, modelView, projection, viewport);
+                float[] pos1 = RenderPosUtils.unprojectFromScreen(MouseTracker.INSTANCE.x, MouseTracker.INSTANCE.y, 1.0F, modelView, projection, viewport);
+                Vec3d from = new Vec3d(pos0[0], pos0[1], pos0[2]).add(new Vec3d(StructureRenderManager.STRUCTURE_OFFSET));
+                Vec3d to = new Vec3d(pos1[0], pos1[1], pos1[2]).add(new Vec3d(StructureRenderManager.STRUCTURE_OFFSET));
+
                 RayTraceResult rayTraceResult;
                 try {
-                    rayTraceResult = raycastFromCursor(MouseTracker.INSTANCE.x, MouseTracker.INSTANCE.y, modelView, projection, viewport);
+                    rayTraceResult = getWorld().rayTraceBlocks(from, to);
                 } catch (Exception e) {
                     if(shouldPrintDrawingLogs()) {
-                        LegacyPonder.getLogger().warn("Error getting pick block:", e);
+                        LegacyPonder.getLogger().warn("Error ray tracing:", e);
                         printedErrors = true;
                     }
                     this.hoverItem = ItemStack.EMPTY;
@@ -190,6 +195,8 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
                 if(rayTraceResult!=null && rayTraceResult.typeOfHit== RayTraceResult.Type.BLOCK){
                     BlockPos pos = rayTraceResult.getBlockPos();
                     try {
+                        StructureRenderManager.syncPlayerPos(rayTraceResult.hitVec);
+
                         this.hoverItem = getWorld().getBlockState(pos).getBlock().getPickBlock(getWorld().getBlockState(pos), rayTraceResult, mc.world, pos, StructureRenderManager.getPlayer());
 
                         if(!hoverItem.isEmpty()){
@@ -271,16 +278,6 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
             RenderUtils.drawHighlightBox(pos1, pos2, color);
         }
         GlStateManager.enableTexture2D();
-    }
-
-    @Nullable
-    private RayTraceResult raycastFromCursor(int x, int y, FloatBuffer modelView, FloatBuffer projection, IntBuffer viewport){
-        float[] pos0 = RenderPosUtils.unprojectFromScreen(x, y, 0.0F, modelView, projection, viewport);
-        float[] pos1 = RenderPosUtils.unprojectFromScreen(x, y, 1.0F, modelView, projection, viewport);
-        Vec3d from = new Vec3d(pos0[0], pos0[1], pos0[2]).add(new Vec3d(StructureRenderManager.STRUCTURE_OFFSET));
-        Vec3d to = new Vec3d(pos1[0], pos1[1], pos1[2]).add(new Vec3d(StructureRenderManager.STRUCTURE_OFFSET));
-
-        return getWorld().rayTraceBlocks(from, to);
     }
 
     protected void updateHoverPositions(int scale, FloatBuffer modelView, FloatBuffer projection, IntBuffer viewport){
