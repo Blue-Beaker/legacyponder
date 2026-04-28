@@ -5,14 +5,9 @@ import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.manual.hover.GuiHoverComponent;
 import io.bluebeaker.legacyponder.manual.hover.HoverComponent;
 import io.bluebeaker.legacyponder.manual.page.PageBase;
-import io.bluebeaker.legacyponder.utils.Vec2i;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,30 +35,31 @@ public abstract class GuiPageWithPopups<T extends PageBase> extends GuiInfoPage<
         initHoverComponents(page);
     }
 
-    protected void drawHoverLines2(int scale) {
-        GlStateManager.glLineWidth(scale);
-        GlStateManager.disableTexture2D();
-        GlStateManager.disableLighting();
-        GlStateManager.enableBlend();
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferbuilder = tessellator.getBuffer();
-        for (GuiHoverComponent hoverComponent : this.components) {
-
-            bufferbuilder.begin(3, DefaultVertexFormats.POSITION_COLOR);
-
-            Color color = hoverComponent.internal.getColor();
-            int r = color.getRed();
-            int g = color.getGreen();
-            int b = color.getBlue();
-            Vec2i lineEnd = hoverComponent.getLineEnd();
-            // Line
-            bufferbuilder.pos(hoverComponent.lineX, hoverComponent.lineY, 0).color(r, g, b, 0).endVertex();
-            bufferbuilder.pos(lineEnd.x, lineEnd.y, 0).color(r, g, b, 255).endVertex();
-
-            tessellator.draw();
-        }
-        GlStateManager.glLineWidth(1.0F);
-    }
+//    protected void drawHoverLines2(int scale) {
+//        if(true) return;
+//        GlStateManager.glLineWidth(scale);
+//        GlStateManager.disableTexture2D();
+//        GlStateManager.disableLighting();
+//        GlStateManager.enableBlend();
+//        Tessellator tessellator = Tessellator.getInstance();
+//        BufferBuilder bufferbuilder = tessellator.getBuffer();
+//        for (GuiHoverComponent hoverComponent : this.components) {
+//
+//            bufferbuilder.begin(3, DefaultVertexFormats.POSITION_COLOR);
+//
+//            Color color = hoverComponent.internal.getColor();
+//            int r = color.getRed();
+//            int g = color.getGreen();
+//            int b = color.getBlue();
+//            Vec2i lineEnd = hoverComponent.getLineEnd();
+//            // Line
+//            bufferbuilder.pos(hoverComponent.lineX, hoverComponent.lineY, 0).color(r, g, b, 0).endVertex();
+//            bufferbuilder.pos(lineEnd.x, lineEnd.y, 0).color(r, g, b, 255).endVertex();
+//
+//            tessellator.draw();
+//        }
+//        GlStateManager.glLineWidth(1.0F);
+//    }
 
     protected void drawHoverComponents(int mouseX, int mouseY) {
         GlStateManager.disableTexture2D();
@@ -112,6 +108,8 @@ public abstract class GuiPageWithPopups<T extends PageBase> extends GuiInfoPage<
 
     protected boolean mouseDownHover(int x, int y, int button) {
         if(hoverComp==null) return false;
+        this.components.remove(hoverComp);
+        this.components.add(hoverComp);
         boolean clicked = hoverComp.getDrawable().onMouseClick(this.parent, x, y, button);
         if(clicked) return true;
         dragComp =true;

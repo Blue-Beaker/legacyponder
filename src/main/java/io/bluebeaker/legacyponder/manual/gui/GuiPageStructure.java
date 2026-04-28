@@ -163,7 +163,7 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
 
                 updateHoverPositions(scale,modelView,projection,viewport);
 
-                drawHoverLines2(scale);
+//                drawHoverLines2(scale);
 
                 drawHoverComponents(mouseX, mouseY);
 
@@ -287,7 +287,7 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
     public boolean mouseScroll(int mouseX, int mouseY, int wheelDelta) {
         if(isOverlayFocused() && overlay.onMouseScroll(parent, mouseX, mouseY, wheelDelta)) return true;
         if(mouseScrollHover(mouseX,mouseY,wheelDelta)) return true;
-        
+
         super.mouseScroll(mouseX, mouseY, wheelDelta);
         viewPos.zoom((double) wheelDelta /120* UIConfig.wheel_sensivity);
         updateSlider();

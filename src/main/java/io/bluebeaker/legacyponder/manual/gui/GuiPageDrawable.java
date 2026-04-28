@@ -55,7 +55,7 @@ public class GuiPageDrawable extends GuiPageWithPopups<PageDrawable> {
             GlStateManager.translate(0,0,200);
             ScaledResolution scaled = new ScaledResolution(Minecraft.getMinecraft());
             int scale = scaled.getScaleFactor();
-            drawHoverLines2(scale);
+//            drawHoverLines2(scale);
             drawHoverComponents(mouseX, mouseY);
             checkComponentHover(mouseX, mouseY);
             GlStateManager.translate(0,0,-200);
