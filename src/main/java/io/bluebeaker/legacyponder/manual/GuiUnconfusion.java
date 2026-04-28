@@ -157,7 +157,7 @@ public class GuiUnconfusion extends GuiScreen {
         if(!id.isEmpty())
             this.setEntryID(id);
         if(page>0)
-            this.setCurrentPageID(Math.max(page,pages));
+            this.setCurrentPageID(Math.min(page,pages));
         this.initGui();
     }
 

@@ -1,7 +1,8 @@
 package io.bluebeaker.legacyponder.demo;
 
-import crafttweaker.mc1120.brackets.BracketHandlerOre;
+import crafttweaker.api.minecraft.CraftTweakerMC;
 import io.bluebeaker.legacyponder.CommonConfig;
+import io.bluebeaker.legacyponder.Tags;
 import io.bluebeaker.legacyponder.crafttweaker.DrawableBuilder;
 import io.bluebeaker.legacyponder.crafttweaker.IDrawableSupplier;
 import io.bluebeaker.legacyponder.crafttweaker.IEntry;
@@ -11,7 +12,9 @@ import io.bluebeaker.legacyponder.manual.drawable.DrawableGroup;
 import io.bluebeaker.legacyponder.manual.drawable.DrawableItem;
 import io.bluebeaker.legacyponder.manual.drawable.DrawableText;
 import io.bluebeaker.legacyponder.manual.page.PageBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentKeybind;
 
@@ -34,8 +37,17 @@ public class DemoEntries {
         if(ManualRegistry.getEntries().containsKey(INTERNAL_DEMO_ID)) return false;
 
         IEntry entry = IEntry.createEntry("unconfusion.entry.demo_1.title","unconfusion.entry.demo_1.desc");
+        entry.addIngredient(CraftTweakerMC.getItemStack(Item.getItemFromBlock(Blocks.IRON_BLOCK),1,0));
+        entry.addIngredient(CraftTweakerMC.getItemStack(Item.getItemFromBlock(Blocks.GOLD_BLOCK),1,0));
+        entry.addIngredient(CraftTweakerMC.getItemStack(Item.getItemFromBlock(Blocks.DIAMOND_BLOCK),1,0));
+        entry.addIngredient(CraftTweakerMC.getItemStack(Item.getItemFromBlock(Blocks.EMERALD_BLOCK),1,0));
+        entry.addIngredient(CraftTweakerMC.getItemStack(Item.getItemFromBlock(Blocks.BEACON),1,0));
+        entry.addIngredient(CraftTweakerMC.getItemStack(Items.IRON_INGOT,1,0));
+        entry.addIngredient(CraftTweakerMC.getItemStack(Items.GOLD_INGOT,1,0));
+        entry.addIngredient(CraftTweakerMC.getItemStack(Items.DIAMOND,1,0));
+        entry.addIngredient(CraftTweakerMC.getItemStack(Items.EMERALD,1,0));
 
-        entry.addIngredient(BracketHandlerOre.getOre("ingotGold"));
+
         entry.addPage(PageBase.fromDrawable(new IDrawableSupplier() {
             @Override
             public DrawableBase process(int width, int height) {
@@ -43,6 +55,19 @@ public class DemoEntries {
             }
         }));
         entry.addPage(PageBase.fromStructure("legacyponder:tree").setDescription("A tree, with some blocks around it."));
+        entry.addPage(PageBase.fromDrawable(new IDrawableSupplier() {
+            @Override
+            public DrawableBase process(int width, int height) {
+                DrawableGroup group = DrawableBuilder.buildGroup();
+
+                group.addChild(DrawableBuilder.buildText("This is just a text",0xFFFFFFFF));
+                group.addChild(DrawableBuilder.buildText("Hover on this to see a tooltip",0xFFFFFFFF).setLinkHover("A tooltip"),0,10);
+                group.addChild(DrawableBuilder.buildText("Link to an item",0xFFFFFFFF).setLinkItem(CraftTweakerMC.getItemStack(Items.DIAMOND_PICKAXE,1,500)),0,20);
+                group.addChild(DrawableBuilder.buildText("Link to help page 2",0xFFFFFFFF).setLinkManual(HELP_ID,2),0,30);
+                group.addChild(DrawableBuilder.buildText("Link to the mod's repository",0xFFFFFFFF).setLinkUrl(Tags.MOD_URL,null),0,40);
+                return group;
+            }
+        }));
         entry.addPage(PageBase.catalogPage());
 
         ManualRegistry.add(INTERNAL_DEMO_ID, entry);
@@ -52,11 +77,9 @@ public class DemoEntries {
         IEntry entry = IEntry.createEntry("unconfusion.entry.help.title","unconfusion.entry.help.desc");
         entry.addPage(PageBase.fromDrawable((w, h) -> {
             DrawableGroup group = DrawableBuilder.buildGroup();
-            int textY = h*3/10-5;
 
             DrawableText desc = DrawableBuilder.formattedText("unconfusion.entry.help.page1.text1", 0xFFFFFFFF).setAlign(0.5F).setMaxWidth(w);
-            group.addChild(desc,w/2, textY);
-            textY += desc.getHeight();
+            group.addChild(desc,w/2, h*3/10-5);
 
             group.addChild(DrawableBuilder.formattedText("unconfusion.entry.help.page1.bottomleft",0xFFFFFFFF,new TextComponentKeybind("key.legacyponder.prev_page").getFormattedText(), new TextComponentKeybind("key.legacyponder.next_page").getFormattedText()),2,h-12);
             group.addChild(DrawableBuilder.formattedText("unconfusion.entry.help.page1.topleft",0xFFFFFFFF),2,2);

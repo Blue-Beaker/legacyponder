@@ -149,7 +149,7 @@ public abstract class DrawableBase {
         return this;
     }
     @ZenMethod
-    public DrawableBase setLinkUrl(String url, String tooltip){
+    public DrawableBase setLinkUrl(String url, @Nullable String tooltip){
         this.link=new LinkUrl(url,tooltip);
         return this;
     }
