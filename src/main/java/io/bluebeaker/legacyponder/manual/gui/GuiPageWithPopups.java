@@ -64,14 +64,16 @@ public abstract class GuiPageWithPopups<T extends PageBase> extends GuiInfoPage<
     protected void drawHoverComponents(int mouseX, int mouseY) {
         GlStateManager.disableTexture2D();
         GlStateManager.disableLighting();
-
-        for (GuiHoverComponent hoverComponent : this.components) {
+        for (GuiHoverComponent comp : this.components){
+            comp.drawLine();
+        }
+        for (GuiHoverComponent comp : this.components) {
             // Try to draw the component
             try {
-                hoverComponent.drawBackground();
-                hoverComponent.draw(this.parent, mouseX, mouseY);
+                comp.drawBackground();
+                comp.draw(this.parent, mouseX, mouseY);
             } catch (Exception e) {
-                LegacyPonder.getLogger().warn("Error drawing hoverComponent {}:", hoverComponent, e);
+                LegacyPonder.getLogger().warn("Error drawing hoverComponent {}:", comp, e);
             }
         }
 
@@ -108,10 +110,11 @@ public abstract class GuiPageWithPopups<T extends PageBase> extends GuiInfoPage<
 
     protected boolean mouseDownHover(int x, int y, int button) {
         if(hoverComp==null) return false;
-        this.components.remove(hoverComp);
-        this.components.add(hoverComp);
         boolean clicked = hoverComp.getDrawable().onMouseClick(this.parent, x, y, button);
         if(clicked) return true;
+
+        this.components.remove(hoverComp);
+        this.components.add(hoverComp);
         dragComp =true;
         dragX = x - hoverComp.offX;
         dragY = y - hoverComp.offY;
