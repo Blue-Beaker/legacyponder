@@ -13,6 +13,10 @@ public class CommonConfig {
     @LangKey("config.legacyponder.compat")
     public static Compat compat = new Compat();
 
+    @Comment("Interval when logging errors for drawing. 0 for no interval, negative for no logs.")
+    @LangKey("config.legacyponder.drawing_logs_interval")
+    public static int drawing_logs_interval = 1000;
+
     public static class Compat{
         @RequiresMcRestart
         public boolean buildcraft = true;

@@ -1,5 +1,6 @@
 package io.bluebeaker.legacyponder.manual.gui;
 
+import io.bluebeaker.legacyponder.CommonConfig;
 import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.UIConfig;
 import io.bluebeaker.legacyponder.jeiplugin.JEIUtils;
@@ -124,9 +125,11 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
         this.slider.updateSlider();
         this.slider.displayString=String.format("%.2f",this.slider.getValue());
     }
-
+    long nextDrawErrorTime = 0L;
     @Override
     public void draw(int mouseX, int mouseY, float partialTicks) {
+        boolean printedErrors = false;
+
         RenderUtils.setViewPort(pageBounds);
 
         if(!isStructureLoaded){
@@ -173,26 +176,31 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
             List<String> tooltip = null;
 
             if(hoverComp == null && !parent.isMouseDownInPage() && this.buttonList.stream().noneMatch(GuiButton::isMouseOver)){
-                RayTraceResult rayTraceResult = raycastFromCursor(MouseTracker.INSTANCE.x, MouseTracker.INSTANCE.y, modelView, projection, viewport);
-
+                RayTraceResult rayTraceResult;
+                try {
+                    rayTraceResult = raycastFromCursor(MouseTracker.INSTANCE.x, MouseTracker.INSTANCE.y, modelView, projection, viewport);
+                } catch (Exception e) {
+                    if(shouldPrintDrawingLogs()) {
+                        LegacyPonder.getLogger().warn("Error getting pick block:", e);
+                        printedErrors = true;
+                    }
+                    this.hoverItem = ItemStack.EMPTY;
+                    rayTraceResult=null;
+                }
                 if(rayTraceResult!=null && rayTraceResult.typeOfHit== RayTraceResult.Type.BLOCK){
                     BlockPos pos = rayTraceResult.getBlockPos();
                     try {
                         this.hoverItem = getWorld().getBlockState(pos).getBlock().getPickBlock(getWorld().getBlockState(pos), rayTraceResult, mc.world, pos, StructureRenderManager.getPlayer());
-                    }catch (Exception e){
-                        LegacyPonder.getLogger().warn("Error getting pick block for pos {}:",pos,e);
-                        this.hoverItem = ItemStack.EMPTY;
-                    }
 
-                    if(!hoverItem.isEmpty()){
-                        tooltip=getItemToolTip(hoverItem);
-//                    String text = hoverItem.getDisplayName();
-//                    int textX = mouseX + 5;
-//                    int textY = mouseY - 15;
-//
-//                    drawHoverBackground(new Color(0x5028007f), textX-4, textY-4, textX+mc.fontRenderer.getStringWidth(text)+4, textY+mc.fontRenderer.FONT_HEIGHT+4);
-//
-//                    mc.fontRenderer.drawStringWithShadow(text, textX, textY, Color.white.getRGB());
+                        if(!hoverItem.isEmpty()){
+                            tooltip=getItemToolTip(hoverItem);
+                        }
+                    }catch (Exception e){
+                        if(shouldPrintDrawingLogs()){
+                            LegacyPonder.getLogger().warn("Error getting pick block for pos {}:",pos,e);
+                            printedErrors=true;
+                        }
+                        this.hoverItem = ItemStack.EMPTY;
                     }
                 }
             }else {
@@ -205,6 +213,10 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
                 RenderHelper.disableStandardItemLighting();
                 GlStateManager.translate(0,0,-100);
             }
+        }
+
+        if(printedErrors){
+            nextDrawErrorTime=System.currentTimeMillis()+CommonConfig.drawing_logs_interval;
         }
 
         super.draw(mouseX, mouseY, partialTicks);
@@ -222,6 +234,10 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
 
         RenderUtils.endViewPort();
 
+    }
+
+    private boolean shouldPrintDrawingLogs() {
+        return CommonConfig.drawing_logs_interval == 0 || (CommonConfig.drawing_logs_interval > 0 && System.currentTimeMillis() > nextDrawErrorTime);
     }
 
     private void drawButtonTooltip(int mouseX, int mouseY) {
