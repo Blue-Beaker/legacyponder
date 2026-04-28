@@ -137,7 +137,7 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
             StructureRenderManager.prepareTransformations(pageBounds.x, pageBounds.y, pageBounds.w,pageBounds.h);
 
 
-            StructureRenderManager.renderStructure(partialTicks, pageBounds.x, pageBounds.y, pageBounds.w,pageBounds.h);
+            StructureRenderManager.renderStructure(partialTicks);
 
             ScaledResolution scaled = new ScaledResolution(Minecraft.getMinecraft());
             int scale = scaled.getScaleFactor();

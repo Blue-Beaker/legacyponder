@@ -69,7 +69,7 @@ public class StructureRenderManager {
         player.rotationPitch= viewPos.pitch;
     }
 
-    public static void renderStructure(float partialTicks, int offsetX, int offsetY, int sizeX, int sizeY){
+    public static void renderStructure(float partialTicks){
 
         Minecraft.getMinecraft().getRenderManager().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         new WorldVertexBufferUploader().draw(localBuffer);
