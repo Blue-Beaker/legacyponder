@@ -28,7 +28,7 @@ error.legacyponder.drawable_not_provided=Error: provided drawable is null.
 
 unconfusion.entry.demo_1.title=Welcome to Unconfusion!
 unconfusion.entry.demo_1.desc=See what can be made with Unconfusion in this demo!
-unconfusion.entry.demo_1.page1.text=Unconfusion is a mod to make intuitive in-game tutorials for modpacks and mod players.\nMain Features:\n- Pages and entries-based manual\n- Structure view pages\n- Element-based pages, can be used to represent GUIs, or provide detailed explanations.\n- Uses CraftTweaker ZenScript to fully customize entries and pages
+unconfusion.entry.demo_1.page1.text=Unconfusion is a mod to make intuitive in-game tutorials for modpacks and mod players.\nMain Features:\n- Pages and entries-based manual\n- Structure view pages\n- Element-based pages, can be used to represent GUIs, or provide detailed explanations.\n- Uses CraftTweaker ZenScript to fully customize entries and pages\n\nThis entry is used to demonstrate the features of the mod, and can be disabled in mod's general settings.
 
 unconfusion.entry.help.title=Unconfusion User Manual
 unconfusion.entry.help.desc=Unconfusion is a mod for intuitive in-game tutorials.\nSee this help to learn how to use it.

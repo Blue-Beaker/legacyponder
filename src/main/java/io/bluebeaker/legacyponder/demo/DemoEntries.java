@@ -65,6 +65,7 @@ public class DemoEntries {
             }
             return group;
         }));
+        entry.addPage(PageBase.catalogPage().setDescription("Example catalog showing all existing entries"));
 
         ManualRegistry.add(INTERNAL_DEMO_ID, entry);
         return true;
@@ -130,9 +131,6 @@ public class DemoEntries {
                 .addHoverComponent(0,0xFFFFAA,(w,h)-> DrawableBuilder.formattedText("unconfusion.entry.help.page5.hover1", 0xFFFFFFFF).setMaxWidth(100))
                 .addHoverComponent(1,0xAAAAFF,(w,h)-> DrawableBuilder.formattedText("unconfusion.entry.help.page5.hover2", 0xFFFFFFFF).setMaxWidth(100))
                 .setDescription("unconfusion.entry.help.page5.desc"));
-
-
-        entry.addPage(PageBase.catalogPage());
 
         ManualRegistry.add(HELP_ID, entry);
     }

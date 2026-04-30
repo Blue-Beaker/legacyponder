@@ -28,7 +28,7 @@ error.legacyponder.drawable_not_provided=错误: 提供的绘制物为 null.
 
 unconfusion.entry.demo_1.title=欢迎使用 解惑!
 unconfusion.entry.demo_1.desc=通过示例了解本模组的功能!
-unconfusion.entry.demo_1.page1.text=解惑 是一个用于展示直观教程的模组.\n主要功能:\n- 手册由条目与页面组成\n- 方块结构视图\n- 基于界面元素构建的视图, 可用于展示GUI, 或提供详细的解释. \n- 使用 CraftTweaker ZenScript 来完全自定义条目与页面.
+unconfusion.entry.demo_1.page1.text=解惑 是一个用于展示直观教程的模组.\n主要功能:\n- 手册由条目与页面组成\n- 方块结构视图\n- 基于界面元素构建的视图, 可用于展示GUI, 或提供详细的解释. \n- 使用 CraftTweaker ZenScript 来完全自定义条目与页面.\n\n本条目用于演示模组功能, 可以在Mod设置的一般设置里关闭demo来禁用.
 
 unconfusion.entry.help.title=解惑 用户指南
 unconfusion.entry.help.desc=解惑 是一个用于展示直观教程的模组.\n阅览此帮助以快速入门.

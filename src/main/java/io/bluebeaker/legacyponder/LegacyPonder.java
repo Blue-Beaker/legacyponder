@@ -23,7 +23,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.Logger;
-import youyihj.zenutils.api.reload.ScriptReloadEvent;
 
 @Mod(modid = Tags.MOD_ID, name = Tags.MOD_NAME, version = Tags.VERSION,acceptableRemoteVersions = "*",clientSideOnly = true)
 public class LegacyPonder
@@ -43,6 +42,9 @@ public class LegacyPonder
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
+        if(Loader.isModLoaded("zenutils")){
+            MinecraftForge.EVENT_BUS.register(new ZenUtilsCompat());
+        }
     }
 
     @EventHandler
@@ -65,12 +67,6 @@ public class LegacyPonder
         if(CommonConfig.compat.enderio && Loader.isModLoaded("enderioconduits")){
             MinecraftForge.EVENT_BUS.register(new EventHandlerEIOConduits());
         }
-        DemoEntries.addDemoIfNeeded();
-    }
-
-    @SubscribeEvent
-    public void onReload(ScriptReloadEvent event) {
-        StructureLoader.loadTemplates();
         DemoEntries.addDemoIfNeeded();
     }
 
