@@ -27,16 +27,6 @@ public class DrawableGroup extends DrawableContainer {
 
     }
 
-    @ZenMethod
-    @Override
-    public DrawableBase setPosition(int x, int y) {
-        super.setPosition(x, y);
-        for (DrawableBase child : children) {
-            child.updateParentPos();
-        }
-        return this;
-    }
-
     @Override
     public void updateParentPos() {
         super.updateParentPos();
@@ -102,6 +92,11 @@ public class DrawableGroup extends DrawableContainer {
         if(this.parent instanceof DrawableContainer){
             ((DrawableContainer) this.parent).updateSizes();
         }
+    }
+
+    @Override
+    protected List<DrawableBase> getChildren() {
+        return this.children;
     }
 
     @Override

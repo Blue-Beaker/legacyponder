@@ -107,6 +107,7 @@ public abstract class DrawableBase {
     public void setParent(DrawableBase newParent){
         if(this==newParent) return;
         this.parent=newParent;
+        updateParentPos();
     }
     public void updateParentPos(){
         if(parent==null){

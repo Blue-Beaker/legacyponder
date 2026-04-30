@@ -6,8 +6,11 @@ import io.bluebeaker.legacyponder.utils.RenderUtils;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Keyboard;
 import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenMethod;
 
 import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
 
 @ZenClass("mods.legacyponder.DrawableScroll")
 public class DrawableScroll extends DrawableContainer{
@@ -15,11 +18,21 @@ public class DrawableScroll extends DrawableContainer{
     public int scrollX = 0;
     public int scrollY = 0;
 
-    public DrawableScroll(DrawableBase internal, int width, int height){
-        this.internal=internal;
-        this.internal.setParent(this);
+    public DrawableScroll(int width, int height){
         this.w=width;
         this.h=height;
+    }
+
+    @ZenMethod
+    public static DrawableScroll build(DrawableBase internal, int width, int height){
+        return new DrawableScroll(width, height).setChild(internal);
+    }
+
+    @ZenMethod
+    public DrawableScroll setChild(DrawableBase internal){
+        this.internal=internal;
+        internal.setParent(this);
+        return this;
     }
 
     @Override
@@ -74,6 +87,11 @@ public class DrawableScroll extends DrawableContainer{
     @Override
     DrawableBase getFocusedChild() {
         return internal;
+    }
+
+    @Override
+    protected List<DrawableBase> getChildren() {
+        return internal==null ? Collections.emptyList() : Collections.singletonList(internal);
     }
 
     @Override

@@ -8,7 +8,7 @@ public class PageCatalog extends PageDrawable{
     public PageCatalog() {
         super((w,h)-> {
             DrawableGroup drawableGroup = PrebuiltDrawables.buildCatalog(w);
-            return new DrawableScroll(drawableGroup,w,h);
+            return DrawableScroll.build(drawableGroup,w,h);
         });
     }
 }

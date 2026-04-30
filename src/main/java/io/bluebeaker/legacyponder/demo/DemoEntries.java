@@ -60,10 +60,11 @@ public class DemoEntries {
         }));
         entry.addPage(PageBase.fromDrawable((w,h)->{
             DrawableGroup group = DrawableBuilder.buildGroup();
-            DrawableGrid grid = DrawableBuilder.buildGrid(8,16,16);
-            DrawableScroll scroll = DrawableBuilder.buildScroll(grid,128,h-10);
-            group.addChild(scroll,(w-128)/2,10);
-            group.addChild(DrawableBuilder.buildText("Scroll test.",0xFFFFFFFF).setAlign(0.5F),w/2,0);
+            int itemColumns = Math.min(w/16,16);
+            DrawableGrid grid = DrawableBuilder.buildGrid(itemColumns,16,16);
+            DrawableScroll scroll = DrawableBuilder.buildScroll(grid,itemColumns*16,h-10);
+            group.addChild(scroll,(w-itemColumns*16)/2,10);
+            group.addChild(DrawableBuilder.buildText("Scroll test",0xFFFFFFFF).setAlign(0.5F),w/2,0);
 
             IItemStack[] items = CraftTweakerAPI.loadedMods.get("minecraft").getItems();
             for (IItemStack item : items) {

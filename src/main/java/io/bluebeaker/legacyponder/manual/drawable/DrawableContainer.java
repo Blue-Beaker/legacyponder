@@ -1,14 +1,28 @@
 package io.bluebeaker.legacyponder.manual.drawable;
 
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
+import stanhebben.zenscript.annotations.ZenMethod;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public abstract class DrawableContainer extends DrawableBase {
 
     @Nullable
     abstract DrawableBase getFocusedChild();
     public void updateSizes(){}
+
+    @ZenMethod
+    @Override
+    public DrawableBase setPosition(int x, int y) {
+        super.setPosition(x, y);
+        for (DrawableBase child : getChildren()) {
+            child.updateParentPos();
+        }
+        return this;
+    }
+
+    protected abstract List<DrawableBase> getChildren();
 
     @Override
     public boolean onMouseClick(GuiUnconfusion parent, int x, int y, int button) {
