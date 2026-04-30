@@ -64,7 +64,7 @@ public class DemoEntries {
             DrawableGrid grid = DrawableBuilder.buildGrid(itemColumns,16,16);
             DrawableScroll scroll = DrawableBuilder.buildScroll(grid,itemColumns*16,h-10);
             group.addChild(scroll,(w-itemColumns*16)/2,10);
-            group.addChild(DrawableBuilder.buildText("Scroll test",0xFFFFFFFF).setAlign(0.5F),w/2,0);
+            group.addChild(DrawableBuilder.buildText("Scroll grid test",0xFFFFFFFF).setAlign(0.5F),w/2,0);
 
             IItemStack[] items = CraftTweakerAPI.loadedMods.get("minecraft").getItems();
             for (IItemStack item : items) {
@@ -117,6 +117,22 @@ public class DemoEntries {
                     group.addChild(new DrawableItem(new ItemStack(Items.DIAMOND)),0,text1.getYMax());
                     return group;
                 }).setDescription("unconfusion.entry.help.page4.desc"));
+
+        entry.addPage(PageBase.fromDrawable((w,h)->{
+                    DrawableGroup group = DrawableBuilder.buildGroup();
+                    group.addChild(DrawableBuilder.formattedText("unconfusion.entry.help.page5.title",0xFFFFFFFF),0,15);
+                    group.addChild(DrawableBuilder.buildTexture("textures/gui/container/furnace.png",0,0,176,166),0,15);
+                    group.addChild(DrawableBuilder.buildItem(CraftTweakerMC.getOreDict("logWood")),56,15+17);
+                    group.addChild(DrawableBuilder.buildItem(CraftTweakerMC.getItemStack(Items.COAL,1,1)),116,15+35);
+                    return group;
+                })
+                .addHoverComponent(1.5F,4F,0xAAFFAA,(w,h)->{
+                    DrawableGroup group = DrawableBuilder.buildGroup();
+                    DrawableText text1 = DrawableBuilder.formattedText("unconfusion.entry.help.page4.hover1", 0xFFFFFFFF, new TextComponentKeybind("key.jei.showRecipe").getFormattedText(), new TextComponentKeybind("key.jei.showUses").getFormattedText());
+                    group.addChild(text1.setMaxWidth(150),0, 0);
+                    group.addChild(new DrawableItem(new ItemStack(Items.DIAMOND)),0,text1.getYMax());
+                    return group;
+                }).setDescription("unconfusion.entry.help.page5.desc"));
 
 
         entry.addPage(PageBase.catalogPage());

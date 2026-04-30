@@ -48,3 +48,6 @@ unconfusion.entry.help.page3.hover1=There may also be information hovering like 
 
 unconfusion.entry.help.page4.desc=Check out the recipes!
 unconfusion.entry.help.page4.hover1=§e%s§r/§e%s§r (JEI hotkeys) can be used on a block in structure, or an item on the page, to show recipes/usage for them.
+
+unconfusion.entry.help.page5.desc=And even see the GUI!
+unconfusion.entry.help.page5.title=Furnace GUI
