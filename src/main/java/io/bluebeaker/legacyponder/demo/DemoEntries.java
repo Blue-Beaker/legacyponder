@@ -125,16 +125,18 @@ public class DemoEntries {
                     group.addChild(DrawableBuilder.buildItem(CraftTweakerMC.getOreDict("logWood")),56,15+17);
                     group.addChild(DrawableBuilder.buildItem(CraftTweakerMC.getItemStack(Items.COAL,1,1)),116,15+35);
                     group.addChild(DrawableBuilder.hoverPos(0),116+12,15+12+35);
-                    group.setPosition((w-group.getWidth())/2,0);
+
+                    DrawableText text = DrawableBuilder.buildText(ManualRegistry.getEntryTitle(HELP_ID) + ":2", 0xFFFFFFFF);
+                    text.setLinkManual(HELP_ID,2);
+                    group.addChild(text,12,88+15);
+                    group.addChild(DrawableBuilder.hoverPos(1),text.getXMax(),text.getYMax());
+
+                    group.setPosition((w-group.getWidth())/3,0);
                     return group;
                 })
-                .addHoverComponent(0,0xAAFFAA,(w,h)->{
-                    DrawableGroup group = DrawableBuilder.buildGroup();
-                    DrawableText text1 = DrawableBuilder.formattedText("unconfusion.entry.help.page5.hover1", 0xFFFFFFFF, new TextComponentKeybind("key.jei.showRecipe").getFormattedText(), new TextComponentKeybind("key.jei.showUses").getFormattedText());
-                    group.addChild(text1.setMaxWidth(150),0, 0);
-                    group.addChild(new DrawableItem(new ItemStack(Items.DIAMOND)),0,text1.getYMax());
-                    return group;
-                }).setDescription("unconfusion.entry.help.page5.desc"));
+                .addHoverComponent(0,0xFFFFAA,(w,h)-> DrawableBuilder.formattedText("unconfusion.entry.help.page5.hover1", 0xFFFFFFFF).setMaxWidth(100))
+                .addHoverComponent(1,0xAAAAFF,(w,h)-> DrawableBuilder.formattedText("unconfusion.entry.help.page5.hover2", 0xFFFFFFFF).setMaxWidth(100))
+                .setDescription("unconfusion.entry.help.page5.desc"));
 
 
         entry.addPage(PageBase.catalogPage());

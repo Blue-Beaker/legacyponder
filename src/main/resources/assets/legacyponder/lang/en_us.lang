@@ -51,3 +51,5 @@ unconfusion.entry.help.page4.hover1=§e%s§r/§e%s§r (JEI hotkeys) can be used 
 
 unconfusion.entry.help.page5.desc=And even see the GUI!
 unconfusion.entry.help.page5.title=Furnace GUI
+unconfusion.entry.help.page5.hover1=A page can also represent a GUI.\nTry click on an item for recipe/usage.
+unconfusion.entry.help.page5.hover2=Some text also have links - try click on it!

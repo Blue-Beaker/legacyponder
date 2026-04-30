@@ -4,6 +4,7 @@ import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
 import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.manual.Entry;
+import net.minecraft.client.resources.I18n;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 import youyihj.zenutils.api.reload.Reloadable;
@@ -24,6 +25,17 @@ public class ManualRegistry {
     @ZenMethod
     public static void add(String id, IEntry ponderEntry){
         CraftTweakerAPI.apply(new AddPonderAction(id,ponderEntry));
+    }
+
+    @ZenMethod
+    public static String getEntryTitle(String id){
+        Entry entry = getEntries().get(id);
+        return entry==null ? "" : I18n.format(entry.title);
+    }
+    @ZenMethod
+    public static String getEntrySummary(String id){
+        Entry entry = getEntries().get(id);
+        return entry==null ? "" : I18n.format(entry.summary);
     }
 
     public static Map<String, Entry> getEntries(){
