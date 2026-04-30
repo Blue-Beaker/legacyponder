@@ -19,6 +19,8 @@ public class GuiPageDrawable extends GuiPageWithPopups<PageDrawable> {
      */
     @Nullable
     private DrawableBase drawableBase = null;
+    private int lastW = 0;
+    private int lastH = 0;
     public GuiPageDrawable(GuiUnconfusion parent, PageDrawable page) {
         super(parent, page);
     }
@@ -26,8 +28,12 @@ public class GuiPageDrawable extends GuiPageWithPopups<PageDrawable> {
     @Override
     public void onResize() {
         super.onResize();
-        drawableBase=page.getDrawable(pageBounds.w,pageBounds.h);
-        updateHoverPositions();
+        if(lastW!=pageBounds.w || lastH!=pageBounds.h){
+            drawableBase=page.getDrawable(pageBounds.w,pageBounds.h);
+            updateHoverPositions();
+        }
+        lastW=pageBounds.w;
+        lastH=pageBounds.h;
     }
 
     @Override
