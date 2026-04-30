@@ -63,13 +63,13 @@ public class GuiPageDrawable extends GuiPageWithPopups<PageDrawable> {
         drawable.draw(parent,mouseX,mouseY);
 
         if(!components.isEmpty()) {
-            GlStateManager.translate(0,0,200);
+            GlStateManager.translate(0,0,350);
             ScaledResolution scaled = new ScaledResolution(Minecraft.getMinecraft());
 //            int scale = scaled.getScaleFactor();
 //            drawHoverLines2(scale);
             drawHoverComponents(mouseX, mouseY);
             checkComponentHover(mouseX, mouseY);
-            GlStateManager.translate(0,0,-200);
+            GlStateManager.translate(0,0,-350);
         }
 
         if(hoverComp == null && drawable.isFocused(parent,mouseX,mouseY)){
