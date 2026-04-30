@@ -98,6 +98,6 @@ public class DrawableScroll extends DrawableContainer{
         if(!this.isInteractable() || this.internal==null){
             return false;
         }
-        return internal.onMouseHover(screen, mouseX - getOffsetX(), mouseY - this.getOffsetY());
+        return internal.onMouseHover(screen, mouseX - this.getOffsetX(), mouseY - this.getOffsetY());
     }
 }

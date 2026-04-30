@@ -13,19 +13,19 @@ public abstract class DrawableContainer extends DrawableBase {
     @Override
     public boolean onMouseClick(GuiUnconfusion parent, int x, int y, int button) {
         if(this.getFocusedChild()==null) return false;
-        return this.getFocusedChild().onMouseClick(parent,x-this.x,y-this.y,button);
+        return this.getFocusedChild().onMouseClick(parent,x-getOffsetX(),y-getOffsetY(),button);
     }
 
     @Override
     public boolean onMouseRelease(GuiUnconfusion parent, int x, int y, int state) {
         if(this.getFocusedChild()==null) return false;
-        return this.getFocusedChild().onMouseRelease(parent,x-this.x,y-this.y,state);
+        return this.getFocusedChild().onMouseRelease(parent,x-getOffsetX(),y-getOffsetY(),state);
     }
 
     @Override
     public boolean onMouseScroll(GuiUnconfusion parent, int mouseX, int mouseY, int wheelDelta) {
         if(this.getFocusedChild()==null) return false;
-        return getFocusedChild().onMouseScroll(parent, mouseX, mouseY, wheelDelta);
+        return getFocusedChild().onMouseScroll(parent, mouseX-getOffsetX(), mouseY-getOffsetY(), wheelDelta);
     }
 
     @Override

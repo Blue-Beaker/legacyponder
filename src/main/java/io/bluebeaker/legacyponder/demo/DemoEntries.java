@@ -1,16 +1,14 @@
 package io.bluebeaker.legacyponder.demo;
 
+import crafttweaker.CraftTweakerAPI;
+import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import io.bluebeaker.legacyponder.CommonConfig;
 import io.bluebeaker.legacyponder.Tags;
 import io.bluebeaker.legacyponder.crafttweaker.DrawableBuilder;
-import io.bluebeaker.legacyponder.crafttweaker.IDrawableSupplier;
 import io.bluebeaker.legacyponder.crafttweaker.IEntry;
 import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
-import io.bluebeaker.legacyponder.manual.drawable.DrawableBase;
-import io.bluebeaker.legacyponder.manual.drawable.DrawableGroup;
-import io.bluebeaker.legacyponder.manual.drawable.DrawableItem;
-import io.bluebeaker.legacyponder.manual.drawable.DrawableText;
+import io.bluebeaker.legacyponder.manual.drawable.*;
 import io.bluebeaker.legacyponder.manual.page.PageBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -48,27 +46,31 @@ public class DemoEntries {
         entry.addIngredient(CraftTweakerMC.getItemStack(Items.EMERALD,1,0));
 
 
-        entry.addPage(PageBase.fromDrawable(new IDrawableSupplier() {
-            @Override
-            public DrawableBase process(int width, int height) {
-                return DrawableBuilder.formattedText("unconfusion.entry.demo_1.page1.text",0xFFFFFFFF).setAlign(0).setSize(width, height);
-            }
-        }));
+        entry.addPage(PageBase.fromDrawable((width, height) -> DrawableBuilder.formattedText("unconfusion.entry.demo_1.page1.text",0xFFFFFFFF).setAlign(0).setSize(width, height)));
         entry.addPage(PageBase.fromStructure("legacyponder:tree").setDescription("A tree, with some blocks around it."));
-        entry.addPage(PageBase.fromDrawable(new IDrawableSupplier() {
-            @Override
-            public DrawableBase process(int width, int height) {
-                DrawableGroup group = DrawableBuilder.buildGroup();
+        entry.addPage(PageBase.fromDrawable((width, height) -> {
+            DrawableGroup group = DrawableBuilder.buildGroup();
 
-                group.addChild(DrawableBuilder.buildText("This is just a text",0xFFFFFFFF));
-                group.addChild(DrawableBuilder.buildText("Hover on this to see a tooltip",0xFFFFFFFF).setLinkHover("A tooltip"),0,10);
-                group.addChild(DrawableBuilder.buildText("Link to an item",0xFFFFFFFF).setLinkItem(CraftTweakerMC.getItemStack(Items.DIAMOND_PICKAXE,1,500)),0,20);
-                group.addChild(DrawableBuilder.buildText("Link to help page 2",0xFFFFFFFF).setLinkManual(HELP_ID,2),0,30);
-                group.addChild(DrawableBuilder.buildText("Link to the mod's repository",0xFFFFFFFF).setLinkUrl(Tags.MOD_URL,null),0,40);
-                return group;
-            }
+            group.addChild(DrawableBuilder.buildText("This is just a text",0xFFFFFFFF));
+            group.addChild(DrawableBuilder.buildText("Hover on this to see a tooltip",0xFFFFFFFF).setLinkHover("A tooltip"),0,10);
+            group.addChild(DrawableBuilder.buildText("Link to an item",0xFFFFFFFF).setLinkItem(CraftTweakerMC.getItemStack(Items.DIAMOND_PICKAXE,1,500)),0,20);
+            group.addChild(DrawableBuilder.buildText("Link to help page 2",0xFFFFFFFF).setLinkManual(HELP_ID,2),0,30);
+            group.addChild(DrawableBuilder.buildText("Link to the mod's repository",0xFFFFFFFF).setLinkUrl(Tags.MOD_URL,null),0,40);
+            return group;
         }));
-        entry.addPage(PageBase.catalogPage());
+        entry.addPage(PageBase.fromDrawable((w,h)->{
+            DrawableGroup group = DrawableBuilder.buildGroup();
+            DrawableGrid grid = DrawableBuilder.buildGrid(8,16,16);
+            DrawableScroll scroll = DrawableBuilder.buildScroll(grid,128,h-10);
+            group.addChild(scroll,(w-128)/2,10);
+            group.addChild(DrawableBuilder.buildText("Scroll test.",0xFFFFFFFF).setAlign(0.5F),w/2,0);
+
+            IItemStack[] items = CraftTweakerAPI.loadedMods.get("minecraft").getItems();
+            for (IItemStack item : items) {
+                grid.addChild(DrawableBuilder.buildItem(item));
+            }
+            return group;
+        }));
 
         ManualRegistry.add(INTERNAL_DEMO_ID, entry);
         return true;
