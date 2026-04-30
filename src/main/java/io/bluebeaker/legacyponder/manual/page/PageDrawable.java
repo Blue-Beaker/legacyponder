@@ -42,6 +42,19 @@ public class PageDrawable extends PageBase{
         return this;
     }
 
+    /**
+     * Conventional method for adding a hover component to this structure page
+     * @param id the ID for the component
+     * @param drawableSupplier the method supplying the drawable for this hover component
+     * @param rgb color in 0xRRGGBB format
+     * @return this
+     */
+    @ZenMethod
+    public PageDrawable addHoverComponent(int id, int rgb, IDrawableSupplier drawableSupplier){
+        this.hoverComponents.add(HoverComponent.build(-999,-999,0,drawableSupplier).setID(id).setColor(rgb));
+        return this;
+    }
+
     @Override
     public GuiInfoPage<PageDrawable> getGuiPage(GuiUnconfusion parent) {
         return new GuiPageDrawable(parent,this);

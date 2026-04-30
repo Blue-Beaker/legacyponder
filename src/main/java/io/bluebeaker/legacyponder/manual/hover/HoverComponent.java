@@ -15,6 +15,11 @@ public class HoverComponent {
     public final Vector3f pos;
     protected Color color = new Color(80,0,255);
 
+    /**
+     * Used to bind this to DrawableHoverPos
+     */
+    protected int id = -1;
+
     public final IDrawableSupplier drawableSupplier;
     @ZenProperty
     public int offsetX=60;
@@ -45,6 +50,14 @@ public class HoverComponent {
     public HoverComponent setColor(int r, int g, int b){
         this.color = new Color(r,g,b);
         return this;
+    }
+    @ZenMethod
+    public HoverComponent setID(int id){
+        this.id=id;
+        return this;
+    }
+    public int getID(){
+        return id;
     }
 
     public GuiHoverComponent getGui(){

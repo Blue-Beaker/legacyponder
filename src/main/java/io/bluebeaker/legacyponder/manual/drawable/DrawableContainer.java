@@ -4,6 +4,7 @@ import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class DrawableContainer extends DrawableBase {
@@ -46,5 +47,16 @@ public abstract class DrawableContainer extends DrawableBase {
     public boolean onKeyTyped(GuiUnconfusion parent, char typedChar, int keyCode) {
         if(this.getFocusedChild()==null) return false;
         return this.getFocusedChild().onKeyTyped(parent,typedChar,keyCode);
+    }
+
+    public List<DrawableBase> getAllChildren(){
+        List<DrawableBase> children = this.getChildren();
+        List<DrawableBase> allChildren = new ArrayList<>(children);
+        for (DrawableBase child : children) {
+            if(child instanceof DrawableContainer){
+                allChildren.addAll(((DrawableContainer) child).getAllChildren());
+            }
+        }
+        return allChildren;
     }
 }

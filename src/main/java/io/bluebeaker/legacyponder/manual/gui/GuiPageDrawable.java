@@ -2,23 +2,28 @@ package io.bluebeaker.legacyponder.manual.gui;
 
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.manual.drawable.DrawableBase;
+import io.bluebeaker.legacyponder.manual.drawable.DrawableContainer;
+import io.bluebeaker.legacyponder.manual.drawable.DrawableHoverPos;
 import io.bluebeaker.legacyponder.manual.hover.GuiHoverComponent;
 import io.bluebeaker.legacyponder.manual.page.PageDrawable;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
 import io.bluebeaker.legacyponder.utils.TextUtils;
+import io.bluebeaker.legacyponder.utils.Vec2i;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.util.vector.Vector3f;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GuiPageDrawable extends GuiPageWithPopups<PageDrawable> {
     /**
      * Cached drawable instance to be drawn. null if not initialized
      */
     @Nullable
-    private DrawableBase drawableBase = null;
+    private DrawableBase drawable = null;
     private int lastW = 0;
     private int lastH = 0;
     public GuiPageDrawable(GuiUnconfusion parent, PageDrawable page) {
@@ -29,7 +34,7 @@ public class GuiPageDrawable extends GuiPageWithPopups<PageDrawable> {
     public void onResize() {
         super.onResize();
         if(lastW!=pageBounds.w || lastH!=pageBounds.h){
-            drawableBase=page.getDrawable(pageBounds.w,pageBounds.h);
+            drawable =page.getDrawable(pageBounds.w,pageBounds.h);
             updateHoverPositions();
         }
         lastW=pageBounds.w;
@@ -38,24 +43,24 @@ public class GuiPageDrawable extends GuiPageWithPopups<PageDrawable> {
 
     @Override
     public void onKeyTyped(char typedChar, int keyCode) {
-        if(drawableBase == null) return;
+        if(drawable == null) return;
 
         if(keyTypedHover(typedChar, keyCode)) return;
 
-        drawableBase.onKeyTyped(parent,typedChar,keyCode);
+        drawable.onKeyTyped(parent,typedChar,keyCode);
         super.onKeyTyped(typedChar, keyCode);
     }
 
     @Override
     public void draw(int mouseX, int mouseY, float partialTicks) {
         super.draw(mouseX, mouseY, partialTicks);
-        if(drawableBase == null) {
+        if(drawable == null) {
             RenderUtils.drawSplitString(fontRenderer, TextUtils.formatKey("error.legacyponder.drawable_not_provided"),width/2,height/2,width,0xFFFFFFFF,true,0.5F,0.5F);
         };
 
         RenderUtils.setViewPort(pageBounds);
 
-        drawableBase.draw(parent,mouseX,mouseY);
+        drawable.draw(parent,mouseX,mouseY);
 
         if(!components.isEmpty()) {
             GlStateManager.translate(0,0,200);
@@ -67,41 +72,58 @@ public class GuiPageDrawable extends GuiPageWithPopups<PageDrawable> {
             GlStateManager.translate(0,0,-200);
         }
 
-        if(hoverComp == null && drawableBase.isFocused(parent,mouseX,mouseY)){
-            drawableBase.onMouseHover(parent,mouseX,mouseY);
+        if(hoverComp == null && drawable.isFocused(parent,mouseX,mouseY)){
+            drawable.onMouseHover(parent,mouseX,mouseY);
         }
         RenderUtils.endViewPort();
     }
 
     @Override
     public boolean onMouseClick(int x, int y, int button) {
-        if(drawableBase == null) return false;
+        if(drawable == null) return false;
 
         if(mouseDownHover(x, y, button)) return true;
 
-        return drawableBase.onMouseClick(parent,x,y,button);
+        return drawable.onMouseClick(parent,x,y,button);
     }
     @Override
     public boolean onMouseRelease(int x, int y, int state) {
-        if(drawableBase == null) return false;
+        if(drawable == null) return false;
 
         if(mouseReleaseHover()) return true;
 
-        return drawableBase.onMouseRelease(parent,x,y,state);
+        return drawable.onMouseRelease(parent,x,y,state);
     }
 
     @Override
     public boolean mouseScroll(int mouseX, int mouseY, int wheelDelta) {
         super.mouseScroll(mouseX, mouseY, wheelDelta);
-        if(drawableBase == null) return false;
+        if(drawable == null) return false;
 
         if(mouseScrollHover(mouseX,mouseY,wheelDelta)) return true;
 
-        return drawableBase.onMouseScroll(parent, mouseX, mouseY, wheelDelta);
+        return drawable.onMouseScroll(parent, mouseX, mouseY, wheelDelta);
     }
 
     protected void updateHoverPositions(){
+        Map<Integer, Vec2i> hoverPositions = new HashMap<>();
+        DrawableBase drawable = this.drawable;
+
+        if(drawable instanceof DrawableContainer){
+            for (DrawableBase child : ((DrawableContainer) drawable).getAllChildren()) {
+                if(child instanceof DrawableHoverPos){
+                    DrawableHoverPos hoverPos = (DrawableHoverPos) child;
+                    hoverPositions.put(hoverPos.id,new Vec2i(hoverPos.getAbsX(),hoverPos.getAbsY()));
+                }
+            }
+        }
+
         for (GuiHoverComponent hoverComponent : this.components) {
+            Vec2i hoverPos = hoverPositions.get(hoverComponent.internal.getID());
+            if(hoverPos!=null){
+                hoverComponent.updatePos(hoverPos.x,hoverPos.y);
+                continue;
+            }
             Vector3f pos = hoverComponent.internal.pos;
             hoverComponent.updatePos(pos.x,pos.y);
         }
