@@ -10,9 +10,7 @@ import io.bluebeaker.legacyponder.crafttweaker.IEntry;
 import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
 import io.bluebeaker.legacyponder.manual.drawable.*;
 import io.bluebeaker.legacyponder.manual.page.PageBase;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentKeybind;
 
@@ -35,11 +33,6 @@ public class DemoEntries {
         if(ManualRegistry.getEntries().containsKey(INTERNAL_DEMO_ID)) return false;
 
         IEntry entry = IEntry.createEntry("unconfusion.entry.demo_1.title","unconfusion.entry.demo_1.desc");
-        entry.addIngredient(CraftTweakerMC.getItemStack(Item.getItemFromBlock(Blocks.IRON_BLOCK),1,0));
-        entry.addIngredient(CraftTweakerMC.getItemStack(Item.getItemFromBlock(Blocks.GOLD_BLOCK),1,0));
-        entry.addIngredient(CraftTweakerMC.getItemStack(Item.getItemFromBlock(Blocks.DIAMOND_BLOCK),1,0));
-        entry.addIngredient(CraftTweakerMC.getItemStack(Item.getItemFromBlock(Blocks.EMERALD_BLOCK),1,0));
-        entry.addIngredient(CraftTweakerMC.getItemStack(Item.getItemFromBlock(Blocks.BEACON),1,0));
         entry.addIngredient(CraftTweakerMC.getItemStack(Items.IRON_INGOT,1,0));
         entry.addIngredient(CraftTweakerMC.getItemStack(Items.GOLD_INGOT,1,0));
         entry.addIngredient(CraftTweakerMC.getItemStack(Items.DIAMOND,1,0));
