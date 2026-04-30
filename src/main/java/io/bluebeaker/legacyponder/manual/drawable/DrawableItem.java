@@ -9,6 +9,7 @@ import io.bluebeaker.legacyponder.manual.link.LinkBase;
 import io.bluebeaker.legacyponder.manual.link.LinkItemBase;
 import io.bluebeaker.legacyponder.utils.ItemUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.item.ItemStack;
@@ -67,7 +68,9 @@ public class DrawableItem extends DrawableBase {
         RenderHelper.disableStandardItemLighting();
 
         if(isLinkClickable() && isLastHovered()){
+            GlStateManager.enableDepth();
             GuiUtils.drawGradientRect(300, x, y, x + 16, y + 16, 0x80ffffff, 0x80ffffff);
+            GlStateManager.disableDepth();
         }
 
     }
