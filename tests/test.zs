@@ -21,31 +21,31 @@ entry.addPage(Page.fromStructure("structure1")
     .addHighlightArea(HighlightArea.build(0,0,0,3,2,3).setColor(80,127,127))
     .addHoverComponent(
              HoverComponent.build(2.5,1,1.5,function(w,h){
-                 return DrawableBuilder.buildItem(<minecraft:diamond>*2);
+                 return DrawableBuilder.item(<minecraft:diamond>*2);
                  }
              ).setColor(255,180,180))
     .setDescription("§bStructure1"));
 entry.addPage(Page.fromDrawable(function(w,h){
-    val group = DrawableBuilder.buildGroup();
-    group.addChild(DrawableBuilder.buildText("Test",0xFFFFFFFF).setMaxWidth(0).setLinkManual("test_entry3"),176/2,0);
-    group.addChild(DrawableBuilder.buildTexture("textures/gui/container/crafting_table.png",0,0,176,166),0,20);
-    group.addChild(DrawableBuilder.buildItem(<minecraft:diamond_pickaxe:800>),30,37);
-    group.addChild(DrawableBuilder.buildItem(<minecraft:diamond_pickaxe:200>),48,37);
+    val group = DrawableBuilder.group();
+    group.addChild(DrawableBuilder.text("Test",0xFFFFFFFF).setMaxWidth(0).setLinkManual("test_entry3"),176/2,0);
+    group.addChild(DrawableBuilder.texture("textures/gui/container/crafting_table.png",0,0,176,166),0,20);
+    group.addChild(DrawableBuilder.item(<minecraft:diamond_pickaxe:800>),30,37);
+    group.addChild(DrawableBuilder.item(<minecraft:diamond_pickaxe:200>),48,37);
 
-    group.addChild(DrawableBuilder.buildText("Click to show recipe of §bdiamond",0xFFFFFFFF).setMaxWidth(0).setLinkItem(<minecraft:diamond>),176/2,20);
-    group.addChild(DrawableBuilder.buildText("Click to show url",0xFFFFFFFF).setMaxWidth(0).setLinkUrl("https://github.com/Blue-Beaker/legacyponder",null),176/2,30);
+    group.addChild(DrawableBuilder.text("Click to show recipe of §bdiamond",0xFFFFFFFF).setMaxWidth(0).setLinkItem(<minecraft:diamond>),176/2,20);
+    group.addChild(DrawableBuilder.text("Click to show url",0xFFFFFFFF).setMaxWidth(0).setLinkUrl("https://github.com/Blue-Beaker/legacyponder",null),176/2,30);
 
     group.setPosition((w/2)-(176/2),0);
     return group;
 }));
 entry.addPage(Page.fromDrawable(function(w,h){
-    val group = DrawableBuilder.buildGroup();
-    group.addChild(DrawableBuilder.buildText("Links",0xFFFFFFFF).setMaxWidth(0),176/2,0);
-    group.addChild(DrawableBuilder.buildText("Click to show recipe of §bdiamond",0xFFFFFFFF).setMaxWidth(0).setLinkItem(<minecraft:diamond>),176/2,10);
-    group.addChild(DrawableBuilder.buildText("Click to show url",0xFFFFFFFF).setMaxWidth(0).setLinkUrl("https://github.com/Blue-Beaker/legacyponder",null),176/2,20);
-    group.addChild(DrawableBuilder.buildText("Page 4",0xFFFFFFFF).setMaxWidth(0).setLinkManual("",4),176/2,30);
-    group.addChild(DrawableBuilder.buildText("Entry 3 : Page 4",0xFFFFFFFF).setMaxWidth(0).setLinkManual("test_entry3",2),176/2,40);
-    group.addChild(DrawableBuilder.buildText("Hover only",0xFFFFFFFF).setMaxWidth(0).setLinkHover("Just a hover\n111"),176/2,50);
+    val group = DrawableBuilder.group();
+    group.addChild(DrawableBuilder.text("Links",0xFFFFFFFF).setMaxWidth(0),176/2,0);
+    group.addChild(DrawableBuilder.text("Click to show recipe of §bdiamond",0xFFFFFFFF).setMaxWidth(0).setLinkItem(<minecraft:diamond>),176/2,10);
+    group.addChild(DrawableBuilder.text("Click to show url",0xFFFFFFFF).setMaxWidth(0).setLinkUrl("https://github.com/Blue-Beaker/legacyponder",null),176/2,20);
+    group.addChild(DrawableBuilder.text("Page 4",0xFFFFFFFF).setMaxWidth(0).setLinkManual("",4),176/2,30);
+    group.addChild(DrawableBuilder.text("Entry 3 : Page 4",0xFFFFFFFF).setMaxWidth(0).setLinkManual("test_entry3",2),176/2,40);
+    group.addChild(DrawableBuilder.text("Hover only",0xFFFFFFFF).setMaxWidth(0).setLinkHover("Just a hover\n111"),176/2,50);
 
     group.setPosition((w/2)-(176/2),0);
     return group;
@@ -55,7 +55,7 @@ entry.addPage(Page.fromStructure("dir1/structure2").setDescription("Structure 2"
 entry.addPage(Page.fromStructure("no_structure/no_structure")
     .addHighlightArea(2,1,1,3,2,2,packRGB(255,180,180))
     .addHoverComponent(2.5,1,1.5,packRGB(255,180,180),function(w,h){
-             return DrawableBuilder.buildItem(<minecraft:diamond>*2);
+             return DrawableBuilder.item(<minecraft:diamond>*2);
              }).setDescription("Example when no structure was found"));
 
 ManualRegistry.add("test_entry",entry);

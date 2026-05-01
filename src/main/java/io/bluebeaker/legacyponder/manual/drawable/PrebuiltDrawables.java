@@ -59,7 +59,7 @@ public class PrebuiltDrawables {
             entry.getItems().forEach(items::addAll);
 
             icons.addChild(new DrawableItem(items).setLinkManual(key));
-            titles.addChild(DrawableBuilder.buildText(I18n.format(entry.title), 0xFFFFFFFF).setLinkManual(key));
+            titles.addChild(DrawableBuilder.text(I18n.format(entry.title), 0xFFFFFFFF).setLinkManual(key));
         }
         return drawable;
     }

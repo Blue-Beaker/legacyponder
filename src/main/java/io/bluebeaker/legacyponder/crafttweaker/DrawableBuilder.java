@@ -25,7 +25,7 @@ public class DrawableBuilder {
      * @return The new DrawableBox instance
      */
     @ZenMethod
-    public static DrawableBox buildBox(int x1, int y1, int x2, int y2, int color){
+    public static DrawableBox box(int x1, int y1, int x2, int y2, int color){
         return DrawableBox.build(x1, y1, x2, y2, color);
     }
 
@@ -34,7 +34,7 @@ public class DrawableBuilder {
      * @return The created DrawableLine instance.
      */
     @ZenMethod
-    public static DrawableLine buildLine(int color){
+    public static DrawableLine line(int color){
         return DrawableLine.build(color);
     }
 
@@ -47,7 +47,7 @@ public class DrawableBuilder {
      * @return The created DrawableLine instance.
      */
     @ZenMethod
-    public static DrawableLine buildLine(int x1, int y1, int x2, int y2, int color){
+    public static DrawableLine line(int x1, int y1, int x2, int y2, int color){
         return DrawableLine.build(x1, y1, x2, y2, color);
     }
 
@@ -56,19 +56,19 @@ public class DrawableBuilder {
      * @return A DrawableItem instance representing the given item(s)
      */
     @ZenMethod
-    public static DrawableItem buildItem(IItemStack item){
+    public static DrawableItem item(IItemStack item){
         return DrawableItem.build(item);
     }
     @ZenMethod
-    public static DrawableItem buildItem(IIngredient item){
+    public static DrawableItem item(IIngredient item){
         return DrawableItem.build(item);
     }
     @ZenMethod
-    public static DrawableItem buildItem(IItemStack[] item){
+    public static DrawableItem item(IItemStack[] item){
         return DrawableItem.build(item);
     }
     @ZenMethod
-    public static DrawableFluid buildFluid(ILiquidStack fluid){
+    public static DrawableFluid fluid(ILiquidStack fluid){
         return DrawableFluid.build(fluid);
     }
 
@@ -87,11 +87,11 @@ public class DrawableBuilder {
      * @return The new DrawableText instance
      */
     @ZenMethod
-    public static DrawableText buildText(String text, int color){
+    public static DrawableText text(String text, int color){
         return DrawableText.build(text, color);
     }
     @ZenMethod
-    public static DrawableText buildText(ITextComponent text, int color){
+    public static DrawableText text(ITextComponent text, int color){
         return DrawableText.build(text, color);
     }
 
@@ -104,7 +104,7 @@ public class DrawableBuilder {
      * @return The new DrawableTexture instance
      */
     @ZenMethod
-    public static DrawableTexture buildTexture(String texture, int x, int y, int w, int h){
+    public static DrawableTexture texture(String texture, int x, int y, int w, int h){
         return DrawableTexture.build(texture,x,y,w,h);
     }
 
@@ -112,7 +112,7 @@ public class DrawableBuilder {
      * @return The new DrawableGroup instance
      */
     @ZenMethod
-    public static DrawableScroll buildScroll(DrawableBase internal, int width, int height){
+    public static DrawableScroll scroll(DrawableBase internal, int width, int height){
         return DrawableScroll.build(internal, width, height);
     }
 
@@ -120,7 +120,7 @@ public class DrawableBuilder {
      * @return The new DrawableGroup instance
      */
     @ZenMethod
-    public static DrawableGroup buildGroup(){
+    public static DrawableGroup group(){
         return new DrawableGroup();
     }
 
@@ -128,7 +128,7 @@ public class DrawableBuilder {
      * @return The new DrawableGrid instance
      */
     @ZenMethod
-    public static DrawableGrid buildGrid(int columns, int colWidth, int lineHeight){
+    public static DrawableGrid grid(int columns, int colWidth, int lineHeight){
         return new DrawableGrid(columns, colWidth, lineHeight);
     }
 
