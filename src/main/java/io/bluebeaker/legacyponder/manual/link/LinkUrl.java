@@ -28,7 +28,7 @@ public class LinkUrl implements LinkBase{
 
     @Override
     public List<String> getTooltip(GuiUnconfusion screen) {
-        if(tooltip==null){
+        if(tooltip==null || tooltip.isEmpty()){
             return Collections.singletonList(url);
         }else {
             return Arrays.asList(TextUtils.formatLines(tooltip));

@@ -4,6 +4,7 @@ import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.utils.TextUtils;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class LinkHover implements LinkBase{
@@ -24,6 +25,10 @@ public class LinkHover implements LinkBase{
 
     @Override
     public List<String> getTooltip(GuiUnconfusion screen) {
-        return Arrays.asList(TextUtils.formatLines(tooltip));
+        if(tooltip==null || tooltip.isEmpty()){
+            return Collections.emptyList();
+        }else {
+            return Arrays.asList(TextUtils.formatLines(tooltip));
+        }
     }
 }

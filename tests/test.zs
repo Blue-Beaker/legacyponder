@@ -33,7 +33,7 @@ entry.addPage(Page.fromDrawable(function(w,h){
     group.addChild(DrawableBuilder.buildItem(<minecraft:diamond_pickaxe:200>),48,37);
 
     group.addChild(DrawableBuilder.buildText("Click to show recipe of §bdiamond",0xFFFFFFFF).setMaxWidth(0).setLinkItem(<minecraft:diamond>),176/2,20);
-    group.addChild(DrawableBuilder.buildText("Click to show url",0xFFFFFFFF).setMaxWidth(0).setLinkUrl("https://minecraft.net","minecraft.net"),176/2,30);
+    group.addChild(DrawableBuilder.buildText("Click to show url",0xFFFFFFFF).setMaxWidth(0).setLinkUrl("https://github.com/Blue-Beaker/legacyponder",null),176/2,30);
 
     group.setPosition((w/2)-(176/2),0);
     return group;
@@ -42,7 +42,7 @@ entry.addPage(Page.fromDrawable(function(w,h){
     val group = DrawableBuilder.buildGroup();
     group.addChild(DrawableBuilder.buildText("Links",0xFFFFFFFF).setMaxWidth(0),176/2,0);
     group.addChild(DrawableBuilder.buildText("Click to show recipe of §bdiamond",0xFFFFFFFF).setMaxWidth(0).setLinkItem(<minecraft:diamond>),176/2,10);
-    group.addChild(DrawableBuilder.buildText("Click to show url",0xFFFFFFFF).setMaxWidth(0).setLinkUrl("https://minecraft.net","minecraft.net"),176/2,20);
+    group.addChild(DrawableBuilder.buildText("Click to show url",0xFFFFFFFF).setMaxWidth(0).setLinkUrl("https://github.com/Blue-Beaker/legacyponder",null),176/2,20);
     group.addChild(DrawableBuilder.buildText("Page 4",0xFFFFFFFF).setMaxWidth(0).setLinkManual("",4),176/2,30);
     group.addChild(DrawableBuilder.buildText("Entry 3 : Page 4",0xFFFFFFFF).setMaxWidth(0).setLinkManual("test_entry3",2),176/2,40);
     group.addChild(DrawableBuilder.buildText("Hover only",0xFFFFFFFF).setMaxWidth(0).setLinkHover("Just a hover\n111"),176/2,50);
