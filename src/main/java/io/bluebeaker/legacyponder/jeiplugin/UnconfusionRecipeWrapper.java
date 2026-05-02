@@ -1,6 +1,7 @@
 package io.bluebeaker.legacyponder.jeiplugin;
 
 import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
+import io.bluebeaker.legacyponder.manual.Entry;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
@@ -78,7 +79,8 @@ public class UnconfusionRecipeWrapper implements IRecipeWrapper {
     }
 
     public boolean hasNoPages() {
-        return ManualRegistry.getEntries().get(id).getPages().isEmpty();
+        Entry entry = ManualRegistry.getEntries().get(id);
+        return entry == null || entry.getPages().isEmpty();
     }
 
     @Override
