@@ -16,6 +16,4 @@ Builtin compatibility fixes:
 - IC2 TileEntities (render fix)
 - EnderIO cable (render fix)
 - BuildCraft TileEntities (savedata optimization)
-
-Known unfixed compatibility problems:
-- ForgeMultiPart CBE Microblocks doesn't render
+- ForgeMultiPart CBE Microblocks (render fix)
