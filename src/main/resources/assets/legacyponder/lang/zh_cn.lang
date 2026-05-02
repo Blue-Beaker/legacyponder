@@ -9,6 +9,8 @@ commands.legacyponder.load.usage=legacyponder load <x> <y> <z> <名称>
 commands.legacyponder.show.usage=lpshow <id> [页面]
 commands.legacyponder.show.entrynotfound=找不到id为 '%s' 的条目
 config.legacyponder.compat=兼容
+config.legacyponder.drawing_logs_interval=绘制错误输出间隔
+config.legacyponder.log_debug=调试日志
 config.legacyponder.demo=启用演示示例
 config.legacyponder.common=常规
 config.legacyponder.common.tooltip=一般设置.
@@ -16,6 +18,12 @@ config.legacyponder.ui=UI
 config.legacyponder.ui.tooltip=界面调整.
 config.legacyponder.ui.wheel_sensivity=滚轮灵敏度
 config.legacyponder.ui.cursor_sensivity=光标灵敏度
+config.legacyponder.ui.zoom_buttons=缩放按钮
+config.legacyponder.ui.zoom_slider=缩放滑条
+config.legacyponder.ui.structure_scaling=结构默认缩放
+config.legacyponder.ui.defaultYaw=默认视角-朝向
+config.legacyponder.ui.defaultPitch=默认视角-仰角
+
 key.legacyponder.prev_page=上一页
 key.legacyponder.next_page=下一页
 

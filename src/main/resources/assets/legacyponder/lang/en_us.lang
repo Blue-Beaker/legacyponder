@@ -9,6 +9,8 @@ commands.legacyponder.load.usage=legacyponder load <x> <y> <z> <name>
 commands.legacyponder.show.usage=lpshow <id> [page]
 commands.legacyponder.show.entrynotfound=Can't find entry with id '%s'
 config.legacyponder.compat=Compat
+config.legacyponder.drawing_logs_interval=Drawing Errors print interval
+config.legacyponder.log_debug=Debug Logs
 config.legacyponder.demo=Enable Demo
 config.legacyponder.common=General
 config.legacyponder.common.tooltip=General configurations.
@@ -16,6 +18,12 @@ config.legacyponder.ui=UI
 config.legacyponder.ui.tooltip=UI tweaks.
 config.legacyponder.ui.wheel_sensivity=Wheel Sensivity
 config.legacyponder.ui.cursor_sensivity=Cursor Sensivity
+config.legacyponder.ui.zoom_buttons=Zoom Buttons
+config.legacyponder.ui.zoom_slider=Zoom Slider
+config.legacyponder.ui.structure_scaling=Default Structure Scale
+config.legacyponder.ui.defaultYaw=Default View - Yaw
+config.legacyponder.ui.defaultPitch=Default View - Pitch
+
 key.legacyponder.prev_page=Previous Page
 key.legacyponder.next_page=Next Page
 
