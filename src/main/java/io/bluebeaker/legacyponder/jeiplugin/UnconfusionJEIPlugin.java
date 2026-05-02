@@ -6,7 +6,7 @@ import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import javax.annotation.Nullable;
 
 @JEIPlugin
-public class PonderJEIPlugin implements IModPlugin {
+public class UnconfusionJEIPlugin implements IModPlugin {
 
     @Nullable
     public static IJeiRuntime runtime;
@@ -23,6 +23,6 @@ public class PonderJEIPlugin implements IModPlugin {
     }
     public void register(IModRegistry registry){
         IJeiHelpers jeiHelpers = registry.getJeiHelpers();
-        registry.addRecipes(PonderRecipeRegistry.getRecipes(jeiHelpers), UnconfusionRecipeCategory.UID);
+        registry.addRecipes(UnconfusionRecipeRegistry.getRecipes(jeiHelpers), UnconfusionRecipeCategory.UID);
     }
 }

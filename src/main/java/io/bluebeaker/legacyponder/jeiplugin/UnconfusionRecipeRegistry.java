@@ -11,7 +11,7 @@ import net.minecraft.client.resources.I18n;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PonderRecipeRegistry {
+public class UnconfusionRecipeRegistry {
 
     public static List<UnconfusionRecipeWrapper> getRecipes(final IJeiHelpers jeiHelpers){
         List<UnconfusionRecipeWrapper> recipes = new ArrayList<>();

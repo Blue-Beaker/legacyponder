@@ -6,6 +6,7 @@ Features:
 - Structure view pages  
 - Element-based pages, can be used to represent GUIs, or provide detailed explanations.  
 - Uses CraftTweaker ZenScript to create entries and pages  
+- Support ZenUtils' hot reload feature (note that JEI entries needs restart to take effect)
 
 Notes:
 - In structure view, certain special blocks from some mods may not render properly.  

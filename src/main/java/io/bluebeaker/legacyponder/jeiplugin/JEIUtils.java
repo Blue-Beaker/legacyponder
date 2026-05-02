@@ -8,8 +8,8 @@ import mezz.jei.gui.Focus;
 public class JEIUtils {
 
     public static <V> void handleJEIAction(V ingredient, JEIAction action) {
-        if(PonderJEIPlugin.runtime==null || ingredient==null) return;
-        IRecipesGui recipesGui = PonderJEIPlugin.runtime.getRecipesGui();
+        if(UnconfusionJEIPlugin.runtime==null || ingredient==null) return;
+        IRecipesGui recipesGui = UnconfusionJEIPlugin.runtime.getRecipesGui();
         if(action== JEIAction.RECIPE) {
             recipesGui.show(new Focus<>(IFocus.Mode.OUTPUT, ingredient));
         } else if(action== JEIAction.USAGE) {
