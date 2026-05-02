@@ -2,10 +2,7 @@ package io.bluebeaker.legacyponder;
 
 import io.bluebeaker.legacyponder.command.CommandLegacyPonder;
 import io.bluebeaker.legacyponder.command.CommandShowEntry;
-import io.bluebeaker.legacyponder.compat.EventHandlerBC;
-import io.bluebeaker.legacyponder.compat.EventHandlerEIOConduits;
-import io.bluebeaker.legacyponder.compat.EventHandlerFMP;
-import io.bluebeaker.legacyponder.compat.EventHandlerIC2;
+import io.bluebeaker.legacyponder.compat.*;
 import io.bluebeaker.legacyponder.demo.DemoEntries;
 import io.bluebeaker.legacyponder.structure.StructureLoader;
 import net.minecraft.server.MinecraftServer;
@@ -67,6 +64,9 @@ public class LegacyPonder
         if(CommonConfig.compat.enderio && Loader.isModLoaded("enderioconduits")){
             MinecraftForge.EVENT_BUS.register(new EventHandlerEIOConduits());
         }
+        MinecraftForge.EVENT_BUS.register(EventHandlerCommon.getInstance());
+
+        EventHandlerCommon.updateConfig();
         DemoEntries.addDemoIfNeeded();
     }
 
@@ -81,6 +81,7 @@ public class LegacyPonder
     public void onConfigChangedEvent(OnConfigChangedEvent event) {
         if (event.getModID().equals(MODID)) {
             ConfigManager.sync(MODID, Type.INSTANCE);
+            EventHandlerCommon.updateConfig();
             DemoEntries.addDemoIfNeeded();
         }
     }

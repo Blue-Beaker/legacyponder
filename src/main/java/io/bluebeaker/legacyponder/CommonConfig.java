@@ -35,4 +35,9 @@ public class CommonConfig {
     @Comment("Enable demo entries. Demo entries explain what can be made with this mod.")
     @LangKey("config.legacyponder.demo")
     public static boolean demo = true;
+
+    @Comment({"Special TileEntity classes to capture updateTag when saving structure, and load them when loading. Workaround for some tiles not rendering correctly.",
+        "Comments are allowed after a '#'"})
+    @LangKey("config.legacyponder.specialTileClasses")
+    public static String[] specialTileClasses = {"appeng.tile.networking.TileCableBus#AE2"};
 }

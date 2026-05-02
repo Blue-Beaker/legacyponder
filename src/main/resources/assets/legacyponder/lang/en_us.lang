@@ -14,6 +14,7 @@ config.legacyponder.log_debug=Debug Logs
 config.legacyponder.demo=Enable Demo
 config.legacyponder.common=General
 config.legacyponder.common.tooltip=General configurations.
+config.legacyponder.specialTileClasses=Special TileEntity Classes
 config.legacyponder.ui=UI
 config.legacyponder.ui.tooltip=UI tweaks.
 config.legacyponder.ui.wheel_sensivity=Wheel Sensivity

@@ -14,6 +14,7 @@ config.legacyponder.log_debug=调试日志
 config.legacyponder.demo=启用演示示例
 config.legacyponder.common=常规
 config.legacyponder.common.tooltip=一般设置.
+config.legacyponder.specialTileClasses=特殊 TileEntity 类
 config.legacyponder.ui=UI
 config.legacyponder.ui.tooltip=界面调整.
 config.legacyponder.ui.wheel_sensivity=滚轮灵敏度

@@ -206,15 +206,16 @@ public class PonderStructure {
                     NBTTagCompound tileEntity = this.getTileEntity(x, y, z);
                     if(tileEntity!=null){
                         TileEntity tileEntityIn = TileEntity.create(world, tileEntity);
-
-                        // Update Tile with stored extra data, or replace the tile in an event subscriber
-                        NBTTagCompound extraData = this.getExtraData(x, y, z);
-                        StructureTileEvent.Load event = new StructureTileEvent.Load(world, tileEntityIn, absPos, tileEntity, loadExtraData ? extraData : null);
-                        MinecraftForge.EVENT_BUS.post(event);
-                        if(event.newTile!=null){
-                            tileEntityIn=event.newTile;
+                        if(tileEntityIn!=null){
+                            // Update Tile with stored extra data, or replace the tile in an event subscriber
+                            NBTTagCompound extraData = this.getExtraData(x, y, z);
+                            StructureTileEvent.Load event = new StructureTileEvent.Load(world, tileEntityIn, absPos, tileEntity, loadExtraData ? extraData : null);
+                            MinecraftForge.EVENT_BUS.post(event);
+                            if(event.newTile!=null){
+                                tileEntityIn=event.newTile;
+                            }
+                            world.setTileEntity(absPos, tileEntityIn);
                         }
-                        world.setTileEntity(absPos, tileEntityIn);
                     }
                 }
             }
