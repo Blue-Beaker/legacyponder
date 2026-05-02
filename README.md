@@ -5,7 +5,7 @@ Features:
 - Paged manual entries  
 - Structure view pages  
 - Element-based pages, can be used to represent GUIs, or provide detailed explanations.  
-- Uses CraftTweaker ZenScript to fully customize entries and pages  
+- Uses CraftTweaker ZenScript to create entries and pages  
 
 Notes:
 - In structure view, certain special blocks from some mods may not render properly.  
@@ -17,3 +17,10 @@ Builtin compatibility fixes:
 - EnderIO cable (render fix)
 - BuildCraft TileEntities (savedata optimization)
 - ForgeMultiPart CBE Microblocks (render fix)
+
+Screenshots:
+![img_0.png](screenshots/img_0.png)
+![img_1.png](screenshots/img_1.png)
+![img_2.png](screenshots/img_2.png)
+![img_3.png](screenshots/img_3.png)
+![img_4.png](screenshots/img_4.png)
