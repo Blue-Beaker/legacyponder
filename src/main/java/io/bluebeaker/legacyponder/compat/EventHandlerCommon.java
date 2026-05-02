@@ -49,8 +49,8 @@ public class EventHandlerCommon {
         if(!(event.world instanceof DummyWorld)) return;
         if (event.extraData != null) {
             NBTTagCompound updateTag = event.extraData.getCompoundTag("updateTag");
-            tile.handleUpdateTag(updateTag);
             tile.setWorld(((DummyWorld) event.world).getClientWorld());
+            tile.handleUpdateTag(updateTag);
         }
     }
 }

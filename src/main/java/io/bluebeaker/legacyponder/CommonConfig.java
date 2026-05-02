@@ -39,5 +39,7 @@ public class CommonConfig {
     @Comment({"Special TileEntity classes to capture updateTag when saving structure, and load them when loading. Workaround for some tiles not rendering correctly.",
         "Comments are allowed after a '#'"})
     @LangKey("config.legacyponder.specialTileClasses")
-    public static String[] specialTileClasses = {"appeng.tile.networking.TileCableBus#AE2"};
+    public static String[] specialTileClasses = {
+            "appeng.tile.networking.TileCableBus#AE2",
+            "buildcraft.transport.tile.TilePipeHolder#BCPipe"};
 }
