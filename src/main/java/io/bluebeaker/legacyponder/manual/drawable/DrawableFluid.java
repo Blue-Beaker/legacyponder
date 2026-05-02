@@ -1,5 +1,6 @@
 package io.bluebeaker.legacyponder.manual.drawable;
 
+import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
@@ -15,6 +16,7 @@ import stanhebben.zenscript.annotations.ZenMethod;
 import javax.annotation.Nullable;
 
 @ZenClass("mods.legacyponder.DrawableFluid")
+@ZenRegister
 public class DrawableFluid extends DrawableBase{
     private final FluidStack fluid;
 
