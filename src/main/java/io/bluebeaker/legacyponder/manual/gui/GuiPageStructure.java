@@ -9,10 +9,12 @@ import io.bluebeaker.legacyponder.manual.drawable.DrawableBase;
 import io.bluebeaker.legacyponder.manual.hover.GuiHoverComponent;
 import io.bluebeaker.legacyponder.manual.hover.HighlightArea;
 import io.bluebeaker.legacyponder.manual.page.PageStructure;
+import io.bluebeaker.legacyponder.render.PlayerPosTracker;
 import io.bluebeaker.legacyponder.render.RenderPosUtils;
 import io.bluebeaker.legacyponder.render.StructureRenderManager;
 import io.bluebeaker.legacyponder.structure.PonderStructure;
 import io.bluebeaker.legacyponder.structure.StructureLoader;
+import io.bluebeaker.legacyponder.utils.DummyPlayer;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
 import io.bluebeaker.legacyponder.utils.TextUtils;
 import io.bluebeaker.legacyponder.utils.Vec2i;
@@ -38,8 +40,8 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.List;
 
-import static io.bluebeaker.legacyponder.render.StructureRenderManager.getWorld;
-import static io.bluebeaker.legacyponder.render.StructureRenderManager.viewPos;
+import static io.bluebeaker.legacyponder.CommonConfig.renderWorkaround;
+import static io.bluebeaker.legacyponder.render.StructureRenderManager.*;
 
 public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
     /** Is dragging the camera? */
@@ -136,8 +138,18 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
         }else {
             StructureRenderManager.prepareTransformations(pageBounds.x, pageBounds.y, pageBounds.w,pageBounds.h);
 
+            DummyPlayer dummyPlayer = StructureRenderManager.getPlayer();
 
-            StructureRenderManager.renderStructure(partialTicks);
+            if(renderWorkaround== CommonConfig.PlayerPosWorkaround.ENABLED ||
+                    (renderWorkaround== CommonConfig.PlayerPosWorkaround.SINGLEPLAYER_ONLY && Minecraft.getMinecraft().isSingleplayer())){
+                PlayerPosTracker.storePlayerPos();
+                PlayerPosTracker.setPlayerPos(viewPos.getZoomedOffset().add(new Vec3d(STRUCTURE_OFFSET)),viewPos.yaw-180f,viewPos.pitch);
+                StructureRenderManager.renderStructure(partialTicks);
+                PlayerPosTracker.restorePlayerPos();
+            }else {
+                StructureRenderManager.renderStructure(partialTicks);
+            }
+
 
             ScaledResolution scaled = new ScaledResolution(Minecraft.getMinecraft());
             int scale = scaled.getScaleFactor();
@@ -197,7 +209,7 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
                     try {
                         StructureRenderManager.syncPlayerPos(rayTraceResult.hitVec);
 
-                        this.hoverItem = getWorld().getBlockState(pos).getBlock().getPickBlock(getWorld().getBlockState(pos), rayTraceResult, mc.world, pos, StructureRenderManager.getPlayer());
+                        this.hoverItem = getWorld().getBlockState(pos).getBlock().getPickBlock(getWorld().getBlockState(pos), rayTraceResult, mc.world, pos, dummyPlayer);
 
                         if(!hoverItem.isEmpty()){
                             tooltip=getItemToolTip(hoverItem);

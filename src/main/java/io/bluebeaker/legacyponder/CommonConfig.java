@@ -36,6 +36,16 @@ public class CommonConfig {
     @LangKey("config.legacyponder.demo")
     public static boolean demo = true;
 
+    @Comment("Moves client-side player position temporarily when rendering structure. Workaround for renderers with view-based culling")
+    @LangKey("config.legacyponder.renderWorkaround")
+    public static PlayerPosWorkaround renderWorkaround = PlayerPosWorkaround.DISABLED;
+
+    public static enum PlayerPosWorkaround{
+        DISABLED,
+        ENABLED,
+        SINGLEPLAYER_ONLY
+    }
+
     @Comment({"Special TileEntity classes to capture updateTag when saving structure, and load them when loading. Workaround for some tiles not rendering correctly.",
         "Comments are allowed after a '#'"})
     @LangKey("config.legacyponder.specialTileClasses")

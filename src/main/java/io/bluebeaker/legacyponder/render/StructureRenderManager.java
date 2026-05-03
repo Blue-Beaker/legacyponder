@@ -65,8 +65,10 @@ public class StructureRenderManager {
         player.posX=pos.x;
         player.posY=pos.y-player.eyeHeight;
         player.posZ=pos.z;
-        player.rotationYaw= viewPos.yaw;
+        player.rotationYaw= viewPos.yaw-180f;
         player.rotationPitch= viewPos.pitch;
+        player.cameraYaw=viewPos.yaw-180f;
+        player.cameraPitch=viewPos.pitch;
     }
 
     public static void renderStructure(float partialTicks){
