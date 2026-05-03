@@ -5,20 +5,14 @@ import io.bluebeaker.legacyponder.crafttweaker.IDrawableSupplier;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.manual.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.manual.gui.GuiPageDefault;
-import io.bluebeaker.legacyponder.manual.hover.HoverComponent;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
 import stanhebben.zenscript.annotations.ZenSetter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @ZenClass("mods.legacyponder.Page")
 @ZenRegister
 public abstract class PageBase {
-
-    protected final List<HoverComponent> hoverComponents = new ArrayList<>();
 
     /** Build a new dummy page for testing.
      * @return The new dummy page */
@@ -96,15 +90,5 @@ public abstract class PageBase {
     @ZenGetter("description")
     public String getDescription() {
         return description;
-    }
-
-    @ZenMethod
-    public PageBase addHoverComponent(HoverComponent component) {
-        this.hoverComponents.add(component);
-        return this;
-    }
-
-    public List<HoverComponent> getHoverComponents() {
-        return hoverComponents;
     }
 }

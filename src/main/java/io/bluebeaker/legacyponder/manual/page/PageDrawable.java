@@ -2,17 +2,17 @@ package io.bluebeaker.legacyponder.manual.page;
 
 import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.crafttweaker.IDrawableSupplier;
+import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.manual.drawable.DrawableBase;
 import io.bluebeaker.legacyponder.manual.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.manual.gui.GuiPageDrawable;
-import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.manual.hover.HoverComponent;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 @ZenClass("mods.legacyponder.PageDrawable")
 @ZenRegister
-public class PageDrawable extends PageBase{
+public class PageDrawable extends PagePopups{
     private final IDrawableSupplier drawableSupplier;
     public PageDrawable(IDrawableSupplier drawableSupplier){
         this.drawableSupplier = drawableSupplier;
@@ -58,5 +58,11 @@ public class PageDrawable extends PageBase{
     @Override
     public GuiInfoPage<PageDrawable> getGuiPage(GuiUnconfusion parent) {
         return new GuiPageDrawable(parent,this);
+    }
+
+    @ZenMethod
+    public PageDrawable addHoverComponent(HoverComponent component) {
+        this.hoverComponents.add(component);
+        return this;
     }
 }

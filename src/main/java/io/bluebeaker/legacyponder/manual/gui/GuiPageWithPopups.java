@@ -4,14 +4,14 @@ import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.manual.hover.GuiHoverComponent;
 import io.bluebeaker.legacyponder.manual.hover.HoverComponent;
-import io.bluebeaker.legacyponder.manual.page.PageBase;
+import io.bluebeaker.legacyponder.manual.page.PagePopups;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class GuiPageWithPopups<T extends PageBase> extends GuiInfoPage<T> {
+public abstract class GuiPageWithPopups<T extends PagePopups> extends GuiInfoPage<T> {
     /**
      * All hover components in this structure page
      */

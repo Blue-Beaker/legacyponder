@@ -18,7 +18,7 @@ import java.util.List;
 
 @ZenClass("mods.legacyponder.PageStructure")
 @ZenRegister
-public class PageStructure extends PageBase{
+public class PageStructure extends PagePopups{
 
     protected final List<HighlightArea> highlightAreas = new ArrayList<>();
 
@@ -120,5 +120,11 @@ public class PageStructure extends PageBase{
     public DrawableBase getOverlay(int width, int height){
         if(overlaySupplier==null) return null;
         return overlaySupplier.process(width, height);
+    }
+
+    @ZenMethod
+    public PageStructure addHoverComponent(HoverComponent component) {
+        this.hoverComponents.add(component);
+        return this;
     }
 }
