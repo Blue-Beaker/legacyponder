@@ -78,8 +78,12 @@ public class DrawableBuilder {
      * @return The new DrawableText instance
      */
     @ZenMethod
-    public static DrawableText formattedText(String text, int color, Object... parameters){
+    public static DrawableText formattedText(String text, int color, String... parameters){
         return DrawableText.buildFormatted(text, color, parameters);
+    }
+    @ZenMethod
+    public static DrawableText formattedText(String text, int color){
+        return DrawableText.buildFormatted(text, color);
     }
     /** Build a DrawableText with the specified text/ITextComponent.
      * @param text Text to be displayed.

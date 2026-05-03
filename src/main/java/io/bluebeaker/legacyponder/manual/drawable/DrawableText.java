@@ -40,8 +40,8 @@ public class DrawableText extends DrawableBase {
      * @return The new DrawableText instance
      */
     @ZenMethod
-    public static DrawableText buildFormatted(String text, int color, Object... parameters) {
-        return new DrawableText(TextUtils.formatKey(text, parameters),color);
+    public static DrawableText buildFormatted(String text, int color, String... parameters) {
+        return new DrawableText(TextUtils.formatKey(text, (Object[]) parameters),color);
     }
 
     /** Build a DrawableText with the specified text/ITextComponent.
