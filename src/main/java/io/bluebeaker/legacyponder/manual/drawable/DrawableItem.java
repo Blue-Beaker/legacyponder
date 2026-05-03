@@ -9,6 +9,7 @@ import io.bluebeaker.legacyponder.manual.link.LinkBase;
 import io.bluebeaker.legacyponder.manual.link.LinkItemBase;
 import io.bluebeaker.legacyponder.utils.ItemUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.item.ItemStack;
@@ -59,6 +60,10 @@ public class DrawableItem extends DrawableBase {
     @Override
     public void draw(GuiUnconfusion screen, int mouseX, int mouseY) {
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+
+        GlStateManager.disableDepth();
+        GlStateManager.enableDepth();
+        RenderHelper.disableStandardItemLighting();
         RenderHelper.enableGUIStandardItemLighting();
 
         ItemStack activeStack = getActiveStack();
