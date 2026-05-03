@@ -72,21 +72,25 @@ public class IEntry {
         this.internal.addItem(itemStack);
     }
 
-    /** Associate a fluid with the entry
-     * @param stack ILiquidStack to associate with the entry */
+    /** Associate fluids with the entry
+     * @param stacks ILiquidStack to associate with the entry */
     @ZenMethod
-    public void addFluid(ILiquidStack stack){
-        FluidStack stack1 = CraftTweakerMC.getLiquidStack(stack).copy();
-        stack1.amount=1000;
-        this.internal.addFluid(stack1);
+    public void addFluid(ILiquidStack... stacks){
+        for (ILiquidStack stack : stacks) {
+            FluidStack stack1 = CraftTweakerMC.getLiquidStack(stack).copy();
+            stack1.amount=1000;
+            this.internal.addFluid(stack1);
+        }
     }
 
-    /** Associate an IIngredient with the entry, displayed in one slot
+    /** Associate IIngredient with the entry, displayed in one slot per IIngredient parameter
      * Only items will be added, fluids will be ignored here
-     * @param ingredient IIngredient to associate with the entry */
+     * @param ingredients to associate with the entry */
     @ZenMethod
-    public void addIngredient(IIngredient ingredient){
-        addItems(ingredient.getItems());
+    public void addIngredient(IIngredient... ingredients){
+        for (IIngredient ingredient : ingredients) {
+            addItems(ingredient.getItems());
+        }
     }
 
     /** Associate an IIngredient with the entry, displayed in multiple slots
