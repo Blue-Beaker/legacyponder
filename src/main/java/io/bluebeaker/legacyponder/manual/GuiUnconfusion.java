@@ -126,6 +126,12 @@ public class GuiUnconfusion extends GuiScreen {
         int mouseY=lastMousePos.y;
         if (isMouseInPage(mouseX, mouseY)){
             guiInfoPage.mouseScroll(mouseX-this.pageBounds.x, mouseY-this.pageBounds.y, wheelDelta);
+        }else {
+            if(wheelDelta>0){
+                gotoPage(currentPageID-1);
+            }else {
+                gotoPage(currentPageID+1);
+            }
         }
     }
 
