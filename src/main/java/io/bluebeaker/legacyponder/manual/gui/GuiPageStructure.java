@@ -30,10 +30,12 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 import net.minecraftforge.fml.client.config.GuiSlider;
+import net.minecraftforge.fml.client.config.GuiUtils;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.io.IOException;
 import java.nio.FloatBuffer;
@@ -48,6 +50,7 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
     protected boolean dragCam = false;
 
     /** Optional overlay drawable */
+    @Nullable
     protected DrawableBase overlay = null;
     protected boolean overlayFocused = false;
 
@@ -55,6 +58,7 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
     private FloatBuffer projection = BufferUtils.createFloatBuffer(16);
     private IntBuffer viewport = BufferUtils.createIntBuffer(16);
     private ItemStack hoverItem = ItemStack.EMPTY;
+    @Nullable
     protected GuiSlider slider = null;
     public boolean isStructureLoaded = false;
 
@@ -133,6 +137,8 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
 
         RenderUtils.setViewPort(pageBounds);
 
+        this.hoverItem=ItemStack.EMPTY;
+
         if(!isStructureLoaded){
             RenderUtils.drawSplitString(fontRenderer, TextUtils.formatKey("error.legacyponder.structure_not_found",this.page.structureID),width/2,height/2,width,0xFFFFFFFF,true,0.5F,0.5F);
         }else {
@@ -184,8 +190,6 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
                 checkComponentHover(mouseX, mouseY);
             }
 
-            List<String> tooltip = null;
-
             if(hoverComp == null && !parent.isMouseDownInPage() && this.buttonList.stream().noneMatch(GuiButton::isMouseOver) && this.pageBounds.contains(mouseX+this.pageBounds.x,mouseY+this.pageBounds.y)){
                 // Calculate projection
                 float[] pos0 = RenderPosUtils.unprojectFromScreen(MouseTracker.INSTANCE.x, MouseTracker.INSTANCE.y, 0.0F, modelView, projection, viewport);
@@ -201,7 +205,6 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
                         LegacyPonder.getLogger().warn("Error ray tracing:", e);
                         printedErrors = true;
                     }
-                    this.hoverItem = ItemStack.EMPTY;
                     rayTraceResult=null;
                 }
                 if(rayTraceResult!=null && rayTraceResult.typeOfHit== RayTraceResult.Type.BLOCK){
@@ -209,28 +212,25 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
                     try {
                         StructureRenderManager.syncPlayerPos(rayTraceResult.hitVec);
 
-                        this.hoverItem = getWorld().getBlockState(pos).getBlock().getPickBlock(getWorld().getBlockState(pos), rayTraceResult, mc.world, pos, dummyPlayer);
+                        this.hoverItem = getWorld().getBlockState(pos).getBlock().getPickBlock(getWorld().getBlockState(pos), rayTraceResult, getWorld(), pos, dummyPlayer);
 
-                        if(!hoverItem.isEmpty()){
-                            tooltip=getItemToolTip(hoverItem);
-                        }
                     }catch (Exception e){
                         if(shouldPrintDrawingLogs()){
                             LegacyPonder.getLogger().warn("Error getting pick block for pos {}:",pos,e);
                             printedErrors=true;
                         }
-                        this.hoverItem = ItemStack.EMPTY;
                     }
                 }
-            }else {
-                this.hoverItem=ItemStack.EMPTY;
             }
 
-            if (tooltip != null && !tooltip.isEmpty()) {
-                GlStateManager.translate(0,0,100);
-                this.drawHoveringText(tooltip, mouseX, mouseY);
-                RenderHelper.disableStandardItemLighting();
-                GlStateManager.translate(0,0,-100);
+            if(!this.hoverItem.isEmpty()){
+                List<String> tooltip = this.getItemToolTip(this.hoverItem);
+                if (!tooltip.isEmpty()) {
+                    GlStateManager.translate(0,0,100);
+                    GuiUtils.drawHoveringText(hoverItem,tooltip, mouseX, mouseY,this.width,this.height,this.width,this.fontRenderer);
+                    RenderHelper.disableStandardItemLighting();
+                    GlStateManager.translate(0,0,-100);
+                }
             }
         }
 
