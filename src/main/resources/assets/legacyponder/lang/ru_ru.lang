@@ -25,9 +25,13 @@ config.legacyponder.ui.zoom_slider=Ползунок масштаба
 config.legacyponder.ui.structure_scaling=Масштаб структуры по умолчанию
 config.legacyponder.ui.defaultYaw=Вид по умолчанию — рыскание
 config.legacyponder.ui.defaultPitch=Вид по умолчанию — тангаж
+config.legacyponder.ui.back_then_close=Назад перед закрытием
 
 key.legacyponder.prev_page=Предыдущая страница
 key.legacyponder.next_page=Следующая страница
+key.legacyponder.open_manual=Открыть мануал Unconfusion
+key.legacyponder.history_back=Назад
+key.legacyponder.history_forward=Вперед
 
 button.legacyponder.help=Помощь
 button.legacyponder.settings=Настройки
