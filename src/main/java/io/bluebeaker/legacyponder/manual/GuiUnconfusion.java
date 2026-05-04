@@ -22,13 +22,11 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 import net.minecraftforge.fml.client.config.GuiConfig;
+import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GuiUnconfusion extends GuiScreen {
     @Nonnull
@@ -41,15 +39,17 @@ public class GuiUnconfusion extends GuiScreen {
     protected GuiInfoPage<?> guiInfoPage = PageBlank.INSTANCE.getGuiPage(this);
 
     public void setLastScreen(GuiScreen lastScreen) {
-        if (this.lastScreen==null)
+        if (!lastScreenSet)
             this.lastScreen = lastScreen;
+        lastScreenSet=true;
     }
 
+    protected boolean lastScreenSet = false;
     protected GuiScreen lastScreen;
     protected String lastEntryTitle = "";
     protected String entryID = "";
 
-    protected final List<HistoryEntry> history = new ArrayList<>();
+    protected final HistoryTracker historyTracker = HistoryTracker.get();
 
     protected boolean isLinkActive = false;
 
@@ -92,11 +92,12 @@ public class GuiUnconfusion extends GuiScreen {
         this.buttonList.add(new GuiButtonExt(ButtonID.HELP,this.width-40,0,20,20,"?"));
         this.buttonList.add(new GuiButtonExt(ButtonID.SETTINGS,this.width-60,0,20,20,"#"));
 
-        HistoryEntry lastHistory = getLastHistory();
-        if (lastHistory != null) {
-            this.lastEntryTitle=(lastHistory.getTitleAndPage());
-            this.buttonList.add(new GuiButtonExt(ButtonID.BACK,2,2,Math.min(100,20+fontRenderer.getStringWidth(lastEntryTitle)),16,"< "+lastEntryTitle));
-        }
+        GuiButtonExt back = new GuiButtonExt(ButtonID.BACK, 2, 2, 16, 16, "<");
+        this.buttonList.add(back);
+        back.enabled=historyTracker.currentIndex>0;
+        GuiButtonExt forward = new GuiButtonExt(ButtonID.FORWARD, 18, 2, 16, 16, ">");
+        this.buttonList.add(forward);
+        forward.enabled=historyTracker.currentIndex<historyTracker.history.size()-1;
 
         this.pageBounds=new BoundingBox2D(2,24,this.width-4,this.height-48);
         super.initGui();
@@ -153,32 +154,41 @@ public class GuiUnconfusion extends GuiScreen {
             // No jump
             return;
         }
-        this.pushHistory();
         if(!id.isEmpty())
             this.setEntryID(id);
         if(page>0)
             this.setCurrentPageID(Math.min(page,pages));
+        this.pushHistory();
         this.initGui();
+    }
+    public void jumpTo(String id){
+        jumpTo(id,-1);
+    }
+
+    public void loadHistory(){
+        if(historyTracker.history.isEmpty()){
+            jumpTo(DemoEntries.HELP_ID);
+            return;
+        }
+        gotoHistory(historyTracker.currentIndex);
     }
 
     public void pushHistory() {
-        this.history.add(new HistoryEntry(this.entryID,this.currentPageID));
+        historyTracker.record(entryID,currentPageID);
     }
 
-    protected void popHistory(){
-        int size = this.history.size();
-        if(size==0) return;
-        HistoryEntry historyEntry = this.history.get(size-1);
+    protected void goBack(){
+        gotoHistory(historyTracker.currentIndex-1);
+    }
+    protected void goForward(){
+        gotoHistory(historyTracker.currentIndex+1);
+    }
+    protected void gotoHistory(int index){
+        HistoryTracker.HistoryEntry historyEntry = historyTracker.gotoIndex(index);
+        if(historyEntry==null) return;
         this.setEntryID(historyEntry.id);
         this.setCurrentPageID(historyEntry.page);
-        this.history.remove(size-1);
         this.initGui();
-    }
-
-    protected @Nullable HistoryEntry getLastHistory(){
-        int size = this.history.size();
-        if(size==0) return null;
-        return this.history.get(size-1);
     }
 
     @Override
@@ -216,18 +226,13 @@ public class GuiUnconfusion extends GuiScreen {
         for (GuiButton button : this.buttonList) {
             if(button.isMouseOver()){
                 GlStateManager.disableDepth();
-                switch (button.id){
-                    case ButtonID.SETTINGS:
-                        this.drawHoveringText(I18n.format("button.legacyponder.settings"), mouseX, mouseY);
-                        break;
-                    case ButtonID.HELP:
-                        this.drawHoveringText(I18n.format("button.legacyponder.help"), mouseX, mouseY);
-                        break;
-                    case ButtonID.BACK:
-                        List<String> historyTip = this.history.stream().map(HistoryEntry::getTitleAndPage).collect(Collectors.toList());
-                        historyTip.add("§l"+I18n.format(this.currentEntry.title)+" : "+currentPageID);
-                        this.drawHoveringText(historyTip, mouseX, mouseY);
-                        break;
+                if (button.id == ButtonID.SETTINGS) {
+                    this.drawHoveringText(I18n.format("button.legacyponder.settings"), mouseX, mouseY);
+                } else if (button.id == ButtonID.HELP) {
+                    this.drawHoveringText(I18n.format("button.legacyponder.help"), mouseX, mouseY);
+                } else if (button.id == ButtonID.BACK || button.id == ButtonID.FORWARD) {
+                    List<String> historyTip = historyTracker.getTooltipStrings();
+                    this.drawHoveringText(historyTip, mouseX, mouseY);
                 }
                 GlStateManager.disableLighting();
                 return;
@@ -238,16 +243,14 @@ public class GuiUnconfusion extends GuiScreen {
     @Override
     protected void keyTyped(char typedChar, int keyCode) {
         try{
-            if (keyCode == 1) {
-                if (!this.history.isEmpty()) {
-                    popHistory();
+            if (keyCode == Keyboard.KEY_ESCAPE) {
+                if (UIConfig.back_then_close && this.historyTracker.currentIndex >0) {
+                    goBack();
                     return;
                 }
                 close();
-            } else if (Keybinds.prevPage.isActiveAndMatches(keyCode)) {
-                setCurrentPageID(currentPageID - 1);
-            } else if (Keybinds.nextPage.isActiveAndMatches(keyCode)) {
-                setCurrentPageID(currentPageID + 1);
+            }else if (handleKeybinds(keyCode)){
+                return;
             } else {
                 guiInfoPage.onKeyTyped(typedChar, keyCode);
             }
@@ -256,8 +259,40 @@ public class GuiUnconfusion extends GuiScreen {
         }
     }
 
+    protected boolean handleKeybinds(int keyCode){
+        if (Keybinds.prevPage.isActiveAndMatches(keyCode)) {
+            gotoPage(currentPageID - 1);
+            return true;
+        } else if (Keybinds.nextPage.isActiveAndMatches(keyCode)) {
+            gotoPage(currentPageID + 1);
+            return true;
+        } else if (Keybinds.histBack.isActiveAndMatches(keyCode)) {
+            gotoHistory(historyTracker.currentIndex-1);
+            return true;
+        } else if (Keybinds.histForward.isActiveAndMatches(keyCode)) {
+            gotoHistory(historyTracker.currentIndex+1);
+            return true;
+        }
+        else if (Keybinds.histBack.isActiveAndMatches(keyCode-100)) {
+            gotoHistory(historyTracker.currentIndex-1);
+            return true;
+        } else if (Keybinds.histForward.isActiveAndMatches(keyCode-100)) {
+            gotoHistory(historyTracker.currentIndex+1);
+            return true;
+        }
+        return false;
+    }
+
+    private void gotoPage(int pageID) {
+        setCurrentPageID(pageID);
+        historyTracker.updateCurrentHistory(this.entryID,this.currentPageID);
+    }
+
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+        if (handleKeybinds(mouseButton-100)){
+            return;
+        }
         try {
             mouseDownInPage = isMouseInPage(mouseX, mouseY);
             if (mouseDownInPage && guiInfoPage.onMouseClick(mouseX - this.pageBounds.x, mouseY - this.pageBounds.y, mouseButton)) {
@@ -297,30 +332,24 @@ public class GuiUnconfusion extends GuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
-        switch (button.id){
-            case ButtonID.CLOSE:
-                close();
-                break;
-            case ButtonID.PREV:
-                this.setCurrentPageID(this.currentPageID -1);
-                break;
-            case ButtonID.NEXT:
-                this.setCurrentPageID(this.currentPageID +1);
-                break;
-            case ButtonID.BACK: //Back
-                this.popHistory();
-                break;
-            case ButtonID.HELP: //Help
-                this.jumpTo(DemoEntries.HELP_ID,-1);
-                break;
-            case ButtonID.SETTINGS: //Config
-                Minecraft.getMinecraft()
-                        .displayGuiScreen(
-                                new GuiConfig(this,LegacyPonder.MODID,false,false,I18n.format("config.legacyponder.ui"),UIConfig.class));
-                break;
-            case ButtonID.LINK_CONFIRMED:
-                this.isLinkActive=false;
-                break;
+        if (button.id == ButtonID.CLOSE) {
+            close();
+        } else if (button.id == ButtonID.PREV) {
+            this.gotoPage(this.currentPageID - 1);
+        } else if (button.id == ButtonID.NEXT) {
+            this.gotoPage(this.currentPageID + 1);
+        } else if (button.id == ButtonID.BACK) { //Back
+            this.goBack();
+        } else if (button.id == ButtonID.FORWARD) { //Back
+            this.goForward();
+        } else if (button.id == ButtonID.HELP) { //Help
+            this.jumpTo(DemoEntries.HELP_ID, -1);
+        } else if (button.id == ButtonID.SETTINGS) { //Config
+            Minecraft.getMinecraft()
+                    .displayGuiScreen(
+                            new GuiConfig(this, LegacyPonder.MODID, false, false, I18n.format("config.legacyponder.ui"), UIConfig.class));
+        } else if (button.id == ButtonID.LINK_CONFIRMED) {
+            this.isLinkActive = false;
         }
         super.actionPerformed(button);
     }
@@ -368,20 +397,6 @@ public class GuiUnconfusion extends GuiScreen {
         return isLinkActive;
     }
 
-    public static class HistoryEntry{
-        final String id;
-        final int page;
-        public HistoryEntry(String id, int page) {
-            this.id = id;
-            this.page = page;
-        }
-        public String getTitle(){
-            return I18n.format(ManualRegistry.getEntries().get(id).title);
-        }
-        public String getTitleAndPage(){
-            return getTitle()+" : "+(page);
-        }
-    }
     public static class ButtonID{
         public static final int CLOSE = 0;
         public static final int PREV = 1;
@@ -390,5 +405,6 @@ public class GuiUnconfusion extends GuiScreen {
         public static final int HELP = 4;
         public static final int SETTINGS = 5;
         public static final int LINK_CONFIRMED = 31102009;
+        public static final int FORWARD = 6;
     }
 }

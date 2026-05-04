@@ -23,6 +23,10 @@ public class UIConfig {
     @LangKey("config.legacyponder.ui.zoom_slider")
     public static boolean zoom_slider = true;
 
+    @Comment("Press ESC to go back in history, instead of closing the GUI.")
+    @LangKey("config.legacyponder.ui.back_then_close")
+    public static boolean back_then_close = true;
+
     @Config.RangeDouble(min = 0.01, max = 100)
     @Comment("Base scaling factor for structure view.")
     @LangKey("config.legacyponder.ui.structure_scaling")

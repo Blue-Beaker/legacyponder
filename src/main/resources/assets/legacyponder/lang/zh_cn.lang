@@ -25,9 +25,13 @@ config.legacyponder.ui.zoom_slider=缩放滑条
 config.legacyponder.ui.structure_scaling=结构默认缩放
 config.legacyponder.ui.defaultYaw=默认视角-朝向
 config.legacyponder.ui.defaultPitch=默认视角-仰角
+config.legacyponder.ui.back_then_close=关闭前先返回
 
 key.legacyponder.prev_page=上一页
 key.legacyponder.next_page=下一页
+key.legacyponder.open_manual=打开 解惑
+key.legacyponder.history_back=后退
+key.legacyponder.history_forward=前进
 
 button.legacyponder.help=帮助
 button.legacyponder.settings=设置
