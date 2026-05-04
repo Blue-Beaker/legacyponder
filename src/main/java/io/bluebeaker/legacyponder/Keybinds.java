@@ -16,8 +16,8 @@ public class Keybinds {
     static {
         prevPage = new KeyBinding("key.legacyponder.prev_page", KeyConflictContext.GUI, KeyModifier.NONE, Keyboard.KEY_A, categoryName);
         nextPage = new KeyBinding("key.legacyponder.next_page", KeyConflictContext.GUI, KeyModifier.NONE, Keyboard.KEY_D, categoryName);
-        histBack = new KeyBinding("key.legacyponder.history_back", KeyConflictContext.GUI, KeyModifier.NONE, -96, categoryName);
-        histForward = new KeyBinding("key.legacyponder.history_forward", KeyConflictContext.GUI, KeyModifier.NONE, -97, categoryName);
+        histBack = new KeyBinding("key.legacyponder.history_back", KeyConflictContext.GUI, KeyModifier.NONE, -97, categoryName);
+        histForward = new KeyBinding("key.legacyponder.history_forward", KeyConflictContext.GUI, KeyModifier.NONE, -96, categoryName);
         openManual = new KeyBinding("key.legacyponder.open_manual", KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_NONE, categoryName);
     }
 
