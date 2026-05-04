@@ -186,7 +186,7 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
 
             List<String> tooltip = null;
 
-            if(hoverComp == null && !parent.isMouseDownInPage() && this.buttonList.stream().noneMatch(GuiButton::isMouseOver)){
+            if(hoverComp == null && !parent.isMouseDownInPage() && this.buttonList.stream().noneMatch(GuiButton::isMouseOver) && this.pageBounds.contains(mouseX+this.pageBounds.x,mouseY+this.pageBounds.y)){
                 // Calculate projection
                 float[] pos0 = RenderPosUtils.unprojectFromScreen(MouseTracker.INSTANCE.x, MouseTracker.INSTANCE.y, 0.0F, modelView, projection, viewport);
                 float[] pos1 = RenderPosUtils.unprojectFromScreen(MouseTracker.INSTANCE.x, MouseTracker.INSTANCE.y, 1.0F, modelView, projection, viewport);

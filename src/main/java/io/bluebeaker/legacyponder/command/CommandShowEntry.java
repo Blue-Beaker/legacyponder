@@ -3,12 +3,12 @@ package io.bluebeaker.legacyponder.command;
 import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
 import io.bluebeaker.legacyponder.manual.Entry;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
+import io.bluebeaker.legacyponder.manual.HistoryTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 
@@ -33,19 +33,22 @@ public class CommandShowEntry extends CommandBase {
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+        GuiUnconfusion screen = new GuiUnconfusion();
         if (args.length < 1)
         {
-            throw new WrongUsageException("commands.legacyponder.show.usage");
-        }
-        String id = args[0];
-        Entry entry = ManualRegistry.getEntries().get(id);
-        if(entry==null){
-            throw new EntryNotFoundException(I18n.format("commands.legacyponder.show.entrynotfound",id));
-        }
-        GuiUnconfusion screen = new GuiUnconfusion();
-        screen.setEntryID(id);
-        if (args.length>=2){
-            screen.setCurrentPageID(parseInt(args[1]));
+            // No entry specified, try to load from history
+            screen.loadHistory();
+        }else {
+            String id = args[0];
+            Entry entry = ManualRegistry.getEntries().get(id);
+            if(entry==null){
+                throw new EntryNotFoundException(I18n.format("commands.legacyponder.show.entrynotfound",id));
+            }
+            HistoryTracker.get().clear();
+            screen.jumpTo(id);
+            if (args.length>=2){
+                screen.setCurrentPageID(parseInt(args[1]));
+            }
         }
         // Delay before showing screen, to make sure it opens
         new Timer().schedule(new TimerTask() {

@@ -4,7 +4,9 @@ import io.bluebeaker.legacyponder.command.CommandLegacyPonder;
 import io.bluebeaker.legacyponder.command.CommandShowEntry;
 import io.bluebeaker.legacyponder.compat.*;
 import io.bluebeaker.legacyponder.demo.DemoEntries;
+import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.structure.StructureLoader;
+import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
@@ -19,6 +21,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = Tags.MOD_ID, name = Tags.MOD_NAME, version = Tags.VERSION,acceptableRemoteVersions = "*",clientSideOnly = true)
@@ -83,6 +86,15 @@ public class LegacyPonder
             ConfigManager.sync(MODID, Type.INSTANCE);
             EventHandlerCommon.updateConfig();
             DemoEntries.addDemoIfNeeded();
+        }
+    }
+
+    @SubscribeEvent
+    public void onInput(InputEvent.KeyInputEvent event){
+        if(Minecraft.getMinecraft().currentScreen==null && Keybinds.openManual.isPressed()){
+            GuiUnconfusion gui = new GuiUnconfusion();
+            gui.loadHistory();
+            Minecraft.getMinecraft().displayGuiScreen(gui);
         }
     }
 

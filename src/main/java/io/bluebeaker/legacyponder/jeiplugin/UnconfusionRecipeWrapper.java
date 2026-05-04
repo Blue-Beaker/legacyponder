@@ -3,6 +3,7 @@ package io.bluebeaker.legacyponder.jeiplugin;
 import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
 import io.bluebeaker.legacyponder.manual.Entry;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
+import io.bluebeaker.legacyponder.manual.HistoryTracker;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
@@ -86,8 +87,9 @@ public class UnconfusionRecipeWrapper implements IRecipeWrapper {
     @Override
     public boolean handleClick(Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
         if(button.mousePressed(minecraft,mouseX,mouseY)){
+            HistoryTracker.get().clear();
             GuiUnconfusion guiUnconfusion = new GuiUnconfusion();
-            guiUnconfusion.setEntryID(this.id);
+            guiUnconfusion.jumpTo(this.id);
             Minecraft.getMinecraft().displayGuiScreen(guiUnconfusion);
             return true;
         }else{
