@@ -1,0 +1,65 @@
+button.legacyponder.open=Показать детали
+link.legacyponder.page=Страница %s
+gui.category.legacyponder=Распутывание
+commands.legacyponder.usage=legacyponder <%s> ...
+commands.legacyponder.save.usage=legacyponder save <x1> <y1> <z1> <x2> <y2> <z2> <название> [Заменить существующую] [С сущностями]
+commands.legacyponder.save.failure=Не удалось сохранить структуру '%s': %s
+commands.legacyponder.save.success=Структура '%s' сохранена
+commands.legacyponder.load.usage=legacyponder load <x> <y> <z> <название>
+commands.legacyponder.show.usage=lpshow <id> [страница]
+commands.legacyponder.show.entrynotfound=Не удалось найти запись с id '%s'
+config.legacyponder.compat=Совместимость
+config.legacyponder.drawing_logs_interval=Интервал вывода ошибок отрисовки
+config.legacyponder.log_debug=Отладочные логи
+config.legacyponder.demo=Включить демо
+config.legacyponder.common=Общие
+config.legacyponder.common.tooltip=Общие настройки.
+config.legacyponder.renderWorkaround=Обходной способ рендеринга
+config.legacyponder.specialTileClasses=Особые классы TileEntity
+config.legacyponder.ui=Интерфейс
+config.legacyponder.ui.tooltip=Настройки интерфейса.
+config.legacyponder.ui.wheel_sensivity=Чувствительность колесика
+config.legacyponder.ui.cursor_sensivity=Чувствительность курсора
+config.legacyponder.ui.zoom_buttons=Кнопки масштаба
+config.legacyponder.ui.zoom_slider=Ползунок масштаба
+config.legacyponder.ui.structure_scaling=Масштаб структуры по умолчанию
+config.legacyponder.ui.defaultYaw=Вид по умолчанию — рыскание
+config.legacyponder.ui.defaultPitch=Вид по умолчанию — тангаж
+
+key.legacyponder.prev_page=Предыдущая страница
+key.legacyponder.next_page=Следующая страница
+
+button.legacyponder.help=Помощь
+button.legacyponder.settings=Настройки
+button.legacyponder.reset_view=Сбросить вид
+button.legacyponder.reset_zoom=Сбросить масштаб
+error.legacyponder.structure_not_found=Ошибка: структура '%s' не найдена.
+error.legacyponder.drawable_not_provided=Ошибка: предоставленный шаблон равен null.
+
+unconfusion.entry.demo_1.title=Добро пожаловать в Unconfusion!
+unconfusion.entry.demo_1.desc=Посмотрите, что можно сделать с Unconfusion в этом демо!
+unconfusion.entry.demo_1.page1.text=Unconfusion — это мод для создания интуитивных внутриигровых руководств для модпаков и игроков.\nОсновные возможности:\n- Руководство, основанное на страницах и записях\n- Страницы с обзором структур\n- Страницы на основе элементов, могут использоваться для отображения GUI или подробных объяснений.\n- Использует CraftTweaker ZenScript для полной настройки записей и страниц\n\nЭта запись используется для демонстрации возможностей мода и может быть отключена в общих настройках мода.
+
+unconfusion.entry.help.title=Руководство пользователя Unconfusion
+unconfusion.entry.help.desc=Unconfusion — это мод для интуитивных внутриигровых руководств.\nИзучите эту справку, чтобы узнать, как им пользоваться.
+
+unconfusion.entry.help.page1.text1=Unconfusion — это мод для интуитивных внутриигровых руководств.\nИзучите эту справку, чтобы узнать, как им пользоваться.\n\nНа этой странице представлены кнопки в этом главном GUI.
+unconfusion.entry.help.page1.desc=Базовый интерфейс
+unconfusion.entry.help.page1.bottomleft=▼ Пред./След. страница (Клавиша: §e%s§r/§e%s§r)
+unconfusion.entry.help.page1.topleft=▲ Назад/История (Клавиша: §eEsc§r)
+unconfusion.entry.help.page1.topright=Опции Помощь Закрыть ▲
+
+unconfusion.entry.help.page2.desc=Основное управление обзором структуры.
+unconfusion.entry.help.page2.middle=Эта страница — главная особенность мода: обзор структуры.\nПеретаскивайте левой кнопкой для вращения, правой/средней для панорамирования, колесиком для масштаба.
+unconfusion.entry.help.page2.bottomleft=▼ Эти кнопки также управляют обзором структуры.
+
+unconfusion.entry.help.page3.desc=Снова структура, теперь с всплывающими подсказками.
+unconfusion.entry.help.page3.hover1=Здесь также может быть всплывающая информация, как эта. Попробуйте перетащить это окно!
+
+unconfusion.entry.help.page4.desc=Посмотрите рецепты!
+unconfusion.entry.help.page4.hover1=§e%s§r/§e%s§r (горячие клавиши JEI) можно использовать на блоке в структуре или предмете на странице, чтобы показать рецепты/использование.
+
+unconfusion.entry.help.page5.desc=И даже посмотрите GUI!
+unconfusion.entry.help.page5.title=GUI печи
+unconfusion.entry.help.page5.hover1=Страница также может отображать GUI.\nПопробуйте нажать на предмет для рецепта/использования.
+unconfusion.entry.help.page5.hover2=Некоторые тексты также имеют ссылки — попробуйте нажать на него!
