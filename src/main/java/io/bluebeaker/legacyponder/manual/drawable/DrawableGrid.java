@@ -25,7 +25,7 @@ public class DrawableGrid extends DrawableGroup{
         for (DrawableBase child : children) {
             child.setPosition(column*colWidth,line*lineHeight);
             column+=1;
-            if(column>=columns){
+            if(columns>0 && column>=columns){
                 column=0;
                 line+=1;
             }

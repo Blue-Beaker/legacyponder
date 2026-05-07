@@ -135,6 +135,10 @@ public class DrawableBuilder {
     public static DrawableGrid grid(int columns, int colWidth, int lineHeight){
         return new DrawableGrid(columns, colWidth, lineHeight);
     }
+    @ZenMethod
+    public static DrawableGrid grid(int colWidth, int lineHeight){
+        return new DrawableGrid(0, colWidth, lineHeight);
+    }
 
     /** A helper to help positioning HoverComponent for PageDrawable.
      * Doesn't do anything on its own, but you can attach a HoverComponent to its position, by setting the same ID on both this and the HoverComponent. Negative ID doesn't work.
