@@ -2,6 +2,8 @@ package io.bluebeaker.legacyponder.render;
 
 import com.google.common.base.Predicates;
 import com.mojang.authlib.GameProfile;
+import io.bluebeaker.legacyponder.CommonConfig;
+import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.UIConfig;
 import io.bluebeaker.legacyponder.structure.events.StructureRenderEvent;
 import io.bluebeaker.legacyponder.utils.DummyPlayer;
@@ -83,19 +85,24 @@ public class StructureRenderManager {
 
         for (BlockPos.MutableBlockPos pos : BlockPos.getAllInBoxMutable(STRUCTURE_OFFSET, STRUCTURE_OFFSET.add(world.templateSize))){
             GlStateManager.pushAttrib();
-            TileEntity tileEntity = world.getTileEntity(pos);
-            if(tileEntity !=null){
-                StructureRenderEvent.RenderTile renderEvent = new StructureRenderEvent.RenderTile(world, tileEntity, pos);
-                EVENT_BUS.post(renderEvent);
-                if(!renderEvent.isCanceled()){
-                    TileEntityRendererDispatcher.instance.render(
-                            tileEntity,
-                            pos.getX(),
-                            pos.getY(),
-                            pos.getZ(),
-                            partialTicks
-                    );
+            try {
+                TileEntity tileEntity = world.getTileEntity(pos);
+                if(tileEntity !=null){
+                    StructureRenderEvent.RenderTile renderEvent = new StructureRenderEvent.RenderTile(world, tileEntity, pos);
+                    EVENT_BUS.post(renderEvent);
+                    if(!renderEvent.isCanceled()){
+                        TileEntityRendererDispatcher.instance.render(
+                                tileEntity,
+                                pos.getX(),
+                                pos.getY(),
+                                pos.getZ(),
+                                partialTicks
+                        );
+                    }
                 }
+            } catch (Exception e) {
+                if(CommonConfig.log_debug)
+                    LegacyPonder.getLogger().error("Error rendering tile entity at {}: ",pos,e);
             }
             GlStateManager.popAttrib();
         }
@@ -103,15 +110,20 @@ public class StructureRenderManager {
         for (Entity entity : world.getEntities(Entity.class, Predicates.alwaysTrue())) {
             Vec3d pos = entity.getPositionVector();
             GlStateManager.pushAttrib();
-            Minecraft.getMinecraft().getRenderManager().renderEntity(
-                    entity,
-                    pos.x,
-                    pos.y,
-                    pos.z,
-                    entity.rotationYaw,
-                    partialTicks,
-                    true
-            );
+            try {
+                Minecraft.getMinecraft().getRenderManager().renderEntity(
+                        entity,
+                        pos.x,
+                        pos.y,
+                        pos.z,
+                        entity.rotationYaw,
+                        partialTicks,
+                        true
+                );
+            } catch (Exception e) {
+                if(CommonConfig.log_debug)
+                    LegacyPonder.getLogger().error("Error rendering entity at {}: ",pos,e);
+            }
             GlStateManager.popAttrib();
         }
         GlStateManager.popMatrix();
@@ -163,7 +175,6 @@ public class StructureRenderManager {
         GlStateManager.loadIdentity();
         GlStateManager.enableRescaleNormal();
         GlStateManager.pushMatrix();
-
         Vec3d cameraOffset = viewPos.getZoomedOffset();
         GlStateManager.translate(cameraOffset.x, cameraOffset.y, cameraOffset.z);
 
@@ -214,22 +225,27 @@ public class StructureRenderManager {
                     -STRUCTURE_OFFSET.getY(),
                     -STRUCTURE_OFFSET.getZ()
             );
-            IBlockState blockState = world.getBlockState(pos);
-            if(blockState.getRenderType()== EnumBlockRenderType.INVISIBLE) continue;
+            try {
+                IBlockState blockState = world.getBlockState(pos);
+                if(blockState.getRenderType()== EnumBlockRenderType.INVISIBLE) continue;
 
-            StructureRenderEvent.RenderBuffer event = new StructureRenderEvent.RenderBuffer(world, blockState, pos, buffer);
-            EVENT_BUS.post(event);
-            if(event.isCanceled()) continue;
-            for (BlockRenderLayer value : BlockRenderLayer.values()) {
-                if(blockState.getBlock().canRenderInLayer(blockState,value)){
-                    ForgeHooksClient.setRenderLayer(value);
-                    Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(
-                        blockState,
-                        pos,
-                        world,
-                        buffer
-                    );
+                StructureRenderEvent.RenderBuffer event = new StructureRenderEvent.RenderBuffer(world, blockState, pos, buffer);
+                EVENT_BUS.post(event);
+                if(event.isCanceled()) continue;
+                for (BlockRenderLayer value : BlockRenderLayer.values()) {
+                    if(blockState.getBlock().canRenderInLayer(blockState,value)){
+                        ForgeHooksClient.setRenderLayer(value);
+                        Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(
+                            blockState,
+                            pos,
+                            world,
+                            buffer
+                        );
+                    }
                 }
+            } catch (Exception e) {
+                if(CommonConfig.log_debug)
+                    LegacyPonder.getLogger().error("Error rendering block at {}: ",pos,e);
             }
         }
     }
