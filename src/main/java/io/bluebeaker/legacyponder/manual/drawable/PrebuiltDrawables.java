@@ -65,8 +65,8 @@ public class PrebuiltDrawables {
     }
     public static DrawableGroup buildSummary(String entryId, int width, int height){
         DrawableGroup drawable = new DrawableGroup();
-        Entry entry = ManualRegistry.getEntries().get(entryId);
-
+        Entry entry = ManualRegistry.get(entryId);
+        if(entry==null) return drawable;
         int columns = width / 16;
         DrawableGrid items = new DrawableGrid(columns,16,16);
         for (List<ItemStack> item : entry.getItems()) {

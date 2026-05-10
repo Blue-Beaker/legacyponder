@@ -80,7 +80,7 @@ public class UnconfusionRecipeWrapper implements IRecipeWrapper {
     }
 
     public boolean hasNoPages() {
-        Entry entry = ManualRegistry.getEntries().get(id);
+        Entry entry = ManualRegistry.get(id);
         return entry == null || entry.getPages().isEmpty();
     }
 

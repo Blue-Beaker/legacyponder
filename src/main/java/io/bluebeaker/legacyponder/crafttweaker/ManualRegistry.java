@@ -9,6 +9,7 @@ import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 import youyihj.zenutils.api.reload.Reloadable;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +41,11 @@ public class ManualRegistry {
 
     public static Map<String, Entry> getEntries(){
         return PONDER_REGISTRY;
+    }
+
+    @Nullable
+    public static Entry get(String id){
+        return PONDER_REGISTRY.get(id);
     }
 
     @Reloadable

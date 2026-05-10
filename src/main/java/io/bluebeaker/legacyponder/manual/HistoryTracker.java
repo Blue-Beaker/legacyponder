@@ -71,7 +71,8 @@ public class HistoryTracker {
             this.page = page;
         }
         public String getTitle(){
-            return I18n.format(ManualRegistry.getEntries().get(id).title);
+            Entry entry = ManualRegistry.get(id);
+            return entry!=null ? I18n.format(entry.title) : "INVALID ENTRY:"+id;
         }
         public String getTitleAndPage(){
             return getTitle()+" : "+(page);

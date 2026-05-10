@@ -37,7 +37,7 @@ public class LinkPonder implements LinkBase{
             return Collections.singletonList("-> "+I18n.format("link.legacyponder.page",this.page));
         }
 
-        Entry entry = ManualRegistry.getEntries().get(id);
+        Entry entry = ManualRegistry.get(id);
         if(entry==null) return Collections.singletonList("Unknown manual entry: "+id);
         List<String> tooltip = new ArrayList<>();
 

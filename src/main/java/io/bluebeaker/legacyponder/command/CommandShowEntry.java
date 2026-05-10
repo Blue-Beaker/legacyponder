@@ -40,7 +40,7 @@ public class CommandShowEntry extends CommandBase {
             screen.loadHistory();
         }else {
             String id = args[0];
-            Entry entry = ManualRegistry.getEntries().get(id);
+            Entry entry = ManualRegistry.get(id);
             if(entry==null){
                 throw new EntryNotFoundException(I18n.format("commands.legacyponder.show.entrynotfound",id));
             }
