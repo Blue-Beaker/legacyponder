@@ -1,5 +1,6 @@
 package io.bluebeaker.legacyponder.world;
 
+import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.render.StructureRenderManager;
 import io.bluebeaker.legacyponder.structure.PonderStructure;
 import io.bluebeaker.legacyponder.structure.events.StructureTileEvent;
@@ -133,9 +134,19 @@ public class DummyWorld extends World {
 
     @Override
     public void neighborChanged(BlockPos pos, Block blockIn, BlockPos fromPos) {
+        try {
+            super.neighborChanged(pos,blockIn,fromPos);
+        } catch (Exception e) {
+            LegacyPonder.logException(e);
+        }
     }
     @Override
     public void observedNeighborChanged(BlockPos pos, final Block changedBlock, BlockPos changedBlockPos){
+        try {
+            super.observedNeighborChanged(pos, changedBlock, changedBlockPos);
+        } catch (Exception e) {
+            LegacyPonder.logException(e);
+        }
     }
 
     public static class ClientWorld extends World{

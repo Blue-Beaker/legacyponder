@@ -1,5 +1,6 @@
 package io.bluebeaker.legacyponder;
 
+import io.bluebeaker.legacyponder.demo.DemoEntries;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.Config.Comment;
 import net.minecraftforge.common.config.Config.LangKey;
@@ -22,6 +23,10 @@ public class CommonConfig {
     public static boolean log_debug = false;
 
     public static int debug_verbosity = 1;
+
+    @Comment("Set a custom homepage for your modpack. Defaults to the demo entry.")
+    @LangKey("config.legacyponder.homepage_id")
+    public static String homepage_id = DemoEntries.INTERNAL_DEMO_ID;
 
     public static class Compat{
         @RequiresMcRestart

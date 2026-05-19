@@ -21,16 +21,15 @@ public class DemoEntries {
 
     public static void addDemoIfNeeded(){
         if(CommonConfig.demo){
-            demoAdded=addDemoEntry();
-        } else if (demoAdded) {
+            addDemoEntry();
+        } else {
             ManualRegistry.getEntries().remove(INTERNAL_DEMO_ID);
-            demoAdded=false;
         }
         addHelpEntry();
     }
-    private static boolean demoAdded = false;
-    public static boolean addDemoEntry(){
-        if(ManualRegistry.getEntries().containsKey(INTERNAL_DEMO_ID)) return false;
+
+    public static void addDemoEntry(){
+        if(ManualRegistry.getEntries().containsKey(INTERNAL_DEMO_ID)) return;
 
         IEntry entry = IEntry.createEntry("unconfusion.entry.demo_1.title","unconfusion.entry.demo_1.desc");
         entry.addIngredient(CraftTweakerMC.getItemStack(Items.IRON_INGOT,1,0));
@@ -68,7 +67,6 @@ public class DemoEntries {
         entry.addPage(PageBase.catalogPage().setDescription("Example catalog showing all existing entries"));
 
         ManualRegistry.add(INTERNAL_DEMO_ID, entry);
-        return true;
     }
     public static void addHelpEntry(){
         IEntry entry = IEntry.createEntry("unconfusion.entry.help.title","unconfusion.entry.help.desc");

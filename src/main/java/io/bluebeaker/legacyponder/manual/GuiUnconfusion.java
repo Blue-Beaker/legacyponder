@@ -92,6 +92,9 @@ public class GuiUnconfusion extends GuiScreen {
         this.buttonList.add(new GuiButtonExt(ButtonID.NEXT,23,this.height-22,20,20,">"));
         this.buttonList.add(new GuiButtonExt(ButtonID.HELP,this.width-40,0,20,20,"?"));
         this.buttonList.add(new GuiButtonExt(ButtonID.SETTINGS,this.width-60,0,20,20,"#"));
+        if(ManualRegistry.get(CommonConfig.homepage_id)!=null){
+            this.buttonList.add(new GuiButtonExt(ButtonID.HOMEPAGE,this.width-80,0,20,20,"⌂"));
+        }
 
         GuiButtonExt back = new GuiButtonExt(ButtonID.BACK, 2, 2, 16, 16, "<");
         this.buttonList.add(back);
@@ -172,11 +175,20 @@ public class GuiUnconfusion extends GuiScreen {
         jumpTo(id,-1);
     }
 
+    protected String getHomepage(){
+        if (ManualRegistry.get(CommonConfig.homepage_id)!=null){
+            return CommonConfig.homepage_id;
+        }else {
+            return DemoEntries.HELP_ID;
+        }
+    }
+
     public void loadHistory(){
         if(historyTracker.history.isEmpty()){
-            jumpTo(DemoEntries.HELP_ID);
+            jumpTo(getHomepage());
             return;
         }
+
         gotoHistory(historyTracker.currentIndex);
     }
 
@@ -240,6 +252,8 @@ public class GuiUnconfusion extends GuiScreen {
                     this.drawHoveringText(I18n.format("button.legacyponder.settings"), mouseX, mouseY);
                 } else if (button.id == ButtonID.HELP) {
                     this.drawHoveringText(I18n.format("button.legacyponder.help"), mouseX, mouseY);
+                } else if (button.id == ButtonID.HOMEPAGE) {
+                    this.drawHoveringText(I18n.format("button.legacyponder.homepage"), mouseX, mouseY);
                 } else if (button.id == ButtonID.BACK || button.id == ButtonID.FORWARD) {
                     List<String> historyTip = historyTracker.getTooltipStrings();
                     this.drawHoveringText(historyTip, mouseX, mouseY);
@@ -362,6 +376,8 @@ public class GuiUnconfusion extends GuiScreen {
             Minecraft.getMinecraft()
                     .displayGuiScreen(
                             new GuiConfig(this, LegacyPonder.MODID, false, false, I18n.format("config.legacyponder.ui"), UIConfig.class));
+        } else if (button.id == ButtonID.HOMEPAGE) { //Help
+            this.jumpTo(getHomepage(), -1);
         } else if (button.id == ButtonID.LINK_CONFIRMED) {
             this.isLinkActive = false;
         }
@@ -420,5 +436,6 @@ public class GuiUnconfusion extends GuiScreen {
         public static final int SETTINGS = 5;
         public static final int LINK_CONFIRMED = 31102009;
         public static final int FORWARD = 6;
+        public static final int HOMEPAGE = 7;
     }
 }

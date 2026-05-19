@@ -1,70 +1,63 @@
+button.legacyponder.help=Help
+button.legacyponder.homepage=Homepage
 button.legacyponder.open=Show Details
-link.legacyponder.page=Page %s
-gui.category.legacyponder=Unconfusion
-commands.legacyponder.usage=legacyponder <%s> ...
-commands.legacyponder.save.usage=legacyponder save <x1> <y1> <z1> <x2> <y2> <z2> <name> [ReplaceExisting] [WithEntities]
+button.legacyponder.reset_view=Reset View
+button.legacyponder.reset_zoom=Reset Zoom
+button.legacyponder.settings=Settings
+commands.legacyponder.load.usage=legacyponder load <x> <y> <z> <name>
 commands.legacyponder.save.failure=Failed to save structure '%s': %s
 commands.legacyponder.save.success=Saved structure '%s'
-commands.legacyponder.load.usage=legacyponder load <x> <y> <z> <name>
-commands.legacyponder.show.usage=lpshow <id> [page]
+commands.legacyponder.save.usage=legacyponder save <x1> <y1> <z1> <x2> <y2> <z2> <name> [ReplaceExisting] [WithEntities]
 commands.legacyponder.show.entrynotfound=Can't find entry with id '%s'
-config.legacyponder.compat=Compat
-config.legacyponder.drawing_logs_interval=Drawing Errors print interval
-config.legacyponder.log_debug=Debug Logs
-config.legacyponder.demo=Enable Demo
+commands.legacyponder.show.usage=lpshow <id> [page]
+commands.legacyponder.usage=legacyponder <%s> ...
 config.legacyponder.common=General
 config.legacyponder.common.tooltip=General configurations.
+config.legacyponder.compat=Compat
+config.legacyponder.demo=Enable Demo
+config.legacyponder.drawing_logs_interval=Drawing Errors print interval
+config.legacyponder.homepage_id=Homepage ID
+config.legacyponder.log_debug=Debug Logs
 config.legacyponder.renderWorkaround=Render Workaround
 config.legacyponder.specialTileClasses=Special TileEntity Classes
 config.legacyponder.ui=UI
+config.legacyponder.ui.back_then_close=Back before Close
+config.legacyponder.ui.cursor_sensivity=Cursor Sensivity
+config.legacyponder.ui.defaultPitch=Default View - Pitch
+config.legacyponder.ui.defaultYaw=Default View - Yaw
+config.legacyponder.ui.structure_scaling=Default Structure Scale
 config.legacyponder.ui.tooltip=UI tweaks.
 config.legacyponder.ui.wheel_sensivity=Wheel Sensivity
-config.legacyponder.ui.cursor_sensivity=Cursor Sensivity
 config.legacyponder.ui.zoom_buttons=Zoom Buttons
 config.legacyponder.ui.zoom_slider=Zoom Slider
-config.legacyponder.ui.structure_scaling=Default Structure Scale
-config.legacyponder.ui.defaultYaw=Default View - Yaw
-config.legacyponder.ui.defaultPitch=Default View - Pitch
-config.legacyponder.ui.back_then_close=Back before Close
-
-key.legacyponder.prev_page=Previous Page
-key.legacyponder.next_page=Next Page
-key.legacyponder.open_manual=Open Unconfusion
+error.legacyponder.drawable_not_provided=Error: provided drawable is null.
+error.legacyponder.structure_load_error=Error loading structure '%s': %s
+error.legacyponder.structure_not_found=Error: structure '%s' not found.
+gui.category.legacyponder=Unconfusion
 key.legacyponder.history_back=Back
 key.legacyponder.history_forward=Forward
-
-button.legacyponder.help=Help
-button.legacyponder.settings=Settings
-button.legacyponder.reset_view=Reset View
-button.legacyponder.reset_zoom=Reset Zoom
-error.legacyponder.structure_not_found=Error: structure '%s' not found.
-error.legacyponder.structure_load_error=Error loading structure '%s': %s
-error.legacyponder.drawable_not_provided=Error: provided drawable is null.
-
-unconfusion.entry.demo_1.title=Welcome to Unconfusion!
+key.legacyponder.next_page=Next Page
+key.legacyponder.open_manual=Open Unconfusion
+key.legacyponder.prev_page=Previous Page
+link.legacyponder.page=Page %s
 unconfusion.entry.demo_1.desc=See what can be made with Unconfusion in this demo!
 unconfusion.entry.demo_1.page1.text=Unconfusion is a mod to make intuitive in-game tutorials for modpacks and mod players.\nMain Features:\n- Pages and entries-based manual\n- Structure view pages\n- Element-based pages, can be used to represent GUIs, or provide detailed explanations.\n- Uses CraftTweaker ZenScript to fully customize entries and pages\n\nThis entry is used to demonstrate the features of the mod, and can be disabled in mod's general settings.
-
-unconfusion.entry.help.title=Unconfusion User Manual
+unconfusion.entry.demo_1.title=Welcome to Unconfusion!
 unconfusion.entry.help.desc=Unconfusion is a mod for intuitive in-game tutorials.\nSee this help to learn how to use it.
-
-unconfusion.entry.help.page1.text1=Unconfusion is a mod for intuitive in-game tutorials.\nSee this help to learn how to use it.\n\nThis page introduces the buttons in this main GUI.
-unconfusion.entry.help.page1.desc=Basic UI
 unconfusion.entry.help.page1.bottomleft=▼ Prev/Next Page (Mouse scroll or §e%s§r/§e%s§r)
+unconfusion.entry.help.page1.desc=Basic UI
+unconfusion.entry.help.page1.text1=Unconfusion is a mod for intuitive in-game tutorials.\nSee this help to learn how to use it.\n\nThis page introduces the buttons in this main GUI.
 unconfusion.entry.help.page1.topleft=▲ Back/Forward (History)
 unconfusion.entry.help.page1.topright=Options Help Close ▲
-
+unconfusion.entry.help.page2.bottomleft=▼These buttons also controls the structure view.
 unconfusion.entry.help.page2.desc=Basic controls of structure view.
 unconfusion.entry.help.page2.middle=This page is a main feature of the mod - Structure view.\nDrag with left button to rotate, right/middle button to pan, and scroll to zoom.
-unconfusion.entry.help.page2.bottomleft=▼These buttons also controls the structure view.
-
 unconfusion.entry.help.page3.desc=The structure again, with popups.
 unconfusion.entry.help.page3.hover1=There may also be information hovering like this. Try to drag this popup!
-
 unconfusion.entry.help.page4.desc=Check out the recipes!
 unconfusion.entry.help.page4.hover1=§e%s§r/§e%s§r (JEI hotkeys) can be used on a block in structure, or an item on the page, to show recipes/usage for them.
-
 unconfusion.entry.help.page5.desc=And even see the GUI!
-unconfusion.entry.help.page5.title=Furnace GUI
 unconfusion.entry.help.page5.hover1=A page can also represent a GUI.\nTry click on an item for recipe/usage.
 unconfusion.entry.help.page5.hover2=Some text also have links - try click on it!
+unconfusion.entry.help.page5.title=Furnace GUI
+unconfusion.entry.help.title=Unconfusion User Manual
