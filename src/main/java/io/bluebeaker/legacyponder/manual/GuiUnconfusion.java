@@ -1,5 +1,6 @@
 package io.bluebeaker.legacyponder.manual;
 
+import io.bluebeaker.legacyponder.CommonConfig;
 import io.bluebeaker.legacyponder.Keybinds;
 import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.UIConfig;
@@ -221,7 +222,10 @@ public class GuiUnconfusion extends GuiScreen {
             // Draw current page
             this.guiInfoPage.draw(mouseX - this.pageBounds.x, mouseY - this.pageBounds.y, partialTicks);
         } catch (Exception e) {
-            LegacyPonder.getLogger().error("Error drawing manual page {}: {}",this.currentPage,e);
+            if(CommonConfig.log_debug){
+                LegacyPonder.getLogger().error("Error drawing manual page {}:",this.currentPage);
+                LegacyPonder.logException(e);
+            }
         }
         super.drawScreen(mouseX, mouseY, partialTicks);
 
@@ -261,7 +265,8 @@ public class GuiUnconfusion extends GuiScreen {
                 guiInfoPage.onKeyTyped(typedChar, keyCode);
             }
         } catch (Exception e) {
-            LegacyPonder.getLogger().error("Error handling key {} on manual page {}: {}",keyCode,this.currentPage,e);
+            LegacyPonder.getLogger().error("Error handling key {} on manual page {}:",keyCode,this.currentPage);
+            LegacyPonder.logException(e);
         }
     }
 
@@ -305,7 +310,8 @@ public class GuiUnconfusion extends GuiScreen {
                 return;
             }
         } catch (Exception e) {
-            LegacyPonder.getLogger().error("Error handling mouse click on manual page {}: {}",this.currentPage,e);
+            LegacyPonder.getLogger().error("Error handling mouse click on manual page {}:",this.currentPage);
+            LegacyPonder.logException(e);
         }
         super.mouseClicked(mouseX, mouseY, mouseButton);
     }
@@ -319,7 +325,8 @@ public class GuiUnconfusion extends GuiScreen {
                 return;
             }
         } catch (Exception e) {
-            LegacyPonder.getLogger().error("Error handling mouse releasing on manual page {}: {}",this.currentPage,e);
+            LegacyPonder.getLogger().error("Error handling mouse releasing on manual page {}:",this.currentPage);
+            LegacyPonder.logException(e);
         }
         super.mouseReleased(mouseX, mouseY, state);
     }
@@ -331,7 +338,8 @@ public class GuiUnconfusion extends GuiScreen {
                 return;
             }
         } catch (Exception e) {
-            LegacyPonder.getLogger().error("Error handling mouse dragging on manual page {}: {}",this.currentPage,e);
+            LegacyPonder.getLogger().error("Error handling mouse dragging on manual page {}:",this.currentPage);
+            LegacyPonder.logException(e);
         }
         super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
     }

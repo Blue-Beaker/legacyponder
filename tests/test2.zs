@@ -62,5 +62,7 @@ entry.addPage(Page.fromStructure("test1/stru1")
             }
         ).setColor(80,127,127))
     );
+    
+entry.addPage(Page.fromStructure("wiring_1"));
 
 ManualRegistry.add("test_entry3",entry);

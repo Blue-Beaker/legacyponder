@@ -7,7 +7,9 @@ import io.bluebeaker.legacyponder.demo.DemoEntries;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.structure.StructureLoader;
 import net.minecraft.client.Minecraft;
+import net.minecraft.crash.CrashReport;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ReportedException;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Config.Type;
@@ -23,6 +25,9 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.apache.logging.log4j.Logger;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 @Mod(modid = Tags.MOD_ID, name = Tags.MOD_NAME, version = Tags.VERSION,acceptableRemoteVersions = "*",clientSideOnly = true)
 public class LegacyPonder
@@ -100,5 +105,19 @@ public class LegacyPonder
 
     public static Logger getLogger(){
         return logger;
+    }
+    public static void logException(Throwable e){
+        if (CommonConfig.debug_verbosity>=1){
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            if (CommonConfig.debug_verbosity>=2 && e instanceof ReportedException){
+                CrashReport crashReport = ((ReportedException) e).getCrashReport();
+                sw.write(crashReport.getCompleteReport());
+            }
+            e.printStackTrace(pw);
+            logger.error(sw.toString());
+        }else {
+            logger.error(e.getMessage());
+        }
     }
 }

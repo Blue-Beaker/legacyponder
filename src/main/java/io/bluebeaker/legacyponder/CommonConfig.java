@@ -21,6 +21,8 @@ public class CommonConfig {
     @LangKey("config.legacyponder.log_debug")
     public static boolean log_debug = false;
 
+    public static int debug_verbosity = 1;
+
     public static class Compat{
         @RequiresMcRestart
         public boolean buildcraft = true;

@@ -60,7 +60,10 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
     private ItemStack hoverItem = ItemStack.EMPTY;
     @Nullable
     protected GuiSlider slider = null;
-    public boolean isStructureLoaded = false;
+
+    @Nullable
+    protected String errorMessage = null;
+//    public boolean isStructureLoaded = false;
 
     public GuiPageStructure(GuiUnconfusion parent, PageStructure page) {
         super(parent, page);
@@ -73,11 +76,17 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
 
         PonderStructure structure = StructureLoader.getStructure(page.structureID);
         if(structure!=null){
-            StructureRenderManager.getWorld().loadStructure(structure);
-            isStructureLoaded=true;
+            try {
+                StructureRenderManager.getWorld().loadStructure(structure);
+                errorMessage=null;
+            } catch (Exception e) {
+                LegacyPonder.getLogger().error("Error loading structure:",e);
+                LegacyPonder.logException(e);
+                errorMessage=TextUtils.formatKey("error.legacyponder.structure_load_error",this.page.structureID,e.getMessage());
+            }
         }else {
             StructureRenderManager.getWorld().clearWorld();
-            isStructureLoaded=false;
+            errorMessage=TextUtils.formatKey("error.legacyponder.structure_not_found",this.page.structureID);
         }
         StructureRenderManager.resetCameraOffset();
         StructureRenderManager.updateBuffer();
@@ -139,8 +148,8 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
 
         this.hoverItem=ItemStack.EMPTY;
 
-        if(!isStructureLoaded){
-            RenderUtils.drawSplitString(fontRenderer, TextUtils.formatKey("error.legacyponder.structure_not_found",this.page.structureID),width/2,height/2,width,0xFFFFFFFF,true,0.5F,0.5F);
+        if(errorMessage!=null && !errorMessage.isEmpty()){
+            RenderUtils.drawSplitString(fontRenderer, errorMessage,width/2,height/2,width,0xFFFFFFFF,true,0.5F,0.5F);
         }else {
             StructureRenderManager.prepareTransformations(pageBounds.x, pageBounds.y, pageBounds.w,pageBounds.h);
 
