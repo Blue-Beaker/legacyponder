@@ -7,6 +7,7 @@ import io.bluebeaker.legacyponder.manual.HistoryTracker;
 import io.bluebeaker.legacyponder.manual.page.PageStructure;
 import io.bluebeaker.legacyponder.structure.StructureLoader;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -38,7 +39,7 @@ public class CommandShowStructure extends CommandBase {
             throw new WrongUsageException("commands.legacyponder.showstructure.usage", new Object[0]);
         }
         String structureName = args[0];
-        Entry entry = new Entry(structureName, "Temporary debug entry for the structure " + structureName);
+        Entry entry = new Entry(I18n.format("temp_entry.legacyponder.structure.title",structureName), "temp_entry.legacyponder.structure.desc");
         entry.addPage(new PageStructure(structureName));
         String entryID = "_temp:"+structureName.replace(" ","_").replace("-","_").replace("/","_");
         ManualRegistry.getEntries().put(entryID,entry);
