@@ -25,6 +25,8 @@ public class PageStructure extends PagePopups{
     @Nullable
     protected IDrawableSupplier overlaySupplier;
 
+    protected boolean useClientWorld = false;
+
     /**
      * @return Structure ID of this page
      */
@@ -120,6 +122,25 @@ public class PageStructure extends PagePopups{
     public DrawableBase getOverlay(int width, int height){
         if(overlaySupplier==null) return null;
         return overlaySupplier.process(width, height);
+    }
+
+    @ZenMethod
+    public void _setUseClientWorld(boolean useClientWorld){
+        this.useClientWorld = useClientWorld;
+    }
+    @ZenGetter
+    public boolean getUseClientWorld(){
+        return this.useClientWorld;
+    }
+
+    /** Make this page use a 'client' dummy world to render structure. Workaround for some mods crashing with the default server world.
+     * @param useClientWorld whether to use 'client' dummy world
+     * @return this
+     */
+    @ZenMethod
+    public PageStructure setUseClientWorld(boolean useClientWorld){
+        _setUseClientWorld(useClientWorld);
+        return this;
     }
 
     @ZenMethod

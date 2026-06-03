@@ -49,6 +49,7 @@ public class DummyWorld extends World {
         );
         chunkProvider = new DummyChunkProvider(this);
         this.provider.setWorld(this);
+        this.getClientWorld();
     }
 
     protected DummyWorld(ISaveHandler saveHandlerIn, WorldInfo info, WorldProvider providerIn, Profiler profilerIn, boolean client) {

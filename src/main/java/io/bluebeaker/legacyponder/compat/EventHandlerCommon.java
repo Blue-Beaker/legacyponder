@@ -38,9 +38,19 @@ public class EventHandlerCommon {
     @SubscribeEvent
     public void onSave(StructureTileEvent.Save event){
         TileEntity tile = event.tileEntity;
-        if(SPECIAL_TILES.contains(tile.getClass().getName())) {
+        if(isSpecialTile(tile.getClass())) {
             event.extraData.setTag("updateTag",tile.getUpdateTag());
         }
+    }
+
+    protected boolean isSpecialTile(Class<? extends TileEntity> clazz){
+        if (SPECIAL_TILES.contains(clazz.getName())) return true;
+        Class<?> superclass = clazz.getSuperclass();
+        while (superclass != null && !superclass.equals(TileEntity.class)){
+            if (SPECIAL_TILES.contains(superclass.getName())) return true;
+            superclass = superclass.getSuperclass();
+        }
+        return false;
     }
 
     @SubscribeEvent

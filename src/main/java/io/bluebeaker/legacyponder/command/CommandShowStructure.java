@@ -39,8 +39,14 @@ public class CommandShowStructure extends CommandBase {
             throw new WrongUsageException("commands.legacyponder.showstructure.usage", new Object[0]);
         }
         String structureName = args[0];
+
+        boolean useClientWorld = false;
+        if(args.length >= 2){
+            useClientWorld = Boolean.parseBoolean(args[1]);
+        }
+
         Entry entry = new Entry(I18n.format("temp_entry.legacyponder.structure.title",structureName), "temp_entry.legacyponder.structure.desc");
-        entry.addPage(new PageStructure(structureName));
+        entry.addPage(new PageStructure(structureName).setUseClientWorld(useClientWorld));
         String entryID = "_temp:"+structureName.replace(" ","_").replace("-","_").replace("/","_");
         ManualRegistry.getEntries().put(entryID,entry);
 
@@ -67,10 +73,13 @@ public class CommandShowStructure extends CommandBase {
 
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos)
     {
-            if (args.length == 1)
-            {
-                return getListOfStringsMatchingLastWord(args, StructureLoader.getStructuresNames());
-            }
+        if (args.length == 1)
+        {
+            return getListOfStringsMatchingLastWord(args, StructureLoader.getStructuresNames());
+        }
+        if (args.length == 2){
+            return getListOfStringsMatchingLastWord(args, "true","false");
+        }
         return Collections.emptyList();
     }
 }

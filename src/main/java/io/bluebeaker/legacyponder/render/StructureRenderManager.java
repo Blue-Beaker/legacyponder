@@ -37,9 +37,13 @@ import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 public class StructureRenderManager {
 
     public static BlockPos STRUCTURE_OFFSET = new BlockPos(0,63,0);
+
     protected static DummyWorld world = new DummyWorld(false);
+    protected static DummyWorld clientWorld = new DummyWorld(true);
 
     protected static DummyPlayer player = new DummyPlayer(world,new GameProfile(UUID.randomUUID(),"LegacyPonderRenderPlayer"));
+
+    protected static DummyPlayer clientPlayer = new DummyPlayer(clientWorld,new GameProfile(UUID.randomUUID(),"LegacyPonderRenderPlayer"));
 
     private static final Map<String, BufferBuilder> buffers = new HashMap<>();
 
@@ -52,29 +56,33 @@ public class StructureRenderManager {
     };
     protected static StructureBufferBuilder localBuffer;
 
+    public static boolean useClientWorld = false;
 
     public static DummyWorld getWorld(){
-        if(world==null){
-            world=new DummyWorld(true);
+        if(clientWorld == null){
+            clientWorld = new DummyWorld(true);
         }
-        return world;
+        if(world==null){
+            world=new DummyWorld(false);
+        }
+        return useClientWorld ? clientWorld : world;
     }
 
     public static DummyPlayer getPlayer() {
-        return player;
+        return useClientWorld ? clientPlayer : player;
     }
     public static void syncPlayerPos(Vec3d pos){
-        player.posX=pos.x;
-        player.posY=pos.y-player.eyeHeight;
-        player.posZ=pos.z;
-        player.rotationYaw= viewPos.yaw-180f;
-        player.rotationPitch= viewPos.pitch;
-        player.cameraYaw=viewPos.yaw-180f;
-        player.cameraPitch=viewPos.pitch;
+        getPlayer().posX=pos.x;
+        getPlayer().posY=pos.y- getPlayer().eyeHeight;
+        getPlayer().posZ=pos.z;
+        getPlayer().rotationYaw= viewPos.yaw-180f;
+        getPlayer().rotationPitch= viewPos.pitch;
+        getPlayer().cameraYaw=viewPos.yaw-180f;
+        getPlayer().cameraPitch=viewPos.pitch;
     }
 
     public static void renderStructure(float partialTicks){
-
+        DummyWorld world = getWorld();
         Minecraft.getMinecraft().getRenderManager().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         new WorldVertexBufferUploader().draw(localBuffer);
 
@@ -143,6 +151,7 @@ public class StructureRenderManager {
     }
 
     public static void prepareTransformations(int offsetX, int offsetY, int sizeX, int sizeY) {
+        DummyWorld world = getWorld();
         GlStateManager.pushAttrib();
         GlStateManager.enableDepth();
         GlStateManager.enableBlend();
@@ -188,7 +197,7 @@ public class StructureRenderManager {
     }
 
     public static void resetCameraOffset(){
-
+        DummyWorld world = getWorld();
         double structureSize = Math.max(Math.max(world.templateSize.getX(), world.templateSize.getY()), world.templateSize.getZ());
 
         viewPos.camera_offset=new Vec3d(0,0,(-(structureSize) * 0.6F - 3)/ UIConfig.structure_scaling);
@@ -218,7 +227,7 @@ public class StructureRenderManager {
     }
 
     private static void renderBuffer(BufferBuilder buffer) {
-
+        DummyWorld world = getWorld();
         for (BlockPos.MutableBlockPos pos : BlockPos.getAllInBoxMutable(STRUCTURE_OFFSET, STRUCTURE_OFFSET.add(world.templateSize))){
             buffer.setTranslation(
                     -STRUCTURE_OFFSET.getX(),

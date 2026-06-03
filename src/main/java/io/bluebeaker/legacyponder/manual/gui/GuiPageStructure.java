@@ -72,11 +72,13 @@ public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
     @Override
     public void onPageRefresh() {
         super.onPageRefresh();
-        StructureRenderManager.getWorld().setWorldTime(0);
+
 
         PonderStructure structure = StructureLoader.getStructure(page.structureID);
         if(structure!=null){
             try {
+                useClientWorld=page.getUseClientWorld();
+                StructureRenderManager.getWorld().setWorldTime(0);
                 StructureRenderManager.getWorld().loadStructure(structure);
                 errorMessage=null;
             } catch (Exception e) {
