@@ -43,7 +43,7 @@ public class PrebuiltDrawables {
         DrawableGrid titles = new DrawableGrid(1, width-18, 16);
         drawable.addChild(icons, 0, 0);
         drawable.addChild(titles, 18, 3);
-        Map<String, Entry> entries = ManualRegistry.getEntries();
+        Map<String, Entry> entries = ManualRegistry.getVisibleEntries();
         ArrayList<String> ids = new ArrayList<>(entries.keySet());
 
         if(!filter.isEmpty()){

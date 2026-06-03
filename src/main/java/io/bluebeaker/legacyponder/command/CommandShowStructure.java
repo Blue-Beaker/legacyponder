@@ -4,52 +4,49 @@ import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
 import io.bluebeaker.legacyponder.manual.Entry;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.manual.HistoryTracker;
+import io.bluebeaker.legacyponder.manual.page.PageStructure;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class CommandShowEntry extends CommandBase {
+public class CommandShowStructure extends CommandBase {
     @Override
     public String getName() {
-        return "legacyponder-show";
-    }
-
-    @Override
-    public List<String> getAliases() {
-        return Arrays.asList("lpshow","unconfusion-show");
+        return "legacyponder-showstructure";
     }
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return "commands.legacyponder.show.usage";
+        return "commands.legacyponder.showstructure.usage";
     }
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        GuiUnconfusion screen = new GuiUnconfusion();
         if (args.length < 1)
         {
-            // No entry specified, try to load from history
-            screen.loadHistory();
-        }else {
-            String id = args[0];
-            Entry entry = ManualRegistry.get(id);
-            if(entry==null){
-                throw new EntryNotFoundException(I18n.format("commands.legacyponder.show.entrynotfound",id));
-            }
-            HistoryTracker.get().clear();
-            screen.jumpTo(id);
-            if (args.length>=2){
-                screen.setCurrentPageID(parseInt(args[1]));
-            }
+            throw new WrongUsageException("commands.legacyponder.showstructure.usage", new Object[0]);
         }
+        String structureName = args[0];
+        Entry entry = new Entry(structureName, "Temporary debug entry for the structure " + structureName);
+        entry.addPage(new PageStructure(structureName));
+        String entryID = "_temp:"+structureName.replace(" ","_").replace("-","_").replace("/","_");
+        ManualRegistry.getEntries().put(entryID,entry);
+
+        GuiUnconfusion screen = new GuiUnconfusion();
+
+        HistoryTracker.get().clear();
+        screen.jumpTo(entryID);
+
         // Delay before showing screen, to make sure it opens
         new Timer().schedule(new TimerTask() {
             @Override
@@ -61,25 +58,17 @@ public class CommandShowEntry extends CommandBase {
         },100);
     }
 
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos)
-    {
-        if (args.length < 2)
-        {
-            String match = args.length==1? args[0] : "";
-            List<String> completions = new ArrayList<>();
-            for (String id : ManualRegistry.getVisibleEntries().keySet()) {
-                if(id.startsWith(match)){
-                    completions.add(id);
-                }
-            }
-            Collections.sort(completions);
-            return completions;
-        }
-        return Collections.emptyList();
-    }
-
     @Override
     public int getRequiredPermissionLevel() {
-        return 0;
+        return 2;
+    }
+
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos)
+    {
+        if (args.length > 0 && args.length <= 3)
+        {
+            return getTabCompletionCoordinate(args, 0, targetPos);
+        }
+        return Collections.emptyList();
     }
 }

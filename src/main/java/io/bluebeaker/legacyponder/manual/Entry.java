@@ -16,6 +16,8 @@ public class Entry {
     private final List<List<ItemStack>> items;
     private final List<FluidStack> fluids;
 
+    public boolean hideInJEI = false;
+
     public Entry(String title, String summary){
         this.title=title;
         this.summary = summary;
@@ -47,4 +49,6 @@ public class Entry {
     public List<FluidStack> getFluids(){
         return this.fluids;
     }
+
+    public boolean isHideInJEI(){return hideInJEI;}
 }

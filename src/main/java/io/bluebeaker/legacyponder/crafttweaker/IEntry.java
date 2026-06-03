@@ -10,7 +10,9 @@ import io.bluebeaker.legacyponder.manual.page.PageBase;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
+import stanhebben.zenscript.annotations.ZenSetter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -101,5 +103,22 @@ public class IEntry {
         for (IItemStack item : ingredient.getItems()) {
             addItem(item);
         }
+    }
+
+    @ZenMethod
+    public IEntry setHideInJei(boolean hideInJei){
+        _setHideInJei(hideInJei);
+        return this;
+    }
+
+    @ZenSetter("hideInJEI")
+    public void _setHideInJei(boolean hideInJei){
+        internal.hideInJEI = hideInJei;
+    }
+
+    @ZenGetter("hideInJEI")
+    @ZenMethod
+    public boolean getHideInJei(){
+        return internal.hideInJEI;
     }
 }

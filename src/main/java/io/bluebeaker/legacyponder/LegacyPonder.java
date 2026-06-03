@@ -2,6 +2,7 @@ package io.bluebeaker.legacyponder;
 
 import io.bluebeaker.legacyponder.command.CommandLegacyPonder;
 import io.bluebeaker.legacyponder.command.CommandShowEntry;
+import io.bluebeaker.legacyponder.command.CommandShowStructure;
 import io.bluebeaker.legacyponder.compat.*;
 import io.bluebeaker.legacyponder.demo.DemoEntries;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
@@ -83,6 +84,7 @@ public class LegacyPonder
         this.server=event.getServer();
         event.registerServerCommand(new CommandLegacyPonder());
         ClientCommandHandler.instance.registerCommand(new CommandShowEntry());
+        ClientCommandHandler.instance.registerCommand(new CommandShowStructure());
     }
 
     @SubscribeEvent

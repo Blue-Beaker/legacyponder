@@ -15,9 +15,9 @@ public class UnconfusionRecipeRegistry {
 
     public static List<UnconfusionRecipeWrapper> getRecipes(final IJeiHelpers jeiHelpers){
         List<UnconfusionRecipeWrapper> recipes = new ArrayList<>();
-        for(String id: ManualRegistry.getEntries().keySet()){
+        for(String id: ManualRegistry.getVisibleEntries().keySet()){
             Entry entry = ManualRegistry.get(id);
-            if(entry==null) continue;
+            if(entry==null || entry.hideInJEI) continue;
             addWrapper(jeiHelpers, id, entry.title, entry.summary, entry, recipes);
         }
         return recipes;
