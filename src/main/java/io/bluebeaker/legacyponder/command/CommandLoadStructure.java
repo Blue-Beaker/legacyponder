@@ -53,6 +53,8 @@ public class CommandLoadStructure extends CommandBase {
         if (args.length > 0 && args.length <= 3)
         {
             return getTabCompletionCoordinate(args, 0, targetPos);
+        }else if(args.length==4){
+            return getListOfStringsMatchingLastWord(args, StructureLoader.getStructuresNames());
         }
         return Collections.emptyList();
     }

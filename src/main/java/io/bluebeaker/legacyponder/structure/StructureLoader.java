@@ -1,6 +1,7 @@
 package io.bluebeaker.legacyponder.structure;
 
 import io.bluebeaker.legacyponder.LegacyPonder;
+import io.bluebeaker.legacyponder.utils.FileUtils;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -13,8 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class StructureLoader {
     public static final Map<String, PonderStructure> structures = new HashMap<>();
@@ -110,5 +110,25 @@ public class StructureLoader {
             LegacyPonder.getLogger().info("Loaded structure {}",id);
         }
         return structures.get(id);
+    }
+
+    /** Get a list of all structure names, including loaded structures, and files from the config folder. The list is unmodifiable.
+     * @return the structure names
+     */
+    public static List<String> getStructuresNames(){
+        Set<String> list = new HashSet<>(structures.keySet());
+
+        List<File> files = new ArrayList<>();
+        FileUtils.listFilesRecursive(structureDir, files);
+        for (File file : files) {
+            if (file.isFile() && file.getName().endsWith(".nbt")) {
+                String path = file.getAbsolutePath();
+                String parentPath = structureDir.getAbsolutePath();
+                path = path.substring(parentPath.length()+1,path.length()-4);
+                list.add(path.replace(File.separator,"/"));
+            }
+        }
+
+        return Collections.unmodifiableList(new  ArrayList<>(list));
     }
 }

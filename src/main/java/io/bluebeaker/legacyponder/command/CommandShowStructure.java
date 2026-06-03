@@ -5,6 +5,7 @@ import io.bluebeaker.legacyponder.manual.Entry;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.manual.HistoryTracker;
 import io.bluebeaker.legacyponder.manual.page.PageStructure;
+import io.bluebeaker.legacyponder.structure.StructureLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -65,10 +66,10 @@ public class CommandShowStructure extends CommandBase {
 
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos)
     {
-        if (args.length > 0 && args.length <= 3)
-        {
-            return getTabCompletionCoordinate(args, 0, targetPos);
-        }
+            if (args.length == 1)
+            {
+                return getListOfStringsMatchingLastWord(args, StructureLoader.getStructuresNames());
+            }
         return Collections.emptyList();
     }
 }
