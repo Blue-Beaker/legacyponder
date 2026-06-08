@@ -8,6 +8,7 @@ import io.bluebeaker.legacyponder.Tags;
 import io.bluebeaker.legacyponder.crafttweaker.DrawableBuilder;
 import io.bluebeaker.legacyponder.crafttweaker.IEntry;
 import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
+import io.bluebeaker.legacyponder.jeiplugin.UnconfusionRecipeCategory;
 import io.bluebeaker.legacyponder.manual.drawable.*;
 import io.bluebeaker.legacyponder.manual.page.PageBase;
 import net.minecraft.init.Items;
@@ -48,6 +49,7 @@ public class DemoEntries {
             group.addChild(DrawableBuilder.text("Link to an item",0xFFFFFFFF).setLinkItem(CraftTweakerMC.getItemStack(Items.DIAMOND_PICKAXE,1,500)),0,20);
             group.addChild(DrawableBuilder.text("Link to help page 2",0xFFFFFFFF).setLinkManual(HELP_ID,2),0,30);
             group.addChild(DrawableBuilder.text("Link to the mod's repository",0xFFFFFFFF).setLinkUrl(Tags.MOD_URL,null),0,40);
+            group.addChild(DrawableBuilder.text("Link to the JEI category",0xFFFFFFFF).setLinkCategory(UnconfusionRecipeCategory.UID,null),0,50);
             return group;
         }));
         entry.addPage(PageBase.fromDrawable((w,h)->{

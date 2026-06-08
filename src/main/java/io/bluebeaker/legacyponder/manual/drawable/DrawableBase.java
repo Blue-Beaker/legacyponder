@@ -154,6 +154,18 @@ public abstract class DrawableBase {
         this.link=new LinkUrl(url,tooltip);
         return this;
     }
+
+    @ZenMethod
+    public DrawableBase setLinkCategory(String category, @Nullable String tooltip){
+        this.link=new LinkJeiCategory(category,tooltip);
+        return this;
+    }
+    @ZenMethod
+    public DrawableBase setLinkCategory(String[] category, @Nullable String tooltip){
+        this.link=new LinkJeiCategory(category,tooltip);
+        return this;
+    }
+
     @ZenMethod
     public DrawableBase setLinkItem(IItemStack item){
         this.link=new LinkItem(CraftTweakerMC.getItemStack(item));

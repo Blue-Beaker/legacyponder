@@ -2,10 +2,33 @@ package io.bluebeaker.legacyponder.jeiplugin;
 
 import mezz.jei.api.IRecipesGui;
 import mezz.jei.api.recipe.IFocus;
+import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.config.KeyBindings;
 import mezz.jei.gui.Focus;
 
+import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
+
 public class JEIUtils {
+
+    public static void showJEICategory(String category){
+        showJEICategories(Collections.singletonList(category));
+    }
+
+    public static void showJEICategories(List<String> jeiCategories){
+        if (UnconfusionJEIPlugin.runtime != null) {
+            UnconfusionJEIPlugin.runtime.getRecipesGui().showCategories(jeiCategories);
+        }
+    }
+
+    @Nullable
+    public static IRecipeCategory<?> getCategory(String category){
+        if (UnconfusionJEIPlugin.runtime != null) {
+            return UnconfusionJEIPlugin.runtime.getRecipeRegistry().getRecipeCategory(category);
+        }
+        return null;
+    }
 
     public static <V> void handleJEIAction(V ingredient, JEIAction action) {
         if(UnconfusionJEIPlugin.runtime==null || ingredient==null) return;
