@@ -2,9 +2,9 @@ package io.bluebeaker.legacyponder.manual.drawable;
 
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IItemStack;
-import crafttweaker.api.minecraft.CraftTweakerMC;
+import io.bluebeaker.legacyponder.crafttweaker.Links;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
-import io.bluebeaker.legacyponder.manual.link.*;
+import io.bluebeaker.legacyponder.manual.link.LinkBase;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -134,43 +134,25 @@ public abstract class DrawableBase {
     }
 
     @ZenMethod
-    public DrawableBase setLinkHover(String tooltip){
-        this.link=new LinkHover(tooltip);
+    public DrawableBase setLink(LinkBase link){
+        this.link=link;
         return this;
     }
 
     @ZenMethod
-    public DrawableBase setLinkManual(String id, int page){
-        this.link=new LinkPonder(id, page);
-        return this;
-    }
+    public DrawableBase setLinkHover(String tooltip) {return setLink(Links.hover(tooltip));}
     @ZenMethod
-    public DrawableBase setLinkManual(String id){
-        this.link=new LinkPonder(id);
-        return this;
-    }
+    public DrawableBase setLinkManual(String id, int page) {return setLink(Links.manual(id, page));}
     @ZenMethod
-    public DrawableBase setLinkUrl(String url, @Nullable String tooltip){
-        this.link=new LinkUrl(url,tooltip);
-        return this;
-    }
-
+    public DrawableBase setLinkManual(String id) {return setLink(Links.manual(id));}
     @ZenMethod
-    public DrawableBase setLinkCategory(String category, @Nullable String tooltip){
-        this.link=new LinkJeiCategory(category,tooltip);
-        return this;
-    }
+    public DrawableBase setLinkUrl(String url, @Nullable String tooltip) {return setLink(Links.url(url, tooltip));}
     @ZenMethod
-    public DrawableBase setLinkCategory(String[] category, @Nullable String tooltip){
-        this.link=new LinkJeiCategory(category,tooltip);
-        return this;
-    }
-
+    public DrawableBase setLinkCategory(String category, @Nullable String tooltip) {return setLink(Links.category(category, tooltip));}
     @ZenMethod
-    public DrawableBase setLinkItem(IItemStack item){
-        this.link=new LinkItem(CraftTweakerMC.getItemStack(item));
-        return this;
-    }
+    public DrawableBase setLinkCategory(String[] category, @Nullable String tooltip) {return setLink(Links.category(category, tooltip));}
+    @ZenMethod
+    public DrawableBase setLinkItem(IItemStack item) {return setLink(Links.item(item));}
     @ZenMethod
     public DrawableBase resetLink(){
         this.link=getDefaultLink();
