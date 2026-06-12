@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.crafttweaker;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import io.bluebeaker.legacyponder.manual.link.*;
@@ -9,8 +9,8 @@ import stanhebben.zenscript.annotations.ZenMethod;
 
 import javax.annotation.Nullable;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.Links")
-@ZenRegister
 public class Links {
     @ZenMethod
     public static LinkHover hover(String tooltip){

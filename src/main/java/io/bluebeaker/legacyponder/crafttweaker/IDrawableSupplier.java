@@ -1,10 +1,10 @@
 package io.bluebeaker.legacyponder.crafttweaker;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.manual.drawable.DrawableBase;
 import stanhebben.zenscript.annotations.ZenClass;
 
-@ZenRegister
+@ModZenRegister
 @ZenClass("mods.legacyponder.IDrawableSupplier")
 public interface IDrawableSupplier {
     /**

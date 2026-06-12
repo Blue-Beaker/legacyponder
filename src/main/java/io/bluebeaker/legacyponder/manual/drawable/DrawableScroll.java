@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.drawable;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
@@ -13,8 +13,8 @@ import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.DrawableScroll")
-@ZenRegister
 public class DrawableScroll extends DrawableContainer{
     public DrawableBase internal = null;
     public int scrollX = 0;

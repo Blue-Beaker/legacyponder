@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.hover;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.crafttweaker.IDrawableSupplier;
 import org.lwjgl.util.vector.Vector3f;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -9,8 +9,8 @@ import stanhebben.zenscript.annotations.ZenProperty;
 
 import java.awt.*;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.HoverComponent")
-@ZenRegister
 public class HoverComponent {
     public final Vector3f pos;
     protected Color color = new Color(80,0,255);

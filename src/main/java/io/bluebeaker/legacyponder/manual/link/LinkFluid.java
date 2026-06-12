@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.link;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import net.minecraftforge.fluids.FluidStack;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -8,8 +8,8 @@ import stanhebben.zenscript.annotations.ZenClass;
 import java.util.ArrayList;
 import java.util.List;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.LinkFluid")
-@ZenRegister
 public class LinkFluid implements LinkIngredient<FluidStack> {
 
     private final FluidStack fluid;

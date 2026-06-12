@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.drawable;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import net.minecraft.client.gui.GuiScreen;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -10,8 +10,8 @@ import stanhebben.zenscript.annotations.ZenMethod;
  * Helper drawable to help positioning HoverComponent for PageDrawable.
  * Doesn't do anything on its own, but you can attach a HoverComponent with same ID to its position.
  */
+@ModZenRegister
 @ZenClass("mods.legacyponder.DrawableHoverPos")
-@ZenRegister
 public class DrawableHoverPos extends DrawableBase {
     public final int id;
     public DrawableHoverPos(int id){

@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.hover;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import crafttweaker.api.world.IBlockPos;
 import net.minecraft.util.math.BlockPos;
@@ -10,8 +10,8 @@ import stanhebben.zenscript.annotations.ZenMethod;
 
 import java.awt.*;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.HighlightArea")
-@ZenRegister
 public class HighlightArea {
 
     protected Vec3d pos1;

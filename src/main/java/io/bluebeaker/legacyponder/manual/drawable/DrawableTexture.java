@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.drawable;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import net.minecraft.client.renderer.GlStateManager;
@@ -8,8 +8,8 @@ import net.minecraft.util.ResourceLocation;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.DrawableTexture")
-@ZenRegister
 public class DrawableTexture extends DrawableBase {
     private final ResourceLocation texture;
     private final BoundingBox2D textureUV;

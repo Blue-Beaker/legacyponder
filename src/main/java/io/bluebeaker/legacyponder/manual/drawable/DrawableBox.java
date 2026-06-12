@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.drawable;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import net.minecraftforge.fml.client.config.GuiUtils;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -8,8 +8,8 @@ import stanhebben.zenscript.annotations.ZenMethod;
 
 import java.awt.*;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.DrawableBox")
-@ZenRegister
 public class DrawableBox extends DrawableBase {
     private final int color;
     public DrawableBox(int x1, int y1, int x2, int y2, int color){

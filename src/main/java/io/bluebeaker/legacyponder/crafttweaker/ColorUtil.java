@@ -1,13 +1,13 @@
 package io.bluebeaker.legacyponder.crafttweaker;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 import java.awt.*;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.ColorUtil")
-@ZenRegister
 public class ColorUtil {
     @ZenMethod
     public static int packRGB(int r, int g, int b){

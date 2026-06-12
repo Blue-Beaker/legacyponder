@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.crafttweaker;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.liquid.ILiquidStack;
@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.IEntry")
-@ZenRegister
 public class IEntry {
     public final Entry internal;
 

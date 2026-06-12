@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.page;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.crafttweaker.IDrawableSupplier;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.manual.drawable.DrawableBase;
@@ -10,8 +10,8 @@ import io.bluebeaker.legacyponder.manual.hover.HoverComponent;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.PageDrawable")
-@ZenRegister
 public class PageDrawable extends PagePopups{
     private final IDrawableSupplier drawableSupplier;
     public PageDrawable(IDrawableSupplier drawableSupplier){

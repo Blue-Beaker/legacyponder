@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.drawable;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -11,8 +11,8 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.DrawableGroup")
-@ZenRegister
 public class DrawableGroup extends DrawableContainer {
     final List<DrawableBase> children = new ArrayList<>();
 

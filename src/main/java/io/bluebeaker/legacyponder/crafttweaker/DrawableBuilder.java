@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.crafttweaker;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.liquid.ILiquidStack;
@@ -12,8 +12,8 @@ import stanhebben.zenscript.annotations.ZenMethod;
 /**
  * Conventional builder class for creating drawable elements
  */
+@ModZenRegister
 @ZenClass("mods.legacyponder.DrawableBuilder")
-@ZenRegister
 public class DrawableBuilder {
 
     /** Builds a box drawable with the specified coordinates and color.

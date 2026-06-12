@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.drawable;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IItemStack;
 import io.bluebeaker.legacyponder.crafttweaker.Links;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
@@ -15,8 +15,8 @@ import stanhebben.zenscript.annotations.ZenMethod;
 import javax.annotation.Nullable;
 import java.util.List;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.DrawableBase")
-@ZenRegister
 public abstract class DrawableBase {
     protected int x;
     protected int y;

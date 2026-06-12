@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.page;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.crafttweaker.IDrawableSupplier;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.manual.drawable.DrawableBase;
@@ -16,8 +16,8 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.PageStructure")
-@ZenRegister
 public class PageStructure extends PagePopups{
 
     protected final List<HighlightArea> highlightAreas = new ArrayList<>();

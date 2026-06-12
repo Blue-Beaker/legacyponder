@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.drawable;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
@@ -23,8 +23,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.DrawableItem")
-@ZenRegister
 public class DrawableItem extends DrawableBase {
 
     private final List<ItemStack> itemStacks;

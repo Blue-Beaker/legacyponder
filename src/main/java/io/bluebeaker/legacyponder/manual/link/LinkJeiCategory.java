@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.link;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.jeiplugin.JEIUtils;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.utils.TextUtils;
@@ -13,8 +13,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.LinkJeiCategory")
-@ZenRegister
 public class LinkJeiCategory implements LinkBase {
     @Nullable
     public final String tooltip;

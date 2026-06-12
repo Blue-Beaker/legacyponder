@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.link;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.utils.TextUtils;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -9,8 +9,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.LinkHover")
-@ZenRegister
 public class LinkHover implements LinkBase{
     public final String tooltip;
 

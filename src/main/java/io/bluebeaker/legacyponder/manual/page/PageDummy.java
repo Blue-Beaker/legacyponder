@@ -1,13 +1,13 @@
 package io.bluebeaker.legacyponder.manual.page;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
 import stanhebben.zenscript.annotations.ZenClass;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.PageDummy")
-@ZenRegister
 public class PageDummy extends PageBase {
     private String text = null;
 

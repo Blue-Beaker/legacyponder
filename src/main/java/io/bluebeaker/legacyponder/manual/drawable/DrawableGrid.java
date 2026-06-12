@@ -1,12 +1,12 @@
 package io.bluebeaker.legacyponder.manual.drawable;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenSetter;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.DrawableGrid")
-@ZenRegister
 public class DrawableGrid extends DrawableGroup{
     protected int columns;
     protected int colWidth;

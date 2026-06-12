@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.link;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
 import io.bluebeaker.legacyponder.manual.Entry;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.LinkPonder")
-@ZenRegister
 public class LinkPonder implements LinkBase{
 
     public final String id;

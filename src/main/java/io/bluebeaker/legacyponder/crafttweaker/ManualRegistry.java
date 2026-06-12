@@ -1,8 +1,8 @@
 package io.bluebeaker.legacyponder.crafttweaker;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.manual.Entry;
 import net.minecraft.client.resources.I18n;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -14,8 +14,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.ManualRegistry")
-@ZenRegister
 public class ManualRegistry {
 
     private static final Map<String, Entry> PONDER_REGISTRY = new HashMap<>();

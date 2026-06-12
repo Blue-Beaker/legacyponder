@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.drawable;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.text.ITextComponent;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
@@ -13,8 +13,8 @@ import stanhebben.zenscript.annotations.ZenMethod;
 import java.util.List;
 import java.util.regex.Pattern;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.DrawableText")
-@ZenRegister
 public class DrawableText extends DrawableBase {
 
     public static final Pattern PATTERN = Pattern.compile("(§[0-9a-fr])");

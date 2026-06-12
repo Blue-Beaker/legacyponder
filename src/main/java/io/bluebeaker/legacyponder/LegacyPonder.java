@@ -1,4 +1,5 @@
 package io.bluebeaker.legacyponder;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
 import io.bluebeaker.legacyponder.command.CommandLegacyPonder;
 import io.bluebeaker.legacyponder.command.CommandShowEntry;
@@ -48,6 +49,11 @@ public class LegacyPonder
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
+        // Scan and register all @ModZenRegister classes with CraftTweaker.
+        // Done manually instead of using @ZenRegister to avoid CraftTweaker
+        // loading client-only classes on dedicated servers.
+        ZenClassScanner.init(event.getAsmData());
+        ZenClassScanner.registerAll();
         if(Loader.isModLoaded("zenutils")){
             MinecraftForge.EVENT_BUS.register(new ZenUtilsCompat());
         }

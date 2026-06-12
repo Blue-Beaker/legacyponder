@@ -1,12 +1,12 @@
 package io.bluebeaker.legacyponder.manual.link;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.jeiplugin.JEIUtils;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import stanhebben.zenscript.annotations.ZenClass;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.LinkIngredient")
-@ZenRegister
 public interface LinkIngredient<V> extends LinkBase {
     @Override
     default void onClick(GuiUnconfusion screen, int button) {

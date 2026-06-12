@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.drawable;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
 import io.bluebeaker.legacyponder.utils.Vec2i;
@@ -11,8 +11,8 @@ import stanhebben.zenscript.annotations.ZenMethod;
 import java.util.ArrayList;
 import java.util.List;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.DrawableLine")
-@ZenRegister
 public class DrawableLine extends DrawableBase {
     private final int color;
 

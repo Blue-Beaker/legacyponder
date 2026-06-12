@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.page;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.crafttweaker.IDrawableSupplier;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.manual.gui.GuiInfoPage;
@@ -10,8 +10,8 @@ import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
 import stanhebben.zenscript.annotations.ZenSetter;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.Page")
-@ZenRegister
 public abstract class PageBase {
 
     /** Build a new dummy page for testing.

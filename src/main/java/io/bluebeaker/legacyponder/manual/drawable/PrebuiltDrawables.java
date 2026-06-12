@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.drawable;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.crafttweaker.DrawableBuilder;
 import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
 import io.bluebeaker.legacyponder.demo.DemoEntries;
@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.PrebuiltDrawables")
-@ZenRegister
 public class PrebuiltDrawables {
 
     /** Build a 'catalog' that shows all registered manual entries as links

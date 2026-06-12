@@ -1,13 +1,13 @@
 package io.bluebeaker.legacyponder.manual.link;
+import io.bluebeaker.legacyponder.ModZenRegister;
 
-import crafttweaker.annotations.ZenRegister;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import stanhebben.zenscript.annotations.ZenClass;
 
 import java.util.List;
 
+@ModZenRegister
 @ZenClass("mods.legacyponder.LinkBase")
-@ZenRegister
 public interface LinkBase {
     /** Called when the link is clicked
      * @param button Mouse button that was clicked, 0 for left click, 1 for right click, 2 for middle click
