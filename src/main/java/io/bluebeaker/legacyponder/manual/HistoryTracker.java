@@ -2,11 +2,14 @@ package io.bluebeaker.legacyponder.manual;
 
 import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
 import net.minecraft.client.resources.I18n;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+@SideOnly(Side.CLIENT)
 public class HistoryTracker {
 
     protected final List<HistoryEntry> history = new ArrayList<>();

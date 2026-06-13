@@ -31,6 +31,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 import net.minecraftforge.fml.client.config.GuiSlider;
 import net.minecraftforge.fml.client.config.GuiUtils;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
@@ -45,6 +47,7 @@ import java.util.List;
 import static io.bluebeaker.legacyponder.CommonConfig.renderWorkaround;
 import static io.bluebeaker.legacyponder.render.StructureRenderManager.*;
 
+@SideOnly(Side.CLIENT)
 public class GuiPageStructure extends GuiPageWithPopups<PageStructure> {
     /** Is dragging the camera? */
     protected boolean dragCam = false;

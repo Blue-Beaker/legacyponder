@@ -12,12 +12,15 @@ import io.bluebeaker.legacyponder.utils.Vec2i;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.util.vector.Vector3f;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
+@SideOnly(Side.CLIENT)
 public class GuiPageDrawable extends GuiPageWithPopups<PageDrawable> {
     /**
      * Cached drawable instance to be drawn. null if not initialized

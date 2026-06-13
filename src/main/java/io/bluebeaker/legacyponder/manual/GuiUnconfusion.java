@@ -23,12 +23,15 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
 import net.minecraftforge.fml.client.config.GuiConfig;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.List;
 
+@SideOnly(Side.CLIENT)
 public class GuiUnconfusion extends GuiScreen {
     @Nonnull
     protected Entry currentEntry = EmptyEntry.INSTANCE;

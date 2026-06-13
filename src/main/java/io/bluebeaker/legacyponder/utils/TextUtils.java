@@ -2,7 +2,10 @@ package io.bluebeaker.legacyponder.utils;
 
 import io.bluebeaker.legacyponder.manual.Entry;
 import net.minecraft.client.resources.I18n;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class TextUtils {
     public static String formatKey(String key, Object... parameters){
         return I18n.format(key, parameters);
@@ -13,7 +16,6 @@ public class TextUtils {
     public static String[] splitLines(String text1) {
         return text1.replace("\\n", "\n").split("\n");
     }
-
     public static String formatEntry(Entry entry) {
         return I18n.format(entry.title);
     }

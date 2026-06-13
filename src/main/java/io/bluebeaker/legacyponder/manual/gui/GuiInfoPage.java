@@ -6,9 +6,12 @@ import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import io.bluebeaker.legacyponder.utils.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.io.IOException;
 
+@SideOnly(Side.CLIENT)
 public class GuiInfoPage<T extends PageBase> extends GuiScreen {
     final GuiUnconfusion parent;
     final T page;

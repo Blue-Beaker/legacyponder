@@ -1,8 +1,11 @@
 package io.bluebeaker.legacyponder.manual.gui;
 
 import io.bluebeaker.legacyponder.utils.Vec2i;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Mouse;
 
+@SideOnly(Side.CLIENT)
 public class MouseTracker {
 
     public static final MouseTracker INSTANCE = new MouseTracker();

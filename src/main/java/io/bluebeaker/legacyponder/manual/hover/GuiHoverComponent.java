@@ -4,9 +4,12 @@ import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.manual.drawable.DrawableBase;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
 import net.minecraftforge.fml.client.config.GuiUtils;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.awt.*;
 
+@SideOnly(Side.CLIENT)
 public class GuiHoverComponent {
     public final HoverComponent internal;
     private DrawableBase drawable;
