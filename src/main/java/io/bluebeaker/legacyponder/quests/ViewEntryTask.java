@@ -15,6 +15,7 @@ import io.bluebeaker.legacyponder.manual.Entry;
 import io.bluebeaker.legacyponder.utils.TextUtils;
 import io.bluebeaker.legacyponder.utils.UnconfusionScreenHandler;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -79,8 +80,9 @@ public class ViewEntryTask extends Task {
     {
         super.getConfig(config);
 
-        config.addEnum("entryID", ()->this.entryID,(id)->this.entryID=id, NameMap.create("", ManualRegistry.getEntries().keySet().toArray(new String[0])) );
-        config.addString("entryID_input", () -> entryID, v -> entryID = v, "");
+        config.addEnum("entryID", ()->this.entryID,(id)->this.entryID=id, NameMap.createWithName("",
+                (sender,id)-> new TextComponentTranslation(ManualRegistry.getEntryTitle(id)),
+                ManualRegistry.getVisibleEntries().keySet().toArray(new String[0])));
     }
 
     @Override
