@@ -9,6 +9,8 @@ Features:
 - Support ZenUtils' hot reload feature (note that JEI entries needs restart to take effect)
 
 Notes:
+- When installed on server with FTBQuests integration enabled(by default), this mod will be required on client-side as well. Otherwise, client-side installation is optional.
+
 - In structure view, certain special blocks from some mods may not render properly.  
 - This is because the structure is loaded in a single dummy world that doesn't have normal client-server structure, so some blocks with custom render relying on it can break.  
 - This mod has a few compatibility modules built-in, to fix/optimize some known ones.  

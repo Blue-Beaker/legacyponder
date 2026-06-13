@@ -12,9 +12,8 @@ import com.feed_the_beast.ftbquests.quest.task.TaskData;
 import com.feed_the_beast.ftbquests.quest.task.TaskType;
 import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
 import io.bluebeaker.legacyponder.manual.Entry;
-import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.utils.TextUtils;
-import net.minecraft.client.Minecraft;
+import io.bluebeaker.legacyponder.utils.UnconfusionScreenHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -38,14 +37,7 @@ public class ViewEntryTask extends Task {
 
     @Override
     public void onButtonClicked(boolean canClick) {
-        Entry entry = ManualRegistry.get(entryID);
-        if(entry!=null){
-            GuiUnconfusion screen = new GuiUnconfusion();
-            screen.clearHistory();
-            screen.jumpTo(entryID);
-            screen.setCurrentPageID(page);
-            Minecraft.getMinecraft().displayGuiScreen(screen);
-        }
+        UnconfusionScreenHandler.openUnconfusionScreen(entryID, page);
         super.onButtonClicked(canClick);
     }
 

@@ -1,4 +1,9 @@
-## 0.1.2
+## 0.2.0
+Now supports to be installed on dedicated server, doing mostly nothing but the quests integration  
+Added FTB Quests Integration, with a "View Entry" task  
+Only register ZenClasses on client-side, to prevent crashing the dedicated server  
+
+## 0.1.2(Unreleased)
 Added `/legacyponder showStructure` command to display structure entries with tab completions  
 Added link to JEI category for quick access  
 Added homepage button in GUI  
