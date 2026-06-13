@@ -427,6 +427,10 @@ public class GuiUnconfusion extends GuiScreen {
         return isLinkActive;
     }
 
+    public void clearHistory(){
+        this.historyTracker.clear();
+    }
+
     public static class ButtonID{
         public static final int CLOSE = 0;
         public static final int PREV = 1;

@@ -3,7 +3,6 @@ package io.bluebeaker.legacyponder.command;
 import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
 import io.bluebeaker.legacyponder.manual.Entry;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
-import io.bluebeaker.legacyponder.manual.HistoryTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
@@ -44,7 +43,7 @@ public class CommandShowEntry extends CommandBase {
             if(entry==null){
                 throw new EntryNotFoundException(I18n.format("commands.legacyponder.show.entrynotfound",id));
             }
-            HistoryTracker.get().clear();
+            screen.clearHistory();
             screen.jumpTo(id);
             if (args.length>=2){
                 screen.setCurrentPageID(parseInt(args[1]));

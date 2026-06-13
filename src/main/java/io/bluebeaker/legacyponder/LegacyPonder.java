@@ -1,9 +1,11 @@
 package io.bluebeaker.legacyponder;
 
+import io.bluebeaker.legacyponder.quests.FTBQuestsIntegration;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ReportedException;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -15,6 +17,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
+import static io.bluebeaker.legacyponder.CommonConfig.ftbquests_integration;
 
 @Mod(modid = Tags.MOD_ID, name = Tags.MOD_NAME, version = Tags.VERSION,acceptableRemoteVersions = "*")
 public class LegacyPonder
@@ -43,6 +47,9 @@ public class LegacyPonder
     public void init(FMLInitializationEvent event) {
         if(event.getSide() == Side.CLIENT) {
             ClientHandler.init();
+        }
+        if(Loader.isModLoaded("ftbquests") && ftbquests_integration) {
+            MinecraftForge.EVENT_BUS.register(FTBQuestsIntegration.class);
         }
     }
 

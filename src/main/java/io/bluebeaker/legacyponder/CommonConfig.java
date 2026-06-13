@@ -43,6 +43,11 @@ public class CommonConfig {
     @LangKey("config.legacyponder.demo")
     public static boolean demo = true;
 
+    @Comment("Enable FTB Quests Integration. Adds a task to open an entry from this mod.")
+    @LangKey("config.legacyponder.ftbquests_integration")
+    @RequiresMcRestart
+    public static boolean ftbquests_integration = true;
+
     @Comment("Moves client-side player position temporarily when rendering structure. Workaround for renderers with view-based culling")
     @LangKey("config.legacyponder.renderWorkaround")
     public static PlayerPosWorkaround renderWorkaround = PlayerPosWorkaround.DISABLED;

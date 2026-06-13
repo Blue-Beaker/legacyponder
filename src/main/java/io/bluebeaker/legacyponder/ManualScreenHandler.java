@@ -20,7 +20,7 @@ public class ManualScreenHandler {
             lastManualScreen = (GuiUnconfusion) gui;
             lastManualScreen.setLastScreen(lastScreen);
         }
-        if (lastScreen instanceof GuiYesNo && lastManualScreen.isLinkActive()) {
+        if (lastScreen instanceof GuiYesNo && lastManualScreen!=null && lastManualScreen.isLinkActive()) {
             event.setGui(lastManualScreen);
         }
         lastScreen = gui;

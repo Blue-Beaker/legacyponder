@@ -42,7 +42,7 @@ dependencies {
 
     // For easier testing
     // runtimeOnly rfg.deobf('curse.maven:had-enough-items-557549:4543375')
-    runtimeOnly rfg.deobf('curse.maven:ftb-library-legacy-forge-237167:2985811')
+    implementation rfg.deobf('curse.maven:ftb-library-legacy-forge-237167:2985811')
     runtimeOnly rfg.deobf('curse.maven:ftb-utilities-forge-237102:3157548')
     
     implementation rfg.deobf('libs:HadEnoughItems_1.12.2-4.25.5')
@@ -52,6 +52,10 @@ dependencies {
     // ZenUtils
     implementation rfg.deobf("com.cleanroommc:configanytime:3.0")
     implementation rfg.deobf("libs:zenutils-1.21.4")
+
+    // FTB Quests
+    implementation rfg.deobf('curse.maven:item-filters-309674:3003364')
+    implementation rfg.deobf('curse.maven:ftb-quests-forge-289412:3156637')
 
     // For testing
     implementation rfg.deobf("libs:industrialcraft-2-2.8.222-ex112")
