@@ -62,12 +62,13 @@ public class DrawableGroup extends DrawableContainer {
     }
     @Override
     public void draw(GuiUnconfusion screen, int mouseX, int mouseY) {
-        GlStateManager.pushMatrix();
+//        GlStateManager.pushMatrix();
         GlStateManager.translate(x,y,0);
         for (DrawableBase child : children) {
             child.draw(screen,mouseX-this.x,mouseY-this.y);
         }
-        GlStateManager.popMatrix();
+        GlStateManager.translate(-x,-y,0);
+//        GlStateManager.popMatrix();
     }
 
     @Nullable
