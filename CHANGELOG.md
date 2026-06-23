@@ -1,7 +1,8 @@
 ## 0.2.0
-Now supports to be installed on dedicated server, doing mostly nothing but the quests integration  
-Added FTB Quests Integration, with a "View Entry" task  
-Only register ZenClasses on client-side, to prevent crashing the dedicated server  
+Now supports to be installed on dedicated server, doing mostly nothing but the quests integration.  
+Added FTB Quests Integration, with a "View Entry" task.  
+Only register ZenClasses on client-side, to prevent crashing the dedicated server.  
+Don't push matrices in DrawableGroup, to prevent matrix stack overflow.  
 
 ## 0.1.2(Unreleased)
 Added `/legacyponder showStructure` command to display structure entries with tab completions  
