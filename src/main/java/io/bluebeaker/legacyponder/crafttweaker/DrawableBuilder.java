@@ -6,6 +6,7 @@ import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.text.ITextComponent;
 import io.bluebeaker.legacyponder.manual.drawable.*;
+import io.bluebeaker.legacyponder.manual.drawable.container.DrawableBoxContainer;
 import io.bluebeaker.legacyponder.manual.drawable.container.DrawableGrid;
 import io.bluebeaker.legacyponder.manual.drawable.container.DrawableGroup;
 import io.bluebeaker.legacyponder.manual.drawable.container.DrawableScroll;
@@ -151,5 +152,29 @@ public class DrawableBuilder {
     @ZenMethod
     public static DrawableHoverPos hoverPos(int id){
         return new DrawableHoverPos(id);
+    }
+
+
+    /** Build a BoxContainer component, aligns children in a line automatically.
+     * @param margin Margin between children
+     * @param vertical Vertical if true
+     * @param reverse Reverse alignment direction
+     * @return The built BoxContainer component
+     */
+    @ZenMethod
+    public static DrawableBoxContainer boxContainer(int margin, boolean vertical, boolean reverse){
+        return new DrawableBoxContainer();
+    }
+    @ZenMethod
+    public static DrawableBoxContainer boxContainer(){
+        return new DrawableBoxContainer();
+    }
+    @ZenMethod
+    public static DrawableBoxContainer HBoxContainer(){
+        return new DrawableBoxContainer().setHorizontal();
+    }
+    @ZenMethod
+    public static DrawableBoxContainer VBoxContainer(){
+        return new DrawableBoxContainer().setVertical();
     }
 }

@@ -66,4 +66,20 @@ entry.addPage(Page.fromStructure("test1/stru1")
     
 entry.addPage(Page.fromStructure("wiring_1"));
 
+entry.addPage(Page.fromDrawable(function(w,h){
+        val group = DrawableBuilder.VBoxContainer().setMargin(2);
+        group.addChild(DrawableBuilder.text("Test",0xFFFFFFFF).setAlign(0.5),w/2,0);
+        group.addChild(DrawableBuilder.text("BoxContainer Alignment Test",0xFFFFFFFF).setAlign(0.5),w/2,0);
+        group.addChild(DrawableBuilder.item(<minecraft:gold_ingot>*10));
+        group.addChild(DrawableBuilder.item(<minecraft:beacon>));
+        group.addChild(DrawableBuilder.box(0,0,50,20,0xFFFF8080));
+        group.addChild(DrawableBuilder.item(<ore:plankWood>));
+        group.addChild(DrawableBuilder.text("BoxContainer Alignment Test",0xFFFFFFFF).setAlign(0.5),w/2,0);
+        return group;
+    })
+    .addHoverComponent(200,100,packRGB(255,180,180),function(w,h){
+           return DrawableBuilder.item(<minecraft:diamond>*2);
+           })
+    );
+
 ManualRegistry.add("test_entry3",entry);
