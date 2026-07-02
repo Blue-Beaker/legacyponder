@@ -6,6 +6,9 @@ import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.text.ITextComponent;
 import io.bluebeaker.legacyponder.manual.drawable.*;
+import io.bluebeaker.legacyponder.manual.drawable.container.DrawableGrid;
+import io.bluebeaker.legacyponder.manual.drawable.container.DrawableGroup;
+import io.bluebeaker.legacyponder.manual.drawable.container.DrawableScroll;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 

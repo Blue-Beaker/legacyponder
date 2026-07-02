@@ -5,6 +5,8 @@ import io.bluebeaker.legacyponder.crafttweaker.DrawableBuilder;
 import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
 import io.bluebeaker.legacyponder.demo.DemoEntries;
 import io.bluebeaker.legacyponder.manual.Entry;
+import io.bluebeaker.legacyponder.manual.drawable.container.DrawableGrid;
+import io.bluebeaker.legacyponder.manual.drawable.container.DrawableGroup;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -76,7 +78,7 @@ public class PrebuiltDrawables {
             items.addChild(new DrawableFluid(fluid));
         }
 
-        drawable.addChild(items,items.getXMax()/2 - (Math.min(columns,items.children.size())*16)/2,0);
+        drawable.addChild(items,items.getXMax()/2 - (Math.min(columns,items.getChildren().size())*16)/2,0);
         drawable.addChild(DrawableBuilder.formattedText(entry.summary, 0xFFFFFFFF).setMaxWidth(width).setAlign(0.5F),width/2,items.getHeight());
 
         return drawable;

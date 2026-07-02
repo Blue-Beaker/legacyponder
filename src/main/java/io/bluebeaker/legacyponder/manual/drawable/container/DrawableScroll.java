@@ -1,7 +1,8 @@
-package io.bluebeaker.legacyponder.manual.drawable;
+package io.bluebeaker.legacyponder.manual.drawable.container;
 import io.bluebeaker.legacyponder.ModZenRegister;
 
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
+import io.bluebeaker.legacyponder.manual.drawable.DrawableBase;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
 import net.minecraft.client.renderer.GlStateManager;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @ModZenRegister
 @ZenClass("mods.legacyponder.DrawableScroll")
-public class DrawableScroll extends DrawableContainer{
+public class DrawableScroll extends DrawableContainer {
     public DrawableBase internal = null;
     public int scrollX = 0;
     public int scrollY = 0;
@@ -87,12 +88,12 @@ public class DrawableScroll extends DrawableContainer{
 
     @Nullable
     @Override
-    DrawableBase getFocusedChild() {
+    public DrawableBase getFocusedChild() {
         return internal;
     }
 
     @Override
-    protected List<DrawableBase> getChildren() {
+    public List<DrawableBase> getChildren() {
         return internal==null ? Collections.emptyList() : Collections.singletonList(internal);
     }
 

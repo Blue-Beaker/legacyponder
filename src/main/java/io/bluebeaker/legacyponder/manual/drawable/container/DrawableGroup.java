@@ -1,7 +1,8 @@
-package io.bluebeaker.legacyponder.manual.drawable;
+package io.bluebeaker.legacyponder.manual.drawable.container;
 import io.bluebeaker.legacyponder.ModZenRegister;
 
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
+import io.bluebeaker.legacyponder.manual.drawable.DrawableBase;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -96,7 +97,7 @@ public class DrawableGroup extends DrawableContainer {
     }
 
     @Override
-    protected List<DrawableBase> getChildren() {
+    public List<DrawableBase> getChildren() {
         return this.children;
     }
 

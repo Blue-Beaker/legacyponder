@@ -1,8 +1,8 @@
 package io.bluebeaker.legacyponder.manual.page;
 import io.bluebeaker.legacyponder.ModZenRegister;
 
-import io.bluebeaker.legacyponder.manual.drawable.DrawableGroup;
-import io.bluebeaker.legacyponder.manual.drawable.DrawableScroll;
+import io.bluebeaker.legacyponder.manual.drawable.container.DrawableGroup;
+import io.bluebeaker.legacyponder.manual.drawable.container.DrawableScroll;
 import io.bluebeaker.legacyponder.manual.drawable.PrebuiltDrawables;
 import stanhebben.zenscript.annotations.ZenClass;
 

@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.page;
 
-import io.bluebeaker.legacyponder.manual.drawable.DrawableGroup;
+import io.bluebeaker.legacyponder.manual.drawable.container.DrawableGroup;
 import io.bluebeaker.legacyponder.manual.drawable.PrebuiltDrawables;
 
 public class PageSummary extends PageDrawable{

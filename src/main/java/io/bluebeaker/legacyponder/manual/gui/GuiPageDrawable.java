@@ -2,7 +2,7 @@ package io.bluebeaker.legacyponder.manual.gui;
 
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.manual.drawable.DrawableBase;
-import io.bluebeaker.legacyponder.manual.drawable.DrawableContainer;
+import io.bluebeaker.legacyponder.manual.drawable.container.DrawableContainer;
 import io.bluebeaker.legacyponder.manual.drawable.DrawableHoverPos;
 import io.bluebeaker.legacyponder.manual.hover.GuiHoverComponent;
 import io.bluebeaker.legacyponder.manual.page.PageDrawable;
