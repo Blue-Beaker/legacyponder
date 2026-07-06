@@ -28,16 +28,16 @@ public class DrawableBoxContainer extends DrawableGroup{
 
         for (DrawableBase child : children) {
             if(!vertical) {
-                child.setPosition(0,child.getY());
-                child.setPosition(x3-child.getXMin(),child.getY());
+//                child.setPosition(0,child.getY());
+                child.setPosition(x3-(child.getXMin()-child.getX()),child.getY());
                 if(!reverse) {
                     x3 = child.getXMax()+margin;
                 }else {
                     x3 = child.getXMin()-margin;
                 }
             }else {
-                child.setPosition(child.getX(),0);
-                child.setPosition(child.getX(),y3-child.getYMin());
+//                child.setPosition(child.getX(),0);
+                child.setPosition(child.getX(),y3-(child.getYMin()-child.getY()));
                 if(!reverse) {
                     y3 = child.getYMax()+margin;
                 }else {
