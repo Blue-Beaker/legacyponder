@@ -1,3 +1,7 @@
+## 0.2.1
+Add BoxContainer to the ZenScript API, as a convenience util for drawable layouts.
+Add alignment factor to HoverComponent, allowing for more flexible positioning of hover components.
+
 ## 0.2.0
 Now supports to be installed on dedicated server, doing mostly nothing but the quests integration.  
 Added FTB Quests Integration, with a "View Entry" task.  
