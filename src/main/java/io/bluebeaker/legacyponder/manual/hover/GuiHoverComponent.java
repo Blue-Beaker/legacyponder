@@ -35,7 +35,10 @@ public class GuiHoverComponent {
     }
     public void updateDrawablePos(int x, int y){
         DrawableBase drawable = getDrawable();
-        drawable.setPosition(x,y);
+        int xmax=drawable.getXMax()-drawable.getX();
+        int ymax=drawable.getYMax()-drawable.getY();
+
+        drawable.setPosition(x-Math.round(xmax* internal.alignX),y-Math.round(ymax* internal.alignY));
     }
     public void draw(GuiUnconfusion parent, int mouseX, int mouseY){
         DrawableBase drawable = getDrawable();

@@ -61,7 +61,7 @@ entry.addPage(Page.fromStructure("test1/stru1")
 
             return group;
             }
-        ).setColor(80,127,127))
+        ).setColor(80,127,127).setAlignFactor(0,1))
     );
     
 entry.addPage(Page.fromStructure("wiring_1"));

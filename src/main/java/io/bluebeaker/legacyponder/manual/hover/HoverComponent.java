@@ -26,6 +26,11 @@ public class HoverComponent {
     @ZenProperty
     public int offsetY=-10;
 
+    @ZenProperty
+    public float alignX=0;
+    @ZenProperty
+    public float alignY=0;
+
     public HoverComponent(float x, float y, float z, IDrawableSupplier drawableSupplier){
         this.pos=new Vector3f(x, y, z);
         this.drawableSupplier=drawableSupplier;
@@ -35,12 +40,25 @@ public class HoverComponent {
     public static HoverComponent build(float x, float y, float z, IDrawableSupplier drawableSupplier){
         return new HoverComponent(x,y,z,drawableSupplier);
     }
+
     @ZenMethod
     public HoverComponent setDefaultOffset(int offsetX, int offsetY){
         this.offsetX=offsetX;
         this.offsetY=offsetY;
         return this;
     }
+    /** Sets alignment factor (anchor point) for this component.
+     * @param alignX Alignment X, 0.0=left
+     * @param alignY Alignment Y, 0.0=top
+     * @return this
+     */
+    @ZenMethod
+    public HoverComponent setAlignFactor(float alignX, float alignY){
+        this.alignX=alignX;
+        this.alignY=alignY;
+        return this;
+    }
+
     @ZenMethod
     public HoverComponent setColor(int rgb){
         this.color = new Color(rgb);
