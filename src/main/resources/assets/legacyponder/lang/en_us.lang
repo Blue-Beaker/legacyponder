@@ -21,6 +21,7 @@ config.legacyponder.homepage_id=Homepage ID
 config.legacyponder.log_debug=Debug Logs
 config.legacyponder.renderWorkaround=Render Workaround
 config.legacyponder.specialTileClasses=Special TileEntity Classes
+config.legacyponder.dummyWorldDimension=DummyWorld Dimension ID
 config.legacyponder.ui=UI
 config.legacyponder.ui.back_then_close=Back before Close
 config.legacyponder.ui.cursor_sensivity=Cursor Sensivity

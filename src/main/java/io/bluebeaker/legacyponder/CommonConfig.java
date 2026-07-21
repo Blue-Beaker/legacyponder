@@ -65,7 +65,7 @@ public class CommonConfig {
             "appeng.tile.networking.TileCableBus#AE2",
             "buildcraft.transport.tile.TilePipeHolder#BCPipe"};
 
-    @Comment({"Dimension ID for the dummy world. Shouldn't conflict with existing dimension IDs to prevent side effects on some mods."})
+    @Comment({"Dimension ID for the dummy world used for showing structures. Shouldn't conflict with existing dimension IDs to prevent side effects on some mods."})
     @LangKey("config.legacyponder.dummyWorldDimension")
     public static int dummyWorldDimension = -25555;
 }

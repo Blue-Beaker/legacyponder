@@ -21,6 +21,7 @@ config.legacyponder.homepage_id=主页ID
 config.legacyponder.log_debug=调试日志
 config.legacyponder.renderWorkaround=渲染变通方案
 config.legacyponder.specialTileClasses=特殊 TileEntity 类
+config.legacyponder.dummyWorldDimension=DummyWorld 维度ID
 config.legacyponder.ui=UI
 config.legacyponder.ui.back_then_close=关闭前先返回
 config.legacyponder.ui.cursor_sensivity=光标灵敏度
