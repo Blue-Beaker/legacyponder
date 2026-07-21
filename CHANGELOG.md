@@ -1,5 +1,7 @@
 ## 0.2.2
 Try to compat with some TileEntitySpecialRenderers that doesn't use passed position for rendering.  
+Use custom dimension ID for DummyWorld to prevent side effects for some mods.  
+Added Compat to BuildCraft Landmarks
 
 ## 0.2.1
 Add BoxContainer to the ZenScript API, as a convenience util for drawable layouts.

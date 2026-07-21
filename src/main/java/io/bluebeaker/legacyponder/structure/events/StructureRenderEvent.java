@@ -10,8 +10,10 @@ import net.minecraft.util.math.Vec3d;
 
 public class StructureRenderEvent extends StructureEvent<DummyWorld> {
 
+    public NBTTagCompound extraStructureData;
     public StructureRenderEvent(DummyWorld world) {
         super(world);
+        this.extraStructureData = world.getCurrentStructure().extras;
     }
 
     @Override
@@ -22,7 +24,6 @@ public class StructureRenderEvent extends StructureEvent<DummyWorld> {
     public static class Pre extends StructureRenderEvent {
         public final Vec3d delta;
         public final float partialTicks;
-        public NBTTagCompound extraData;
         public Pre(DummyWorld world, Vec3d delta, float partialTicks){
             super(world);
             this.delta = delta;
@@ -32,7 +33,6 @@ public class StructureRenderEvent extends StructureEvent<DummyWorld> {
     public static class Post extends StructureRenderEvent {
         public final Vec3d delta;
         public final float partialTicks;
-        public NBTTagCompound extraData;
         public Post(DummyWorld world, Vec3d delta, float partialTicks){
             super(world);
             this.delta = delta;
