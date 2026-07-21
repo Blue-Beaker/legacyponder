@@ -103,6 +103,8 @@ public class StructureRenderManager {
         GlStateManager.translate(- STRUCTURE_OFFSET.getX(), - STRUCTURE_OFFSET.getY(), - STRUCTURE_OFFSET.getZ());
 
         GlStateManager.translate(delta.x, delta.y, delta.z);
+        // Event for pre-render listeners
+        EVENT_BUS.post(new StructureRenderEvent.Pre(world,delta,partialTicks));
 
         for (BlockPos.MutableBlockPos pos : BlockPos.getAllInBoxMutable(STRUCTURE_OFFSET, STRUCTURE_OFFSET.add(world.templateSize))){
             GlStateManager.pushAttrib();
@@ -147,6 +149,10 @@ public class StructureRenderManager {
             }
             GlStateManager.popAttrib();
         }
+
+        // Event for post-render listeners
+        EVENT_BUS.post(new StructureRenderEvent.Post(world,delta,partialTicks));
+
         GlStateManager.popMatrix();
     }
 
