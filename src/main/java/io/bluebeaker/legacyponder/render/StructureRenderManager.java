@@ -81,6 +81,14 @@ public class StructureRenderManager {
         getPlayer().cameraPitch=viewPos.pitch;
     }
 
+
+    /** Some TileEntitySpecialRenderers doesn't use passed position for rendering, instead calculates the position by themselves. This try to set the offset to like the one in vanilla context, to compat with them.
+     * @return The additional offset
+     */
+    public static Vec3d calcRenderOffset() {
+        return Minecraft.getMinecraft().player.getPositionVector();
+    }
+
     public static void renderStructure(float partialTicks){
         DummyWorld world = getWorld();
         Minecraft.getMinecraft().getRenderManager().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
@@ -89,21 +97,26 @@ public class StructureRenderManager {
         TileEntityRendererDispatcher.instance.preDrawBatch();
 
         GlStateManager.pushMatrix();
+
+        Vec3d delta = StructureRenderManager.calcRenderOffset();
+
         GlStateManager.translate(- STRUCTURE_OFFSET.getX(), - STRUCTURE_OFFSET.getY(), - STRUCTURE_OFFSET.getZ());
+
+        GlStateManager.translate(delta.x, delta.y, delta.z);
 
         for (BlockPos.MutableBlockPos pos : BlockPos.getAllInBoxMutable(STRUCTURE_OFFSET, STRUCTURE_OFFSET.add(world.templateSize))){
             GlStateManager.pushAttrib();
             try {
                 TileEntity tileEntity = world.getTileEntity(pos);
                 if(tileEntity !=null){
-                    StructureRenderEvent.RenderTile renderEvent = new StructureRenderEvent.RenderTile(world, tileEntity, pos);
+                    StructureRenderEvent.RenderTile renderEvent = new StructureRenderEvent.RenderTile(world, tileEntity, pos, partialTicks);
                     EVENT_BUS.post(renderEvent);
                     if(!renderEvent.isCanceled()){
                         TileEntityRendererDispatcher.instance.render(
                                 tileEntity,
-                                pos.getX(),
-                                pos.getY(),
-                                pos.getZ(),
+                                pos.getX()-delta.x,
+                                pos.getY()-delta.y,
+                                pos.getZ()-delta.z,
                                 partialTicks
                         );
                     }

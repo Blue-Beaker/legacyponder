@@ -32,9 +32,11 @@ public class StructureRenderEvent extends Event {
 
     public static class RenderTile extends StructureRenderEvent{
         public final TileEntity tileEntity;
-        public RenderTile(World world, TileEntity tileEntity, BlockPos pos) {
+        public final float partialTicks;
+        public RenderTile(World world, TileEntity tileEntity, BlockPos pos, float partialTicks) {
             super(world,pos);
             this.tileEntity = tileEntity;
+            this.partialTicks = partialTicks;
         }
     }
 }
