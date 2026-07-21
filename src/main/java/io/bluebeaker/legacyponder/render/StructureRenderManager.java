@@ -136,9 +136,9 @@ public class StructureRenderManager {
             try {
                 Minecraft.getMinecraft().getRenderManager().renderEntity(
                         entity,
-                        pos.x,
-                        pos.y,
-                        pos.z,
+                        pos.x- delta.x,
+                        pos.y- delta.y,
+                        pos.z-delta.z,
                         entity.rotationYaw,
                         partialTicks,
                         true
