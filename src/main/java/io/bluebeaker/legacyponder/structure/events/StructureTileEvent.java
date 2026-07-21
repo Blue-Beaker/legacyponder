@@ -4,16 +4,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.eventhandler.Event;
 
 import javax.annotation.Nullable;
 
-public class StructureTileEvent extends Event {
-    public final World world;
+public class StructureTileEvent extends StructureEvent<World> {
     public final TileEntity tileEntity;
     public final BlockPos pos;
     private StructureTileEvent(World world, TileEntity tileEntity, BlockPos pos){
-        this.world = world;
+        super(world);
         this.tileEntity = tileEntity;
         this.pos = pos;
     }

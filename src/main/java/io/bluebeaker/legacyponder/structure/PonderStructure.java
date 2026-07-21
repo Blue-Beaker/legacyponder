@@ -1,5 +1,6 @@
 package io.bluebeaker.legacyponder.structure;
 
+import io.bluebeaker.legacyponder.structure.events.StructureCaptureEvent;
 import io.bluebeaker.legacyponder.structure.events.StructureTileEvent;
 import io.bluebeaker.legacyponder.utils.NBTTypes;
 import io.bluebeaker.legacyponder.utils.NBTUtils;
@@ -29,6 +30,7 @@ public class PonderStructure {
 
     public final Map<Long, NBTTagCompound> tileEntities;
     public final Map<Long, NBTTagCompound> extraDatas;
+    public NBTTagCompound extras;
 
     public final List<StructureEntity> entities;
 
@@ -153,6 +155,13 @@ public class PonderStructure {
         }
     }
 
+    public void captureExtras(World world, BlockPos minPoint, BlockPos maxPoint) {
+        StructureCaptureEvent event = new StructureCaptureEvent(world, minPoint, maxPoint);
+        MinecraftForge.EVENT_BUS.post(event);
+        this.extras=event.extraData;
+    }
+
+
     /** Capture blocks from a world to a structure
      * @param world The world to capture block from
      * @param corner1 One corner
@@ -188,6 +197,8 @@ public class PonderStructure {
         if(withEntities){
             structure.captureEntities(world,minPoint,maxPoint);
         }
+
+        structure.captureExtras(world,minPoint,maxPoint);
 
         return structure;
     }
@@ -313,6 +324,10 @@ public class PonderStructure {
         nbt.setTag("size", listSize);
         nbt.setInteger("LegacyPonder_StructureVersion", 1);
         nbt.setString("pos",PosUtils.blockPosToString(this.pos));
+
+        if(!this.extras.isEmpty()){
+            nbt.setTag("extras", extras);
+        }
         return nbt;
     }
 
@@ -355,6 +370,10 @@ public class PonderStructure {
 
         if(nbt.hasKey("pos")){
             structure.pos=PosUtils.blockPosFromString(nbt.getString("pos"));
+        }
+
+        if(nbt.hasKey("extras")){
+            structure.extras=nbt.getCompoundTag("extras");
         }
 
         return structure;
