@@ -1,5 +1,6 @@
 package io.bluebeaker.legacyponder.world;
 
+import io.bluebeaker.legacyponder.CommonConfig;
 import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.render.StructureRenderManager;
 import io.bluebeaker.legacyponder.structure.PonderStructure;
@@ -42,6 +43,10 @@ public class DummyWorld extends World {
                     @Override
                     public DimensionType getDimensionType() {
                         return DimensionType.OVERWORLD;
+                    }
+                    @Override
+                    public int getDimension(){
+                        return CommonConfig.dummyWorldDimension;
                     }
                 },
                 new Profiler(),
@@ -148,6 +153,10 @@ public class DummyWorld extends World {
         } catch (Exception e) {
             LegacyPonder.logException(e);
         }
+    }
+
+    public PonderStructure getCurrentStructure() {
+        return currentStructure;
     }
 
     public static class ClientWorld extends World{
