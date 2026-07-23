@@ -5,7 +5,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Entry {
@@ -13,8 +12,7 @@ public class Entry {
     public final String summary;
     private final List<PageBase> pages;
 
-    private final List<List<ItemStack>> items;
-    private final List<FluidStack> fluids;
+    public final IngredientLink mainLink;
 
     public boolean hideInJEI = false;
 
@@ -22,8 +20,7 @@ public class Entry {
         this.title=title;
         this.summary = summary;
         this.pages=new ArrayList<>();
-        this.items=new ArrayList<>();
-        this.fluids=new ArrayList<>();
+        this.mainLink =new IngredientLink();
     }
 
     public void addPage(PageBase page){
@@ -33,21 +30,26 @@ public class Entry {
         return pages;
     }
 
+    //----------Main Ingredients----------
     public void addItems(List<ItemStack> items1){
-        this.items.add(items1);
+        this.mainLink.addItems(items1);
     }
     public void addItem(ItemStack item){
-        this.items.add(Collections.singletonList(item));
+        this.mainLink.addItem(item);
     }
     public List<List<ItemStack>> getItems(){
-        return this.items;
+        return this.mainLink.getItems();
     }
 
     public void addFluid(FluidStack fluid){
-        this.fluids.add(fluid);
+        this.mainLink.addFluid(fluid);
     }
     public List<FluidStack> getFluids(){
-        return this.fluids;
+        return this.mainLink.getFluids();
+    }
+
+    public IngredientLink getMainLink() {
+        return mainLink;
     }
 
     public boolean isHideInJEI(){return hideInJEI;}

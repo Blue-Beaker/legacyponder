@@ -1,10 +1,12 @@
 package io.bluebeaker.legacyponder.manual.page;
-import io.bluebeaker.legacyponder.ModZenRegister;
 
+import io.bluebeaker.legacyponder.ModZenRegister;
 import io.bluebeaker.legacyponder.crafttweaker.IDrawableSupplier;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.manual.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.manual.gui.GuiPageDefault;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -58,6 +60,7 @@ public abstract class PageBase {
     public PageBase() {
     }
 
+    @SideOnly(Side.CLIENT)
     public GuiInfoPage<? extends PageBase> getGuiPage(GuiUnconfusion parent){
         return new GuiPageDefault<>(parent,this);
     }
@@ -68,6 +71,7 @@ public abstract class PageBase {
      * @param mouseY Mouse Y relative to page area
      * @param partialTicks Parent partialTicks
      */
+    @SideOnly(Side.CLIENT)
     public void draw(GuiUnconfusion screen, int mouseX, int mouseY, float partialTicks){
     }
 

@@ -2,11 +2,14 @@ package io.bluebeaker.legacyponder.jeiplugin;
 
 import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
 import io.bluebeaker.legacyponder.manual.Entry;
+import io.bluebeaker.legacyponder.manual.IngredientLink;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
 import mezz.jei.api.IJeiHelpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +31,18 @@ public class UnconfusionRecipeRegistry {
 
         List<String> lines = RenderUtils.listFormattedStringToWidth(fr,I18n.format(title)+"\n"+I18n.format(summary), UnconfusionRecipeCategory.recipeWidth-8);
         // Compute max lines
-        int maxHeight = UnconfusionRecipeCategory.recipeHeight - 2 - 18 - ((internal.getFluids().size() + internal.getItems().size() - 1) / 9 * 18);
+        IngredientLink link = internal.getMainLink();
+
+        List<List<ItemStack>> items = link.getItems();
+        List<FluidStack> fluids = link.getFluids();
+        int maxHeight = UnconfusionRecipeCategory.recipeHeight - 2 - 18 - ((fluids.size() + items.size() - 1) / 9 * 18);
         if(!internal.getPages().isEmpty()) maxHeight=maxHeight-22;
         // Keep at least 1 line of text to prevent infinite loop
         int maxLines = Math.max(1,maxHeight / fr.FONT_HEIGHT);
 
         for (int from = 0; from < lines.size(); from=from+maxLines) {
             int to = Math.min(from + maxLines, lines.size());
-            recipes.add(new UnconfusionRecipeWrapper(jeiHelpers.getGuiHelper(), key, internal.getItems(), internal.getFluids(),lines.subList(from, to)));
+            recipes.add(new UnconfusionRecipeWrapper(jeiHelpers.getGuiHelper(), key, items, fluids,lines.subList(from, to)));
         }
     }
 }
