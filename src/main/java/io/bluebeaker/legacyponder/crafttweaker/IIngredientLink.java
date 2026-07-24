@@ -6,6 +6,7 @@ import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import io.bluebeaker.legacyponder.ModZenRegister;
 import io.bluebeaker.legacyponder.manual.IngredientLink;
+import io.bluebeaker.legacyponder.utils.CrTUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -22,7 +23,7 @@ public class IIngredientLink {
     public IIngredientLink(IngredientLink internal){
         this.internal=internal;
     }
-    
+
     /** Associate items with the entry, displayed in one slot
      * @param stacks IItemStacks to associate with the entry */
     @ZenMethod
@@ -60,9 +61,7 @@ public class IIngredientLink {
      * @param ingredients to associate with the entry */
     @ZenMethod
     public void addIngredient(IIngredient... ingredients){
-        for (IIngredient ingredient : ingredients) {
-            addItems(ingredient.getItems());
-        }
+        addItems(CrTUtils.unpackIngredients(ingredients));
     }
 
     /** Associate an IIngredient with the entry, displayed in multiple slots

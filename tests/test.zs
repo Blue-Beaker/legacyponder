@@ -10,6 +10,7 @@ import mods.legacyponder.HighlightArea;
 import mods.legacyponder.ColorUtil.packRGB;
 
 val entry = IEntry.createEntry("Entry 1","Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1 Test page entry 1");
+entry.setIcon(<minecraft:diamond>);
 entry.addItem(<minecraft:diamond>);
 entry.addFluid(<liquid:water>);
 entry.addIngredient(<ore:plankWood>);

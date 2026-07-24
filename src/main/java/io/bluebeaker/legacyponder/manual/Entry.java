@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Entry {
@@ -13,6 +14,8 @@ public class Entry {
     private final List<PageBase> pages;
 
     public final IngredientLink mainLink;
+
+    public List<ItemStack> icon = null;
 
     public boolean hideInJEI = false;
 
@@ -53,4 +56,22 @@ public class Entry {
     }
 
     public boolean isHideInJEI(){return hideInJEI;}
+
+    //----------Icon Item Overrides----------
+    public void setIcon(ItemStack icon){
+        this.icon = Collections.singletonList(icon);
+    }
+    public void setIcon(List<ItemStack> icon){
+        this.icon = new ArrayList<>(icon);
+    }
+    public List<ItemStack> getIcon(){
+        if (icon == null){
+            List<ItemStack> items = new ArrayList<>();
+            for (List<ItemStack> item : getItems()) {
+                items.addAll(item);
+            }
+            return items;
+        }
+        return icon;
+    }
 }

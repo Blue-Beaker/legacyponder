@@ -57,8 +57,7 @@ public class PrebuiltDrawables {
         Collections.sort(ids);
         for (String key : ids) {
             Entry entry = entries.get(key);
-            List<ItemStack> items = new ArrayList<>();
-            entry.getItems().forEach(items::addAll);
+            List<ItemStack> items = entry.getIcon();
 
             icons.addChild(new DrawableItem(items).setLinkManual(key));
             titles.addChild(DrawableBuilder.text(I18n.format(entry.title), 0xFFFFFFFF).setLinkManual(key));

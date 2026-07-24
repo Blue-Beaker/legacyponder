@@ -3,14 +3,18 @@ package io.bluebeaker.legacyponder.crafttweaker;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.liquid.ILiquidStack;
+import crafttweaker.api.minecraft.CraftTweakerMC;
 import io.bluebeaker.legacyponder.ModZenRegister;
 import io.bluebeaker.legacyponder.manual.Entry;
 import io.bluebeaker.legacyponder.manual.page.PageBase;
+import io.bluebeaker.legacyponder.utils.CrTUtils;
+import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
 import stanhebben.zenscript.annotations.ZenSetter;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -100,6 +104,47 @@ public class IEntry {
         return new IIngredientLink(internal.getMainLink());
     }
 
+    //----------Icon Setter/Getters----------
+    /** Set the icon for the entry with items
+     * @param stacks IItemStacks for the icon */
+    @ZenMethod
+    public void setIcon(List<IItemStack> stacks){
+        ItemStack[] itemStacks = CraftTweakerMC.getItemStacks(stacks);
+        this.internal.setIcon(Arrays.asList(itemStacks));
+    }
+    /** Set the icon for the entry with items
+     * @param stacks IItemStacks for the icon */
+    @ZenMethod
+    public void setIcon(IItemStack[] stacks){
+        ItemStack[] itemStacks = CraftTweakerMC.getItemStacks(stacks);
+        this.internal.setIcon(Arrays.asList(itemStacks));
+    }
+    /** Set the icon for the entry with items
+     * @param ingredients IIngredients for the icon */
+    @ZenMethod
+    public void setIcon(IIngredient... ingredients){
+        List<IItemStack> stacks = CrTUtils.unpackIngredients(ingredients);
+        ItemStack[] itemStacks = CraftTweakerMC.getItemStacks(stacks);
+        this.internal.setIcon(Arrays.asList(itemStacks));
+    }
+
+    /** Set the icon for the entry with an item
+     * @param stack IItemStack for the icon */
+    @ZenMethod
+    public void setIcon(IItemStack stack){
+        this.internal.setIcon(CraftTweakerMC.getItemStack(stack));
+    }
+
+    /** Get the icon for the entry as IItemStack[]
+     * @return The icon of the entry
+     */
+    @ZenMethod
+    public IItemStack[] getIcon(){
+        List<ItemStack> icon = this.internal.getIcon();
+        return CraftTweakerMC.getIItemStacks(icon);
+    }
+
+    //----------JEI Visibility----------
     @ZenMethod
     public IEntry setHideInJei(boolean hideInJei){
         _setHideInJei(hideInJei);

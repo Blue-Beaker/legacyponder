@@ -1,3 +1,6 @@
+## 0.2.3
+- Add a customizable icon to entry
+- Add more options to the FTB Quests Integration
 ## 0.2.2
 Try to compat with some TileEntitySpecialRenderers that doesn't use passed position for rendering.  
 Use custom dimension ID for DummyWorld to prevent side effects for some mods.  
