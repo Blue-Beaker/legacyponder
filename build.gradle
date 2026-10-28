@@ -45,7 +45,7 @@ version = propertyString('mod_version')
 group = propertyString('root_package')
 
 base {
-    archivesName.set(propertyString('mod_name'))
+    archivesName.set(propertyString('mod_id'))
 }
 
 tasks.decompressDecompiledSources.enabled !propertyBool('change_minecraft_sources')
@@ -361,18 +361,4 @@ idea.project.settings {
 apply from: 'gradle/scripts/publishing.gradle'
 apply from: 'gradle/scripts/extra.gradle'
 
-// === CurseForge upload via Python script ===
-tasks.register('uploadCurseforge') {
-    group 'publishing'
-    description 'Upload the built jar to CurseForge using scripts/upload_curseforge.py. Requires CURSEFORGE_TOKEN env var.'
-    dependsOn 'reobfJar'
-
-    doLast {
-        def jarFile = tasks.named('reobfJar').get().archiveFile.get().asFile
-        def scriptPath = file('scripts/upload_curseforge.py')
-        exec {
-            workingDir = projectDir
-            commandLine 'python3', scriptPath, '--file', jarFile.absolutePath
-        }
-    }
-}
+apply from: 'gradle/scripts/publishing_external.gradle'
