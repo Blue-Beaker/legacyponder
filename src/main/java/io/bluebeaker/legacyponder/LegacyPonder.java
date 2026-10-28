@@ -5,7 +5,6 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ReportedException;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -48,7 +47,7 @@ public class LegacyPonder
         if(event.getSide() == Side.CLIENT) {
             ClientHandler.init();
         }
-        if(Loader.isModLoaded("ftbquests") && ftbquests_integration) {
+        if(LoadedModChecker.ftbquests.isLoaded() && ftbquests_integration) {
             MinecraftForge.EVENT_BUS.register(FTBQuestsIntegration.class);
         }
     }
