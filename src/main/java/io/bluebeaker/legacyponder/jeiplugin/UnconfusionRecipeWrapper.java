@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.jeiplugin;
 
-import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
+import io.bluebeaker.legacyponder.api.ManualRegistry;
 import io.bluebeaker.legacyponder.manual.Entry;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.manual.HistoryTracker;

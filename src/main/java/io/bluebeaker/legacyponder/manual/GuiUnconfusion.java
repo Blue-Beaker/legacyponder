@@ -4,7 +4,7 @@ import io.bluebeaker.legacyponder.CommonConfig;
 import io.bluebeaker.legacyponder.Keybinds;
 import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.UIConfig;
-import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
+import io.bluebeaker.legacyponder.api.ManualRegistry;
 import io.bluebeaker.legacyponder.demo.DemoEntries;
 import io.bluebeaker.legacyponder.manual.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.manual.gui.MouseTracker;

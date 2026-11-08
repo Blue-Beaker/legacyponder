@@ -1,7 +1,7 @@
 package io.bluebeaker.legacyponder.manual.link;
+import io.bluebeaker.legacyponder.api.ManualRegistry;
 import io.bluebeaker.legacyponder.utils.ModZenRegister;
 
-import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
 import io.bluebeaker.legacyponder.manual.Entry;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.utils.TextUtils;

@@ -1,5 +1,6 @@
 package io.bluebeaker.legacyponder.crafttweaker;
 
+import io.bluebeaker.legacyponder.api.ManualRegistry;
 import io.bluebeaker.legacyponder.utils.TextUtils;
 import net.minecraft.util.text.TextComponentKeybind;
 import stanhebben.zenscript.annotations.ZenClass;

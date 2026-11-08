@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.command;
 
-import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
+import io.bluebeaker.legacyponder.api.ManualRegistry;
 import io.bluebeaker.legacyponder.manual.Entry;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import net.minecraft.client.Minecraft;

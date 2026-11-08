@@ -5,9 +5,10 @@ import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import io.bluebeaker.legacyponder.CommonConfig;
 import io.bluebeaker.legacyponder.Tags;
+import io.bluebeaker.legacyponder.api.ManualRegistry;
 import io.bluebeaker.legacyponder.crafttweaker.DrawableBuilder;
 import io.bluebeaker.legacyponder.crafttweaker.IEntry;
-import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
+import io.bluebeaker.legacyponder.crafttweaker.IManualRegistry;
 import io.bluebeaker.legacyponder.jeiplugin.UnconfusionRecipeCategory;
 import io.bluebeaker.legacyponder.manual.drawable.*;
 import io.bluebeaker.legacyponder.manual.drawable.container.DrawableGrid;
@@ -71,7 +72,7 @@ public class DemoEntries {
         }));
         entry.addPage(PageBase.catalogPage().setDescription("Example catalog showing all existing entries"));
 
-        ManualRegistry.add(INTERNAL_DEMO_ID, entry);
+        IManualRegistry.add(INTERNAL_DEMO_ID, entry);
     }
     public static void addHelpEntry(){
         IEntry entry = IEntry.createEntry("unconfusion.entry.help.title","unconfusion.entry.help.desc");
@@ -135,6 +136,6 @@ public class DemoEntries {
                 .addHoverComponent(1,0xAAAAFF,(w,h)-> DrawableBuilder.formattedText("unconfusion.entry.help.page5.hover2", 0xFFFFFFFF).setMaxWidth(100))
                 .setDescription("unconfusion.entry.help.page5.desc"));
 
-        ManualRegistry.add(HELP_ID, entry);
+        IManualRegistry.add(HELP_ID, entry);
     }
 }

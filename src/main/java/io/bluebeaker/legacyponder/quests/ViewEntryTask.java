@@ -13,7 +13,7 @@ import com.feed_the_beast.ftbquests.quest.task.BooleanTaskData;
 import com.feed_the_beast.ftbquests.quest.task.Task;
 import com.feed_the_beast.ftbquests.quest.task.TaskData;
 import com.feed_the_beast.ftbquests.quest.task.TaskType;
-import io.bluebeaker.legacyponder.crafttweaker.ManualRegistry;
+import io.bluebeaker.legacyponder.api.ManualRegistry;
 import io.bluebeaker.legacyponder.manual.Entry;
 import io.bluebeaker.legacyponder.utils.TextUtils;
 import io.bluebeaker.legacyponder.utils.UnconfusionScreenHandler;
