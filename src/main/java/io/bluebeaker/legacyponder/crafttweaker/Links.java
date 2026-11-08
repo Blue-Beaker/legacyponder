@@ -1,9 +1,8 @@
 package io.bluebeaker.legacyponder.crafttweaker;
-import io.bluebeaker.legacyponder.utils.ModZenRegister;
 
-import crafttweaker.api.item.IItemStack;
-import crafttweaker.api.minecraft.CraftTweakerMC;
 import io.bluebeaker.legacyponder.manual.link.*;
+import io.bluebeaker.legacyponder.utils.ModZenRegister;
+import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -38,8 +37,7 @@ public class Links {
         return new LinkJeiCategory(category,tooltip);
     }
 
-    @ZenMethod
-    public static LinkItem item(IItemStack item){
-        return new LinkItem(CraftTweakerMC.getItemStack(item));
+    public static LinkItem item(ItemStack item){
+        return new LinkItem(item);
     }
 }

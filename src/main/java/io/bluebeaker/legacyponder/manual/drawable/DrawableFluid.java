@@ -1,12 +1,10 @@
 package io.bluebeaker.legacyponder.manual.drawable;
-import io.bluebeaker.legacyponder.utils.ModZenRegister;
 
-import crafttweaker.api.liquid.ILiquidStack;
-import crafttweaker.api.minecraft.CraftTweakerMC;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.manual.link.LinkBase;
 import io.bluebeaker.legacyponder.manual.link.LinkFluid;
 import io.bluebeaker.legacyponder.utils.FluidRender;
+import io.bluebeaker.legacyponder.utils.ModZenRegister;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.client.config.GuiUtils;
@@ -25,10 +23,6 @@ public class DrawableFluid extends DrawableBase{
         this.w=16;
         this.h=16;
         resetLink();
-    }
-
-    public static DrawableFluid build(ILiquidStack fluid) {
-        return new DrawableFluid(CraftTweakerMC.getLiquidStack(fluid));
     }
 
     @Override

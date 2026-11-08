@@ -1,14 +1,14 @@
 package io.bluebeaker.legacyponder.manual.drawable;
-import io.bluebeaker.legacyponder.utils.ModZenRegister;
 
-import crafttweaker.api.item.IItemStack;
 import io.bluebeaker.legacyponder.crafttweaker.Links;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.manual.link.LinkBase;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;
+import io.bluebeaker.legacyponder.utils.ModZenRegister;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -151,8 +151,8 @@ public abstract class DrawableBase {
     public DrawableBase setLinkCategory(String category, @Nullable String tooltip) {return setLink(Links.category(category, tooltip));}
     @ZenMethod
     public DrawableBase setLinkCategory(String[] category, @Nullable String tooltip) {return setLink(Links.category(category, tooltip));}
-    @ZenMethod
-    public DrawableBase setLinkItem(IItemStack item) {return setLink(Links.item(item));}
+
+    public DrawableBase setLinkItem(ItemStack item) {return setLink(Links.item(item));}
     @ZenMethod
     public DrawableBase resetLink(){
         this.link=getDefaultLink();

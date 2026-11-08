@@ -9,6 +9,7 @@ import io.bluebeaker.legacyponder.api.ManualRegistry;
 import io.bluebeaker.legacyponder.crafttweaker.DrawableBuilder;
 import io.bluebeaker.legacyponder.crafttweaker.IEntry;
 import io.bluebeaker.legacyponder.crafttweaker.IManualRegistry;
+import io.bluebeaker.legacyponder.crafttweaker.drawable.DrawableBaseExt;
 import io.bluebeaker.legacyponder.jeiplugin.UnconfusionRecipeCategory;
 import io.bluebeaker.legacyponder.manual.drawable.*;
 import io.bluebeaker.legacyponder.manual.drawable.container.DrawableGrid;
@@ -50,7 +51,7 @@ public class DemoEntries {
 
             group.addChild(DrawableBuilder.text("This is just a text",0xFFFFFFFF));
             group.addChild(DrawableBuilder.text("Hover on this to see a tooltip",0xFFFFFFFF).setLinkHover("A tooltip"),0,10);
-            group.addChild(DrawableBuilder.text("Link to an item",0xFFFFFFFF).setLinkItem(CraftTweakerMC.getItemStack(Items.DIAMOND_PICKAXE,1,500)),0,20);
+            group.addChild(DrawableBaseExt.setLinkItem(DrawableBuilder.text("Link to an item",0xFFFFFFFF),CraftTweakerMC.getItemStack(Items.DIAMOND_PICKAXE,1,500)),0,20);
             group.addChild(DrawableBuilder.text("Link to help page 2",0xFFFFFFFF).setLinkManual(HELP_ID,2),0,30);
             group.addChild(DrawableBuilder.text("Link to the mod's repository",0xFFFFFFFF).setLinkUrl(Tags.MOD_URL,null),0,40);
             group.addChild(DrawableBuilder.text("Link to the JEI category",0xFFFFFFFF).setLinkCategory(UnconfusionRecipeCategory.UID,null),0,50);

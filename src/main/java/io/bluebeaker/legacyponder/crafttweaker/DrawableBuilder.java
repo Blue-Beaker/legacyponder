@@ -1,4 +1,6 @@
 package io.bluebeaker.legacyponder.crafttweaker;
+import io.bluebeaker.legacyponder.crafttweaker.drawable.DrawableFluidExt;
+import io.bluebeaker.legacyponder.crafttweaker.drawable.DrawableItemExt;
 import io.bluebeaker.legacyponder.utils.ModZenRegister;
 
 import crafttweaker.api.item.IIngredient;
@@ -61,19 +63,19 @@ public class DrawableBuilder {
      */
     @ZenMethod
     public static DrawableItem item(IItemStack item){
-        return DrawableItem.build(item);
+        return DrawableItemExt.build(item);
     }
     @ZenMethod
     public static DrawableItem item(IIngredient item){
-        return DrawableItem.build(item);
+        return DrawableItemExt.build(item);
     }
     @ZenMethod
     public static DrawableItem item(IItemStack[] item){
-        return DrawableItem.build(item);
+        return DrawableItemExt.build(item);
     }
     @ZenMethod
     public static DrawableFluid fluid(ILiquidStack fluid){
-        return DrawableFluid.build(fluid);
+        return DrawableFluidExt.build(fluid);
     }
 
     /** Build a DrawableText with the specified text and color. The text will be formatted as a translation key, so it can be used for localization. If the text is not a valid translation key, it will be displayed as is.
