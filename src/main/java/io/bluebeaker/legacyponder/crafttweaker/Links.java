@@ -1,5 +1,5 @@
 package io.bluebeaker.legacyponder.crafttweaker;
-import io.bluebeaker.legacyponder.ModZenRegister;
+import io.bluebeaker.legacyponder.utils.ModZenRegister;
 
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;

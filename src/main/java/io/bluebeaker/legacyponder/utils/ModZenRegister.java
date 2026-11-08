@@ -1,4 +1,4 @@
-package io.bluebeaker.legacyponder;
+package io.bluebeaker.legacyponder.utils;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

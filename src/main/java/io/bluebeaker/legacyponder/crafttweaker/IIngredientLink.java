@@ -4,7 +4,7 @@ import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
-import io.bluebeaker.legacyponder.ModZenRegister;
+import io.bluebeaker.legacyponder.utils.ModZenRegister;
 import io.bluebeaker.legacyponder.manual.IngredientLink;
 import io.bluebeaker.legacyponder.utils.CrTUtils;
 import net.minecraft.item.ItemStack;

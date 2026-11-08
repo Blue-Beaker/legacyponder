@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.drawable.container;
 
-import io.bluebeaker.legacyponder.ModZenRegister;
+import io.bluebeaker.legacyponder.utils.ModZenRegister;
 import io.bluebeaker.legacyponder.manual.drawable.DrawableBase;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;

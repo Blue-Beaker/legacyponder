@@ -1,5 +1,5 @@
 package io.bluebeaker.legacyponder.manual.drawable;
-import io.bluebeaker.legacyponder.ModZenRegister;
+import io.bluebeaker.legacyponder.utils.ModZenRegister;
 
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;

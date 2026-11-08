@@ -1,5 +1,5 @@
 package io.bluebeaker.legacyponder.manual.page;
-import io.bluebeaker.legacyponder.ModZenRegister;
+import io.bluebeaker.legacyponder.utils.ModZenRegister;
 
 import io.bluebeaker.legacyponder.manual.drawable.container.DrawableGroup;
 import io.bluebeaker.legacyponder.manual.drawable.container.DrawableScroll;

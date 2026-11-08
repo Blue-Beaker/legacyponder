@@ -1,5 +1,5 @@
 package io.bluebeaker.legacyponder.manual.hover;
-import io.bluebeaker.legacyponder.ModZenRegister;
+import io.bluebeaker.legacyponder.utils.ModZenRegister;
 
 import io.bluebeaker.legacyponder.crafttweaker.IDrawableSupplier;
 import org.lwjgl.util.vector.Vector3f;
