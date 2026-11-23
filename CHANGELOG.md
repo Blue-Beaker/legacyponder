@@ -1,3 +1,8 @@
+## 0.3.0
+Made the mod possible to work without CraftTweaker.
+- Existing CraftTweaker API is not altered
+- So mods like GroovyScript can be used for this mod without CrT as dependency
+- Addons can also be created to manage entries
 ## 0.2.3
 - Add a customizable icon to entry
 - Add more options to the FTB Quests Integration

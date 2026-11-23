@@ -39,7 +39,8 @@ public class CommonConfig {
         public boolean enderio = true;
     }
 
-    @Comment("Enable demo entries. Demo entries explain what can be made with this mod.")
+    @Comment({"Enable demo entries. Demo entries explain what can be made with this mod.",
+            "Demo entries only work when CraftTweaker is present."})
     @LangKey("config.legacyponder.demo")
     public static boolean demo = true;
 
