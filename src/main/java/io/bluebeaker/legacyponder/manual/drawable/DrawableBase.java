@@ -1,6 +1,6 @@
 package io.bluebeaker.legacyponder.manual.drawable;
 
-import io.bluebeaker.legacyponder.crafttweaker.Links;
+import io.bluebeaker.legacyponder.manual.link.Links;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.manual.link.LinkBase;
 import io.bluebeaker.legacyponder.utils.BoundingBox2D;

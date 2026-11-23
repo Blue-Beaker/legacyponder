@@ -1,7 +1,8 @@
-package io.bluebeaker.legacyponder.utils;
+package io.bluebeaker.legacyponder.crafttweaker;
 
 import crafttweaker.CraftTweakerAPI;
 import io.bluebeaker.legacyponder.LegacyPonder;
+import io.bluebeaker.legacyponder.utils.ModZenRegister;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

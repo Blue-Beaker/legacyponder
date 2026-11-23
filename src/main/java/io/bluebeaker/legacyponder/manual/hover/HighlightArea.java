@@ -1,8 +1,6 @@
 package io.bluebeaker.legacyponder.manual.hover;
-import io.bluebeaker.legacyponder.utils.ModZenRegister;
 
-import crafttweaker.api.minecraft.CraftTweakerMC;
-import crafttweaker.api.world.IBlockPos;
+import io.bluebeaker.legacyponder.utils.ModZenRegister;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -27,15 +25,11 @@ public class HighlightArea {
         this.pos2=pos2;
     }
 
-    @ZenMethod
-    public static HighlightArea build(IBlockPos pos1){
-        BlockPos pos = CraftTweakerMC.getBlockPos(pos1);
+    public static HighlightArea build(BlockPos pos){
         return new HighlightArea(pos, pos.add(1,1,1));
     }
-
-    @ZenMethod
-    public static HighlightArea build(IBlockPos pos1, IBlockPos pos2){
-        return new HighlightArea(CraftTweakerMC.getBlockPos(pos1),CraftTweakerMC.getBlockPos(pos2));
+    public static HighlightArea build(BlockPos pos1, BlockPos pos2){
+        return new HighlightArea(pos1,pos2);
     }
     @ZenMethod
     public static HighlightArea build(double x1, double y1, double z1, double x2, double y2, double z2){

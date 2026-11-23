@@ -102,7 +102,7 @@ public class DrawableBuilder {
     }
     @ZenMethod
     public static DrawableText text(ITextComponent text, int color){
-        return DrawableText.build(text, color);
+        return DrawableText.build(text.getFormattedText(), color);
     }
 
     /** Build a DrawableTexture with the specified texture and UV coordinates. The texture will be drawn at the specified coordinates, and the UV coordinates will determine which part of the texture is drawn. The size of the drawable will be determined by the width and height of the UV coordinates, and cannot be changed.

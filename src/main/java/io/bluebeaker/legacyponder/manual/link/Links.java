@@ -1,6 +1,5 @@
-package io.bluebeaker.legacyponder.crafttweaker;
+package io.bluebeaker.legacyponder.manual.link;
 
-import io.bluebeaker.legacyponder.manual.link.*;
 import io.bluebeaker.legacyponder.utils.ModZenRegister;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;

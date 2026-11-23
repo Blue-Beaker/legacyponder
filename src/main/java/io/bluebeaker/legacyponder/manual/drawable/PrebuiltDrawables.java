@@ -1,12 +1,11 @@
 package io.bluebeaker.legacyponder.manual.drawable;
-import io.bluebeaker.legacyponder.api.ManualRegistry;
-import io.bluebeaker.legacyponder.utils.ModZenRegister;
 
-import io.bluebeaker.legacyponder.crafttweaker.DrawableBuilder;
+import io.bluebeaker.legacyponder.api.ManualRegistry;
 import io.bluebeaker.legacyponder.demo.DemoEntries;
 import io.bluebeaker.legacyponder.manual.Entry;
 import io.bluebeaker.legacyponder.manual.drawable.container.DrawableGrid;
 import io.bluebeaker.legacyponder.manual.drawable.container.DrawableGroup;
+import io.bluebeaker.legacyponder.utils.ModZenRegister;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -60,7 +59,7 @@ public class PrebuiltDrawables {
             List<ItemStack> items = entry.getIcon();
 
             icons.addChild(new DrawableItem(items).setLinkManual(key));
-            titles.addChild(DrawableBuilder.text(I18n.format(entry.title), 0xFFFFFFFF).setLinkManual(key));
+            titles.addChild(DrawableText.build(I18n.format(entry.title), 0xFFFFFFFF).setLinkManual(key));
         }
         return drawable;
     }
@@ -78,7 +77,7 @@ public class PrebuiltDrawables {
         }
 
         drawable.addChild(items,items.getXMax()/2 - (Math.min(columns,items.getChildren().size())*16)/2,0);
-        drawable.addChild(DrawableBuilder.formattedText(entry.summary, 0xFFFFFFFF).setMaxWidth(width).setAlign(0.5F),width/2,items.getHeight());
+        drawable.addChild(DrawableText.buildFormatted(entry.summary, 0xFFFFFFFF).setMaxWidth(width).setAlign(0.5F),width/2,items.getHeight());
 
         return drawable;
     }

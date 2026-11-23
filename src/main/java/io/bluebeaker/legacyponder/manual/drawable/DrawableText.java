@@ -1,8 +1,7 @@
 package io.bluebeaker.legacyponder.manual.drawable;
-import io.bluebeaker.legacyponder.utils.ModZenRegister;
 
-import crafttweaker.api.text.ITextComponent;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
+import io.bluebeaker.legacyponder.utils.ModZenRegister;
 import io.bluebeaker.legacyponder.utils.RenderUtils;
 import io.bluebeaker.legacyponder.utils.TextUtils;
 import net.minecraft.client.Minecraft;
@@ -52,10 +51,6 @@ public class DrawableText extends DrawableBase {
     @ZenMethod
     public static DrawableText build(String text, int color) {
         return new DrawableText(text,color);
-    }
-    @ZenMethod
-    public static DrawableText build(ITextComponent text, int color) {
-        return new DrawableText(text.getFormattedText(),color);
     }
 
     @ZenMethod

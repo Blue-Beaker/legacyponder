@@ -6,7 +6,7 @@ import io.bluebeaker.legacyponder.command.CommandShowStructure;
 import io.bluebeaker.legacyponder.compat.*;
 import io.bluebeaker.legacyponder.demo.DemoEntries;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
-import io.bluebeaker.legacyponder.utils.ZenClassScanner;
+import io.bluebeaker.legacyponder.crafttweaker.ZenClassScanner;
 import io.bluebeaker.legacyponder.structure.StructureLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.ClientCommandHandler;
