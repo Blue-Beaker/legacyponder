@@ -11,18 +11,14 @@ import io.bluebeaker.legacyponder.crafttweaker.IEntry;
 import io.bluebeaker.legacyponder.crafttweaker.IManualRegistry;
 import io.bluebeaker.legacyponder.crafttweaker.drawable.DrawableBaseExt;
 import io.bluebeaker.legacyponder.jeiplugin.UnconfusionRecipeCategory;
-import io.bluebeaker.legacyponder.manual.drawable.*;
 import io.bluebeaker.legacyponder.manual.drawable.container.DrawableGrid;
 import io.bluebeaker.legacyponder.manual.drawable.container.DrawableGroup;
 import io.bluebeaker.legacyponder.manual.drawable.container.DrawableScroll;
 import io.bluebeaker.legacyponder.manual.page.PageBase;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextComponentKeybind;
 
 public class DemoEntries {
 
-    public static final String HELP_ID = "internal:help";
     public static final String INTERNAL_DEMO_ID = "internal:demo";
 
     public static void addDemoIfNeeded(){
@@ -31,7 +27,6 @@ public class DemoEntries {
         } else {
             ManualRegistry.getEntries().remove(INTERNAL_DEMO_ID);
         }
-        addHelpEntry();
     }
 
     public static void addDemoEntry(){
@@ -52,7 +47,7 @@ public class DemoEntries {
             group.addChild(DrawableBuilder.text("This is just a text",0xFFFFFFFF));
             group.addChild(DrawableBuilder.text("Hover on this to see a tooltip",0xFFFFFFFF).setLinkHover("A tooltip"),0,10);
             group.addChild(DrawableBaseExt.setLinkItem(DrawableBuilder.text("Link to an item",0xFFFFFFFF),CraftTweakerMC.getItemStack(Items.DIAMOND_PICKAXE,1,500)),0,20);
-            group.addChild(DrawableBuilder.text("Link to help page 2",0xFFFFFFFF).setLinkManual(HELP_ID,2),0,30);
+            group.addChild(DrawableBuilder.text("Link to help page 2",0xFFFFFFFF).setLinkManual(HelpEntry.HELP_ID,2),0,30);
             group.addChild(DrawableBuilder.text("Link to the mod's repository",0xFFFFFFFF).setLinkUrl(Tags.MOD_URL,null),0,40);
             group.addChild(DrawableBuilder.text("Link to the JEI category",0xFFFFFFFF).setLinkCategory(UnconfusionRecipeCategory.UID,null),0,50);
             return group;
@@ -74,69 +69,5 @@ public class DemoEntries {
         entry.addPage(PageBase.catalogPage().setDescription("Example catalog showing all existing entries"));
 
         IManualRegistry.add(INTERNAL_DEMO_ID, entry);
-    }
-    public static void addHelpEntry(){
-        IEntry entry = IEntry.createEntry("unconfusion.entry.help.title","unconfusion.entry.help.desc");
-        entry.addPage(PageBase.fromDrawable((w, h) -> {
-            DrawableGroup group = DrawableBuilder.group();
-
-            DrawableText desc = DrawableBuilder.formattedText("unconfusion.entry.help.page1.text1", 0xFFFFFFFF).setAlign(0.5F).setMaxWidth(w);
-            group.addChild(desc,w/2, h*3/10-5);
-
-            group.addChild(DrawableBuilder.formattedText("unconfusion.entry.help.page1.bottomleft",0xFFFFFFFF,new TextComponentKeybind("key.legacyponder.prev_page").getFormattedText(), new TextComponentKeybind("key.legacyponder.next_page").getFormattedText()),2,h-12);
-            group.addChild(DrawableBuilder.formattedText("unconfusion.entry.help.page1.topleft",0xFFFFFFFF),2,2);
-            group.addChild(DrawableBuilder.formattedText("unconfusion.entry.help.page1.topright",0xFFFFFFFF).setAlign(1),w,2);
-            return group;
-        }).setDescription("unconfusion.entry.help.page1.desc"));
-
-        entry.addPage(PageBase.fromStructure("legacyponder:tree").setOverlay((w,h)->{
-            DrawableGroup group = DrawableBuilder.group();
-
-            group.addChild(DrawableBuilder.formattedText("unconfusion.entry.help.page2.middle",0xFFFFFFFF).setAlign(0.5F),w/2, 20);
-            group.addChild(DrawableBuilder.formattedText("unconfusion.entry.help.page2.bottomleft",0xFFFFFFFF),2,h-28);
-
-            return group;
-        }).setDescription("unconfusion.entry.help.page2.desc"));
-
-        entry.addPage(PageBase.fromStructure("legacyponder:tree")
-                .addHighlightArea(1,3,2,2,4,3,0xFFAAAA)
-                .addHoverComponent(1.5F,4F,2.5F,0xFFAAAA,(w,h)->{
-            DrawableGroup group = DrawableBuilder.group();
-            DrawableText text1 = DrawableBuilder.formattedText("unconfusion.entry.help.page3.hover1", 0xFFFFFFFF);
-            group.addChild(text1.setMaxWidth(150),0, 0);
-            return group;
-        }).setDescription("unconfusion.entry.help.page3.desc"));
-
-        entry.addPage(PageBase.fromStructure("legacyponder:tree")
-                .addHighlightArea(1,3,1,2,4,2,0xAAFFAA)
-                .addHoverComponent(1.5F,4F,1.5F,0xAAFFAA,(w,h)->{
-                    DrawableGroup group = DrawableBuilder.group();
-                    DrawableText text1 = DrawableBuilder.formattedText("unconfusion.entry.help.page4.hover1", 0xFFFFFFFF, new TextComponentKeybind("key.jei.showRecipe").getFormattedText(), new TextComponentKeybind("key.jei.showUses").getFormattedText());
-                    group.addChild(text1.setMaxWidth(150),0, 0);
-                    group.addChild(new DrawableItem(new ItemStack(Items.DIAMOND)),0,text1.getYMax());
-                    return group;
-                }).setDescription("unconfusion.entry.help.page4.desc"));
-
-        entry.addPage(PageBase.fromDrawable((w,h)->{
-                    DrawableGroup group = DrawableBuilder.group();
-                    group.addChild(DrawableBuilder.formattedText("unconfusion.entry.help.page5.title",0xFFFFFFFF),0,0);
-                    group.addChild(DrawableBuilder.texture("textures/gui/container/furnace.png",0,0,176,166),0,15);
-                    group.addChild(DrawableBuilder.item(CraftTweakerMC.getOreDict("logWood")),56,15+17);
-                    group.addChild(DrawableBuilder.item(CraftTweakerMC.getItemStack(Items.COAL,1,1)),116,15+35);
-                    group.addChild(DrawableBuilder.hoverPos(0),116+12,15+12+35);
-
-                    DrawableText text = DrawableBuilder.text(ManualRegistry.getEntryTitle(HELP_ID) + ":2", 0xFFFFFFFF);
-                    text.setLinkManual(HELP_ID,2);
-                    group.addChild(text,12,88+15);
-                    group.addChild(DrawableBuilder.hoverPos(1),text.getXMax(),text.getYMax());
-
-                    group.setPosition((w-group.getWidth())/3,0);
-                    return group;
-                })
-                .addHoverComponent(0,0xFFFFAA,(w,h)-> DrawableBuilder.formattedText("unconfusion.entry.help.page5.hover1", 0xFFFFFFFF).setMaxWidth(100))
-                .addHoverComponent(1,0xAAAAFF,(w,h)-> DrawableBuilder.formattedText("unconfusion.entry.help.page5.hover2", 0xFFFFFFFF).setMaxWidth(100))
-                .setDescription("unconfusion.entry.help.page5.desc"));
-
-        IManualRegistry.add(HELP_ID, entry);
     }
 }

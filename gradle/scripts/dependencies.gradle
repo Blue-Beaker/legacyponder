@@ -48,10 +48,10 @@ dependencies {
     implementation rfg.deobf('libs:HadEnoughItems_1.12.2-4.25.5')
     // Crafttweaker
     implementation rfg.deobf("libs:MTLib-3.0.7")
-    implementation rfg.deobf("CraftTweaker2:CraftTweaker2-1.12-4.1.20.699")
+    compileOnly rfg.deobf("CraftTweaker2:CraftTweaker2-1.12-4.1.20.699")
     // ZenUtils
     implementation rfg.deobf("com.cleanroommc:configanytime:3.0")
-    implementation rfg.deobf("libs:zenutils-1.21.4")
+    compileOnly rfg.deobf("libs:zenutils-1.21.4")
 
     // FTB Quests
     implementation rfg.deobf('curse.maven:item-filters-309674:3003364')

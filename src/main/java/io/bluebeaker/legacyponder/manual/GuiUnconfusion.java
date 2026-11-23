@@ -5,7 +5,7 @@ import io.bluebeaker.legacyponder.Keybinds;
 import io.bluebeaker.legacyponder.LegacyPonder;
 import io.bluebeaker.legacyponder.UIConfig;
 import io.bluebeaker.legacyponder.api.ManualRegistry;
-import io.bluebeaker.legacyponder.demo.DemoEntries;
+import io.bluebeaker.legacyponder.demo.HelpEntry;
 import io.bluebeaker.legacyponder.manual.gui.GuiInfoPage;
 import io.bluebeaker.legacyponder.manual.gui.MouseTracker;
 import io.bluebeaker.legacyponder.manual.page.PageBase;
@@ -182,7 +182,7 @@ public class GuiUnconfusion extends GuiScreen {
         if (ManualRegistry.get(CommonConfig.homepage_id)!=null){
             return CommonConfig.homepage_id;
         }else {
-            return DemoEntries.HELP_ID;
+            return HelpEntry.HELP_ID;
         }
     }
 
@@ -374,7 +374,7 @@ public class GuiUnconfusion extends GuiScreen {
         } else if (button.id == ButtonID.FORWARD) { //Back
             this.goForward();
         } else if (button.id == ButtonID.HELP) { //Help
-            this.jumpTo(DemoEntries.HELP_ID, -1);
+            this.jumpTo(HelpEntry.HELP_ID, -1);
         } else if (button.id == ButtonID.SETTINGS) { //Config
             Minecraft.getMinecraft()
                     .displayGuiScreen(

@@ -1,7 +1,7 @@
 package io.bluebeaker.legacyponder.manual.drawable;
 
 import io.bluebeaker.legacyponder.api.ManualRegistry;
-import io.bluebeaker.legacyponder.demo.DemoEntries;
+import io.bluebeaker.legacyponder.demo.HelpEntry;
 import io.bluebeaker.legacyponder.manual.Entry;
 import io.bluebeaker.legacyponder.manual.drawable.container.DrawableGrid;
 import io.bluebeaker.legacyponder.manual.drawable.container.DrawableGroup;
@@ -51,7 +51,7 @@ public class PrebuiltDrawables {
             Pattern pattern = Pattern.compile(filter);
             ids.removeIf((id)-> !pattern.matcher(id).matches());
         }
-        ids.remove(DemoEntries.HELP_ID);
+        ids.remove(HelpEntry.HELP_ID);
 
         Collections.sort(ids);
         for (String key : ids) {

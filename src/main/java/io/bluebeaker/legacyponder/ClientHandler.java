@@ -5,6 +5,7 @@ import io.bluebeaker.legacyponder.command.CommandShowEntry;
 import io.bluebeaker.legacyponder.command.CommandShowStructure;
 import io.bluebeaker.legacyponder.compat.*;
 import io.bluebeaker.legacyponder.demo.DemoEntries;
+import io.bluebeaker.legacyponder.demo.HelpEntry;
 import io.bluebeaker.legacyponder.manual.GuiUnconfusion;
 import io.bluebeaker.legacyponder.crafttweaker.ZenClassScanner;
 import io.bluebeaker.legacyponder.structure.StructureLoader;
@@ -31,7 +32,10 @@ public class ClientHandler {
         if (event.getModID().equals(MODID)) {
             ConfigManager.sync(MODID, Config.Type.INSTANCE);
             EventHandlerCommon.updateConfig();
-            DemoEntries.addDemoIfNeeded();
+            if(LoadedModChecker.crafttweaker.isLoaded()){
+                DemoEntries.addDemoIfNeeded();
+            }
+            HelpEntry.addHelpEntry();
         }
     }
     @SubscribeEvent
@@ -78,7 +82,10 @@ public class ClientHandler {
         MinecraftForge.EVENT_BUS.register(EventHandlerCommon.getInstance());
 
         EventHandlerCommon.updateConfig();
-        DemoEntries.addDemoIfNeeded();
+        if(LoadedModChecker.crafttweaker.isLoaded()){
+            DemoEntries.addDemoIfNeeded();
+        }
+        HelpEntry.addHelpEntry();
     }
 
     static void serverStart(FMLServerStartingEvent event) {
